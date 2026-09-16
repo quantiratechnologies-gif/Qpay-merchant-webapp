@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, ShieldCheck, RefreshCw } from 'lucide-react';
+import { ArrowLeft, ArrowRight, RefreshCw } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { toArabicNumerals } from '../utils/i18n';
 import { authenticateMerchantWithAnyOtp } from '../services/supabaseClient';
@@ -134,50 +134,43 @@ export const SmsOtpScreen: React.FC = () => {
       }}
     >
       {/* Back Button */}
-      <div style={{ marginBottom: '16px' }}>
+      <div style={{ marginBottom: '14px' }}>
         <button
           onClick={goBack}
           style={{
             background: 'none',
             border: 'none',
-            color: '#94A3B8',
+            color: '#64748B',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            fontSize: '13px',
+            fontSize: '12px',
             fontWeight: 600,
             padding: 0,
           }}
         >
-          <ArrowLeft size={16} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
-          <span>{isAr ? 'الرجوع لرقم الجوال' : 'Back to Mobile Entry'}</span>
+          <ArrowLeft size={14} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
+          <span>{isAr ? 'رجوع' : 'Back'}</span>
         </button>
       </div>
 
-      {/* Title Block */}
-      <div style={{ textAlign: isRtl ? 'right' : 'left', marginBottom: '24px' }}>
+      {/* Header */}
+      <div style={{ textAlign: isRtl ? 'right' : 'left', marginBottom: '20px' }}>
         <h1
           style={{
-            fontSize: '24px',
-            fontWeight: 900,
+            fontSize: '22px',
+            fontWeight: 800,
             color: '#FFFFFF',
-            margin: '0 0 6px 0',
+            margin: '0 0 4px 0',
             letterSpacing: '-0.02em',
           }}
         >
-          {isAr ? 'رمز التحقق للأعمال' : 'Two-Factor Business Verification'}
+          {isAr ? 'رمز التحقق' : 'Verification Code'}
         </h1>
-        <p
-          style={{
-            fontSize: '13px',
-            color: '#94A3B8',
-            margin: 0,
-            lineHeight: 1.5,
-          }}
-        >
-          {isAr ? 'تم إرسال رمز التحقق إلى جوال المنشأة' : 'A verification code was sent to'}{' '}
-          <span style={{ color: '#00C853', fontWeight: 800 }} dir="ltr">
+        <p style={{ fontSize: '13px', color: '#64748B', margin: 0 }}>
+          {isAr ? 'تم الإرسال إلى' : 'Sent to'}{' '}
+          <span style={{ color: '#00C853', fontWeight: 700 }} dir="ltr">
             +966 {mobile}
           </span>
         </p>
@@ -189,7 +182,7 @@ export const SmsOtpScreen: React.FC = () => {
           display: 'grid',
           gridTemplateColumns: 'repeat(6, 1fr)',
           gap: '8px',
-          marginBottom: '20px',
+          marginBottom: '18px',
           direction: 'ltr',
         }}
       >
@@ -208,13 +201,13 @@ export const SmsOtpScreen: React.FC = () => {
             onPaste={handlePaste}
             style={{
               width: '100%',
-              height: '52px',
+              height: '48px',
               backgroundColor: digit ? 'rgba(0, 200, 83, 0.08)' : '#111726',
-              border: `2px solid ${digit ? '#00C853' : '#1E293B'}`,
-              borderRadius: '12px',
+              border: `1.5px solid ${digit ? '#00C853' : '#1E293B'}`,
+              borderRadius: '10px',
               color: '#FFFFFF',
-              fontSize: '20px',
-              fontWeight: 900,
+              fontSize: '18px',
+              fontWeight: 800,
               textAlign: 'center',
               outline: 'none',
               transition: 'all 0.2s ease',
@@ -224,20 +217,20 @@ export const SmsOtpScreen: React.FC = () => {
         ))}
       </div>
 
-      {/* Resend & Timer */}
+      {/* Resend */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '24px',
-          fontSize: '12.5px',
+          marginBottom: '20px',
+          fontSize: '12px',
         }}
       >
         <span style={{ color: '#64748B' }}>
           {timer > 0
-            ? `${isAr ? 'إعادة الإرسال بعد' : 'Resend available in'} ${isAr ? toArabicNumerals(timer) : timer}s`
-            : isAr ? 'لم يصلك الرمز؟' : "Didn't receive code?"}
+            ? `${isAr ? 'إعادة الإرسال خلال' : 'Resend in'} ${isAr ? toArabicNumerals(timer) : timer}s`
+            : ''}
         </span>
 
         {timer === 0 ? (
@@ -255,17 +248,17 @@ export const SmsOtpScreen: React.FC = () => {
               padding: 0,
             }}
           >
-            <RefreshCw size={13} />
-            <span>{isAr ? 'إعادة الإرسال الآن' : 'Resend Code'}</span>
+            <RefreshCw size={12} />
+            <span>{isAr ? 'إعادة الإرسال' : 'Resend'}</span>
           </button>
         ) : isResent ? (
           <span style={{ color: '#00C853', fontWeight: 700 }}>
-            {isAr ? 'تم الإرسال!' : 'Code Sent!'}
+            {isAr ? 'تم الإرسال' : 'Sent'}
           </span>
         ) : null}
       </div>
 
-      {/* Verify & Launch Portal Button */}
+      {/* Verify Button */}
       <button
         type="button"
         onClick={handleVerify}
@@ -274,39 +267,22 @@ export const SmsOtpScreen: React.FC = () => {
           backgroundColor: isOtpComplete ? '#00C853' : '#1E293B',
           color: isOtpComplete ? '#000000' : '#64748B',
           fontWeight: 800,
-          fontSize: '14.5px',
+          fontSize: '14px',
           border: 'none',
-          borderRadius: '12px',
-          height: '48px',
+          borderRadius: '10px',
+          height: '44px',
           cursor: isOtpComplete ? 'pointer' : 'not-allowed',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '8px',
           transition: 'all 0.2s ease',
-          boxShadow: isOtpComplete ? '0 4px 20px rgba(0, 200, 83, 0.35)' : 'none',
+          boxShadow: isOtpComplete ? '0 4px 16px rgba(0, 200, 83, 0.3)' : 'none',
         }}
       >
-        <span>{isVerifying ? (isAr ? 'جارِ التحقق...' : 'Verifying...') : (isAr ? 'التحقق والدخول إلى لوحة التحكم' : 'Verify & Launch Portal')}</span>
-        <ArrowRight size={16} style={{ transform: isRtl ? 'rotate(180deg)' : 'none' }} />
+        <span>{isVerifying ? (isAr ? 'جارِ التحقق...' : 'Verifying...') : (isAr ? 'تأكيد ودخول' : 'Sign In')}</span>
+        <ArrowRight size={15} style={{ transform: isRtl ? 'rotate(180deg)' : 'none' }} />
       </button>
-
-      {/* Footnote */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '6px',
-          marginTop: '20px',
-          color: '#64748B',
-          fontSize: '11.5px',
-          fontWeight: 600,
-        }}
-      >
-        <ShieldCheck size={13} color="#00C853" />
-        <span>{isAr ? 'مصادقة ثنائية مصرفية معتمدة' : 'Bank-Grade 2FA Authorized Session'}</span>
-      </div>
     </div>
   );
 };

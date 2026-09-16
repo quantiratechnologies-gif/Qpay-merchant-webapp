@@ -283,7 +283,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return paramScreen;
     }
-    return 'MERCHANT_HOME';
+    return 'MOBILE_NUMBER';
   });
   const [screenStack, setScreenStack] = useState<{ screen: ScreenId; params?: Record<string, any> }[]>(() => {
     if (typeof window !== 'undefined') {
@@ -291,7 +291,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return [{ screen: paramScreen }];
     }
-    return [{ screen: 'MERCHANT_HOME' }];
+    return [{ screen: 'MOBILE_NUMBER' }];
   });
   const [screenParams, setScreenParams] = useState<Record<string, any>>({});
   const [activeTab, setActiveTabState] = useState<BottomTab>('home');
