@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link2, Copy, Check, MessageSquare, Sparkles } from 'lucide-react';
 import { useApp } from '../state/AppContext';
-import { PrimaryButton } from '../components/PrimaryButton';
-import { AppHeader } from '../components/AppHeader';
-import { formatSaudiCurrency } from '../utils/i18n';
+import { Card } from '../components/ui';
+import { colors } from '../design-system/tokens';
 
 export const PaymentLinkGeneratorScreen: React.FC = () => {
   const {
@@ -11,6 +10,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
     processMerchantCollection,
     navigateTo,
     language,
+    isRtl,
   } = useApp();
 
   const isAr = language === 'العربية';
@@ -22,6 +22,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
   const [isSimulating, setIsSimulating] = useState(false);
 
   const numAmount = parseFloat(amount) || 0;
+  const vatAmount = numAmount > 0 ? (numAmount - numAmount / 1.15).toFixed(2) : '0.00';
 
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,245 +57,272 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
     setTimeout(() => {
       setIsSimulating(false);
       navigateTo('MERCHANT_PAYMENT_SUCCESS');
-    }, 800);
+    }, 600);
   };
 
   return (
     <div
       className="fade-in"
       style={{
-        minHeight: '100vh',
-        backgroundColor: '#080C14',
-        color: '#FFFFFF',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        paddingBottom: '24px',
-        boxSizing: 'border-box',
+        width: '100%',
+        color: colors.textPrimary,
         userSelect: 'none',
+        direction: isRtl ? 'rtl' : 'ltr',
+        fontFamily: "'IBM Plex Sans Arabic', 'Inter', sans-serif",
       }}
     >
-      {/* Top Header */}
-      <div>
-        <AppHeader
-          title={isAr ? 'روابط الدفع السريع والتحصيل' : 'Remote Payment Links'}
-          showBack={true}
-          showSettings={false}
-          rightAction={
-            <div
-              style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(180, 120, 255, 0.12)',
-                border: '1px solid rgba(180, 120, 255, 0.25)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#B478FF',
-              }}
-            >
-              <Link2 size={18} />
-            </div>
-          }
-        />
+      {/* Page Title */}
+      <div style={{ marginBottom: '20px' }}>
+        <h1 style={{ fontSize: '22px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
+          {isAr ? 'روابط الدفع الرقمية (Smart Payment Links)' : 'Digital Payment Links'}
+        </h1>
+        <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', margin: 0 }}>
+          {isAr
+            ? 'إنشاء ومشاركة روابط تحصيل رقمية مع العملاء عبر واتساب والرسائل النصية والبريد الإلكتروني'
+            : 'Create, share, and track remote payment links via WhatsApp, SMS, or Email'}
+        </p>
       </div>
 
-      {/* Form & Link Card */}
-      <div style={{ width: '100%', maxWidth: '380px', margin: '14px auto', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-        <form onSubmit={handleGenerate} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {/* Order Ref */}
-          <div>
-            <label style={{ fontSize: '12px', fontWeight: 500, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-              {isAr ? 'رقم / مرجع الطلب' : 'Order Reference / Invoice #'}
-            </label>
-            <input
-              type="text"
-              value={orderRef}
-              onChange={(e) => setOrderRef(e.target.value)}
-              placeholder={isAr ? 'طلب #ORD-8839' : 'Order #ORD-8839'}
-              required
-              style={{
-                backgroundColor: '#111726',
-                border: '1px solid #1E293B',
-                borderRadius: '12px',
-                padding: '12px 14px',
-                color: '#FFFFFF',
-                fontSize: '14px',
-                fontWeight: 700,
-                width: '100%',
-                boxSizing: 'border-box',
-                outline: 'none',
-              }}
-            />
-          </div>
+      {/* Side-by-Side 2-Column Desktop Grid */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 1fr)',
+          gap: '24px',
+          alignItems: 'start',
+        }}
+      >
+        {/* Left Column: Link Builder Form */}
+        <div>
+          <Card variant="elevated" style={{ padding: '24px' }}>
+            <form onSubmit={handleGenerate} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', borderBottom: '1px solid #1E293B', paddingBottom: '10px' }}>
+                {isAr ? 'بيانات رابط الدفع الجديد' : 'Create New Payment Link'}
+              </div>
 
-          {/* Customer Name */}
-          <div>
-            <label style={{ fontSize: '12px', fontWeight: 500, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-              {isAr ? 'اسم العميل' : 'Customer Name'}
-            </label>
-            <input
-              type="text"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-              placeholder={isAr ? 'سارة المنصور' : 'Sara Al-Mansoor'}
-              required
-              style={{
-                backgroundColor: '#111726',
-                border: '1px solid #1E293B',
-                borderRadius: '12px',
-                padding: '12px 14px',
-                color: '#FFFFFF',
-                fontSize: '14px',
-                fontWeight: 700,
-                width: '100%',
-                boxSizing: 'border-box',
-                outline: 'none',
-              }}
-            />
-          </div>
+              <div>
+                <label style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                  {isAr ? 'اسم العميل' : 'Customer Name'}
+                </label>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder={isAr ? 'مثال: محمد الغامدي' : 'e.g., Mohammed Al-Ghamdi'}
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    backgroundColor: '#080C14',
+                    border: '1px solid #1E293B',
+                    borderRadius: '10px',
+                    color: '#FFFFFF',
+                    fontSize: '13px',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
 
-          {/* Amount */}
-          <div>
-            <label style={{ fontSize: '12px', fontWeight: 500, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-              {isAr ? 'المبلغ الإجمالي (ر.س)' : 'Amount to Collect (SAR)'}
-            </label>
-            <input
-              type="number"
-              step="0.01"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="320.00"
-              required
-              style={{
-                backgroundColor: '#111726',
-                border: '1px solid #1E293B',
-                borderRadius: '12px',
-                padding: '12px 14px',
-                color: '#FFFFFF',
-                fontSize: '16px',
-                fontWeight: 800,
-                width: '100%',
-                boxSizing: 'border-box',
-                outline: 'none',
-                direction: 'ltr',
-              }}
-            />
-          </div>
+              <div>
+                <label style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                  {isAr ? 'المبلغ المطلوب تحصيله (ر.س)' : 'Charge Amount (SAR)'}
+                </label>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    backgroundColor: '#080C14',
+                    border: '1.5px solid #00C853',
+                    borderRadius: '10px',
+                    color: '#00C853',
+                    fontSize: '18px',
+                    fontWeight: 800,
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                <div style={{ fontSize: '11.5px', color: '#94A3B8', marginTop: '4px' }}>
+                  {isAr ? `شامل ${vatAmount} ر.س ضريبة القيمة المضافة (١٥٪)` : `Includes SAR ${vatAmount} (15% VAT)`}
+                </div>
+              </div>
 
-          <button
-            type="submit"
-            className="interactive-tap"
-            style={{
-              backgroundColor: '#1A2234',
-              border: '1px solid #1E293B',
-              borderRadius: '12px',
-              padding: '11px',
-              color: '#B478FF',
-              fontSize: '13px',
-              fontWeight: 800,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-            }}
-          >
-            <Link2 size={16} /> {isAr ? 'تحديث وإنشاء الرابط' : 'Generate & Refresh Link'}
-          </button>
-        </form>
+              <div>
+                <label style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                  {isAr ? 'مرجع الطلب أو الوصف' : 'Order Description / Reference'}
+                </label>
+                <input
+                  type="text"
+                  value={orderRef}
+                  onChange={(e) => setOrderRef(e.target.value)}
+                  placeholder={isAr ? 'مثال: توريد بضاعة رقم #٤٠١' : 'e.g., Catering invoice #401'}
+                  style={{
+                    width: '100%',
+                    padding: '11px 14px',
+                    backgroundColor: '#080C14',
+                    border: '1px solid #1E293B',
+                    borderRadius: '10px',
+                    color: '#FFFFFF',
+                    fontSize: '13px',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
 
-        {/* Generated Link Display Box */}
-        <div
-          style={{
-            backgroundColor: '#111726',
-            border: '1px solid rgba(180, 120, 255, 0.3)',
-            borderRadius: '16px',
-            padding: '16px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <div style={{ fontSize: '11px', color: '#B478FF', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '6px' }}>
-            {isAr ? 'الرابط المباشر للعميل' : 'Live Payment Link'}
-          </div>
-          <div
-            style={{
-              backgroundColor: '#080C14',
-              border: '1px solid #1E293B',
-              borderRadius: '10px',
-              padding: '10px 12px',
-              fontSize: '12.5px',
-              color: '#FFFFFF',
-              fontFamily: 'monospace',
-              wordBreak: 'break-all',
-              marginBottom: '12px',
-              direction: 'ltr',
-              textAlign: 'left',
-            }}
-          >
-            {generatedLink}
-          </div>
-
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button
-              onClick={handleCopy}
-              className="interactive-tap"
-              style={{
-                flex: 1,
-                backgroundColor: '#1A2234',
-                border: '1px solid #1E293B',
-                borderRadius: '10px',
-                padding: '9px 12px',
-                fontSize: '12px',
-                fontWeight: 700,
-                color: '#FFFFFF',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '5px',
-              }}
-            >
-              {copied ? <Check size={14} color="#00C853" /> : <Copy size={14} />}
-              {copied ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ الرابط' : 'Copy Link')}
-            </button>
-
-            <button
-              onClick={handleShareWhatsApp}
-              className="interactive-tap"
-              style={{
-                flex: 1,
-                backgroundColor: '#25D366',
-                border: 'none',
-                borderRadius: '10px',
-                padding: '9px 12px',
-                fontSize: '12px',
-                fontWeight: 800,
-                color: '#000000',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '5px',
-              }}
-            >
-              <MessageSquare size={14} /> {isAr ? 'مشاركة واتساب' : 'WhatsApp'}
-            </button>
-          </div>
+              <button
+                type="submit"
+                className="interactive-tap"
+                style={{
+                  marginTop: '10px',
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '12px',
+                  backgroundColor: '#00C853',
+                  color: '#080C14',
+                  fontSize: '14px',
+                  fontWeight: 900,
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Link2 size={16} />
+                <span>{isAr ? 'تحديث وإنشاء الرابط' : 'Generate Secure Link'}</span>
+              </button>
+            </form>
+          </Card>
         </div>
 
-        {/* Remote Simulation Action */}
-        <PrimaryButton onClick={handleSimulateRemotePayment} disabled={isSimulating || numAmount <= 0}>
-          <Sparkles size={16} /> {isAr ? `محاكاة دفع العميل (${formatSaudiCurrency(numAmount, language)})` : `Simulate Customer Paid (${numAmount.toFixed(2)} SAR)`}
-        </PrimaryButton>
-      </div>
+        {/* Right Column: Active Link Card & Share Actions */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Generated Link Preview */}
+          <Card
+            variant="elevated"
+            style={{
+              padding: '24px',
+              backgroundColor: '#0E131F',
+              border: '1px solid rgba(0, 200, 83, 0.3)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF' }}>
+                {isAr ? 'معاينة الرابط النشط' : 'Active Link Preview'}
+              </span>
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  backgroundColor: 'rgba(0, 200, 83, 0.15)',
+                  color: '#00C853',
+                  padding: '3px 8px',
+                  borderRadius: '6px',
+                }}
+              >
+                {isAr ? 'نشط وصالح' : 'Active & Ready'}
+              </span>
+            </div>
 
-      {/* Quantira Technologies Dock */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '10px' }}>
-        <span style={{ fontSize: '10.5px', color: '#64748B', fontWeight: 700 }}>
-          {isAr ? 'روابط دفع آمنة مدعومة بتقنيات كوانتيرا' : '3DS Secure Hosted Checkout Rail • Quantira Technologies'}
-        </span>
+            <div style={{ margin: '18px 0', padding: '14px', backgroundColor: '#080C14', borderRadius: '12px', border: '1px solid #1E293B' }}>
+              <div style={{ fontSize: '11px', color: '#94A3B8' }}>{isAr ? 'رابط الدفع المباشر' : 'Secure URL'}</div>
+              <div
+                style={{
+                  fontSize: '13.5px',
+                  fontWeight: 700,
+                  color: '#00C853',
+                  fontFamily: 'monospace',
+                  wordBreak: 'break-all',
+                  marginTop: '4px',
+                }}
+              >
+                {generatedLink}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', fontSize: '13px' }}>
+              <span style={{ color: '#94A3B8' }}>{isAr ? 'المبلغ المطلوب' : 'Payable Amount'}</span>
+              <span style={{ color: '#FFFFFF', fontWeight: 900, fontSize: '16px' }}>SAR {numAmount.toFixed(2)}</span>
+            </div>
+
+            {/* Share Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+              <button
+                onClick={handleCopy}
+                className="interactive-tap"
+                style={{
+                  padding: '12px',
+                  borderRadius: '10px',
+                  backgroundColor: '#151C2C',
+                  border: '1px solid #1E293B',
+                  color: '#FFFFFF',
+                  fontSize: '13px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                }}
+              >
+                {copied ? <Check size={16} color="#00C853" /> : <Copy size={16} color="#00C853" />}
+                <span>{copied ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ الرابط' : 'Copy Link')}</span>
+              </button>
+
+              <button
+                onClick={handleShareWhatsApp}
+                className="interactive-tap"
+                style={{
+                  padding: '12px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(0, 200, 83, 0.12)',
+                  border: '1px solid rgba(0, 200, 83, 0.3)',
+                  color: '#00C853',
+                  fontSize: '13px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                }}
+              >
+                <MessageSquare size={16} />
+                <span>{isAr ? 'واتساب' : 'WhatsApp'}</span>
+              </button>
+            </div>
+
+            {/* Test Payment Simulation Trigger */}
+            <button
+              onClick={handleSimulateRemotePayment}
+              disabled={isSimulating}
+              className="interactive-tap"
+              style={{
+                marginTop: '16px',
+                width: '100%',
+                padding: '11px',
+                borderRadius: '10px',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid #1E293B',
+                color: '#94A3B8',
+                fontSize: '12.5px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+              }}
+            >
+              <Sparkles size={14} color="#00C853" />
+              <span>{isSimulating ? (isAr ? 'جاري التحويل...' : 'Simulating...') : (isAr ? 'محاكاة دفع العميل للرابط' : 'Simulate Customer Remote Payment')}</span>
+            </button>
+          </Card>
+        </div>
       </div>
     </div>
   );

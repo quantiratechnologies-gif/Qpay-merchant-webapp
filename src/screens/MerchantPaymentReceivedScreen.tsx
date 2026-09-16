@@ -5,13 +5,17 @@ import {
   Plus,
   Volume2,
   Check,
+  Building2,
+  ArrowRight,
+  Receipt,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { formatCurrency } from '../utils/formatters';
 import { translateText, formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ZatcaLogo } from '../components/ZatcaLogo';
-import { AppHeader } from '../components/AppHeader';
+import { Card, StatusBadge } from '../components/ui';
+import { colors, radii } from '../design-system/tokens';
 
 export const MerchantPaymentReceivedScreen: React.FC = () => {
   const {
@@ -20,6 +24,7 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
     navigateTo,
     speakSoundBox,
     language,
+    isRtl,
     t,
   } = useApp();
 
@@ -53,203 +58,230 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
     <div
       className="fade-in"
       style={{
-        minHeight: '100vh',
-        backgroundColor: '#080C14',
-        color: '#FFFFFF',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        paddingBottom: '24px',
-        boxSizing: 'border-box',
+        backgroundColor: colors.bgPage,
+        color: colors.textPrimary,
         userSelect: 'none',
+        direction: isRtl ? 'rtl' : 'ltr',
       }}
     >
-      <AppHeader
-        title={isAr ? 'إيصال التحصيل والفوترة' : 'Payment Receipt & E-Invoice'}
-        showBack={true}
-        onBack={() => navigateTo('MERCHANT_HOME')}
-        showSettings={false}
-      />
-      {/* Top Success Icon */}
-      <div style={{ textAlign: 'center' }}>
-        <div
-          style={{
-            width: '68px',
-            height: '68px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(0, 200, 83, 0.15)',
-            border: '2px solid #00C853',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 12px auto',
-          }}
-        >
-          <CheckCircle2 size={38} color="#00C853" />
-        </div>
-        <h2 style={{ fontSize: '20px', fontWeight: 800, margin: '0 0 4px 0', color: '#FFFFFF' }}>
-          {t('merchant.payment_approved', 'Payment Approved')}
-        </h2>
-        <div className="tabular-nums" style={{ fontSize: '32px', fontWeight: 900, color: '#00C853', letterSpacing: '-0.02em', margin: '4px 0' }}>
-          +{formatCurrency(collection.amount, language)}
-        </div>
-        <p style={{ fontSize: '12px', color: '#A2A2BA', margin: 0 }}>
-          {isAr
-            ? `تسوية مباشرة إلى ${translateText(merchantInfo.settlementBank, language)}`
-            : `Direct settlement to ${merchantInfo.settlementBank}`}
+      {/* ── Page Header ─────────────────────────────────────── */}
+      <div style={{ marginBottom: '32px' }}>
+        <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em' }}>
+          {isAr ? 'إيصال التحصيل والفوترة' : 'Payment Receipt & E-Invoice'}
+        </h1>
+        <p style={{ fontSize: '13.5px', color: colors.textSecondary, margin: '6px 0 0 0', fontWeight: 500 }}>
+          {isAr ? 'فاتورة زاتكا إلكترونية مع سجل التسوية الفورية' : 'ZATCA Phase 2 e-invoice with instant settlement record'}
         </p>
       </div>
 
-      {/* Digital Receipt Card */}
-      <div style={{ width: '100%', maxWidth: '380px', margin: '14px auto' }}>
-        <div
-          style={{
-            backgroundColor: '#151524',
-            border: '1px solid #2C2C44',
-            borderRadius: '18px',
-            padding: '18px',
-            boxSizing: 'border-box',
-          }}
-        >
-          {/* Header with Zatca Logo */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', borderBottom: '1px solid #2C2C44', paddingBottom: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <ZatcaLogo variant="icon" size={20} />
-              <span style={{ fontSize: '12px', fontWeight: 800, color: '#FFFFFF' }}>
-                {t('zatca.title', 'ZATCA Phase 2 E-Invoice')}
-              </span>
-            </div>
-            <span style={{ fontSize: '11px', color: '#00C853', fontWeight: 700, backgroundColor: 'rgba(0, 200, 83, 0.12)', padding: '2px 6px', borderRadius: '6px' }}>
-              {isAr ? 'مكتملة' : 'Settled'}
-            </span>
-          </div>
-
-          {/* Breakdown Rows */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#A2A2BA' }}>{isAr ? 'المنشأة' : 'Merchant'}</span>
-              <span style={{ fontWeight: 700, color: '#FFFFFF' }}>{translateText(merchantInfo.businessName, language)}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#A2A2BA' }}>{t('zatca.vat_id', 'VAT ID')}</span>
-              <span style={{ fontWeight: 700, color: '#FFFFFF', fontFamily: 'monospace' }}>{formatLocalizedNumber(merchantInfo.vatNumber, language)}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#A2A2BA' }}>{isAr ? 'رقم العملية المرجعي' : 'Transaction Ref'}</span>
-              <span style={{ fontWeight: 700, color: '#FFFFFF', fontFamily: 'monospace' }}>{collection.id}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#A2A2BA' }}>{isAr ? 'طريقة الدفع' : 'Method'}</span>
-              <span style={{ fontWeight: 700, color: '#FFFFFF' }}>
-                {collection.paymentMethod.replace('_', ' ').toUpperCase()}{collection.cardLast4 ? ` • ${isAr ? formatLocalizedNumber(collection.cardLast4, language) : collection.cardLast4}` : ''}
-              </span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#A2A2BA' }}>{t('zatca.net_total', 'Net Amount (Excl. VAT)')}</span>
-              <span style={{ fontWeight: 700, color: '#FFFFFF' }}>{formatSaudiCurrency(collection.netAmount, language)}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#00C853', fontWeight: 700 }}>{t('zatca.vat_amount', '15% ZATCA VAT')}</span>
-              <span style={{ fontWeight: 800, color: '#00C853' }}>{formatSaudiCurrency(collection.vatAmount, language)}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #2C2C44', paddingTop: '8px', marginTop: '2px' }}>
-              <span style={{ fontWeight: 800, color: '#FFFFFF', fontSize: '13px' }}>{t('zatca.gross_total', 'Gross Total')}</span>
-              <span style={{ fontWeight: 900, color: '#FFFFFF', fontSize: '14px' }}>{formatSaudiCurrency(collection.amount, language)}</span>
-            </div>
-          </div>
-
-          {/* Play Soundbox Voice Again */}
-          <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
-            <button
-              onClick={() => speakSoundBox(collection.amount)}
-              className="interactive-tap"
+      {/* ── 2-Column Layout ──────────────────────────────────── */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 400px',
+          gap: '28px',
+          alignItems: 'start',
+        }}
+      >
+        {/* ─── LEFT: Success Hero + Amount ────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Success Hero */}
+          <Card
+            variant="elevated"
+            style={{
+              padding: '40px 32px',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              background: 'radial-gradient(ellipse at top, rgba(0, 200, 83, 0.12) 0%, #111726 70%)',
+              textAlign: 'center',
+              gap: '16px',
+            }}
+          >
+            {/* Check circle */}
+            <div
               style={{
-                flex: 1,
-                backgroundColor: '#1E1E32',
-                border: '1px solid #2C2C44',
-                color: '#00C853',
-                borderRadius: '10px',
-                padding: '9px 12px',
-                fontSize: '11.5px',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '5px',
-                cursor: 'pointer',
+                width: '80px', height: '80px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(0, 200, 83, 0.15)',
+                border: '2px solid #00C853',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >
-              <Volume2 size={15} /> {isAr ? 'تشغيل صندوق الصوت' : 'Play SoundBox'}
-            </button>
+              <CheckCircle2 size={42} color="#00C853" />
+            </div>
 
-            <button
-              onClick={handleShareReceipt}
-              className="interactive-tap"
+            <div>
+              <h2 style={{ fontSize: '22px', fontWeight: 800, margin: '0 0 6px 0', color: colors.textPrimary }}>
+                {t('merchant.payment_approved', 'Payment Approved')}
+              </h2>
+              <div
+                className="tabular-nums"
+                style={{
+                  fontSize: '44px', fontWeight: 900,
+                  color: colors.accentGreen,
+                  letterSpacing: '-0.04em',
+                  margin: '4px 0',
+                }}
+              >
+                +{formatCurrency(collection.amount, language)}
+              </div>
+              <p style={{ fontSize: '13px', color: '#A2A2BA', margin: '6px 0 0 0' }}>
+                {isAr
+                  ? `تسوية مباشرة إلى ${translateText(merchantInfo.settlementBank, language)}`
+                  : `Direct settlement to ${merchantInfo.settlementBank}`}
+              </p>
+            </div>
+
+            {/* Settlement info row */}
+            <div
               style={{
-                flex: 1,
-                backgroundColor: '#1E1E32',
-                border: '1px solid #2C2C44',
-                color: '#FFFFFF',
-                borderRadius: '10px',
-                padding: '9px 12px',
-                fontSize: '11.5px',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '10px 18px',
+                backgroundColor: 'rgba(0, 200, 83, 0.08)',
+                border: '1px solid rgba(0, 200, 83, 0.2)',
+                borderRadius: radii.full,
+                fontSize: '12px',
+                color: colors.textSecondary,
               }}
             >
-              {copied ? <Check size={15} color="#00C853" /> : <Share2 size={15} color="#00C853" />}
-              {copied ? (isAr ? 'تم نسخ الإيصال' : 'Copied Receipt') : (isAr ? 'مشاركة الإيصال' : 'Share Receipt')}
+              <Building2 size={13} color={colors.accentGreen} />
+              <span>{merchantInfo.settlementBank}</span>
+              <span style={{ color: colors.accentGreen, fontWeight: 700, fontSize: '11px' }}>
+                ✓ {isAr ? 'تمت التسوية' : 'Settled via Sarie'}
+              </span>
+            </div>
+          </Card>
+
+          {/* Action Buttons */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <PrimaryButton onClick={() => navigateTo('SOFTPOS_TERMINAL')}>
+              <Plus size={18} />
+              {t('merchant.new_sale', 'New Sale (SoftPOS)')}
+            </PrimaryButton>
+
+            <button
+              onClick={() => navigateTo('MERCHANT_HOME')}
+              className="interactive-tap"
+              style={{
+                backgroundColor: 'transparent',
+                border: `1px solid ${colors.border}`,
+                borderRadius: '14px',
+                padding: '14px',
+                color: colors.textPrimary,
+                fontSize: '13.5px',
+                fontWeight: 800,
+                cursor: 'pointer',
+                textAlign: 'center',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              }}
+            >
+              {t('merchant.back_dashboard', 'Back to Merchant Dashboard')}
+              <ArrowRight size={16} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Action Buttons */}
-      <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <PrimaryButton onClick={() => navigateTo('SOFTPOS_TERMINAL')}>
-          <Plus size={18} /> {t('merchant.new_sale', 'New Sale (SoftPOS)')}
-        </PrimaryButton>
+        {/* ─── RIGHT: ZATCA Digital Receipt ───────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'sticky', top: '24px' }}>
+          {/* Receipt Card */}
+          <Card variant="elevated" style={{ padding: '22px' }}>
+            {/* Receipt Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: `1px solid ${colors.border}` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <ZatcaLogo variant="icon" size={20} />
+                <span style={{ fontSize: '12.5px', fontWeight: 800, color: colors.textPrimary }}>
+                  {t('zatca.title', 'ZATCA Phase 2 E-Invoice')}
+                </span>
+              </div>
+              <StatusBadge status="success" size="sm" label={isAr ? 'مكتملة' : 'Settled'} />
+            </div>
 
-        <button
-          onClick={() => navigateTo('MERCHANT_HOME')}
-          className="interactive-tap"
-          style={{
-            backgroundColor: 'transparent',
-            border: '1px solid #2C2C44',
-            borderRadius: '14px',
-            padding: '14px',
-            color: '#FFFFFF',
-            fontSize: '13.5px',
-            fontWeight: 800,
-            cursor: 'pointer',
-            textAlign: 'center',
-          }}
-        >
-          {t('merchant.back_dashboard', 'Back to Merchant Dashboard')}
-        </button>
-      </div>
+            {/* Breakdown Rows */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
+              {[
+                { label: isAr ? 'المنشأة' : 'Merchant', value: translateText(merchantInfo.businessName, language) },
+                { label: t('zatca.vat_id', 'VAT ID'), value: formatLocalizedNumber(merchantInfo.vatNumber, language), mono: true },
+                { label: isAr ? 'رقم العملية المرجعي' : 'Transaction Ref', value: collection.id, mono: true },
+                { label: isAr ? 'طريقة الدفع' : 'Method', value: `${collection.paymentMethod.replace('_', ' ').toUpperCase()}${collection.cardLast4 ? ` • ${isAr ? formatLocalizedNumber(collection.cardLast4, language) : collection.cardLast4}` : ''}` },
+              ].map(({ label, value, mono }) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: `1px solid ${colors.border}` }}>
+                  <span style={{ color: '#A2A2BA' }}>{label}</span>
+                  <span style={{ fontWeight: 700, color: colors.textPrimary, fontFamily: mono ? 'monospace' : undefined, fontSize: '12.5px' }}>{value}</span>
+                </div>
+              ))}
 
-      {/* Compliance Dock */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          width: '100%',
-          textAlign: 'center',
-          marginTop: '10px',
-        }}
-      >
-        <ZatcaLogo variant="full" height={13} themeMode="dark" />
-        <span style={{ fontSize: '10px', color: '#6E6E85' }}>•</span>
-        <span style={{ fontSize: '10.5px', color: '#6E6E85', fontWeight: 600 }}>Quantira Technologies Engine</span>
+              {/* VAT */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: `1px solid ${colors.border}` }}>
+                <span style={{ color: colors.accentGreen, fontWeight: 700 }}>{t('zatca.net_total', 'Net Amount (Excl. VAT)')}</span>
+                <span style={{ fontWeight: 700, color: colors.textPrimary }}>{formatSaudiCurrency(collection.netAmount, language)}</span>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: `1px solid ${colors.border}` }}>
+                <span style={{ color: colors.accentGreen, fontWeight: 700 }}>{t('zatca.vat_amount', '15% ZATCA VAT')}</span>
+                <span style={{ fontWeight: 800, color: colors.accentGreen }}>{formatSaudiCurrency(collection.vatAmount, language)}</span>
+              </div>
+
+              {/* Gross Total */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0' }}>
+                <span style={{ fontWeight: 900, color: colors.textPrimary, fontSize: '14px' }}>{t('zatca.gross_total', 'Gross Total')}</span>
+                <span style={{ fontWeight: 900, color: colors.textPrimary, fontSize: '16px' }}>{formatSaudiCurrency(collection.amount, language)}</span>
+              </div>
+            </div>
+
+            {/* Receipt Actions */}
+            <div style={{ display: 'flex', gap: '10px', marginTop: '16px', paddingTop: '16px', borderTop: `1px solid ${colors.border}` }}>
+              <button
+                onClick={() => speakSoundBox(collection.amount)}
+                className="interactive-tap"
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.bgInset,
+                  border: `1px solid ${colors.border}`,
+                  color: colors.accentGreen,
+                  borderRadius: '10px',
+                  padding: '10px 12px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                  cursor: 'pointer',
+                }}
+              >
+                <Volume2 size={15} />
+                {isAr ? 'تشغيل صندوق الصوت' : 'Play SoundBox'}
+              </button>
+
+              <button
+                onClick={handleShareReceipt}
+                className="interactive-tap"
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.bgInset,
+                  border: `1px solid ${colors.border}`,
+                  color: colors.textPrimary,
+                  borderRadius: '10px',
+                  padding: '10px 12px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                  cursor: 'pointer',
+                }}
+              >
+                {copied ? <Check size={15} color={colors.accentGreen} /> : <Share2 size={15} color={colors.accentGreen} />}
+                {copied ? (isAr ? 'تم نسخ الإيصال' : 'Copied!') : (isAr ? 'مشاركة الإيصال' : 'Copy Receipt')}
+              </button>
+            </div>
+          </Card>
+
+          {/* Compliance Dock */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <ZatcaLogo variant="full" height={13} themeMode="dark" />
+            <span style={{ fontSize: '10px', color: '#6E6E85' }}>•</span>
+            <span style={{ fontSize: '10.5px', color: '#6E6E85', fontWeight: 600 }}>
+              <Receipt size={11} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
+              Quantira Technologies Engine
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
-

@@ -19,6 +19,7 @@ import {
 import { useApp } from '../../state/AppContext';
 import { AlphPayLogo } from '../AlphPayLogo';
 import { LanguageSwitchPill } from '../LanguageSwitchPill';
+import { DesktopAuthLayout } from './DesktopAuthLayout';
 import type { ScreenId } from '../../types';
 
 interface DesktopWebLayoutProps {
@@ -163,7 +164,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
   ];
 
-  // If in auth/onboarding screen on web, render without enterprise sidebar
+  // If in auth/onboarding screen on web, render with split hero desktop layout
   const isAuthFlow =
     currentScreen === 'SPLASH' ||
     currentScreen === 'ONBOARDING' ||
@@ -172,35 +173,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     currentScreen === 'PERMISSIONS';
 
   if (isAuthFlow) {
-    return (
-      <div
-        style={{
-          width: '100%',
-          minHeight: '100vh',
-          backgroundColor: '#080C14',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '24px',
-          boxSizing: 'border-box',
-          direction: isRtl ? 'rtl' : 'ltr',
-        }}
-      >
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '480px',
-            backgroundColor: '#0E131F',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '24px',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
-            overflow: 'hidden',
-          }}
-        >
-          {children}
-        </div>
-      </div>
-    );
+    return <DesktopAuthLayout>{children}</DesktopAuthLayout>;
   }
 
   return (
