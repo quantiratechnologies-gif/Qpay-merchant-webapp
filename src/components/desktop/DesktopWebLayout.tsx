@@ -164,13 +164,8 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
   ];
 
-  // If in auth/onboarding screen on web, render with split hero desktop layout
-  const isAuthFlow =
-    currentScreen === 'SPLASH' ||
-    currentScreen === 'ONBOARDING' ||
-    currentScreen === 'MOBILE_NUMBER' ||
-    currentScreen === 'SMS_OTP' ||
-    currentScreen === 'PERMISSIONS';
+  // If in web login/OTP auth screen on web, render with split hero desktop layout
+  const isAuthFlow = currentScreen === 'MOBILE_NUMBER' || currentScreen === 'SMS_OTP';
 
   if (isAuthFlow) {
     return <DesktopAuthLayout>{children}</DesktopAuthLayout>;

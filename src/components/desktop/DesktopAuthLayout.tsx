@@ -2,14 +2,13 @@ import React from 'react';
 import { AlphPayLogo } from '../AlphPayLogo';
 import { LanguageSwitchPill } from '../LanguageSwitchPill';
 import { useApp } from '../../state/AppContext';
-import { ShieldCheck, SmartphoneNfc, QrCode, Zap, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, SmartphoneNfc, QrCode, Zap, Building2, CheckCircle2 } from 'lucide-react';
 
 interface DesktopAuthLayoutProps {
   children: React.ReactNode;
   heroImage?: string;
   heroTitle?: string;
   heroSubtitle?: string;
-  activeFeatureIndex?: number;
 }
 
 export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
@@ -22,34 +21,34 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
   const isAr = language === 'العربية';
 
   const defaultTitle = isAr
-    ? 'بوابة مدفوعات الأعمال الذكية في المملكة'
+    ? 'بوابة المدفوعات الذكية لقطاع الأعمال في المملكة'
     : 'Unified Smart Payment Infrastructure for Saudi Merchants';
 
   const defaultSubtitle = isAr
-    ? 'قبول مدفوعات مدى والبطاقات، إصدار فواتير ضريبية متوافقة مع هيئة الزكاة، وتسويات فورية ٢٤/٧ عبر نظام سريع.'
-    : 'Accept mada contactless payments, issue ZATCA Phase 2 e-invoices, and settle funds instantly 24/7 via the Sarie rail.';
+    ? 'إدارة نقاط البيع الافتراضية، إصدار الفواتير المعتمدة من هيئة الزكاة، والتسوية الفورية للمبيعات ٢٤/٧ عبر شبكة سريع.'
+    : 'Virtual POS operations, ZATCA Phase 2 compliant e-invoicing, and 24/7 instant sales settlements via Sarie rail.';
 
   const features = [
     {
-      icon: <SmartphoneNfc size={18} color="#00C853" />,
-      titleEn: 'Turn Phone into SoftPOS',
-      titleAr: 'نقاط بيع فورية عبر الجوال',
-      descEn: 'Accept mada, Apple Pay, Visa & Mastercard',
-      descAr: 'قبول مدفوعات مدى وأبل باي والبطاقات الائتمانية',
+      icon: <SmartphoneNfc size={20} color="#00C853" />,
+      titleEn: 'SoftPOS Virtual Terminal',
+      titleAr: 'نقاط بيع فورية SoftPOS',
+      descEn: 'Accept mada, Apple Pay, Visa & Mastercard with zero hardware cost',
+      descAr: 'قبول مدفوعات مدى وأبل باي والبطاقات دون الحاجة لأجهزة مخصصة',
     },
     {
-      icon: <QrCode size={18} color="#00C853" />,
+      icon: <QrCode size={20} color="#00C853" />,
       titleEn: 'ZATCA Phase 2 E-Invoicing',
       titleAr: 'فوترة إلكترونية معتمدة من الزكاة',
-      descEn: '100% compliant QR invoices with 15% VAT breakdown',
-      descAr: 'فواتير ضريبية مبسطة متوافقة مع متطلبات المرحلة الثانية',
+      descEn: '100% compliant dynamic QR invoices with 15% VAT calculation',
+      descAr: 'فواتير ضريبية مبسطة متوافقة بالكامل مع المرحلة الثانية لزاتكا',
     },
     {
-      icon: <Zap size={18} color="#00C853" />,
-      titleEn: 'Instant 24/7 Sarie Payouts',
-      titleAr: 'تسويات فورية عبر شبكة سريع',
-      descEn: 'Funds deposited straight to your Saudi IBAN in seconds',
-      descAr: 'تحويل مباشر إلى حسابك البنكي خلال ثوانٍ معدودة',
+      icon: <Zap size={20} color="#00C853" />,
+      titleEn: 'Instant 24/7 Sarie Settlements',
+      titleAr: 'تسويات فورية ٢٤/٧ عبر سريع',
+      descEn: 'Funds transferred directly into your Saudi business IBAN in seconds',
+      descAr: 'إيداع المبيعات مباشرة في آيبان المنشأة المصرفي خلال ثوانٍ',
     },
   ];
 
@@ -66,15 +65,15 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
         overflowX: 'hidden',
       }}
     >
-      {/* Left 50% Hero Showcase Panel (Visible on Desktop >= 1024px) */}
+      {/* Left 52% Hero Enterprise Showcase Panel */}
       <div
         style={{
-          flex: 1,
+          flex: '1.1',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '48px 56px',
-          background: 'radial-gradient(circle at 20% 30%, rgba(0, 200, 83, 0.16) 0%, rgba(8, 12, 20, 0.98) 75%)',
+          background: 'radial-gradient(circle at 20% 30%, rgba(0, 200, 83, 0.14) 0%, rgba(8, 12, 20, 0.98) 75%)',
           borderRight: isRtl ? 'none' : '1px solid #1A2234',
           borderLeft: isRtl ? '1px solid #1A2234' : 'none',
           position: 'relative',
@@ -88,7 +87,7 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
             <AlphPayLogo variant="horizontal" size={32} themeMode="dark" />
           </div>
 
-          <div style={{ marginTop: '40px', maxWidth: '520px' }}>
+          <div style={{ marginTop: '36px', maxWidth: '540px' }}>
             <div
               style={{
                 display: 'inline-flex',
@@ -101,20 +100,21 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
                 color: '#00C853',
                 fontSize: '12px',
                 fontWeight: 800,
+                letterSpacing: '0.04em',
                 marginBottom: '16px',
               }}
             >
-              <CheckCircle2 size={13} />
-              <span>{isAr ? 'مرخص ومعتمد في المملكة العربية السعودية' : 'Regulated Saudi Merchant Network'}</span>
+              <CheckCircle2 size={14} />
+              {isAr ? 'شبكة التجار المعتمدة في المملكة' : 'Regulated Saudi Merchant Network'}
             </div>
 
             <h1
               style={{
                 fontSize: '32px',
                 fontWeight: 900,
-                color: '#FFFFFF',
                 lineHeight: 1.25,
-                letterSpacing: '-0.02em',
+                color: '#FFFFFF',
+                letterSpacing: '-0.03em',
                 margin: 0,
               }}
             >
@@ -123,11 +123,11 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
 
             <p
               style={{
-                fontSize: '15px',
+                fontSize: '14.5px',
                 color: '#94A3B8',
                 lineHeight: 1.6,
                 marginTop: '14px',
-                fontWeight: 500,
+                marginBottom: 0,
               }}
             >
               {heroSubtitle || defaultSubtitle}
@@ -135,25 +135,25 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
           </div>
         </div>
 
-        {/* Feature Highlights Grid */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', margin: '36px 0', maxWidth: '520px' }}>
-          {features.map((feat, idx) => (
+        {/* Value Prop Cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', margin: '32px 0', maxWidth: '520px' }}>
+          {features.map((feat, i) => (
             <div
-              key={idx}
+              key={i}
               style={{
                 display: 'flex',
                 alignItems: 'flex-start',
                 gap: '14px',
                 padding: '14px 18px',
                 borderRadius: '14px',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                backgroundColor: 'rgba(17, 23, 38, 0.7)',
                 border: '1px solid #1E293B',
               }}
             >
               <div
                 style={{
-                  width: '36px',
-                  height: '36px',
+                  width: '38px',
+                  height: '38px',
                   borderRadius: '10px',
                   backgroundColor: 'rgba(0, 200, 83, 0.12)',
                   border: '1px solid rgba(0, 200, 83, 0.25)',
@@ -189,7 +189,7 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748B', fontSize: '12px', fontWeight: 600 }}>
             <ShieldCheck size={16} color="#00C853" />
-            <span>{isAr ? 'محمي بواسطة بنية تحتية مصرفية مشفرة ٢٥٦-بت' : 'Bank-Grade 256-Bit SSL Encrypted Rail'}</span>
+            <span>{isAr ? 'مشفر وفق معايير الحماية المصرفية ٢٥٦-بت' : 'Bank-Grade 256-Bit SSL Encrypted Rail'}</span>
           </div>
 
           <div style={{ color: '#64748B', fontSize: '12px', fontWeight: 700 }}>
@@ -198,16 +198,16 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
         </div>
       </div>
 
-      {/* Right 50% Interactive Action Panel */}
+      {/* Right 48% Enterprise Auth Form Panel */}
       <div
         style={{
-          flex: 1,
+          flex: '1',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           minHeight: '100vh',
           backgroundColor: '#080C14',
-          padding: '24px 32px',
+          padding: '36px 48px',
           boxSizing: 'border-box',
           position: 'relative',
         }}
@@ -219,16 +219,17 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
-            maxWidth: '440px',
+            maxWidth: '480px',
             margin: '0 auto',
             paddingBottom: '16px',
           }}
         >
-          <div className="mobile-logo-only" style={{ display: 'none' }}>
-            <AlphPayLogo variant="horizontal" size={24} themeMode="dark" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94A3B8', fontSize: '12.5px', fontWeight: 700 }}>
+            <Building2 size={16} color="#00C853" />
+            <span>{isAr ? 'بوابة الأعمال والتجار' : 'Merchant Business Portal'}</span>
           </div>
 
-          <div style={{ [isRtl ? 'marginRight' : 'marginLeft']: 'auto' }}>
+          <div>
             <LanguageSwitchPill variant="compact" />
           </div>
         </div>
@@ -237,13 +238,13 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({
         <div
           style={{
             width: '100%',
-            maxWidth: '440px',
+            maxWidth: '480px',
             margin: 'auto',
-            padding: '28px 24px',
+            padding: '36px 32px',
             backgroundColor: '#0E131F',
             border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '24px',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+            borderRadius: '20px',
+            boxShadow: '0 24px 70px rgba(0, 0, 0, 0.55)',
             boxSizing: 'border-box',
           }}
         >

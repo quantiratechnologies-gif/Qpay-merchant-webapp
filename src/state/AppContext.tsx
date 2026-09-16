@@ -283,7 +283,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return paramScreen;
     }
-    return 'SPLASH';
+    return 'MERCHANT_HOME';
   });
   const [screenStack, setScreenStack] = useState<{ screen: ScreenId; params?: Record<string, any> }[]>(() => {
     if (typeof window !== 'undefined') {
@@ -779,8 +779,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.removeItem('hasCompletedOnboarding');
     localStorage.removeItem('hasGrantedPermissions');
     setIsLogoutModalOpen(false);
-    setCurrentScreen('SPLASH');
-    setScreenStack([{ screen: 'SPLASH' }]);
+    setCurrentScreen('MOBILE_NUMBER');
+    setScreenStack([{ screen: 'MOBILE_NUMBER' }]);
   };
 
   const terminateSession = (sessionId: string) => {
