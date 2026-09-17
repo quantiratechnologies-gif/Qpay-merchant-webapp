@@ -91,8 +91,8 @@ export const SoundBoxNotifierScreen: React.FC = () => {
                   width: '9px',
                   height: '9px',
                   borderRadius: '50%',
-                  backgroundColor: '#00C853',
-                  boxShadow: '0 0 10px #00C853',
+                  backgroundColor: '#00FF24',
+                  boxShadow: '0 0 10px #00FF24',
                 }}
               />
 
@@ -109,7 +109,7 @@ export const SoundBoxNotifierScreen: React.FC = () => {
                   justifyContent: 'center',
                 }}
               >
-                <Volume2 size={50} color="#00C853" />
+                <Volume2 size={50} color="#00FF24" />
               </div>
 
               <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8', marginTop: '12px' }}>
@@ -215,7 +215,7 @@ export const SoundBoxNotifierScreen: React.FC = () => {
               max="100"
               value={soundBoxVolume}
               onChange={(e) => setSoundBoxVolume(Number(e.target.value))}
-              style={{ width: '100%', accentColor: '#00C853', cursor: 'pointer', height: '6px' }}
+              style={{ width: '100%', accentColor: '#00FF24', cursor: 'pointer', height: '6px' }}
             />
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
@@ -300,7 +300,7 @@ export const SoundBoxNotifierScreen: React.FC = () => {
                     transition: 'border-color 0.12s ease',
                   }}
                 >
-                  <Play size={12} color="#00C853" fill="#00C853" />
+                  <Play size={12} color="#00FF24" fill="#00FF24" />
                   {formatSaudiCurrency(amt, language)}
                 </button>
               ))}

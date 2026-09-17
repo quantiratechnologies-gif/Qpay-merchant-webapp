@@ -135,9 +135,9 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                     width: '100%',
                     padding: '12px 14px',
                     backgroundColor: '#080C14',
-                    border: '1.5px solid #00C853',
+                    border: '1.5px solid #00FF24',
                     borderRadius: '10px',
-                    color: '#00C853',
+                    color: '#00FF24',
                     fontSize: '18px',
                     fontWeight: 800,
                     outline: 'none',
@@ -180,7 +180,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                   width: '100%',
                   padding: '14px',
                   borderRadius: '12px',
-                  backgroundColor: '#00C853',
+                  backgroundColor: '#00FF24',
                   color: '#080C14',
                   fontSize: '14px',
                   fontWeight: 900,
@@ -207,7 +207,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
             style={{
               padding: '24px',
               backgroundColor: '#0E131F',
-              border: '1px solid rgba(0, 200, 83, 0.3)',
+              border: '1px solid rgba(0, 255, 36, 0.3)',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -218,8 +218,8 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 style={{
                   fontSize: '11px',
                   fontWeight: 800,
-                  backgroundColor: 'rgba(0, 200, 83, 0.15)',
-                  color: '#00C853',
+                  backgroundColor: 'rgba(0, 255, 36, 0.15)',
+                  color: '#00FF24',
                   padding: '3px 8px',
                   borderRadius: '6px',
                 }}
@@ -234,7 +234,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 style={{
                   fontSize: '13.5px',
                   fontWeight: 700,
-                  color: '#00C853',
+                  color: '#00FF24',
                   fontFamily: 'monospace',
                   wordBreak: 'break-all',
                   marginTop: '4px',
@@ -269,7 +269,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                {copied ? <Check size={16} color="#00C853" /> : <Copy size={16} color="#00C853" />}
+                {copied ? <Check size={16} color="#00FF24" /> : <Copy size={16} color="#00FF24" />}
                 <span>{copied ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ الرابط' : 'Copy Link')}</span>
               </button>
 
@@ -279,9 +279,9 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '12px',
                   borderRadius: '10px',
-                  backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                  border: '1px solid rgba(0, 200, 83, 0.3)',
-                  color: '#00C853',
+                  backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                  border: '1px solid rgba(0, 255, 36, 0.3)',
+                  color: '#00FF24',
                   fontSize: '13px',
                   fontWeight: 800,
                   cursor: 'pointer',
@@ -318,7 +318,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 gap: '6px',
               }}
             >
-              <Sparkles size={14} color="#00C853" />
+              <Sparkles size={14} color="#00FF24" />
               <span>{isSimulating ? (isAr ? 'جاري التحويل...' : 'Simulating...') : (isAr ? 'محاكاة دفع العميل للرابط' : 'Simulate Customer Remote Payment')}</span>
             </button>
           </Card>

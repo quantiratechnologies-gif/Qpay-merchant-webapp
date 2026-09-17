@@ -77,7 +77,7 @@ export const PWAInstallPrompt: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#00C853',
+            color: '#00FF24',
           }}
         >
           <Download size={18} />
@@ -92,7 +92,7 @@ export const PWAInstallPrompt: React.FC = () => {
         <button
           onClick={handleInstallClick}
           style={{
-            backgroundColor: '#00C853',
+            backgroundColor: '#00FF24',
             color: '#000000',
             border: 'none',
             borderRadius: '6px',

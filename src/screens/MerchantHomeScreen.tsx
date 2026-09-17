@@ -85,7 +85,7 @@ export const MerchantHomeScreen: React.FC = () => {
             <StatusBadge status="success" dot={true} size="sm" label={isAr ? 'مباشر' : 'Live'} />
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '10px' }}>
-            <span style={{ fontSize: '15px', color: '#00C853', fontWeight: 800 }}>SAR</span>
+            <span style={{ fontSize: '15px', color: '#00FF24', fontWeight: 800 }}>SAR</span>
             <span style={{ fontSize: '28px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
               {showBalance ? displayTotal.toLocaleString('en-US', { minimumFractionDigits: 2 }) : '••••••'}
             </span>
@@ -110,12 +110,12 @@ export const MerchantHomeScreen: React.FC = () => {
             </button>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '10px' }}>
-            <span style={{ fontSize: '15px', color: '#00C853', fontWeight: 800 }}>SAR</span>
-            <span style={{ fontSize: '28px', fontWeight: 900, color: '#00C853', letterSpacing: '-0.02em' }}>
+            <span style={{ fontSize: '15px', color: '#00FF24', fontWeight: 800 }}>SAR</span>
+            <span style={{ fontSize: '28px', fontWeight: 900, color: '#00FF24', letterSpacing: '-0.02em' }}>
               {showBalance ? displayTotal.toLocaleString('en-US', { minimumFractionDigits: 2 }) : '••••••'}
             </span>
           </div>
-          <div style={{ fontSize: '11.5px', color: '#00C853', marginTop: '6px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div style={{ fontSize: '11.5px', color: '#00FF24', marginTop: '6px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Zap size={13} />
             <span>{isAr ? 'تحويل فوري ٢٤/٧ عبر سريع' : 'Ready for Instant Sarie Payout'}</span>
           </div>
@@ -127,7 +127,7 @@ export const MerchantHomeScreen: React.FC = () => {
             <span style={{ fontSize: '12.5px', color: '#94A3B8', fontWeight: 600 }}>
               {isAr ? 'عدد العمليات اليوم' : 'Total Transactions'}
             </span>
-            <TrendingUp size={16} color="#00C853" />
+            <TrendingUp size={16} color="#00FF24" />
           </div>
           <div style={{ fontSize: '28px', fontWeight: 900, color: '#FFFFFF', marginTop: '10px' }}>
             {formatLocalizedNumber(paymentCount, language)}
@@ -143,10 +143,10 @@ export const MerchantHomeScreen: React.FC = () => {
             <span style={{ fontSize: '12.5px', color: '#94A3B8', fontWeight: 600 }}>
               {isAr ? 'متوسط قيمة العملية' : 'Average Ticket'}
             </span>
-            <CreditCard size={16} color="#00C853" />
+            <CreditCard size={16} color="#00FF24" />
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '10px' }}>
-            <span style={{ fontSize: '15px', color: '#00C853', fontWeight: 800 }}>SAR</span>
+            <span style={{ fontSize: '15px', color: '#00FF24', fontWeight: 800 }}>SAR</span>
             <span style={{ fontSize: '28px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
               {avgTicket}
             </span>
@@ -178,7 +178,7 @@ export const MerchantHomeScreen: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'space-between',
               backgroundColor: '#0E1422',
-              border: '1px solid rgba(0, 200, 83, 0.25)',
+              border: '1px solid rgba(0, 255, 36, 0.25)',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -187,11 +187,11 @@ export const MerchantHomeScreen: React.FC = () => {
                   width: '42px',
                   height: '42px',
                   borderRadius: '12px',
-                  backgroundColor: 'rgba(0, 200, 83, 0.12)',
+                  backgroundColor: 'rgba(0, 255, 36, 0.12)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#00C853',
+                  color: '#00FF24',
                   flexShrink: 0,
                 }}
               >
@@ -228,7 +228,7 @@ export const MerchantHomeScreen: React.FC = () => {
                 gap: '6px',
               }}
             >
-              <Megaphone size={14} color="#00C853" />
+              <Megaphone size={14} color="#00FF24" />
               <span>{isAr ? 'تجربة الصوت' : 'Test Audio'}</span>
             </button>
           </Card>
@@ -257,12 +257,12 @@ export const MerchantHomeScreen: React.FC = () => {
                     width: '46px',
                     height: '46px',
                     borderRadius: '14px',
-                    backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                    border: '1px solid rgba(0, 200, 83, 0.3)',
+                    backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                    border: '1px solid rgba(0, 255, 36, 0.3)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#00C853',
+                    color: '#00FF24',
                   }}
                 >
                   <QrCode size={22} />
@@ -291,12 +291,12 @@ export const MerchantHomeScreen: React.FC = () => {
                     width: '46px',
                     height: '46px',
                     borderRadius: '14px',
-                    backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                    border: '1px solid rgba(0, 200, 83, 0.3)',
+                    backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                    border: '1px solid rgba(0, 255, 36, 0.3)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#00C853',
+                    color: '#00FF24',
                   }}
                 >
                   <SmartphoneNfc size={22} />
@@ -325,12 +325,12 @@ export const MerchantHomeScreen: React.FC = () => {
                     width: '46px',
                     height: '46px',
                     borderRadius: '14px',
-                    backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                    border: '1px solid rgba(0, 200, 83, 0.3)',
+                    backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                    border: '1px solid rgba(0, 255, 36, 0.3)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#00C853',
+                    color: '#00FF24',
                   }}
                 >
                   <Share2 size={22} />
@@ -359,12 +359,12 @@ export const MerchantHomeScreen: React.FC = () => {
                     width: '46px',
                     height: '46px',
                     borderRadius: '14px',
-                    backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                    border: '1px solid rgba(0, 200, 83, 0.3)',
+                    backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                    border: '1px solid rgba(0, 255, 36, 0.3)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#00C853',
+                    color: '#00FF24',
                   }}
                 >
                   <Banknote size={22} />
@@ -394,7 +394,7 @@ export const MerchantHomeScreen: React.FC = () => {
                 style={{
                   backgroundColor: '#151C2C',
                   border: '1px solid #1E293B',
-                  color: '#00C853',
+                  color: '#00FF24',
                   borderRadius: '8px',
                   padding: '6px 12px',
                   fontSize: '12px',
@@ -445,7 +445,7 @@ export const MerchantHomeScreen: React.FC = () => {
                               justifyContent: 'center',
                               fontSize: '11px',
                               fontWeight: 800,
-                              color: '#00C853',
+                              color: '#00FF24',
                             }}
                           >
                             {col.customerMasked ? col.customerMasked.slice(0, 2).toUpperCase() : 'TX'}
@@ -469,7 +469,7 @@ export const MerchantHomeScreen: React.FC = () => {
                           label={col.status === 'settled' ? (isAr ? 'مكتمل' : 'Settled') : col.status}
                         />
                       </td>
-                      <td style={{ padding: '12px', textAlign: isRtl ? 'left' : 'right', fontWeight: 900, color: '#00C853' }}>
+                      <td style={{ padding: '12px', textAlign: isRtl ? 'left' : 'right', fontWeight: 900, color: '#00FF24' }}>
                         SAR {col.amount.toFixed(2)}
                       </td>
                     </tr>
@@ -488,7 +488,7 @@ export const MerchantHomeScreen: React.FC = () => {
             style={{
               padding: '22px',
               backgroundColor: '#0E1422',
-              border: '1px solid rgba(0, 200, 83, 0.3)',
+              border: '1px solid rgba(0, 255, 36, 0.3)',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -499,8 +499,8 @@ export const MerchantHomeScreen: React.FC = () => {
                 style={{
                   fontSize: '11px',
                   fontWeight: 800,
-                  backgroundColor: 'rgba(0, 200, 83, 0.15)',
-                  color: '#00C853',
+                  backgroundColor: 'rgba(0, 255, 36, 0.15)',
+                  color: '#00FF24',
                   padding: '3px 8px',
                   borderRadius: '6px',
                 }}
@@ -512,7 +512,7 @@ export const MerchantHomeScreen: React.FC = () => {
             <div style={{ margin: '18px 0', padding: '14px', backgroundColor: '#080C14', borderRadius: '12px', border: '1px solid #1E293B' }}>
               <div style={{ fontSize: '11.5px', color: '#94A3B8' }}>{isAr ? 'الحساب البنكي المعتمد' : 'Destination IBAN'}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
-                <Building2 size={16} color="#00C853" />
+                <Building2 size={16} color="#00FF24" />
                 <span style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF' }}>
                   {merchantInfo.settlementBank || 'Al Rajhi Bank'}
                 </span>
@@ -530,7 +530,7 @@ export const MerchantHomeScreen: React.FC = () => {
                 width: '100%',
                 padding: '14px',
                 borderRadius: '12px',
-                backgroundColor: '#00C853',
+                backgroundColor: '#00FF24',
                 color: '#080C14',
                 fontSize: '14px',
                 fontWeight: 900,
@@ -540,7 +540,7 @@ export const MerchantHomeScreen: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 20px rgba(0, 200, 83, 0.35)',
+                boxShadow: '0 4px 20px rgba(0, 255, 36, 0.35)',
               }}
             >
               <Zap size={18} fill="#080C14" />
@@ -558,7 +558,7 @@ export const MerchantHomeScreen: React.FC = () => {
               <span style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF' }}>
                 {isAr ? 'باركود المتجر المعتمد' : 'Store Stand QR'}
               </span>
-              <span style={{ fontSize: '11px', color: '#00C853', fontWeight: 800 }}>ZATCA Phase 2</span>
+              <span style={{ fontSize: '11px', color: '#00FF24', fontWeight: 800 }}>ZATCA Phase 2</span>
             </div>
 
             <div
@@ -600,7 +600,7 @@ export const MerchantHomeScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                <Download size={14} color="#00C853" />
+                <Download size={14} color="#00FF24" />
                 <span>{isAr ? 'تحميل الملصق' : 'Get Poster'}</span>
               </button>
 
@@ -622,7 +622,7 @@ export const MerchantHomeScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                <Share2 size={14} color="#00C853" />
+                <Share2 size={14} color="#00FF24" />
                 <span>{isAr ? 'مشاركة' : 'Share'}</span>
               </button>
             </div>

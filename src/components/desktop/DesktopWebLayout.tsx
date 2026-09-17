@@ -14,12 +14,13 @@ import {
   Search,
   LogOut,
   CheckCircle2,
-  Zap,
+  Zap
 } from 'lucide-react';
 import { useApp } from '../../state/AppContext';
-import { AlphPayLogo } from '../AlphPayLogo';
+import { Logo } from '../Logo';
 import { LanguageSwitchPill } from '../LanguageSwitchPill';
 import { DesktopAuthLayout } from './DesktopAuthLayout';
+import { Badge } from '../ui/badge';
 import type { ScreenId } from '../../types';
 
 interface DesktopWebLayoutProps {
@@ -63,7 +64,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     id: ScreenId;
     labelEn: string;
     labelAr: string;
-    icon: React.ReactNode;
+    icon: any;
     categoryEn: string;
     categoryAr: string;
     badge?: string;
@@ -73,7 +74,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'MERCHANT_HOME',
       labelEn: 'Overview',
       labelAr: 'لوحة التحكم الرئيسية',
-      icon: <LayoutDashboard size={19} />,
+      icon: LayoutDashboard,
       categoryEn: 'OPERATIONS',
       categoryAr: 'العمليات الأساسية',
     },
@@ -81,7 +82,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'SOFTPOS_TERMINAL',
       labelEn: 'SoftPOS Tap',
       labelAr: 'الدفع باللمس بالجوال',
-      icon: <SmartphoneNfc size={19} />,
+      icon: SmartphoneNfc,
       categoryEn: 'OPERATIONS',
       categoryAr: 'العمليات الأساسية',
       badge: 'NFC',
@@ -90,7 +91,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'PAYMENT_LINK_GENERATOR',
       labelEn: 'Pay Links',
       labelAr: 'روابط الدفع الرقمية',
-      icon: <Link2 size={19} />,
+      icon: Link2,
       categoryEn: 'OPERATIONS',
       categoryAr: 'العمليات الأساسية',
     },
@@ -98,7 +99,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'MERCHANT_QR_GENERATOR',
       labelEn: 'ZATCA QR',
       labelAr: 'رمز الفاتورة الضريبية',
-      icon: <QrCode size={19} />,
+      icon: QrCode,
       categoryEn: 'OPERATIONS',
       categoryAr: 'العمليات الأساسية',
       badge: 'Phase 2',
@@ -107,7 +108,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'MERCHANT_COLLECTIONS',
       labelEn: 'Collections',
       labelAr: 'التحصيلات والتسويات',
-      icon: <ReceiptText size={19} />,
+      icon: ReceiptText,
       categoryEn: 'OPERATIONS',
       categoryAr: 'العمليات الأساسية',
     },
@@ -115,7 +116,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'MERCHANT_INSIGHTS',
       labelEn: 'Analytics',
       labelAr: 'التحليلات والتقارير',
-      icon: <TrendingUp size={19} />,
+      icon: TrendingUp,
       categoryEn: 'OPERATIONS',
       categoryAr: 'العمليات الأساسية',
     },
@@ -123,7 +124,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'SOUNDBOX_NOTIFIER',
       labelEn: 'SoundBox',
       labelAr: 'جهاز الإشعار الصوتي',
-      icon: <Volume2 size={19} />,
+      icon: Volume2,
       categoryEn: 'OPERATIONS',
       categoryAr: 'العمليات الأساسية',
       badge: 'Active',
@@ -134,7 +135,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'PROFILE',
       labelEn: 'Store Profile',
       labelAr: 'ملف المنشأة والتوثيق',
-      icon: <Store size={19} />,
+      icon: Store,
       categoryEn: 'MANAGEMENT',
       categoryAr: 'إدارة المنشأة',
     },
@@ -142,7 +143,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'MERCHANT_BANK_LINK',
       labelEn: 'Bank IBAN',
       labelAr: 'حساب التسوية البنكي',
-      icon: <Building2 size={19} />,
+      icon: Building2,
       categoryEn: 'MANAGEMENT',
       categoryAr: 'إدارة المنشأة',
     },
@@ -150,15 +151,15 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       id: 'SECURITY',
       labelEn: 'Security',
       labelAr: 'الكاشيرات والأمان',
-      icon: <ShieldCheck size={19} />,
+      icon: ShieldCheck,
       categoryEn: 'MANAGEMENT',
       categoryAr: 'إدارة المنشأة',
     },
     {
       id: 'NOTIFICATIONS',
-      labelEn: 'Alerts & Activity Log',
+      labelEn: 'Alerts',
       labelAr: 'التنبيهات وسجل النشاط',
-      icon: <Bell size={19} />,
+      icon: Bell,
       categoryEn: 'MANAGEMENT',
       categoryAr: 'إدارة المنشأة',
     },
@@ -173,156 +174,77 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
 
   return (
     <div
-      style={{
-        display: 'flex',
-        width: '100vw',
-        minHeight: '100vh',
-        backgroundColor: '#080C14',
-        color: '#FFFFFF',
-        direction: isRtl ? 'rtl' : 'ltr',
-        fontFamily: "'IBM Plex Sans Arabic', 'Inter', sans-serif",
-        overflowX: 'hidden',
-      }}
+      className={`min-h-screen w-screen bg-[#080C14] text-white flex overflow-x-hidden ${
+        isRtl ? 'rtl font-ar' : 'font-sans'
+      }`}
+      dir={isRtl ? 'rtl' : 'ltr'}
     >
       {/* 1. Left Persistent Enterprise Desktop Sidebar */}
       <aside
-        style={{
-          width: '280px',
-          minWidth: '280px',
-          backgroundColor: '#0B0F19',
-          borderRight: isRtl ? 'none' : '1px solid #1A2234',
-          borderLeft: isRtl ? '1px solid #1A2234' : 'none',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          padding: '20px 16px',
-          boxSizing: 'border-box',
-          zIndex: 40,
-        }}
+        className={`w-64 min-w-[16rem] bg-[#0A0F1D] flex flex-col justify-between sticky top-0 h-screen p-4 z-40 ${
+          isRtl ? 'border-l border-slate-800/80' : 'border-r border-slate-800/80'
+        }`}
       >
         {/* Top: Brand Header & Store Identity */}
-        <div>
+        <div className="space-y-4">
           <div
             onClick={() => navigateTo('MERCHANT_HOME')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '0 8px 18px 8px',
-              borderBottom: '1px solid #1A2234',
-              cursor: 'pointer',
-            }}
+            className="flex items-center justify-between pb-3 border-b border-slate-800/80 cursor-pointer pt-1"
           >
-            <AlphPayLogo variant="horizontal" size={26} themeMode="dark" />
+            <div className="flex items-center gap-2">
+              <Logo height={28} textColor="#FFFFFF" accentColor="#00FF24" />
+              <Badge variant="outline" className="text-[9px] font-bold px-1.5 py-0.5 text-[#00FF24] border-[#00FF24]/30 bg-[#00FF24]/5">
+                MERCHANT
+              </Badge>
+            </div>
           </div>
 
-          {/* Store Identification Squircle */}
+          {/* Store Identification Card */}
           <div
             onClick={() => navigateTo('PROFILE')}
-            className="interactive-tap"
-            style={{
-              marginTop: '16px',
-              padding: '12px',
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid #1E293B',
-              borderRadius: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              cursor: 'pointer',
-            }}
+            className="p-3 bg-[#0E1526] border border-slate-800/80 rounded-xl flex items-center gap-3 cursor-pointer hover:border-slate-700 transition-colors"
           >
-            <div
-              style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '10px',
-                backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                border: '1px solid rgba(0, 200, 83, 0.25)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#00C853',
-                flexShrink: 0,
-              }}
-            >
-              <Store size={18} />
+            <div className="w-9 h-9 rounded-lg bg-[#00FF24]/10 border border-[#00FF24]/20 flex items-center justify-center text-[#00FF24] flex-shrink-0">
+              <Store className="h-5 w-5" />
             </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                style={{
-                  fontSize: '13.5px',
-                  fontWeight: 800,
-                  color: '#FFFFFF',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {merchantInfo.businessName || (isAr ? 'تموينات القمة للتجارة' : 'GreenLeaf Markets LLC')}
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-bold text-white truncate">
+                {merchantInfo.businessName || (isAr ? 'تموينات القمة للتجارة' : 'Al-Madinah Supermarket')}
               </div>
-              <div
-                style={{
-                  fontSize: '11px',
-                  color: '#00C853',
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  marginTop: '2px',
-                }}
-              >
-                <CheckCircle2 size={12} />
-                <span>{isAr ? 'موثق زكاة وسريع' : 'ZATCA & Sarie Verified'}</span>
+              <div className="text-[10px] text-[#00FF24] font-semibold flex items-center gap-1 mt-0.5">
+                <CheckCircle2 className="h-3 w-3 inline" />
+                <span>{isAr ? 'موثق زكاة وسريع' : 'Wathq & ZATCA Verified'}</span>
               </div>
             </div>
           </div>
 
           {/* Navigation Menu Links */}
-          <nav style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <nav className="space-y-1 pt-1">
             {navItems.map((item) => {
+              const Icon = item.icon;
               const isSelected = currentScreen === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => navigateTo(item.id)}
-                  className="interactive-tap"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '10px 14px',
-                    borderRadius: '12px',
-                    backgroundColor: isSelected ? 'rgba(0, 200, 83, 0.12)' : 'transparent',
-                    border: isSelected ? '1px solid rgba(0, 200, 83, 0.3)' : '1px solid transparent',
-                    color: isSelected ? '#00C853' : '#94A3B8',
-                    cursor: 'pointer',
-                    fontSize: '13.5px',
-                    fontWeight: isSelected ? 800 : 600,
-                    textAlign: isRtl ? 'right' : 'left',
-                    transition: 'all 0.15s ease',
-                    boxShadow: 'none',
-                    width: '100%',
-                  }}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#00FF24]/10 border border-[#00FF24]/30 text-[#00FF24]'
+                      : 'bg-transparent border border-transparent text-slate-400 hover:text-white hover:bg-slate-800/40'
+                  }`}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ color: isSelected ? '#00C853' : '#64748B' }}>{item.icon}</span>
+                  <div className="flex items-center gap-2.5">
+                    <Icon className={`h-4 w-4 ${isSelected ? 'text-[#00FF24]' : 'text-slate-400'}`} />
                     <span>{isAr ? item.labelAr : item.labelEn}</span>
                   </div>
 
                   {item.badge && (
                     <span
-                      style={{
-                        fontSize: '10px',
-                        fontWeight: 800,
-                        backgroundColor: isSelected ? '#00C853' : '#1E293B',
-                        color: isSelected ? '#080C14' : '#94A3B8',
-                        padding: '2px 6px',
-                        borderRadius: '6px',
-                      }}
+                      className={`text-[9.5px] font-bold px-1.5 py-0.5 rounded-md border ${
+                        isSelected
+                          ? 'bg-[#00FF24]/20 text-[#00FF24] border-[#00FF24]/40'
+                          : 'bg-slate-800/60 text-slate-400 border-slate-700/60'
+                      }`}
                     >
                       {item.badge}
                     </span>
@@ -334,76 +256,35 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
         </div>
 
         {/* Bottom Sidebar Widget: Instant Sarie Payout & Language Switcher */}
-        <div style={{ borderTop: '1px solid #1A2234', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div className="pt-3 border-t border-slate-800/80 space-y-3">
           {/* Quick Settlement CTA Tile */}
-          <div
-            style={{
-              padding: '12px 14px',
-              backgroundColor: '#111726',
-              border: '1px solid rgba(0, 200, 83, 0.2)',
-              borderRadius: '14px',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 600 }}>
-                {isAr ? 'الرصيد المتاح للتحويل' : 'Unsettled Balance'}
-              </span>
-              <span style={{ fontSize: '10px', color: '#00C853', fontWeight: 800 }}>
-                {isAr ? 'سريع ٢٤/٧' : 'Sarie 24/7'}
-              </span>
+          <div className="p-3 bg-[#0E1526] border border-slate-800/80 rounded-xl space-y-2">
+            <div className="flex justify-between items-center text-[10px] text-slate-400 font-medium">
+              <span>{isAr ? 'الرصيد المتاح للتحويل' : 'Unsettled Balance'}</span>
+              <span className="text-[#00FF24] font-bold">{isAr ? 'سريع ٢٤/٧' : 'Sarie T+0'}</span>
             </div>
-            <div style={{ fontSize: '16px', fontWeight: 900, color: '#FFFFFF', marginTop: '4px' }}>
+            <div className="text-base font-extrabold text-white tabular-nums">
               SAR {displayTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </div>
             <button
               onClick={handleSettleClick}
               disabled={isSettling}
-              className="interactive-tap"
-              style={{
-                marginTop: '10px',
-                width: '100%',
-                padding: '8px',
-                borderRadius: '8px',
-                backgroundColor: '#00C853',
-                color: '#080C14',
-                fontSize: '12px',
-                fontWeight: 800,
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-              }}
+              className="w-full py-1.5 rounded-lg bg-[#00FF24] text-black text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#00FF24]/90 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              <Zap size={14} />
+              <Zap className="h-3.5 w-3.5" />
               <span>{isSettling ? (isAr ? 'جاري التحويل...' : 'Settling...') : (isAr ? 'تسوية فورية للبنك' : 'Instant Settle')}</span>
             </button>
           </div>
 
           {/* Language Switcher & Logout Row */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div className="flex items-center justify-between pt-1">
             <LanguageSwitchPill variant="compact" />
             <button
               onClick={() => setIsLogoutModalOpen(true)}
-              aria-label="Logout"
-              className="interactive-tap"
               title={isAr ? 'تسجيل الخروج' : 'Log Out'}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 10px',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(255, 71, 87, 0.1)',
-                border: '1px solid rgba(255, 71, 87, 0.25)',
-                color: '#FF4757',
-                fontSize: '11.5px',
-                fontWeight: 700,
-                cursor: 'pointer',
-              }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold hover:bg-red-500/20 transition-colors cursor-pointer"
             >
-              <LogOut size={13} />
+              <LogOut className="h-3 w-3" />
               <span>{isAr ? 'خروج' : 'Exit'}</span>
             </button>
           </div>
@@ -411,124 +292,52 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       </aside>
 
       {/* 2. Main Content Canvas & Top Enterprise Header */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, height: '100vh', overflowY: 'auto' }}>
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         {/* Top Desktop Navigation & Search Bar */}
-        <header
-          style={{
-            height: '68px',
-            backgroundColor: 'rgba(11, 15, 25, 0.94)',
-            backdropFilter: 'blur(20px)',
-            borderBottom: '1px solid #1A2234',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 32px',
-            position: 'sticky',
-            top: 0,
-            zIndex: 30,
-            boxSizing: 'border-box',
-          }}
-        >
+        <header className="h-16 bg-[#0A0F1D]/90 backdrop-blur-md border-b border-slate-800/80 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-30">
           {/* Left: Global Search Input */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1, maxWidth: '420px' }}>
-            <div
-              style={{
-                position: 'relative',
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Search
-                size={16}
-                color="#64748B"
-                style={{
-                  position: 'absolute',
-                  [isRtl ? 'right' : 'left']: '12px',
-                  pointerEvents: 'none',
-                }}
-              />
+          <div className="flex items-center gap-3 flex-1 max-w-md">
+            <div className="relative w-full">
+              <Search className={`absolute top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500 pointer-events-none ${
+                isRtl ? 'right-3' : 'left-3'
+              }`} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={isAr ? 'بحث في العمليات، الفواتير، المرجع البنكي...' : 'Search collections, UTR, invoices, customers...'}
-                style={{
-                  width: '100%',
-                  height: '38px',
-                  backgroundColor: '#151C2C',
-                  border: '1px solid #1E293B',
-                  borderRadius: '10px',
-                  color: '#FFFFFF',
-                  fontSize: '13px',
-                  paddingLeft: isRtl ? '12px' : '36px',
-                  paddingRight: isRtl ? '36px' : '12px',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
+                placeholder={isAr ? 'بحث في التحصيلات، الفواتير، المرجع البنكي...' : 'Search collections, UTR, invoices, customers...'}
+                className={`w-full h-9 bg-[#10182A] border border-slate-800/80 rounded-xl text-xs text-white placeholder-slate-500 outline-none focus:border-[#00FF24]/50 ${
+                  isRtl ? 'pr-9 pl-3' : 'pl-9 pr-3'
+                }`}
               />
             </div>
           </div>
 
           {/* Right: SoundBox Live Status & Quick Action Buttons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div className="flex items-center gap-3">
             {/* Live SoundBox Audio Test Trigger */}
             <button
-              onClick={() => speakSoundBox(350.0)}
-              className="interactive-tap"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                backgroundColor: 'rgba(0, 200, 83, 0.08)',
-                border: '1px solid rgba(0, 200, 83, 0.25)',
-                color: '#00C853',
-                fontSize: '12px',
-                fontWeight: 700,
-                cursor: 'pointer',
-              }}
+              onClick={() => speakSoundBox(45.0)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#00FF24]/10 border border-[#00FF24]/20 text-[#00FF24] text-xs font-bold hover:bg-[#00FF24]/20 transition-colors cursor-pointer"
             >
-              <Volume2 size={15} />
-              <span>{isAr ? '🔊 جهاز الصوت متصل' : '🔊 SoundBox Online'}</span>
+              <span className="live-indicator w-1.5 h-1.5" />
+              <Volume2 className="h-3.5 w-3.5" />
+              <span>{isAr ? 'جهاز الصوت متصل' : 'SoundBox Online'}</span>
             </button>
 
             {/* Quick Charge / QR Button */}
             <button
               onClick={() => navigateTo('SOFTPOS_TERMINAL')}
-              className="interactive-tap"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '8px 16px',
-                borderRadius: '10px',
-                backgroundColor: '#00C853',
-                color: '#080C14',
-                fontSize: '13px',
-                fontWeight: 800,
-                border: 'none',
-                cursor: 'pointer',
-              }}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#00FF24] text-black text-xs font-extrabold hover:bg-[#00FF24]/90 transition-colors cursor-pointer"
             >
-              <SmartphoneNfc size={16} />
+              <SmartphoneNfc className="h-3.5 w-3.5" />
               <span>{isAr ? '+ تحصيل جديد' : '+ New Charge'}</span>
             </button>
           </div>
         </header>
 
         {/* Desktop Screen Content Canvas */}
-        <main
-          style={{
-            flex: 1,
-            padding: '24px 32px 60px 32px',
-            maxWidth: '1360px',
-            width: '100%',
-            margin: '0 auto',
-            boxSizing: 'border-box',
-          }}
-        >
+        <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto">
           {children}
         </main>
       </div>

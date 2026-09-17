@@ -83,20 +83,20 @@ export const KycModal: React.FC = () => {
                 width: '36px',
                 height: '36px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                border: '1px solid rgba(0, 200, 83, 0.3)',
+                backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                border: '1px solid rgba(0, 255, 36, 0.3)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <ShieldCheck size={20} color="#00C853" />
+              <ShieldCheck size={20} color="#00FF24" />
             </div>
             <div>
               <h3 style={{ fontSize: '16px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
                 {t('sec.absher_kyc', 'Absher & ZATCA e-KYC')}
               </h3>
-              <span style={{ fontSize: '11px', color: '#00C853', fontWeight: 700 }}>
+              <span style={{ fontSize: '11px', color: '#00FF24', fontWeight: 700 }}>
                 {language === 'العربية' ? 'التحقق التجاري عبر أبشر' : 'Absher Business Validation'}
               </span>
             </div>
@@ -129,15 +129,15 @@ export const KycModal: React.FC = () => {
                 width: '64px',
                 height: '64px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                border: '1.5px solid #00C853',
+                backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                border: '1.5px solid #00FF24',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px auto',
               }}
             >
-              <CheckCircle2 size={36} color="#00C853" />
+              <CheckCircle2 size={36} color="#00FF24" />
             </div>
             <h4 style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 6px 0' }}>
               {language === 'العربية' ? 'تم التحقق من الهوية عبر منصة أبشر' : 'Identity Verified via Absher'}
@@ -173,7 +173,7 @@ export const KycModal: React.FC = () => {
                   gap: '10px',
                 }}
               >
-                <UserCheck size={18} color="#00C853" />
+                <UserCheck size={18} color="#00FF24" />
                 <input
                   type="tel"
                   maxLength={10}
@@ -216,7 +216,7 @@ export const KycModal: React.FC = () => {
                   gap: '10px',
                 }}
               >
-                <FileText size={18} color="#00C853" />
+                <FileText size={18} color="#00FF24" />
                 <input
                   type="text"
                   value={crNumber}
@@ -247,7 +247,7 @@ export const KycModal: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor: 'rgba(0, 200, 83, 0.06)',
+                backgroundColor: 'rgba(0, 255, 36, 0.06)',
                 border: '1px solid rgba(0, 200, 83, 0.2)',
                 borderRadius: '12px',
                 padding: '10px 14px',

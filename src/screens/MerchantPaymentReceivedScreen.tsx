@@ -101,12 +101,12 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
               style={{
                 width: '80px', height: '80px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(0, 200, 83, 0.15)',
-                border: '2px solid #00C853',
+                backgroundColor: 'rgba(0, 255, 36, 0.15)',
+                border: '2px solid #00FF24',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >
-              <CheckCircle2 size={42} color="#00C853" />
+              <CheckCircle2 size={42} color="#00FF24" />
             </div>
 
             <div>

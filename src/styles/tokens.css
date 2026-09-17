@@ -2,12 +2,12 @@
 :root {
   /* Colors */
   --bg-page: #080C14;
-  --bg-card: #111726;
-  --bg-inset: #161F30;
+  --bg-card: #0E1526;
+  --bg-inset: #10182A;
   --border: #1E293B;
   --border-focus: #334155;
-  --accent-green: #00C853;
-  --accent-green-bright: #00C853;
+  --accent-green: #00FF24;
+  --accent-green-bright: #00FF24;
   --accent-blue: #38BDF8;
   --accent-purple: #A855F7;
   --accent-amber: #F59E0B;

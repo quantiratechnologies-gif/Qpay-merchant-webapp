@@ -106,9 +106,9 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               width: '38px',
               height: '38px',
               borderRadius: '12px',
-              backgroundColor: 'rgba(0, 200, 83, 0.12)',
-              border: '1px solid rgba(0, 200, 83, 0.25)',
-              color: '#00C853',
+              backgroundColor: 'rgba(0, 255, 36, 0.12)',
+              border: '1px solid rgba(0, 255, 36, 0.25)',
+              color: '#00FF24',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -118,7 +118,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               flexShrink: 0,
             }}
           >
-            <Store size={18} color="#00C853" />
+            <Store size={18} color="#00FF24" />
           </button>
         )}
       </div>

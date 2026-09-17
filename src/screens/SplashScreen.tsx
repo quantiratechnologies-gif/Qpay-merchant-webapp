@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AlphPayLogo } from '../components/AlphPayLogo';
+import { Logo } from '../components/Logo';
 import { QuantiraLogo } from '../components/QuantiraLogo';
 import { useApp } from '../state/AppContext';
 
@@ -15,85 +15,26 @@ export const SplashScreen: React.FC = () => {
   }, [navigateTo]);
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        backgroundColor: '#080C14',
-        backgroundImage: 'radial-gradient(circle at 50% 40%, rgba(0, 200, 83, 0.12) 0%, rgba(8, 12, 20, 0.98) 70%)',
-        color: '#FFFFFF',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '60px 24px 44px 24px',
-        boxSizing: 'border-box',
-        position: 'relative',
-        userSelect: 'none',
-      }}
-    >
-      {/* Spacer */}
-      <div style={{ height: '30px' }} />
+    <div className="min-h-screen bg-[#080C14] bg-[radial-gradient(ellipse_at_50%_40%,rgba(0,255,36,0.12)_0%,rgba(8,12,20,0.98)_70%)] text-white flex flex-col items-center justify-between p-8 sm:p-12 relative select-none">
+      <div className="h-8" />
 
       {/* Central App Brand Logo with Ambient Aura */}
-      <div
-        className="fade-in"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          position: 'relative',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            width: '140px',
-            height: '140px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(0, 200, 83, 0.18)',
-            filter: 'blur(40px)',
-            pointerEvents: 'none',
-          }}
-        />
-        <AlphPayLogo variant="horizontal" size={48} themeMode="dark" />
-        <div
-          style={{
-            marginTop: '14px',
-            fontSize: '11px',
-            fontWeight: 800,
-            letterSpacing: '0.18em',
-            color: '#00C853',
-            textTransform: 'uppercase',
-          }}
-        >
+      <div className="fade-in flex flex-col items-center text-center relative">
+        <div className="absolute w-48 h-48 rounded-full bg-[#00FF24]/15 blur-3xl pointer-events-none" />
+        <Logo height={56} textColor="#FFFFFF" accentColor="#00FF24" />
+        <div className="mt-4 text-xs font-black tracking-[0.25em] text-[#00FF24] uppercase">
           QUICK | TRUSTED | PAYMENTS
         </div>
       </div>
 
       {/* Bottom Center: Powered by Quantira Technologies */}
-      <div
-        className="fade-in"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-      >
-        <span
-          style={{
-            fontSize: '11px',
-            fontWeight: 800,
-            color: '#71717A',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-          }}
-        >
+      <div className="fade-in flex flex-col items-center gap-2">
+        <span className="text-[11px] font-bold text-slate-500 tracking-[0.2em] uppercase">
           powered by
         </span>
-        <QuantiraLogo size={24} color="#00C853" textColor="#FFFFFF" />
+        <QuantiraLogo size={24} color="#00FF24" textColor="#FFFFFF" />
       </div>
     </div>
   );
 };
+export default SplashScreen;

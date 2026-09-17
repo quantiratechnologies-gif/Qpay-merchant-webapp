@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, RefreshCw } from 'lucide-react';
+import { ArrowLeft, ArrowRight, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
-import { toArabicNumerals } from '../utils/i18n';
 import { authenticateMerchantWithAnyOtp } from '../services/supabaseClient';
 
 export const SmsOtpScreen: React.FC = () => {
@@ -9,8 +8,8 @@ export const SmsOtpScreen: React.FC = () => {
   const isAr = language === 'العربية';
   const mobile = screenParams.mobile || '501234567';
 
-  const [otp, setOtp] = useState<string[]>(['5', '8', '2', '9', '0', '4']);
-  const [timer, setTimer] = useState(28);
+  const [otp, setOtp] = useState<string[]>(['5', '8', '9', '2', '0', '4']);
+  const [timer, setTimer] = useState(30);
   const [isResent, setIsResent] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -106,7 +105,7 @@ export const SmsOtpScreen: React.FC = () => {
         updateUser(authedUser);
         if (authedInfo) updateMerchantInfo(authedInfo);
       } catch (e) {
-        console.warn('Merchant web auth notice:', e);
+        console.warn('Merchant auth notice:', e);
       } finally {
         setIsVerifying(false);
       }
@@ -122,71 +121,33 @@ export const SmsOtpScreen: React.FC = () => {
   };
 
   return (
-    <div
-      className="fade-in"
-      style={{
-        width: '100%',
-        color: '#FFFFFF',
-        display: 'flex',
-        flexDirection: 'column',
-        boxSizing: 'border-box',
-        userSelect: 'none',
-        direction: isRtl ? 'rtl' : 'ltr',
-      }}
-    >
+    <div className="w-full text-white flex flex-col select-none" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Back Button */}
-      <div style={{ marginBottom: '14px' }}>
+      <div className="mb-4">
         <button
           onClick={goBack}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#64748B',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            fontSize: '12px',
-            fontWeight: 600,
-            padding: 0,
-          }}
+          className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
-          <ArrowLeft size={14} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
-          <span>{isAr ? 'رجوع' : 'Back'}</span>
+          <ArrowLeft className={`h-3.5 w-3.5 ${isRtl ? 'scale-x-[-1]' : ''}`} />
+          <span>{isAr ? 'تغيير رقم الجوال' : 'Change Mobile Number'}</span>
         </button>
       </div>
 
       {/* Header */}
-      <div style={{ textAlign: isRtl ? 'right' : 'left', marginBottom: '20px' }}>
-        <h1
-          style={{
-            fontSize: '22px',
-            fontWeight: 800,
-            color: '#FFFFFF',
-            margin: '0 0 4px 0',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          {isAr ? 'رمز التحقق' : 'Verification Code'}
-        </h1>
-        <p style={{ fontSize: '13px', color: '#64748B', margin: 0 }}>
-          {isAr ? 'تم الإرسال إلى' : 'Sent to'}{' '}
-          <span style={{ color: '#00C853', fontWeight: 700 }} dir="ltr">
+      <div className="mb-6 text-start">
+        <h2 className="text-xl font-extrabold text-white tracking-tight">
+          {isAr ? 'رمز التحقق السريع' : 'Enter Verification Code'}
+        </h2>
+        <p className="text-xs text-slate-400 mt-1">
+          {isAr ? 'تم إرسال رمز التحقق إلى الرقم' : 'Sent via SMS OTP to'}{' '}
+          <span className="text-[#00FF24] font-bold" dir="ltr">
             +966 {mobile}
           </span>
         </p>
       </div>
 
       {/* 6-Digit OTP Inputs */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(6, 1fr)',
-          gap: '8px',
-          marginBottom: '18px',
-          direction: 'ltr',
-        }}
-      >
+      <div className="grid grid-cols-6 gap-2 mb-4" dir="ltr">
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -200,90 +161,58 @@ export const SmsOtpScreen: React.FC = () => {
             onChange={(e) => handleDigitChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={handlePaste}
-            style={{
-              width: '100%',
-              height: '48px',
-              backgroundColor: digit ? 'rgba(0, 200, 83, 0.08)' : '#111726',
-              border: `1.5px solid ${digit ? '#00C853' : '#1E293B'}`,
-              borderRadius: '10px',
-              color: '#FFFFFF',
-              fontSize: '18px',
-              fontWeight: 800,
-              textAlign: 'center',
-              outline: 'none',
-              transition: 'all 0.2s ease',
-              boxSizing: 'border-box',
-            }}
+            className={`w-full h-12 rounded-xl text-center text-lg font-black outline-none transition-all ${
+              digit
+                ? 'bg-[#00FF24]/10 border-2 border-[#00FF24] text-white shadow-sm shadow-[#00FF24]/20'
+                : 'bg-[#10182A] border border-slate-800 text-slate-400 focus:border-[#00FF24]'
+            }`}
           />
         ))}
       </div>
 
-      {/* Resend */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '20px',
-          fontSize: '12px',
-        }}
-      >
-        <span style={{ color: '#64748B' }}>
-          {timer > 0
-            ? `${isAr ? 'إعادة الإرسال خلال' : 'Resend in'} ${isAr ? toArabicNumerals(timer) : timer}s`
-            : ''}
-        </span>
-
-        {timer === 0 ? (
-          <button
-            onClick={handleResend}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#00C853',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              padding: 0,
-            }}
-          >
-            <RefreshCw size={12} />
-            <span>{isAr ? 'إعادة الإرسال' : 'Resend'}</span>
-          </button>
-        ) : isResent ? (
-          <span style={{ color: '#00C853', fontWeight: 700 }}>
-            {isAr ? 'تم الإرسال' : 'Sent'}
-          </span>
-        ) : null}
+      {/* Demo helper */}
+      <div className="flex items-center justify-between text-xs text-slate-400 mb-6 bg-[#10182A] border border-slate-800/80 rounded-lg px-3 py-2">
+        <div className="flex items-center gap-1.5 text-[11px]">
+          <CheckCircle2 className="h-3.5 w-3.5 text-[#00FF24]" />
+          <span>{isAr ? 'الرمز التجريبي المعبأ: 589204' : 'QA Preloaded OTP: 589204'}</span>
+        </div>
+        <div>
+          {timer > 0 ? (
+            <span className="text-slate-500 font-mono text-[11px]">{timer}s</span>
+          ) : (
+            <button
+              type="button"
+              onClick={handleResend}
+              className="text-[#00FF24] font-bold text-[11px] flex items-center gap-1 hover:underline cursor-pointer"
+            >
+              <RefreshCw className="h-3 w-3" />
+              <span>{isAr ? 'إعادة الإرسال' : 'Resend'}</span>
+            </button>
+          )}
+        </div>
       </div>
+
+      {isResent && (
+        <div className="text-center text-xs text-[#00FF24] mb-3 font-semibold animate-pulse">
+          {isAr ? 'تم إرسال رمز جديد بنجاح' : 'New code dispatched successfully!'}
+        </div>
+      )}
 
       {/* Verify Button */}
       <button
         type="button"
         onClick={handleVerify}
         disabled={!isOtpComplete || isVerifying}
-        style={{
-          backgroundColor: isOtpComplete ? '#00C853' : '#1E293B',
-          color: isOtpComplete ? '#000000' : '#64748B',
-          fontWeight: 800,
-          fontSize: '14px',
-          border: 'none',
-          borderRadius: '10px',
-          height: '44px',
-          cursor: isOtpComplete ? 'pointer' : 'not-allowed',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          transition: 'all 0.2s ease',
-          boxShadow: isOtpComplete ? '0 4px 16px rgba(0, 200, 83, 0.3)' : 'none',
-        }}
+        className="w-full h-11 rounded-xl bg-[#00FF24] text-black font-extrabold text-sm flex items-center justify-center gap-2 hover:bg-[#00FF24]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#00FF24]/20 cursor-pointer"
       >
-        <span>{isVerifying ? (isAr ? 'جارِ التحقق...' : 'Verifying...') : (isAr ? 'تأكيد ودخول' : 'Sign In')}</span>
-        <ArrowRight size={15} style={{ transform: isRtl ? 'rotate(180deg)' : 'none' }} />
+        <span>
+          {isVerifying
+            ? (isAr ? 'جاري التحقق...' : 'Authenticating...')
+            : (isAr ? 'تأكيد ودخول البوابة' : 'Verify & Enter Dashboard')}
+        </span>
+        <ArrowRight className={`h-4 w-4 ${isRtl ? 'rotate-180' : ''}`} />
       </button>
     </div>
   );
 };
+export default SmsOtpScreen;

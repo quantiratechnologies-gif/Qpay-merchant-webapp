@@ -106,9 +106,9 @@ export const PermissionsScreen: React.FC = () => {
                   width: '44px',
                   height: '44px',
                   borderRadius: '12px',
-                  backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                  color: '#00C853',
-                  border: '1px solid rgba(0, 200, 83, 0.3)',
+                  backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                  color: '#00FF24',
+                  border: '1px solid rgba(0, 255, 36, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -174,9 +174,9 @@ export const PermissionsScreen: React.FC = () => {
                           width: '38px',
                           height: '38px',
                           borderRadius: '10px',
-                          backgroundColor: isOn ? 'rgba(0, 200, 83, 0.12)' : '#1A2234',
-                          color: isOn ? '#00C853' : '#94A3B8',
-                          border: isOn ? '1px solid rgba(0, 200, 83, 0.35)' : '1px solid #1E293B',
+                          backgroundColor: isOn ? 'rgba(0, 255, 36, 0.12)' : '#1A2234',
+                          color: isOn ? '#00FF24' : '#94A3B8',
+                          border: isOn ? '1px solid rgba(0, 255, 36, 0.35)' : '1px solid #1E293B',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -191,7 +191,7 @@ export const PermissionsScreen: React.FC = () => {
                           {perm.name}
                         </span>
                         {perm.required && (
-                          <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: 'rgba(0, 200, 83, 0.12)', color: '#00C853', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(0, 200, 83, 0.3)' }}>
+                          <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: 'rgba(0, 255, 36, 0.12)', color: '#00FF24', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(0, 255, 36, 0.3)' }}>
                             {language === 'العربية' ? 'إلزامي' : 'REQUIRED'}
                           </span>
                         )}
@@ -214,7 +214,7 @@ export const PermissionsScreen: React.FC = () => {
                         width: '46px',
                         height: '26px',
                         borderRadius: '9999px',
-                        backgroundColor: isOn ? '#00C853' : '#1A2234',
+                        backgroundColor: isOn ? '#00FF24' : '#1A2234',
                         border: isOn ? 'none' : '1px solid #1E293B',
                         display: 'flex',
                         alignItems: 'center',
@@ -290,9 +290,9 @@ export const PermissionsScreen: React.FC = () => {
                 width: '64px',
                 height: '64px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                color: '#00C853',
-                border: '1px solid rgba(0, 200, 83, 0.3)',
+                backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                color: '#00FF24',
+                border: '1px solid rgba(0, 255, 36, 0.3)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -301,7 +301,7 @@ export const PermissionsScreen: React.FC = () => {
             >
               {discoveryStep === 1 && <Loader2 size={32} className="animate-spin" />}
               {discoveryStep === 2 && <Landmark size={32} />}
-              {discoveryStep === 3 && <CheckCircle2 size={36} color="#00C853" />}
+              {discoveryStep === 3 && <CheckCircle2 size={36} color="#00FF24" />}
             </div>
 
             <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 8px 0' }}>
@@ -324,11 +324,11 @@ export const PermissionsScreen: React.FC = () => {
                   gap: '10px',
                   padding: '10px 12px',
                   borderRadius: '10px',
-                  backgroundColor: discoveryStep >= 1 ? 'rgba(0, 200, 83, 0.12)' : '#1A2234',
-                  border: `1px solid ${discoveryStep >= 1 ? 'rgba(0, 200, 83, 0.35)' : '#1E293B'}`,
+                  backgroundColor: discoveryStep >= 1 ? 'rgba(0, 255, 36, 0.12)' : '#1A2234',
+                  border: `1px solid ${discoveryStep >= 1 ? 'rgba(0, 255, 36, 0.35)' : '#1E293B'}`,
                 }}
               >
-                {discoveryStep >= 1 ? <CheckCircle2 size={16} color="#00C853" /> : <Loader2 size={16} color="#94A3B8" />}
+                {discoveryStep >= 1 ? <CheckCircle2 size={16} color="#00FF24" /> : <Loader2 size={16} color="#94A3B8" />}
                 <span style={{ fontSize: '12.5px', fontWeight: 700, color: discoveryStep >= 1 ? '#FFFFFF' : '#94A3B8' }}>
                   {language === 'العربية' ? 'ربط الجهاز وتفويض نقطة البيع SoftPOS' : 'Device Binding & SoftPOS Authorization'}
                 </span>
@@ -341,11 +341,11 @@ export const PermissionsScreen: React.FC = () => {
                   gap: '10px',
                   padding: '10px 12px',
                   borderRadius: '10px',
-                  backgroundColor: discoveryStep >= 2 ? 'rgba(0, 200, 83, 0.12)' : '#1A2234',
-                  border: `1px solid ${discoveryStep >= 2 ? 'rgba(0, 200, 83, 0.35)' : '#1E293B'}`,
+                  backgroundColor: discoveryStep >= 2 ? 'rgba(0, 255, 36, 0.12)' : '#1A2234',
+                  border: `1px solid ${discoveryStep >= 2 ? 'rgba(0, 255, 36, 0.35)' : '#1E293B'}`,
                 }}
               >
-                {discoveryStep >= 2 ? <CheckCircle2 size={16} color="#00C853" /> : <Loader2 size={16} color="#94A3B8" />}
+                {discoveryStep >= 2 ? <CheckCircle2 size={16} color="#00FF24" /> : <Loader2 size={16} color="#94A3B8" />}
                 <span style={{ fontSize: '12.5px', fontWeight: 700, color: discoveryStep >= 2 ? '#FFFFFF' : '#94A3B8' }}>
                   {language === 'العربية' ? 'التحقق من منصة فاتورة وهيئة الزكاة' : 'ZATCA Fatoora Platform Verified'}
                 </span>
@@ -358,13 +358,13 @@ export const PermissionsScreen: React.FC = () => {
                   justifyContent: 'space-between',
                   padding: '10px 12px',
                   borderRadius: '10px',
-                  backgroundColor: discoveryStep >= 3 ? 'rgba(0, 200, 83, 0.2)' : '#1A2234',
-                  border: `1px solid ${discoveryStep >= 3 ? '#00C853' : '#1E293B'}`,
+                  backgroundColor: discoveryStep >= 3 ? 'rgba(0, 255, 36, 0.2)' : '#1A2234',
+                  border: `1px solid ${discoveryStep >= 3 ? '#00FF24' : '#1E293B'}`,
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  {discoveryStep >= 3 ? <CheckCircle2 size={16} color="#00C853" /> : <Sparkles size={16} color="#94A3B8" />}
-                  <span style={{ fontSize: '12.5px', fontWeight: 700, color: discoveryStep >= 3 ? '#00C853' : '#94A3B8' }}>
+                  {discoveryStep >= 3 ? <CheckCircle2 size={16} color="#00FF24" /> : <Sparkles size={16} color="#94A3B8" />}
+                  <span style={{ fontSize: '12.5px', fontWeight: 700, color: discoveryStep >= 3 ? '#00FF24' : '#94A3B8' }}>
                     {language === 'العربية' ? 'جاهزية منظومة نقاط البيع وسريع' : 'POS Engine & Sarie Ready'}
                   </span>
                 </div>

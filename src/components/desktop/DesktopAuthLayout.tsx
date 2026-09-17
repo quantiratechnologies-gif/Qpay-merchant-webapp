@@ -1,8 +1,9 @@
 import React from 'react';
-import { AlphPayLogo } from '../AlphPayLogo';
+import { Logo } from '../Logo';
 import { LanguageSwitchPill } from '../LanguageSwitchPill';
 import { useApp } from '../../state/AppContext';
 import { ShieldCheck, SmartphoneNfc, QrCode, Zap } from 'lucide-react';
+import { Badge } from '../ui/badge';
 
 interface DesktopAuthLayoutProps {
   children: React.ReactNode;
@@ -14,152 +15,94 @@ export const DesktopAuthLayout: React.FC<DesktopAuthLayoutProps> = ({ children }
 
   const highlights = [
     {
-      icon: <Zap size={16} color="#00C853" />,
-      textEn: 'Instant 24/7 Sarie Settlements',
-      textAr: 'تسويات فورية ٢٤/٧ عبر سريع',
+      icon: <Zap className="h-4 w-4 text-[#00FF24]" />,
+      textEn: 'Instant 24/7 Sarie IPS Settlements',
+      textAr: 'تسويات بنكية فورية على مدار الساعة عبر سريع',
     },
     {
-      icon: <SmartphoneNfc size={16} color="#00C853" />,
-      textEn: 'SoftPOS Virtual POS & mada Tap',
-      textAr: 'نقاط بيع افتراضية والدفع باللمس',
+      icon: <SmartphoneNfc className="h-4 w-4 text-[#00FF24]" />,
+      textEn: 'SAMA-Certified SoftPOS & mada Tap',
+      textAr: 'نقاط بيع افتراضية معتمدة والدفع باللمس عبر مدى',
     },
     {
-      icon: <QrCode size={16} color="#00C853" />,
-      textEn: 'ZATCA Phase 2 E-Invoicing',
-      textAr: 'فوترة ضريبية معتمدة من الزكاة',
+      icon: <QrCode className="h-4 w-4 text-[#00FF24]" />,
+      textEn: 'ZATCA Phase 2 Cryptographic Invoices',
+      textAr: 'فوترة ضريبية إلكترونية مشفرة معتمدة من الزكاة',
     },
   ];
 
   return (
     <div
-      style={{
-        display: 'flex',
-        minHeight: '100vh',
-        width: '100vw',
-        backgroundColor: '#080C14',
-        color: '#FFFFFF',
-        direction: isRtl ? 'rtl' : 'ltr',
-        fontFamily: "'IBM Plex Sans Arabic', 'Inter', sans-serif",
-        overflowX: 'hidden',
-      }}
+      className={`min-h-screen w-screen bg-[#080C14] text-white flex flex-col lg:flex-row overflow-x-hidden ${
+        isRtl ? 'rtl font-ar' : 'font-sans'
+      }`}
+      dir={isRtl ? 'rtl' : 'ltr'}
     >
-      {/* Left 45% Minimal Hero Brand Showcase */}
-      <div
-        style={{
-          flex: '0.9',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '48px 56px',
-          background: 'radial-gradient(circle at 20% 30%, rgba(0, 200, 83, 0.12) 0%, rgba(8, 12, 20, 0.98) 75%)',
-          borderRight: isRtl ? 'none' : '1px solid #141C2E',
-          borderLeft: isRtl ? '1px solid #141C2E' : 'none',
-          boxSizing: 'border-box',
-        }}
-        className="auth-hero-panel"
-      >
-        {/* Brand Top */}
+      {/* Left 45% Brand Showcase Panel */}
+      <div className="lg:w-[45%] flex flex-col justify-between p-8 lg:p-14 bg-[#0A0F1D] border-b lg:border-b-0 lg:border-r border-slate-800/80 bg-[radial-gradient(ellipse_at_20%_20%,rgba(0,255,36,0.08)_0%,transparent_70%)]">
         <div>
-          <AlphPayLogo variant="horizontal" size={30} themeMode="dark" />
+          {/* Brand Logo with exact SVG and Merchant Tag */}
+          <div className="flex items-center gap-3">
+            <Logo height={38} textColor="#FFFFFF" accentColor="#00FF24" />
+            <Badge variant="outline" className="text-[10px] font-bold text-[#00FF24] border-[#00FF24]/30 bg-[#00FF24]/5">
+              MERCHANT
+            </Badge>
+          </div>
 
-          <div style={{ marginTop: '56px', maxWidth: '440px' }}>
-            <h1
-              style={{
-                fontSize: '28px',
-                fontWeight: 900,
-                lineHeight: 1.3,
-                color: '#FFFFFF',
-                letterSpacing: '-0.02em',
-                margin: '0 0 12px 0',
-              }}
-            >
-              {isAr ? 'بوابة مدفوعات التجار الذكية' : 'Smart Business Payments Portal'}
+          <div className="mt-12 lg:mt-16 max-w-md space-y-3">
+            <h1 className="text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight">
+              {isAr ? 'بوابة مدفوعات التجار الموحدة' : 'Enterprise Merchant & SoftPOS Portal'}
             </h1>
-            <p style={{ fontSize: '13.5px', color: '#64748B', margin: 0, lineHeight: 1.5 }}>
-              {isAr ? 'منصة متكاملة للمدفوعات الرقمية والفوترة الفورية' : 'Next-gen payment rails and instant billing infrastructure'}
+            <p className="text-xs lg:text-sm text-slate-400 leading-relaxed">
+              {isAr
+                ? 'إدارة نقاط البيع الافتراضية، التسويات اليومية المباشرة، والفوترة الضريبية الإلكترونية المعتمدة.'
+                : 'Centralized telemetry, SoftPOS contactless terminal fleet, and instant Sarie IPS clearing.'}
             </p>
           </div>
 
-          {/* Minimal Highlights Strip */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '36px' }}>
+          {/* Highlights Cards */}
+          <div className="flex flex-col gap-2.5 mt-8 max-w-md">
             {highlights.map((item, i) => (
               <div
                 key={i}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '10px 14px',
-                  borderRadius: '10px',
-                  backgroundColor: 'rgba(17, 23, 38, 0.5)',
-                  border: '1px solid #1A2234',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  color: '#CBD5E1',
-                  maxWidth: '380px',
-                }}
+                className="flex items-center gap-3 p-3 rounded-xl bg-[#0E1526]/80 border border-slate-800/80 text-xs font-semibold text-slate-200"
               >
-                {item.icon}
+                <div className="p-1.5 rounded-lg bg-[#00FF24]/10 text-[#00FF24] flex-shrink-0">
+                  {item.icon}
+                </div>
                 <span>{isAr ? item.textAr : item.textEn}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Minimal Footer */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#475569', fontSize: '11.5px', fontWeight: 600 }}>
-          <ShieldCheck size={14} color="#00C853" />
-          <span>mada • Sarie • SAMA & ZATCA Compliant</span>
+        {/* Regulatory Compliance Footer */}
+        <div className="mt-8 pt-6 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4 text-[#00FF24]" />
+            <span className="font-semibold text-slate-300">SAMA & ZATCA Verified</span>
+          </div>
+          <span className="text-[11px] text-slate-500">mada • Sarie • Wathq</span>
         </div>
       </div>
 
-      {/* Right 55% Minimal Auth Form */}
-      <div
-        style={{
-          flex: '1.1',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          minHeight: '100vh',
-          backgroundColor: '#080C14',
-          padding: '32px 48px',
-          boxSizing: 'border-box',
-        }}
-      >
+      {/* Right 55% Form Panel */}
+      <div className="lg:w-[55%] flex flex-col justify-between p-6 lg:p-12 bg-[#080C14]">
         {/* Top Header with Language Pill */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            width: '100%',
-            maxWidth: '420px',
-            margin: '0 auto',
-          }}
-        >
+        <div className="flex justify-end w-full max-w-md mx-auto">
           <LanguageSwitchPill variant="compact" />
         </div>
 
-        {/* Center Minimal Auth Card */}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '420px',
-            margin: 'auto',
-            padding: '32px 28px',
-            backgroundColor: '#0E131F',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '18px',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6)',
-            boxSizing: 'border-box',
-          }}
-        >
-          {children}
+        {/* Center Card */}
+        <div className="w-full max-w-md mx-auto my-auto py-6">
+          <div className="p-6 sm:p-8 bg-[#0E1526] border border-slate-800/80 rounded-2xl shadow-2xl">
+            {children}
+          </div>
         </div>
 
-        {/* Minimal Copyright */}
-        <div style={{ textAlign: 'center', color: '#334155', fontSize: '11px', fontWeight: 600 }}>
-          © 2026 QTPay • Quantira Technologies
+        {/* Bottom System Info */}
+        <div className="text-center text-[11px] text-slate-500 font-medium">
+          © 2026 QTPay • SAMA Saudi Central Bank Registered
         </div>
       </div>
     </div>

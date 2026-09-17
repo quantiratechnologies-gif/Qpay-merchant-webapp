@@ -114,9 +114,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '12px 14px',
                   borderRadius: '10px',
-                  backgroundColor: qrMode === 'stand' ? 'rgba(0, 200, 83, 0.15)' : '#111726',
-                  border: qrMode === 'stand' ? '1.5px solid #00C853' : '1px solid #1E293B',
-                  color: qrMode === 'stand' ? '#00C853' : '#FFFFFF',
+                  backgroundColor: qrMode === 'stand' ? 'rgba(0, 255, 36, 0.15)' : '#111726',
+                  border: qrMode === 'stand' ? '1.5px solid #00FF24' : '1px solid #1E293B',
+                  color: qrMode === 'stand' ? '#00FF24' : '#FFFFFF',
                   fontWeight: 800,
                   fontSize: '13px',
                   cursor: 'pointer',
@@ -136,9 +136,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '12px 14px',
                   borderRadius: '10px',
-                  backgroundColor: qrMode === 'invoice' ? 'rgba(0, 200, 83, 0.15)' : '#111726',
-                  border: qrMode === 'invoice' ? '1.5px solid #00C853' : '1px solid #1E293B',
-                  color: qrMode === 'invoice' ? '#00C853' : '#FFFFFF',
+                  backgroundColor: qrMode === 'invoice' ? 'rgba(0, 255, 36, 0.15)' : '#111726',
+                  border: qrMode === 'invoice' ? '1.5px solid #00FF24' : '1px solid #1E293B',
+                  color: qrMode === 'invoice' ? '#00FF24' : '#FFFFFF',
                   fontWeight: 800,
                   fontSize: '13px',
                   cursor: 'pointer',
@@ -172,7 +172,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', marginTop: '2px' }}>
                     {merchantInfo.businessName}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#00C853', marginTop: '6px', fontWeight: 700 }}>
+                  <div style={{ fontSize: '12px', color: '#00FF24', marginTop: '6px', fontWeight: 700 }}>
                     {isAr ? 'الرقم الضريبي' : 'VAT ID'}: {merchantInfo.vatNumber}
                   </div>
                 </div>
@@ -195,9 +195,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                       width: '100%',
                       padding: '12px 14px',
                       backgroundColor: '#080C14',
-                      border: '1.5px solid #00C853',
+                      border: '1.5px solid #00FF24',
                       borderRadius: '10px',
-                      color: '#00C853',
+                      color: '#00FF24',
                       fontSize: '18px',
                       fontWeight: 800,
                       outline: 'none',
@@ -235,7 +235,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8', marginTop: '4px' }}>
                     <span>{isAr ? 'ضريبة القيمة المضافة (١٥٪)' : 'VAT (15%)'}</span>
-                    <span style={{ color: '#00C853', fontWeight: 700 }}>SAR {vatAmount.toFixed(2)}</span>
+                    <span style={{ color: '#00FF24', fontWeight: 700 }}>SAR {vatAmount.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -251,9 +251,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 width: '100%',
                 padding: '12px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(0, 200, 83, 0.12)',
-                border: '1px solid rgba(0, 200, 83, 0.3)',
-                color: '#00C853',
+                backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                border: '1px solid rgba(0, 255, 36, 0.3)',
+                color: '#00FF24',
                 fontSize: '13px',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -277,7 +277,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               padding: '28px',
               textAlign: 'center',
               backgroundColor: '#0E131F',
-              border: '1px solid rgba(0, 200, 83, 0.25)',
+              border: '1px solid rgba(0, 255, 36, 0.25)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -313,7 +313,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
 
             {/* Amount Label (if Dynamic Invoice) */}
             {qrMode === 'invoice' && (
-              <div style={{ fontSize: '20px', fontWeight: 900, color: '#00C853', marginBottom: '12px' }}>
+              <div style={{ fontSize: '20px', fontWeight: 900, color: '#00FF24', marginBottom: '12px' }}>
                 SAR {numAmount.toFixed(2)}
               </div>
             )}
@@ -354,7 +354,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                <Printer size={15} color="#00C853" />
+                <Printer size={15} color="#00FF24" />
                 <span>{isAr ? 'طباعة' : 'Print A4'}</span>
               </button>
 
@@ -376,7 +376,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                {copied ? <Check size={15} color="#00C853" /> : <Copy size={15} color="#00C853" />}
+                {copied ? <Check size={15} color="#00FF24" /> : <Copy size={15} color="#00FF24" />}
                 <span>{copied ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ النص' : 'Copy')}</span>
               </button>
 
@@ -398,7 +398,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                <Share2 size={15} color="#00C853" />
+                <Share2 size={15} color="#00FF24" />
                 <span>{isAr ? 'واتساب' : 'WhatsApp'}</span>
               </button>
             </div>

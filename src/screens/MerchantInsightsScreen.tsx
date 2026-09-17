@@ -3,11 +3,10 @@ import {
   CreditCard,
   QrCode,
   Smartphone,
-  Banknote,
+  Banknote
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
-import { Card, MetricTile, StatusBadge } from '../components/ui';
-import { colors } from '../design-system/tokens';
+import { Card, MetricTile, StatusBadge, PieChart } from '../components/ui';
 
 export const MerchantInsightsScreen: React.FC = () => {
   const {
@@ -26,31 +25,31 @@ export const MerchantInsightsScreen: React.FC = () => {
 
   const railStats = [
     {
-      name: isAr ? 'مدى والبطاقات البنكية (الدفع باللمس)' : 'mada & Contactless Debit Cards',
+      name: isAr ? 'مدى والبطاقات البنكية' : 'mada & Contactless Debit',
       shortName: 'mada / Cards',
       percent: 58,
       amount: totalVolume * 0.58,
-      color: '#00C853',
+      color: '#00FF24',
       icon: CreditCard,
     },
     {
-      name: isAr ? 'أبل باي والمحافظ الرقمية' : 'Apple Pay & Mobile Wallets',
+      name: isAr ? 'أبل باي والمحافظ الرقمية' : 'Apple Pay & Wallets',
       shortName: 'Apple Pay',
       percent: 24,
       amount: totalVolume * 0.24,
-      color: '#3B82F6',
+      color: '#38BDF8',
       icon: Smartphone,
     },
     {
-      name: isAr ? 'فواتير زاتكا برمز الاستجابة السريع' : 'ZATCA Dynamic QR Invoices',
+      name: isAr ? 'فواتير زاتكا QR' : 'ZATCA Dynamic QR',
       shortName: 'ZATCA QR',
       percent: 14,
       amount: totalVolume * 0.14,
-      color: '#8B5CF6',
+      color: '#A855F7',
       icon: QrCode,
     },
     {
-      name: isAr ? 'سجل المبيعات النقدية' : 'Cash Register Sales',
+      name: isAr ? 'سجل المبيعات النقدية' : 'Cash Register',
       shortName: 'Cash',
       percent: 4,
       amount: totalVolume * 0.04,
@@ -58,6 +57,13 @@ export const MerchantInsightsScreen: React.FC = () => {
       icon: Banknote,
     },
   ];
+
+  const pieData = railStats.map((r) => ({
+    name: r.shortName,
+    value: Math.round(r.amount),
+    percentage: r.percent,
+    color: r.color,
+  }));
 
   const hourlyData = [
     { hour: '9A', hourAr: '٩ص', volume: 15, count: 1, isPeak: false },
@@ -78,23 +84,14 @@ export const MerchantInsightsScreen: React.FC = () => {
   ];
 
   return (
-    <div
-      className="fade-in"
-      style={{
-        width: '100%',
-        color: colors.textPrimary,
-        userSelect: 'none',
-        direction: isRtl ? 'rtl' : 'ltr',
-        fontFamily: "'IBM Plex Sans Arabic', 'Inter', sans-serif",
-      }}
-    >
+    <div className="w-full text-white select-none space-y-6" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Header & Date Range Filter Strip */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '22px', flexWrap: 'wrap', gap: '12px' }}>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 style={{ fontSize: '22px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
+          <h1 className="text-2xl font-black text-white tracking-tight">
             {isAr ? 'التحليلات ومؤشرات الأداء المالي' : 'Financial Insights & Analytics'}
           </h1>
-          <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', margin: 0 }}>
+          <p className="text-xs text-slate-400 mt-1">
             {isAr
               ? 'متابعة مسارات التحصيل، ساعات الذروة، والتحليلات الضريبية لمتجرك'
               : 'Track payment rail distributions, peak sales velocity, and tax breakdowns'}
@@ -102,25 +99,18 @@ export const MerchantInsightsScreen: React.FC = () => {
         </div>
 
         {/* Period Selector Chips */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: '#111726', padding: '4px', borderRadius: '10px', border: '1px solid #1E293B' }}>
+        <div className="flex items-center gap-1.5 bg-[#0E1526] p-1 rounded-xl border border-slate-800">
           {periods.map((p) => {
             const isSelected = selectedPeriod === p.id;
             return (
               <button
                 key={p.id}
                 onClick={() => setSelectedPeriod(p.id)}
-                className="interactive-tap"
-                style={{
-                  padding: '6px 14px',
-                  borderRadius: '8px',
-                  backgroundColor: isSelected ? '#00C853' : 'transparent',
-                  color: isSelected ? '#080C14' : '#94A3B8',
-                  fontSize: '12.5px',
-                  fontWeight: isSelected ? 800 : 600,
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                  isSelected
+                    ? 'bg-[#00FF24] text-black shadow-sm shadow-[#00FF24]/20'
+                    : 'bg-transparent text-slate-400 hover:text-white'
+                }`}
               >
                 {isAr ? p.labelAr : p.labelEn}
               </button>
@@ -130,7 +120,7 @@ export const MerchantInsightsScreen: React.FC = () => {
       </div>
 
       {/* Top 3 KPI Metric Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px', marginBottom: '24px' }}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <MetricTile
           title={isAr ? 'إجمالي المبيعات' : 'TOTAL SALES'}
           value={`SAR ${totalVolume.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
@@ -157,124 +147,65 @@ export const MerchantInsightsScreen: React.FC = () => {
       </div>
 
       {/* 2-Column Visual Charts Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '24px',
-          alignItems: 'start',
-        }}
-      >
-        {/* Left Column: Payment Rail Distribution Breakdown */}
-        <Card variant="elevated" style={{ padding: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <span style={{ fontSize: '14.5px', fontWeight: 800, color: '#FFFFFF' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        {/* Left Column: Donut Pie Chart & Payment Rail Distribution */}
+        <Card className="p-6">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-sm font-bold text-white">
               {isAr ? 'توزيع قنوات وطرق الدفع' : 'Payment Rail Distribution'}
             </span>
-            <span style={{ fontSize: '12px', color: '#00C853', fontWeight: 700 }}>
+            <span className="text-xs text-[#00FF24] font-bold">
               {isAr ? '١٠٠٪ رقمي' : '100% Digital'}
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {railStats.map((rail, idx) => (
-              <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#FFFFFF', fontWeight: 700 }}>
-                    <rail.icon size={16} color={rail.color} />
-                    <span>{rail.name}</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ color: '#94A3B8', fontSize: '12px' }}>SAR {rail.amount.toFixed(2)}</span>
-                    <span style={{ color: rail.color, fontWeight: 800 }}>{rail.percent}%</span>
-                  </div>
-                </div>
-
-                {/* Progress Track Bar */}
-                <div style={{ width: '100%', height: '8px', backgroundColor: '#111726', borderRadius: '4px', overflow: 'hidden' }}>
-                  <div
-                    style={{
-                      width: `${rail.percent}%`,
-                      height: '100%',
-                      backgroundColor: rail.color,
-                      borderRadius: '4px',
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Interactive Pie Chart */}
+          <PieChart
+            data={pieData}
+            centerValue={`SAR ${(totalVolume / 1000).toFixed(1)}k`}
+            centerLabel={isAr ? 'إجمالي المبيعات' : 'Total Volume'}
+            valuePrefix="SAR "
+            size={170}
+          />
         </Card>
 
         {/* Right Column: Hourly Velocity Activity Visualizer */}
-        <Card variant="elevated" style={{ padding: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <span style={{ fontSize: '14.5px', fontWeight: 800, color: '#FFFFFF' }}>
+        <Card className="p-6">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-sm font-bold text-white">
               {isAr ? 'ساعات الذروة والنشاط' : 'Hourly Transaction Velocity'}
             </span>
-            <span style={{ fontSize: '12px', color: '#94A3B8' }}>
+            <span className="text-xs text-slate-400">
               {isAr ? 'الذروة: ١١ ص - ١٢ م' : 'Peak: 11 AM - 12 PM'}
             </span>
           </div>
 
           {/* Bar Chart Visualization */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-              height: '160px',
-              padding: '16px 8px 8px 8px',
-              backgroundColor: '#080C14',
-              borderRadius: '12px',
-              border: '1px solid #1E293B',
-              marginBottom: '16px',
-            }}
-          >
+          <div className="flex items-end justify-between h-44 p-4 bg-[#080C14] rounded-xl border border-slate-800 mb-4">
             {hourlyData.map((d, idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '8px',
-                  flex: 1,
-                }}
-              >
+              <div key={idx} className="flex flex-col items-center gap-2 flex-1">
                 <div
-                  style={{
-                    width: '18px',
-                    height: `${Math.max(12, (d.volume / 100) * 110)}px`,
-                    backgroundColor: d.isPeak ? '#00C853' : '#1E293B',
-                    borderRadius: '4px',
-                    transition: 'all 0.3s ease',
-                  }}
+                  style={{ height: `${Math.max(12, (d.volume / 100) * 110)}px` }}
+                  className={`w-4 sm:w-6 rounded-md transition-all duration-300 ${
+                    d.isPeak ? 'bg-[#00FF24] shadow-sm shadow-[#00FF24]/40' : 'bg-slate-800'
+                  }`}
                 />
-                <span style={{ fontSize: '11px', color: d.isPeak ? '#00C853' : '#64748B', fontWeight: d.isPeak ? 800 : 600 }}>
+                <span className={`text-[11px] font-bold ${d.isPeak ? 'text-[#00FF24]' : 'text-slate-500'}`}>
                   {isAr ? d.hourAr : d.hour}
                 </span>
               </div>
             ))}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #1E293B' }}>
-            <div style={{ fontSize: '12px', color: '#94A3B8' }}>
+          <div className="flex justify-between items-center pt-3 border-t border-slate-800">
+            <div className="text-xs text-slate-400">
               {isAr ? 'مستودع التحصيلات المباشر' : 'Full Historical Ledger'}
             </div>
             <button
               onClick={() => navigateTo('MERCHANT_COLLECTIONS')}
-              className="interactive-tap"
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                color: '#00C853',
-                fontSize: '12.5px',
-                fontWeight: 800,
-                cursor: 'pointer',
-              }}
+              className="text-xs font-bold text-[#00FF24] hover:underline cursor-pointer flex items-center gap-1"
             >
-              {isAr ? 'عرض كشف الحساب ←' : 'View Full Ledger →'}
+              <span>{isAr ? 'عرض كشف الحساب ←' : 'View Full Ledger →'}</span>
             </button>
           </div>
         </Card>
@@ -282,3 +213,4 @@ export const MerchantInsightsScreen: React.FC = () => {
     </div>
   );
 };
+export default MerchantInsightsScreen;

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ArrowRight, User, Phone, Sparkles } from 'lucide-react';
+import { ArrowRight, User, Phone, Sparkles, ShieldCheck } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 
 export const MobileNumberScreen: React.FC = () => {
   const { navigateTo, user, updateUser, setUserRole, isRtl, language } = useApp();
   const isAr = language === 'العربية';
-  const [fullName, setFullName] = useState<string>(user.name || (isAr ? 'فهد العتيبي' : 'Fahad Al-Otaibi'));
+  const [fullName, setFullName] = useState<string>(user.name || (isAr ? 'فهد الحربي' : 'Fahad Al-Harbi'));
   const [mobileNumber, setMobileNumber] = useState<string>('501234567');
 
   const isFormValid = mobileNumber.length >= 9 && fullName.trim().length > 0;
@@ -19,9 +19,9 @@ export const MobileNumberScreen: React.FC = () => {
     }
   };
 
-  const handleDemoFill = (type: 'cafe' | 'retail') => {
-    if (type === 'cafe') {
-      setFullName(isAr ? 'فهد العتيبي' : 'Fahad Al-Otaibi');
+  const handleDemoFill = (type: 'fahad' | 'sara') => {
+    if (type === 'fahad') {
+      setFullName(isAr ? 'فهد الحربي' : 'Fahad Al-Harbi');
       setMobileNumber('501234567');
     } else {
       setFullName(isAr ? 'سارة الغامدي' : 'Sara Al-Ghamdi');
@@ -30,194 +30,104 @@ export const MobileNumberScreen: React.FC = () => {
   };
 
   return (
-    <div
-      className="fade-in"
-      style={{
-        width: '100%',
-        color: '#FFFFFF',
-        display: 'flex',
-        flexDirection: 'column',
-        boxSizing: 'border-box',
-        userSelect: 'none',
-        direction: isRtl ? 'rtl' : 'ltr',
-      }}
-    >
-      {/* Minimal Header */}
-      <div style={{ textAlign: isRtl ? 'right' : 'left', marginBottom: '20px' }}>
-        <h1
-          style={{
-            fontSize: '22px',
-            fontWeight: 800,
-            color: '#FFFFFF',
-            margin: '0 0 4px 0',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          {isAr ? 'تسجيل الدخول' : 'Merchant Sign In'}
-        </h1>
-        <p style={{ fontSize: '13px', color: '#64748B', margin: 0 }}>
-          {isAr ? 'الوصول إلى لوحة تحكم التاجر' : 'Access your merchant dashboard'}
+    <div className="w-full text-white flex flex-col select-none" dir={isRtl ? 'rtl' : 'ltr'}>
+      {/* Header */}
+      <div className="mb-6 text-start">
+        <h2 className="text-xl font-extrabold text-white tracking-tight">
+          {isAr ? 'تسجيل دخول التاجر' : 'Merchant Sign In'}
+        </h2>
+        <p className="text-xs text-slate-400 mt-1">
+          {isAr ? 'إدارة نقاط البيع، المبيعات والتحصيلات اليومية' : 'Manage your SoftPOS, sales & instant daily settlements'}
         </p>
       </div>
 
       {/* Form Fields */}
-      <form onSubmit={handleContinue} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <form onSubmit={handleContinue} className="space-y-4">
         {/* Full Name */}
-        <div
-          style={{
-            backgroundColor: '#111726',
-            border: '1px solid #1E293B',
-            borderRadius: '10px',
-            padding: '10px 14px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            height: '46px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <User size={16} color="#00C853" style={{ flexShrink: 0 }} />
-          <input
-            type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder={isAr ? 'اسم التاجر / المفوض' : 'Merchant Name / Manager'}
-            required
-            style={{
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              fontSize: '13.5px',
-              fontWeight: 600,
-              color: '#FFFFFF',
-              width: '100%',
-              textAlign: isRtl ? 'right' : 'left',
-            }}
-          />
+        <div className="space-y-1.5 text-start">
+          <label className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+            {isAr ? 'اسم التاجر / المفوض' : 'Merchant / Manager Name'}
+          </label>
+          <div className="relative flex items-center">
+            <User className={`absolute ${isRtl ? 'right-3' : 'left-3'} h-4 w-4 text-[#00FF24] pointer-events-none`} />
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder={isAr ? 'فهد الحربي' : 'Fahad Al-Harbi'}
+              required
+              className={`w-full h-11 bg-[#10182A] border border-slate-800 rounded-xl text-sm font-semibold text-white placeholder-slate-500 outline-none focus:border-[#00FF24] transition-colors ${
+                isRtl ? 'pr-10 pl-3' : 'pl-10 pr-3'
+              }`}
+            />
+          </div>
         </div>
 
         {/* Business Phone */}
-        <div
-          style={{
-            backgroundColor: '#111726',
-            border: '1px solid #1E293B',
-            borderRadius: '10px',
-            padding: '10px 14px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            height: '46px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <Phone size={16} color="#00C853" style={{ flexShrink: 0 }} />
-          <div
-            style={{
-              color: '#94A3B8',
-              fontSize: '12.5px',
-              fontWeight: 700,
-              borderRight: isRtl ? 'none' : '1px solid #334155',
-              borderLeft: isRtl ? '1px solid #334155' : 'none',
-              paddingRight: isRtl ? '0' : '8px',
-              paddingLeft: isRtl ? '8px' : '0',
-            }}
-          >
-            +966
+        <div className="space-y-1.5 text-start">
+          <label className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+            {isAr ? 'رقم الجوال المعتمد' : 'Registered Mobile Number'}
+          </label>
+          <div className="flex items-center h-11 bg-[#10182A] border border-slate-800 rounded-xl px-3 focus-within:border-[#00FF24] transition-colors">
+            <Phone className="h-4 w-4 text-[#00FF24] flex-shrink-0" />
+            <div className={`text-xs font-bold text-slate-400 px-2 ${isRtl ? 'border-l border-slate-700' : 'border-r border-slate-700'}`}>
+              +966
+            </div>
+            <input
+              type="tel"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
+              placeholder="50 123 4567"
+              maxLength={10}
+              required
+              className="w-full bg-transparent border-none outline-none text-sm font-bold text-white px-2 tracking-wider"
+              dir="ltr"
+            />
           </div>
-          <input
-            type="tel"
-            value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-            placeholder="50 123 4567"
-            maxLength={10}
-            required
-            style={{
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              fontSize: '14px',
-              fontWeight: 700,
-              color: '#FFFFFF',
-              width: '100%',
-              letterSpacing: '0.03em',
-              textAlign: isRtl ? 'right' : 'left',
-            }}
-          />
         </div>
 
-        {/* 1-Click Fast Demo Fill */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '2px' }}>
-          <button
-            type="button"
-            onClick={() => handleDemoFill('cafe')}
-            style={{
-              padding: '7px 8px',
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid #1E293B',
-              borderRadius: '8px',
-              color: '#94A3B8',
-              fontSize: '11px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              justifyContent: 'center',
-            }}
-          >
-            <Sparkles size={11} color="#00C853" />
-            <span>{isAr ? 'مقهى كوانتيرا' : 'Quantira Cafe'}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleDemoFill('retail')}
-            style={{
-              padding: '7px 8px',
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid #1E293B',
-              borderRadius: '8px',
-              color: '#94A3B8',
-              fontSize: '11px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              justifyContent: 'center',
-            }}
-          >
-            <Sparkles size={11} color="#00C853" />
-            <span>{isAr ? 'سوبرماركت الرياض' : 'Riyadh Retail'}</span>
-          </button>
+        {/* 1-Click Fast Demo Fill Buttons */}
+        <div className="space-y-1.5 pt-1">
+          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider text-start">
+            {isAr ? 'حسابات تجريبية سريعة للمعاينة' : 'Quick Demo Profiles for QA'}
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => handleDemoFill('fahad')}
+              className="px-2.5 py-2 rounded-lg bg-[#10182A] border border-slate-800 text-slate-300 hover:text-white hover:border-[#00FF24]/40 transition-colors text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <Sparkles className="h-3 w-3 text-[#00FF24]" />
+              <span>{isAr ? 'سوبرماركت المدينة' : 'Al-Madinah Supermarket'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDemoFill('sara')}
+              className="px-2.5 py-2 rounded-lg bg-[#10182A] border border-slate-800 text-slate-300 hover:text-white hover:border-[#00FF24]/40 transition-colors text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <Sparkles className="h-3 w-3 text-[#00FF24]" />
+              <span>{isAr ? 'مقهى الرياض' : 'Riyadh Retail Cafe'}</span>
+            </button>
+          </div>
         </div>
 
         {/* Continue Button */}
         <button
           type="submit"
           disabled={!isFormValid}
-          style={{
-            backgroundColor: isFormValid ? '#00C853' : '#1E293B',
-            color: isFormValid ? '#000000' : '#64748B',
-            fontWeight: 800,
-            fontSize: '14px',
-            border: 'none',
-            borderRadius: '10px',
-            height: '44px',
-            cursor: isFormValid ? 'pointer' : 'not-allowed',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            transition: 'all 0.2s ease',
-            marginTop: '6px',
-            boxShadow: isFormValid ? '0 4px 16px rgba(0, 200, 83, 0.3)' : 'none',
-          }}
+          className="w-full h-11 mt-2 rounded-xl bg-[#00FF24] text-black font-extrabold text-sm flex items-center justify-center gap-2 hover:bg-[#00FF24]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#00FF24]/20 cursor-pointer"
         >
-          <span>{isAr ? 'متابعة' : 'Continue'}</span>
-          <ArrowRight size={15} style={{ transform: isRtl ? 'rotate(180deg)' : 'none' }} />
+          <span>{isAr ? 'متابعة وتسجيل الدخول' : 'Continue to Verification'}</span>
+          <ArrowRight className={`h-4 w-4 ${isRtl ? 'rotate-180' : ''}`} />
         </button>
+
+        {/* Security badge note */}
+        <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 pt-2">
+          <ShieldCheck className="h-3.5 w-3.5 text-[#00FF24]" />
+          <span>{isAr ? 'محمي بواسطة منظومة البنك المركزي السعودي' : 'Protected by SAMA Certified Security Protocol'}</span>
+        </div>
       </form>
     </div>
   );
 };
+export default MobileNumberScreen;

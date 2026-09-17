@@ -30,14 +30,14 @@ export const LogoutModal: React.FC = () => {
               width: '60px',
               height: '60px',
               borderRadius: '50%',
-              backgroundColor: 'rgba(0, 200, 83, 0.12)',
-              color: '#00C853',
+              backgroundColor: 'rgba(0, 255, 36, 0.12)',
+              color: '#00FF24',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 14px auto',
               boxShadow: 'none',
-              border: '2px solid #00C853',
+              border: '2px solid #00FF24',
             }}
           >
             <CheckCircle2 size={32} />

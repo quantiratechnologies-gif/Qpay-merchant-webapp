@@ -63,13 +63,13 @@ export const HistoryScreen: React.FC = () => {
               alignItems: 'center',
               gap: '10px',
               backgroundColor: '#111726',
-              border: '1px solid #00C853',
+              border: '1px solid #00FF24',
               borderRadius: '12px',
               padding: '10px 14px',
               boxShadow: 'none',
             }}
           >
-            <Search size={16} color="#00C853" />
+            <Search size={16} color="#00FF24" />
             <input
               type="text"
               placeholder={language === 'العربية' ? 'البحث بالاسم أو المرجع البنكي...' : 'Search by name or UTR...'}
@@ -126,8 +126,8 @@ export const HistoryScreen: React.FC = () => {
               onClick={() => setFilter(f)}
               className="interactive-tap"
               style={{
-                backgroundColor: isActive ? '#00C853' : '#111726',
-                border: isActive ? '1px solid #00C853' : '1px solid #1E293B',
+                backgroundColor: isActive ? '#00FF24' : '#111726',
+                border: isActive ? '1px solid #00FF24' : '1px solid #1E293B',
                 color: isActive ? '#080C14' : '#94A3B8',
                 borderRadius: '20px',
                 padding: '7px 16px',
@@ -166,7 +166,7 @@ export const HistoryScreen: React.FC = () => {
                 height: '48px',
                 borderRadius: '14px',
                 backgroundColor: '#1A2234',
-                color: '#00C853',
+                color: '#00FF24',
                 border: '1px solid #1E293B',
                 display: 'flex',
                 alignItems: 'center',

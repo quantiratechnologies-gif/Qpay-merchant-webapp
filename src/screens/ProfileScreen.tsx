@@ -244,7 +244,7 @@ export const ProfileScreen: React.FC = () => {
               leftIcon={<Languages size={18} />}
               title={isAr ? 'لغة التطبيق' : 'App Language'}
               rightElement={
-                <span style={{ fontSize: '12.5px', color: '#00C853', fontWeight: 800 }}>
+                <span style={{ fontSize: '12.5px', color: '#00FF24', fontWeight: 800 }}>
                   {isAr ? '🇸🇦 العربية' : '🇬🇧 English'}
                 </span>
               }

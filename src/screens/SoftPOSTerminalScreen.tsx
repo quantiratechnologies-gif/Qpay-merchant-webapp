@@ -176,15 +176,15 @@ export const SoftPOSTerminalScreen: React.FC = () => {
             style={{
               padding: '24px',
               textAlign: 'center',
-              background: 'radial-gradient(ellipse at top, rgba(0, 200, 83, 0.12) 0%, #0E131F 70%)',
+              background: 'radial-gradient(ellipse at top, rgba(0, 255, 36, 0.12) 0%, #0E131F 70%)',
             }}
           >
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#00C853', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#00FF24', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               {isAr ? 'المبلغ المطلوب تحصيله' : 'TOTAL CHARGE AMOUNT'}
             </div>
 
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px', margin: '8px 0 12px 0' }}>
-              <span style={{ fontSize: '20px', fontWeight: 700, color: '#00C853' }}>SAR</span>
+              <span style={{ fontSize: '20px', fontWeight: 700, color: '#00FF24' }}>SAR</span>
               <span style={{ fontSize: '48px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1 }}>
                 {numericValue.toFixed(2)}
               </span>
@@ -348,9 +348,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                       gap: '10px',
                       padding: '12px 14px',
                       borderRadius: '12px',
-                      backgroundColor: isSelected ? 'rgba(0, 200, 83, 0.12)' : '#111726',
-                      border: isSelected ? '1.5px solid #00C853' : '1px solid #1E293B',
-                      color: isSelected ? '#00C853' : '#FFFFFF',
+                      backgroundColor: isSelected ? 'rgba(0, 255, 36, 0.12)' : '#111726',
+                      border: isSelected ? '1.5px solid #00FF24' : '1px solid #1E293B',
+                      color: isSelected ? '#00FF24' : '#FFFFFF',
                       cursor: 'pointer',
                       fontWeight: 800,
                       fontSize: '13px',
@@ -377,7 +377,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8' }}>
                 <span>{isAr ? 'ضريبة القيمة المضافة (١٥٪)' : 'VAT (15%)'}</span>
-                <span style={{ color: '#00C853', fontWeight: 700 }}>SAR {vatAmount}</span>
+                <span style={{ color: '#00FF24', fontWeight: 700 }}>SAR {vatAmount}</span>
               </div>
               <div
                 style={{
@@ -391,7 +391,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 }}
               >
                 <span>{isAr ? 'المجموع النهائي' : 'Gross Total'}</span>
-                <span style={{ color: '#00C853' }}>SAR {numericValue.toFixed(2)}</span>
+                <span style={{ color: '#00FF24' }}>SAR {numericValue.toFixed(2)}</span>
               </div>
             </div>
 
@@ -429,7 +429,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               width: '100%',
               padding: '16px',
               borderRadius: '14px',
-              backgroundColor: numericValue > 0 ? '#00C853' : '#1E293B',
+              backgroundColor: numericValue > 0 ? '#00FF24' : '#1E293B',
               color: numericValue > 0 ? '#080C14' : '#64748B',
               fontSize: '15px',
               fontWeight: 900,
@@ -439,7 +439,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              boxShadow: numericValue > 0 ? '0 4px 20px rgba(0, 200, 83, 0.4)' : 'none',
+              boxShadow: numericValue > 0 ? '0 4px 20px rgba(0, 255, 36, 0.4)' : 'none',
               transition: 'all 0.15s ease',
             }}
           >

@@ -167,7 +167,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   justifyContent: 'center',
                   gap: '2px',
                   cursor: 'pointer',
-                  color: '#00C853',
+                  color: '#00FF24',
                   flexShrink: 0,
                 }}
               >
@@ -227,7 +227,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'اسم المنشأة المسجل' : 'Registered Business Name'} <span style={{ color: '#00C853' }}>*</span>
+              {isAr ? 'اسم المنشأة المسجل' : 'Registered Business Name'} <span style={{ color: '#00FF24' }}>*</span>
             </label>
             <div
               style={{
@@ -242,7 +242,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 boxSizing: 'border-box',
               }}
             >
-              <Building2 size={17} color="#00C853" style={{ flexShrink: 0 }} />
+              <Building2 size={17} color="#00FF24" style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={businessName}
@@ -275,7 +275,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'تصنيف النشاط التجاري' : 'Business Category'} <span style={{ color: '#00C853' }}>*</span>
+              {isAr ? 'تصنيف النشاط التجاري' : 'Business Category'} <span style={{ color: '#00FF24' }}>*</span>
             </label>
             <div
               style={{
@@ -291,7 +291,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 boxSizing: 'border-box',
               }}
             >
-              <Tag size={17} color="#00C853" style={{ flexShrink: 0 }} />
+              <Tag size={17} color="#00FF24" style={{ flexShrink: 0 }} />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -341,7 +341,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'الرقم الضريبي زاتكا' : 'ZATCA VAT ID'} <span style={{ color: '#00C853' }}>*</span>
+              {isAr ? 'الرقم الضريبي زاتكا' : 'ZATCA VAT ID'} <span style={{ color: '#00FF24' }}>*</span>
             </label>
 
             <div
@@ -357,7 +357,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 boxSizing: 'border-box',
               }}
             >
-              <Hash size={17} color="#00C853" style={{ flexShrink: 0 }} />
+              <Hash size={17} color="#00FF24" style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={vatNumber}
@@ -393,7 +393,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   textAlign: isRtl ? 'right' : 'left',
                 }}
               >
-                {isAr ? 'المدينة' : 'City'} <span style={{ color: '#00C853' }}>*</span>
+                {isAr ? 'المدينة' : 'City'} <span style={{ color: '#00FF24' }}>*</span>
               </label>
               <div
                 style={{
@@ -409,7 +409,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   boxSizing: 'border-box',
                 }}
               >
-                <MapPin size={15} color="#00C853" style={{ flexShrink: 0 }} />
+                <MapPin size={15} color="#00FF24" style={{ flexShrink: 0 }} />
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
@@ -459,7 +459,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   textAlign: isRtl ? 'right' : 'left',
                 }}
               >
-                {isAr ? 'الرمز البريدي' : 'Postal Code'} <span style={{ color: '#00C853' }}>*</span>
+                {isAr ? 'الرمز البريدي' : 'Postal Code'} <span style={{ color: '#00FF24' }}>*</span>
               </label>
               <div
                 style={{
@@ -474,7 +474,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   boxSizing: 'border-box',
                 }}
               >
-                <Mail size={15} color="#00C853" style={{ flexShrink: 0 }} />
+                <Mail size={15} color="#00FF24" style={{ flexShrink: 0 }} />
                 <input
                   type="text"
                   maxLength={5}
@@ -506,7 +506,7 @@ export const MerchantSetupScreen: React.FC = () => {
             style={{
               marginTop: '8px',
               height: '52px',
-              backgroundColor: '#00C853',
+              backgroundColor: '#00FF24',
               color: '#080C14',
               border: 'none',
               borderRadius: '14px',

@@ -20,20 +20,20 @@ export const colors = {
   borderStrong: '#334155',
 
   // Accents
-  accentGreen: '#00C853',
-  accentGreenBright: '#00C853',
+  accentGreen: '#00FF24',
+  accentGreenBright: '#00FF24',
   accentBlue: '#38BDF8',
   accentPurple: '#A855F7',
   accentAmber: '#F59E0B',
 
   // Primary Theme Aliases
-  primary: '#00C853',
-  primaryHover: '#00B048',
-  primaryActive: '#00963E',
-  primaryLight: 'rgba(0, 200, 83, 0.12)',
-  primaryLightHover: 'rgba(0, 200, 83, 0.20)',
-  primaryBorder: '#00C853',
-  primaryDark: '#007A33',
+  primary: '#00FF24',
+  primaryHover: '#00E620',
+  primaryActive: '#00CC1D',
+  primaryLight: 'rgba(0, 255, 36, 0.12)',
+  primaryLightHover: 'rgba(0, 255, 36, 0.20)',
+  primaryBorder: '#00FF24',
+  primaryDark: '#009916',
   textOnPrimary: '#000000',
 
   // Secondary & Dark Accents
@@ -59,10 +59,10 @@ export const colors = {
   textDisabled: '#64748B',
 
   // Semantic Status Colors
-  success: '#00C853',
-  successBright: '#00C853',
-  successLight: 'rgba(0, 200, 83, 0.12)',
-  successText: '#00C853',
+  success: '#00FF24',
+  successBright: '#00FF24',
+  successLight: 'rgba(0, 255, 36, 0.12)',
+  successText: '#00FF24',
 
   info: '#38BDF8',
   infoLight: 'rgba(56, 189, 248, 0.12)',
@@ -141,7 +141,7 @@ export const shadows = {
 } as const;
 
 export const focus = {
-  ring: '2.5px solid #00C853',
+  ring: '2.5px solid #00FF24',
   offset: '2px',
   outline: 'none',
 } as const;
