@@ -37,6 +37,7 @@ import { LogoutModal } from './screens/LogoutModal';
 import { AddBankModal } from './screens/AddBankModal';
 import { EditProfileModal } from './screens/EditProfileModal';
 import { KycModal } from './screens/KycModal';
+import { ManagerPinModal } from './components/ManagerPinModal';
 
 import { DesktopWebLayout } from './components/desktop/DesktopWebLayout';
 
@@ -122,6 +123,7 @@ const AppContent: React.FC = () => {
       <AddBankModal />
       <EditProfileModal />
       <KycModal />
+      <ManagerPinModal />
     </DesktopWebLayout>
   );
 };

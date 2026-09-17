@@ -6,7 +6,7 @@ import { Card, StatusBadge } from '../components/ui';
 import { colors, radii } from '../design-system/tokens';
 
 export const SecurityScreen: React.FC = () => {
-  const { deviceSessions, terminateSession, language, isRtl } = useApp();
+  const { deviceSessions, terminateSession, navigateTo, language, isRtl } = useApp();
   const isAr = language === 'العربية';
 
   return (
@@ -40,8 +40,69 @@ export const SecurityScreen: React.FC = () => {
           alignItems: 'start',
         }}
       >
-        {/* ─── LEFT: Active Devices ────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {/* ─── LEFT: PIN & Active Devices ────────────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Manager Security PIN Card */}
+          <Card
+            variant="elevated"
+            style={{
+              padding: '20px',
+              border: '1px solid rgba(0, 255, 36, 0.25)',
+              backgroundColor: '#10182A',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '16px',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div
+                style={{
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '12px',
+                  backgroundColor: 'rgba(0, 255, 36, 0.12)',
+                  color: '#00FF24',
+                  border: '1px solid rgba(0, 255, 36, 0.25)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <Lock size={20} />
+              </div>
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '15px', color: colors.textPrimary }}>
+                  {isAr ? 'رمز الأمان للمدير (MPIN)' : 'Manager Security PIN (MPIN)'}
+                </div>
+                <div style={{ fontSize: '12px', color: colors.textSecondary, marginTop: '2px' }}>
+                  {isAr
+                    ? 'مطلوب لتأكيد التسويات الفورية وعمليات استرداد المبالغ'
+                    : 'Required to authorize instant settlements and refund operations'}
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigateTo('MERCHANT_PIN_SETUP', { fromSettings: true })}
+              className="interactive-tap cursor-pointer"
+              style={{
+                backgroundColor: 'rgba(0, 255, 36, 0.1)',
+                border: '1px solid rgba(0, 255, 36, 0.4)',
+                color: '#00FF24',
+                padding: '8px 16px',
+                borderRadius: '10px',
+                fontSize: '12px',
+                fontWeight: 800,
+                whiteSpace: 'nowrap',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {isAr ? 'تغيير الرمز السري' : 'Change PIN'}
+            </button>
+          </Card>
+
           {/* Section Label */}
           <div style={{ fontSize: '11px', fontWeight: 800, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             {translateText('Active Devices', language)} ({formatLocalizedNumber(deviceSessions.length, language)})

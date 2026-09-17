@@ -39,6 +39,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     triggerSettleNow,
     setIsLogoutModalOpen,
     speakSoundBox,
+    openManagerPinModal,
   } = useApp();
 
   const isAr = language === 'العربية';
@@ -52,13 +53,21 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
   );
   const displayTotal = totalToday > 0 ? totalToday : 14850.5;
 
-  const handleSettleClick = async () => {
-    setIsSettling(true);
-    try {
-      await triggerSettleNow();
-    } finally {
-      setIsSettling(false);
-    }
+  const handleSettleClick = () => {
+    openManagerPinModal({
+      title: isAr ? 'تأكيد الصرف الفوري عبر سريع' : 'Authorize Instant Settlement',
+      subtitle: isAr
+        ? 'أدخل رمز المدير السري المكون من ٤ أرقام لإتمام التحويل الفوري'
+        : 'Enter 4-digit Manager Security PIN to dispatch Sarie instant settlement',
+      onSuccess: async () => {
+        setIsSettling(true);
+        try {
+          await triggerSettleNow();
+        } finally {
+          setIsSettling(false);
+        }
+      },
+    });
   };
 
   const navItems: {

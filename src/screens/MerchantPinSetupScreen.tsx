@@ -5,8 +5,9 @@ import { AppHeader } from '../components/AppHeader';
 import { toArabicNumerals } from '../utils/i18n';
 
 export const MerchantPinSetupScreen: React.FC = () => {
-  const { updateMerchantInfo, setUserRole, navigateTo, language, isRtl } = useApp();
+  const { updateMerchantInfo, setUserRole, navigateTo, goBack, screenParams, language, isRtl } = useApp();
   const isAr = language === 'العربية';
+  const fromSettings = screenParams?.fromSettings === true;
   const [pin, setPin] = useState<string>('');
   const [confirmPin, setConfirmPin] = useState<string>('');
   const [step, setStep] = useState<'create' | 'confirm'>('create');
@@ -35,7 +36,11 @@ export const MerchantPinSetupScreen: React.FC = () => {
             updateMerchantInfo({ merchantPin: pin });
             setUserRole('merchant');
             setTimeout(() => {
-              navigateTo('MERCHANT_HOME');
+              if (fromSettings) {
+                goBack();
+              } else {
+                navigateTo('MERCHANT_HOME');
+              }
             }, 1200);
           } else {
             setErrorMsg(isAr ? 'الرمز غير متطابق. يرجى إعادة الإدخال.' : 'PINs do not match. Please re-enter.');

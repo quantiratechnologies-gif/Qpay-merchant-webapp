@@ -35,6 +35,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
     triggerSettleNow,
     merchantInfo,
     processMerchantRefund,
+    openManagerPinModal,
     language,
     isRtl,
     t,
@@ -109,19 +110,27 @@ export const MerchantCollectionsScreen: React.FC = () => {
     } else {
       setRefundError(
         isAr
-          ? 'رمز الأمان الخاص بالتاجر غير صحيح (الرمز الافتراضي: 2026)'
-          : 'Incorrect Merchant Security PIN. (Default demo PIN: 2026)'
+          ? 'رمز الأمان الخاص بالتاجر غير صحيح (الرمز الافتراضي: 1234)'
+          : 'Incorrect Merchant Security PIN. (Default demo PIN: 1234)'
       );
     }
   };
 
-  const handleSettleNow = async () => {
-    setIsSettling(true);
-    try {
-      await triggerSettleNow();
-    } finally {
-      setIsSettling(false);
-    }
+  const handleSettleNow = () => {
+    openManagerPinModal({
+      title: isAr ? 'تأكيد التسوية الفورية عبر سريع' : 'Authorize Instant Settlement',
+      subtitle: isAr
+        ? 'أدخل رمز المدير السري لإتمام الصرف الفوري'
+        : 'Enter Manager Security PIN to dispatch Sarie instant payout',
+      onSuccess: async () => {
+        setIsSettling(true);
+        try {
+          await triggerSettleNow();
+        } finally {
+          setIsSettling(false);
+        }
+      },
+    });
   };
 
   const handleDownloadTaxInvoice = (_settlementRef: string) => {

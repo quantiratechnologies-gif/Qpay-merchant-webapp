@@ -27,6 +27,7 @@ export const MerchantHomeScreen: React.FC = () => {
     triggerSettleNow,
     navigateTo,
     speakSoundBox,
+    openManagerPinModal,
     language,
     isRtl,
   } = useApp();
@@ -43,13 +44,21 @@ export const MerchantHomeScreen: React.FC = () => {
   const paymentCount = 142;
   const avgTicket = (displayTotal / paymentCount).toFixed(2);
 
-  const handleSettleNowClick = async () => {
-    setIsSettling(true);
-    try {
-      await triggerSettleNow();
-    } finally {
-      setIsSettling(false);
-    }
+  const handleSettleNowClick = () => {
+    openManagerPinModal({
+      title: isAr ? 'تأكيد التسوية الفورية عبر سريع' : 'Authorize Instant Settlement',
+      subtitle: isAr
+        ? 'أدخل رمز المدير السري لإتمام الصرف الفوري'
+        : 'Enter Manager Security PIN to dispatch Sarie instant payout',
+      onSuccess: async () => {
+        setIsSettling(true);
+        try {
+          await triggerSettleNow();
+        } finally {
+          setIsSettling(false);
+        }
+      },
+    });
   };
 
   const handleTestSoundBox = () => {

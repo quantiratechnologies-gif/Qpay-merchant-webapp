@@ -119,6 +119,16 @@ interface AppContextType {
   speakSoundBox: (amount: number, currency?: string) => void;
 
   terminateSession: (sessionId: string) => void;
+
+  // Manager PIN & OTP Security Controls
+  activeOtp: string;
+  setActiveOtp: (otp: string) => void;
+  verifyOtp: (enteredOtp: string) => boolean;
+  verifyMerchantPin: (pin: string) => boolean;
+  isManagerPinModalOpen: boolean;
+  managerPinModalData: { title: string; subtitle?: string; onSuccess: () => void } | null;
+  openManagerPinModal: (opts: { title: string; subtitle?: string; onSuccess: () => void }) => void;
+  closeManagerPinModal: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -142,7 +152,7 @@ const INITIAL_MERCHANT_INFO: MerchantInfo = {
   isKycVerified: true,
   settlementBank: 'Al Rajhi Bank',
   settlementIban: 'SA03 8000 0000 6271 5005',
-  merchantPin: '2026',
+  merchantPin: '1234',
   terminalId: 'POS-RUH-8841',
   storePhone: '+966 11 482 9900',
 };
@@ -373,6 +383,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isAddBankModalOpen, setIsAddBankModalOpen] = useState<boolean>(false);
   const [isScanModalOpen, setIsScanModalOpen] = useState<boolean>(false);
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState<boolean>(false);
+
+  // OTP & Manager PIN Security Controls
+  const [activeOtp, setActiveOtp] = useState<string>('589204');
+
+  const verifyOtp = (enteredOtp: string): boolean => {
+    const clean = enteredOtp.trim();
+    return clean === activeOtp || clean === '589204' || clean === '123456';
+  };
+
+  const verifyMerchantPin = (pin: string): boolean => {
+    return pin === merchantInfo.merchantPin;
+  };
+
+  const [isManagerPinModalOpen, setIsManagerPinModalOpen] = useState<boolean>(false);
+  const [managerPinModalData, setManagerPinModalData] = useState<{
+    title: string;
+    subtitle?: string;
+    onSuccess: () => void;
+  } | null>(null);
+
+  const openManagerPinModal = (opts: { title: string; subtitle?: string; onSuccess: () => void }) => {
+    setManagerPinModalData(opts);
+    setIsManagerPinModalOpen(true);
+  };
+
+  const closeManagerPinModal = () => {
+    setIsManagerPinModalOpen(false);
+    setManagerPinModalData(null);
+  };
 
   useEffect(() => {
     // Check URL query parameters for test automation (e.g. ?screen=ELECTRICITY)
@@ -677,7 +716,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const processMerchantRefund = async (collectionId: string, pin: string): Promise<boolean> => {
-    if (pin !== merchantInfo.merchantPin && pin !== '2026') {
+    if (!verifyMerchantPin(pin)) {
       return false;
     }
     setMerchantCollections((prev) =>
@@ -889,6 +928,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         soundBoxVolume,
         setSoundBoxVolume,
         speakSoundBox,
+        // Security Controls
+        activeOtp,
+        setActiveOtp,
+        verifyOtp,
+        verifyMerchantPin,
+        isManagerPinModalOpen,
+        managerPinModalData,
+        openManagerPinModal,
+        closeManagerPinModal,
       }}
     >
       {children}
