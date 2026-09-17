@@ -110,6 +110,7 @@ export const SmsOtpScreen: React.FC = () => {
       } finally {
         setIsVerifying(false);
       }
+      localStorage.setItem('qpay_merchant_authenticated', 'true');
       navigateTo('MERCHANT_HOME');
     }
   };

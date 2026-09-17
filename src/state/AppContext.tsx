@@ -282,6 +282,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const urlParams = new URLSearchParams(window.location.search);
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return paramScreen;
+
+      const isAuthed = localStorage.getItem('qpay_merchant_authenticated') === 'true';
+      if (isAuthed) return 'MERCHANT_HOME';
     }
     return 'MOBILE_NUMBER';
   });
@@ -775,6 +778,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [isRtl]);
 
   const performLogout = () => {
+    localStorage.removeItem('qpay_merchant_authenticated');
+    localStorage.removeItem('qpay_merchant_session');
     localStorage.removeItem('hasSeenOnboarding');
     localStorage.removeItem('hasCompletedOnboarding');
     localStorage.removeItem('hasGrantedPermissions');
