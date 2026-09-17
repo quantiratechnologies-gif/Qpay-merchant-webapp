@@ -71,7 +71,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     // Section 1: Core Operations
     {
       id: 'MERCHANT_HOME',
-      labelEn: 'Dashboard Overview',
+      labelEn: 'Overview',
       labelAr: 'لوحة التحكم الرئيسية',
       icon: <LayoutDashboard size={19} />,
       categoryEn: 'OPERATIONS',
@@ -79,7 +79,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'SOFTPOS_TERMINAL',
-      labelEn: 'SoftPOS Virtual Terminal',
+      labelEn: 'SoftPOS Tap',
       labelAr: 'الدفع باللمس بالجوال',
       icon: <SmartphoneNfc size={19} />,
       categoryEn: 'OPERATIONS',
@@ -88,7 +88,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'PAYMENT_LINK_GENERATOR',
-      labelEn: 'Payment Links',
+      labelEn: 'Pay Links',
       labelAr: 'روابط الدفع الرقمية',
       icon: <Link2 size={19} />,
       categoryEn: 'OPERATIONS',
@@ -96,7 +96,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'MERCHANT_QR_GENERATOR',
-      labelEn: 'ZATCA E-Invoice QR',
+      labelEn: 'ZATCA QR',
       labelAr: 'رمز الفاتورة الضريبية',
       icon: <QrCode size={19} />,
       categoryEn: 'OPERATIONS',
@@ -105,7 +105,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'MERCHANT_COLLECTIONS',
-      labelEn: 'Collections & Settlements',
+      labelEn: 'Collections',
       labelAr: 'التحصيلات والتسويات',
       icon: <ReceiptText size={19} />,
       categoryEn: 'OPERATIONS',
@@ -113,7 +113,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'MERCHANT_INSIGHTS',
-      labelEn: 'Analytics & Insights',
+      labelEn: 'Analytics',
       labelAr: 'التحليلات والتقارير',
       icon: <TrendingUp size={19} />,
       categoryEn: 'OPERATIONS',
@@ -121,7 +121,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'SOUNDBOX_NOTIFIER',
-      labelEn: 'Smart SoundBox Speaker',
+      labelEn: 'SoundBox',
       labelAr: 'جهاز الإشعار الصوتي',
       icon: <Volume2 size={19} />,
       categoryEn: 'OPERATIONS',
@@ -132,7 +132,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     // Section 2: Store Management & Settings
     {
       id: 'PROFILE',
-      labelEn: 'Store Profile & KYC',
+      labelEn: 'Store Profile',
       labelAr: 'ملف المنشأة والتوثيق',
       icon: <Store size={19} />,
       categoryEn: 'MANAGEMENT',
@@ -140,7 +140,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'MERCHANT_BANK_LINK',
-      labelEn: 'Settlement Bank IBAN',
+      labelEn: 'Bank IBAN',
       labelAr: 'حساب التسوية البنكي',
       icon: <Building2 size={19} />,
       categoryEn: 'MANAGEMENT',
@@ -148,7 +148,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
     {
       id: 'SECURITY',
-      labelEn: 'Cashiers & PIN Security',
+      labelEn: 'Security',
       labelAr: 'الكاشيرات والأمان',
       icon: <ShieldCheck size={19} />,
       categoryEn: 'MANAGEMENT',
