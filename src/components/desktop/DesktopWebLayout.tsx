@@ -30,6 +30,7 @@ interface DesktopWebLayoutProps {
 export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) => {
   const {
     currentScreen,
+    isAuthenticated,
     navigateTo,
     language,
     isRtl,
@@ -165,8 +166,8 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     },
   ];
 
-  // If in web login/OTP auth screen on web, render with split hero desktop layout
-  const isAuthFlow = currentScreen === 'MOBILE_NUMBER' || currentScreen === 'SMS_OTP';
+  // If in web login/OTP auth screen or unauthenticated, render with split hero desktop layout
+  const isAuthFlow = !isAuthenticated || currentScreen === 'MOBILE_NUMBER' || currentScreen === 'SMS_OTP';
 
   if (isAuthFlow) {
     return <DesktopAuthLayout>{children}</DesktopAuthLayout>;

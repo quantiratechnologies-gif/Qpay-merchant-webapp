@@ -30,6 +30,8 @@ interface AppContextType {
 
   // Navigation & Screen Stack
   currentScreen: ScreenId;
+  isAuthenticated: boolean;
+  setIsAuthenticated: (auth: boolean) => void;
   navigateTo: (screen: ScreenId, params?: Record<string, any>) => void;
   goBack: () => void;
   screenParams: Record<string, any>;
@@ -277,17 +279,35 @@ const INITIAL_CASHIERS: CashierInfo[] = [
 ];
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('qpay_merchant_authenticated');
+      } catch (e) {
+        // ignore
+      }
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramScreen = urlParams.get('screen') as ScreenId | null;
+      if (paramScreen && paramScreen !== 'MOBILE_NUMBER' && paramScreen !== 'SMS_OTP') {
+        return true;
+      }
+      return sessionStorage.getItem('qpay_merchant_authenticated') === 'true';
+    }
+    return false;
+  });
+
   const [currentScreen, setCurrentScreen] = useState<ScreenId>(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return paramScreen;
 
-      const isAuthed = localStorage.getItem('qpay_merchant_authenticated') === 'true';
+      const isAuthed = sessionStorage.getItem('qpay_merchant_authenticated') === 'true';
       if (isAuthed) return 'MERCHANT_HOME';
     }
     return 'MOBILE_NUMBER';
   });
+
   const [screenStack, setScreenStack] = useState<{ screen: ScreenId; params?: Record<string, any> }[]>(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
@@ -443,7 +463,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       else if (prev.screen === 'MERCHANT_INSIGHTS' || prev.screen === 'MERCHANT_COLLECTIONS' || prev.screen === 'HISTORY') setActiveTabState('history');
       else if (prev.screen === 'MERCHANT_BANK_LINK' || prev.screen === 'PROFILE') setActiveTabState('profile');
     } else {
-      navigateTo('MERCHANT_HOME');
+      if (isAuthenticated) {
+        navigateTo('MERCHANT_HOME');
+      } else {
+        navigateTo('MOBILE_NUMBER');
+      }
     }
   };
 
@@ -778,11 +802,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [isRtl]);
 
   const performLogout = () => {
+    sessionStorage.removeItem('qpay_merchant_authenticated');
     localStorage.removeItem('qpay_merchant_authenticated');
     localStorage.removeItem('qpay_merchant_session');
     localStorage.removeItem('hasSeenOnboarding');
     localStorage.removeItem('hasCompletedOnboarding');
     localStorage.removeItem('hasGrantedPermissions');
+    setIsAuthenticated(false);
     setIsLogoutModalOpen(false);
     setCurrentScreen('MOBILE_NUMBER');
     setScreenStack([{ screen: 'MOBILE_NUMBER' }]);
@@ -800,6 +826,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isRtl,
         t,
         currentScreen,
+        isAuthenticated,
+        setIsAuthenticated,
         navigateTo,
         goBack,
         screenParams,

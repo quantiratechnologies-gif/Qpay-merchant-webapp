@@ -4,7 +4,7 @@ import { useApp } from '../state/AppContext';
 import { authenticateMerchantWithAnyOtp } from '../services/supabaseClient';
 
 export const SmsOtpScreen: React.FC = () => {
-  const { navigateTo, screenParams, goBack, isRtl, language, updateUser, updateMerchantInfo } = useApp();
+  const { navigateTo, screenParams, goBack, isRtl, language, updateUser, updateMerchantInfo, setIsAuthenticated } = useApp();
   const isAr = language === 'العربية';
   const mobile = screenParams.mobile || '501234567';
 
@@ -109,7 +109,8 @@ export const SmsOtpScreen: React.FC = () => {
       } finally {
         setIsVerifying(false);
       }
-      localStorage.setItem('qpay_merchant_authenticated', 'true');
+      sessionStorage.setItem('qpay_merchant_authenticated', 'true');
+      setIsAuthenticated(true);
       navigateTo('MERCHANT_HOME');
     }
   };

@@ -41,9 +41,17 @@ import { KycModal } from './screens/KycModal';
 import { DesktopWebLayout } from './components/desktop/DesktopWebLayout';
 
 const AppContent: React.FC = () => {
-  const { currentScreen } = useApp();
+  const { currentScreen, isAuthenticated } = useApp();
 
   const renderScreen = () => {
+    // Auth guard: Unauthenticated sessions are restricted to login / OTP
+    if (!isAuthenticated) {
+      if (currentScreen === 'SMS_OTP') {
+        return <SmsOtpScreen />;
+      }
+      return <MobileNumberScreen />;
+    }
+
     switch (currentScreen) {
       // Auth / Onboarding
       case 'SPLASH':
