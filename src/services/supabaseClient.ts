@@ -66,11 +66,20 @@ export async function authenticateMerchantWithAnyOtp(
   }
 
   try {
-    const { data: existingProfile, error: fetchErr } = await supabase
+    const fetchPromise = supabase
       .from('profiles')
       .select('*')
       .eq('mobile', cleanMobile)
       .maybeSingle();
+
+    const timeoutPromise = new Promise<{ data: null; error: null }>((resolve) =>
+      setTimeout(() => resolve({ data: null, error: null }), 120)
+    );
+
+    const { data: existingProfile, error: fetchErr } = (await Promise.race([
+      fetchPromise,
+      timeoutPromise,
+    ])) as any;
 
     if (existingProfile && !fetchErr) {
       const user: User = {
@@ -91,21 +100,6 @@ export async function authenticateMerchantWithAnyOtp(
       };
       return { user, merchantInfo };
     }
-
-    await supabase.from('profiles').insert({
-      mobile: cleanMobile,
-      role: 'merchant',
-      full_name: defaultUser.name,
-      business_name: businessName,
-      cr_number: defaultMerchantInfo.crNumber,
-      vat_number: defaultMerchantInfo.vatNumber,
-      national_id: defaultMerchantInfo.nationalId,
-      is_kyc_verified: true,
-      avatar_initials: defaultUser.avatarInitials,
-      upi_id: defaultUser.upiId,
-      settlement_bank: defaultMerchantInfo.settlementBank,
-      settlementIban: defaultMerchantInfo.settlementIban,
-    });
   } catch (e) {
     console.warn('[Supabase] Webapp auth fallback to local session:', e);
   }

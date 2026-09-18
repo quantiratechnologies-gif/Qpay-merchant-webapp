@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, User, Phone, Sparkles, ShieldCheck } from 'lucide-react';
+import { ArrowRight, User, Phone, Sparkles } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 
 export const MobileNumberScreen: React.FC = () => {
@@ -121,10 +121,18 @@ export const MobileNumberScreen: React.FC = () => {
           <ArrowRight className={`h-4 w-4 ${isRtl ? 'rotate-180' : ''}`} />
         </button>
 
-        {/* Security badge note */}
-        <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 pt-2">
-          <ShieldCheck className="h-3.5 w-3.5 text-[#00FF24]" />
-          <span>{isAr ? 'محمي بواسطة منظومة البنك المركزي السعودي' : 'Protected by SAMA Certified Security Protocol'}</span>
+        {/* Create Account Option */}
+        <div className="pt-2 text-center">
+          <div className="text-xs text-slate-400">
+            {isAr ? 'ليس لديك حساب منشأة؟' : "Don't have a merchant account?"}{' '}
+            <button
+              type="button"
+              onClick={() => navigateTo('MERCHANT_REGISTER')}
+              className="text-[#00FF24] font-bold hover:underline cursor-pointer transition-colors inline-flex items-center gap-1"
+            >
+              <span>{isAr ? 'إنشاء حساب جديد' : 'Create Account'}</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>

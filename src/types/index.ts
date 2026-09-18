@@ -129,6 +129,7 @@ export type ScreenId =
   | 'ONBOARDING'
   | 'MOBILE_NUMBER'
   | 'SMS_OTP'
+  | 'MERCHANT_REGISTER'
   | 'PERMISSIONS'
   | 'PROFILE'
   | 'BANK_ACCOUNTS'

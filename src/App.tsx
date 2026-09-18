@@ -6,6 +6,7 @@ import { SplashScreen } from './screens/SplashScreen';
 import { OnboardingScreen } from './screens/OnboardingScreen';
 import { MobileNumberScreen } from './screens/MobileNumberScreen';
 import { SmsOtpScreen } from './screens/SmsOtpScreen';
+import { MerchantRegistrationScreen } from './screens/MerchantRegistrationScreen';
 import { PermissionsScreen } from './screens/PermissionsScreen';
 
 // Merchant Core Screens
@@ -45,10 +46,16 @@ const AppContent: React.FC = () => {
   const { currentScreen, isAuthenticated } = useApp();
 
   const renderScreen = () => {
-    // Auth guard: Unauthenticated sessions are restricted to login / OTP
+    // Auth guard: Unauthenticated sessions are restricted to login / OTP / Registration / PIN Setup
     if (!isAuthenticated) {
       if (currentScreen === 'SMS_OTP') {
         return <SmsOtpScreen />;
+      }
+      if (currentScreen === 'MERCHANT_REGISTER') {
+        return <MerchantRegistrationScreen />;
+      }
+      if (currentScreen === 'MERCHANT_PIN_SETUP') {
+        return <MerchantPinSetupScreen />;
       }
       return <MobileNumberScreen />;
     }
@@ -63,6 +70,8 @@ const AppContent: React.FC = () => {
         return <MobileNumberScreen />;
       case 'SMS_OTP':
         return <SmsOtpScreen />;
+      case 'MERCHANT_REGISTER':
+        return <MerchantRegistrationScreen />;
       case 'PERMISSIONS':
         return <PermissionsScreen />;
 

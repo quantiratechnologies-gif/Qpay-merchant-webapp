@@ -12,7 +12,6 @@ export const SmsOtpScreen: React.FC = () => {
     language,
     updateUser,
     updateMerchantInfo,
-    setIsAuthenticated,
     activeOtp,
     setActiveOtp,
     verifyOtp,
@@ -150,16 +149,9 @@ export const SmsOtpScreen: React.FC = () => {
     }
 
     sessionStorage.setItem('qpay_merchant_authenticated', 'true');
-    localStorage.setItem('qpay_merchant_authenticated', 'true');
-    setIsAuthenticated(true);
 
-    // If merchant PIN has not been set by the user, route to MERCHANT_PIN_SETUP
-    const hasPin = typeof window !== 'undefined' ? localStorage.getItem('qpay_merchant_pin') : null;
-    if (!hasPin) {
-      navigateTo('MERCHANT_PIN_SETUP');
-    } else {
-      navigateTo('MERCHANT_HOME');
-    }
+    // Route to MERCHANT_PIN_SETUP flow
+    navigateTo('MERCHANT_PIN_SETUP');
   };
 
   const handleResend = () => {
@@ -205,7 +197,7 @@ export const SmsOtpScreen: React.FC = () => {
           className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
           <ArrowLeft className={`h-3.5 w-3.5 ${isRtl ? 'scale-x-[-1]' : ''}`} />
-          <span>{isAr ? 'تغيير رقم الجوال' : 'Change Mobile Number'}</span>
+          <span>{isAr ? 'رقم الجوال' : 'Mobile Number'}</span>
         </button>
       </div>
 
