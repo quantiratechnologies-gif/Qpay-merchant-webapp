@@ -286,23 +286,8 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
             : 'w-0 min-w-0 p-0 opacity-0 overflow-hidden border-none pointer-events-none'
         }`}
       >
-        {/* Top: Brand Header & Store Identity */}
+        {/* Top: Store Identity & Navigation Links */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800/80 pt-1">
-            <div
-              onClick={() => navigateTo('MERCHANT_HOME')}
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Logo height={28} textColor="#FFFFFF" accentColor="#00FF24" />
-              <Badge
-                variant="outline"
-                className="text-[9px] font-bold px-1.5 py-0.5 text-[#00FF24] border-[#00FF24]/30 bg-[#00FF24]/5"
-              >
-                MERCHANT
-              </Badge>
-            </div>
-          </div>
-
           {/* Store Identification Card */}
           <div
             onClick={() => navigateTo('PROFILE')}
@@ -412,9 +397,9 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         {/* Top Desktop Navigation & Search Bar */}
         <header className="h-16 bg-[#0A0F1D]/90 backdrop-blur-md border-b border-slate-800/80 flex items-center justify-between px-4 sm:px-6 lg:px-8 sticky top-0 z-30">
-          {/* Left: Pay Merchant Brand + Sidebar Toggle Button + Global Search Bar */}
-          <div className="flex items-center gap-3.5 flex-1 max-w-2xl">
-            {/* Pay Merchant Brand in Top Nav Section */}
+          {/* Left: Brand Logo, Sidebar Toggle Button & Global Search Bar */}
+          <div className="flex items-center gap-3 sm:gap-4 flex-1 max-w-2xl">
+            {/* Pay Merchant Brand Logo on Nav Section */}
             <div
               onClick={() => navigateTo('MERCHANT_HOME')}
               className="flex items-center gap-2 cursor-pointer shrink-0 pe-1"
