@@ -301,16 +301,6 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                 MERCHANT
               </Badge>
             </div>
-
-            {/* Sidebar Collapse Button inside Sidebar Header */}
-            <button
-              type="button"
-              onClick={toggleSidebar}
-              title={isAr ? 'إخفاء القائمة الجانبية' : 'Collapse Sidebar'}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 border border-transparent hover:border-slate-700/60 transition-colors cursor-pointer"
-            >
-              <PanelLeft className="h-4 w-4" />
-            </button>
           </div>
 
           {/* Store Identification Card */}
@@ -422,8 +412,22 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         {/* Top Desktop Navigation & Search Bar */}
         <header className="h-16 bg-[#0A0F1D]/90 backdrop-blur-md border-b border-slate-800/80 flex items-center justify-between px-4 sm:px-6 lg:px-8 sticky top-0 z-30">
-          {/* Left: Sidebar Toggle Button & Global Search Bar */}
-          <div className="flex items-center gap-3 flex-1 max-w-xl">
+          {/* Left: Pay Merchant Brand + Sidebar Toggle Button + Global Search Bar */}
+          <div className="flex items-center gap-3.5 flex-1 max-w-2xl">
+            {/* Pay Merchant Brand in Top Nav Section */}
+            <div
+              onClick={() => navigateTo('MERCHANT_HOME')}
+              className="flex items-center gap-2 cursor-pointer shrink-0 pe-1"
+            >
+              <Logo height={26} textColor="#FFFFFF" accentColor="#00FF24" />
+              <Badge
+                variant="outline"
+                className="text-[9px] font-bold px-1.5 py-0.5 text-[#00FF24] border-[#00FF24]/30 bg-[#00FF24]/5"
+              >
+                MERCHANT
+              </Badge>
+            </div>
+
             {/* Sidebar Toggle Icon Button (Matches 3rd Pic) */}
             <button
               type="button"
@@ -437,7 +441,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                   ? 'إظهار القائمة الجانبية'
                   : 'Open Sidebar'
               }
-              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
+              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                 sidebarOpen
                   ? 'bg-[#10182A] border-slate-800 text-slate-400 hover:text-white hover:border-[#00FF24]/40 hover:bg-[#182236]'
                   : 'bg-[#00FF24]/10 border-[#00FF24]/30 text-[#00FF24] hover:bg-[#00FF24]/20 shadow-md shadow-[#00FF24]/10'
