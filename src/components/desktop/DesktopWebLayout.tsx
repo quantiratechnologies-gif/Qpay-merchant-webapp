@@ -395,25 +395,11 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
 
       {/* 2. Main Content Canvas & Top Enterprise Header */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        {/* Top Desktop Navigation & Search Bar */}
-        <header className="h-16 bg-[#0A0F1D]/90 backdrop-blur-md border-b border-slate-800/80 flex items-center justify-between px-4 sm:px-6 lg:px-8 sticky top-0 z-30">
-          {/* Left: Brand Logo, Sidebar Toggle Button & Global Search Bar */}
-          <div className="flex items-center gap-3 sm:gap-4 flex-1 max-w-2xl">
-            {/* Pay Merchant Brand Logo on Nav Section */}
-            <div
-              onClick={() => navigateTo('MERCHANT_HOME')}
-              className="flex items-center gap-2 cursor-pointer shrink-0 pe-1"
-            >
-              <Logo height={26} textColor="#FFFFFF" accentColor="#00FF24" />
-              <Badge
-                variant="outline"
-                className="text-[9px] font-bold px-1.5 py-0.5 text-[#00FF24] border-[#00FF24]/30 bg-[#00FF24]/5"
-              >
-                MERCHANT
-              </Badge>
-            </div>
-
-            {/* Sidebar Toggle Icon Button (Matches 3rd Pic) */}
+        {/* Top Desktop Navigation & Search Bar (Increased Height & Spacious Width) */}
+        <header className="h-20 bg-[#0A0F1D]/95 backdrop-blur-xl border-b border-slate-800/80 flex items-center justify-between px-6 lg:px-8 gap-4 sticky top-0 z-30 w-full">
+          {/* Left: Sidebar Toggle Button (Leftmost), Brand Logo & Expanded Search Bar */}
+          <div className="flex items-center gap-4 sm:gap-5 flex-1 max-w-3xl">
+            {/* 1. Sidebar Toggle Icon Button (On Leftmost Position, Beside Logo) */}
             <button
               type="button"
               onClick={toggleSidebar}
@@ -426,21 +412,35 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                   ? 'إظهار القائمة الجانبية'
                   : 'Open Sidebar'
               }
-              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+              className={`h-11 w-11 rounded-xl border transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                 sidebarOpen
                   ? 'bg-[#10182A] border-slate-800 text-slate-400 hover:text-white hover:border-[#00FF24]/40 hover:bg-[#182236]'
                   : 'bg-[#00FF24]/10 border-[#00FF24]/30 text-[#00FF24] hover:bg-[#00FF24]/20 shadow-md shadow-[#00FF24]/10'
               }`}
             >
-              <PanelLeft className="h-4 w-4" />
+              <PanelLeft className="h-5 w-5" />
             </button>
 
-            {/* Global Search Bar with Live Interactive Dropdown */}
-            <div ref={searchContainerRef} className="relative flex-1 max-w-md">
+            {/* 2. Pay Merchant Brand Logo & Badge (Beside Toggle Button) */}
+            <div
+              onClick={() => navigateTo('MERCHANT_HOME')}
+              className="flex items-center gap-2.5 cursor-pointer shrink-0"
+            >
+              <Logo height={28} textColor="#FFFFFF" accentColor="#00FF24" />
+              <Badge
+                variant="outline"
+                className="text-[9.5px] font-bold px-2 py-0.5 text-[#00FF24] border-[#00FF24]/30 bg-[#00FF24]/5"
+              >
+                MERCHANT
+              </Badge>
+            </div>
+
+            {/* 3. Global Search Bar with Live Interactive Dropdown (Expanded Width) */}
+            <div ref={searchContainerRef} className="relative flex-1 max-w-xl">
               <div className="relative w-full">
                 <Search
-                  className={`absolute top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 pointer-events-none ${
-                    isRtl ? 'right-3' : 'left-3'
+                  className={`absolute top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none ${
+                    isRtl ? 'right-3.5' : 'left-3.5'
                   }`}
                 />
                 <input
@@ -454,15 +454,15 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                       ? 'بحث في التحصيلات، الفواتير، المرجع البنكي...'
                       : 'Search collections, UTR, invoices, customers...'
                   }
-                  className={`w-full h-9 bg-[#10182A] border border-slate-800/90 rounded-xl text-xs text-white placeholder-slate-500 outline-none transition-all focus:border-[#00FF24]/60 focus:ring-1 focus:ring-[#00FF24]/20 ${
-                    isRtl ? 'pr-9 pl-16' : 'pl-9 pr-16'
+                  className={`w-full h-11 bg-[#10182A] border border-slate-800/90 rounded-xl text-xs text-white placeholder-slate-500 outline-none transition-all focus:border-[#00FF24]/60 focus:ring-1 focus:ring-[#00FF24]/20 ${
+                    isRtl ? 'pr-10 pl-16' : 'pl-10 pr-16'
                   }`}
                 />
 
                 {/* Right Action: Clear Button or Cmd+K Badge */}
                 <div
                   className={`absolute top-1/2 -translate-y-1/2 flex items-center gap-1 ${
-                    isRtl ? 'left-2.5' : 'right-2.5'
+                    isRtl ? 'left-3' : 'right-3'
                   }`}
                 >
                   {searchQuery ? (
@@ -474,10 +474,10 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                       }}
                       className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
                     >
-                      <X className="h-3 w-3" />
+                      <X className="h-3.5 w-3.5" />
                     </button>
                   ) : (
-                    <kbd className="hidden sm:inline-block text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-800/70 border border-slate-700/60 text-slate-400">
+                    <kbd className="hidden sm:inline-block text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-800/70 border border-slate-700/60 text-slate-400">
                       ⌘K
                     </kbd>
                   )}
@@ -487,7 +487,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
               {/* Live Interactive Search Popup Dropdown */}
               {isSearchFocused && (searchQuery.trim().length > 0 || isSearchFocused) && (
                 <div
-                  className="absolute top-full mt-2 w-full min-w-[320px] max-w-md bg-[#0D1424] border border-slate-700/80 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute top-full mt-2 w-full min-w-[340px] max-w-xl bg-[#0D1424] border border-slate-700/80 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150"
                   dir={isRtl ? 'rtl' : 'ltr'}
                 >
                   {/* Results Body */}
@@ -624,10 +624,10 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
             <button
               type="button"
               onClick={() => speakSoundBox(45.0)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#00FF24]/10 border border-[#00FF24]/20 text-[#00FF24] text-xs font-bold hover:bg-[#00FF24]/20 transition-colors cursor-pointer"
+              className="h-11 flex items-center gap-2 px-4 rounded-xl bg-[#00FF24]/10 border border-[#00FF24]/20 text-[#00FF24] text-xs font-bold hover:bg-[#00FF24]/20 transition-colors cursor-pointer"
             >
               <span className="live-indicator w-1.5 h-1.5" />
-              <Volume2 className="h-3.5 w-3.5" />
+              <Volume2 className="h-4 w-4" />
               <span>{isAr ? 'جهاز الصوت متصل' : 'SoundBox Online'}</span>
             </button>
 
@@ -635,9 +635,9 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
             <button
               type="button"
               onClick={() => navigateTo('SOFTPOS_TERMINAL')}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#00FF24] text-black text-xs font-extrabold hover:bg-[#00FF24]/90 transition-colors cursor-pointer"
+              className="h-11 flex items-center gap-2 px-5 rounded-xl bg-[#00FF24] text-black text-xs font-extrabold hover:bg-[#00FF24]/90 transition-all shadow-lg shadow-[#00FF24]/20 cursor-pointer"
             >
-              <SmartphoneNfc className="h-3.5 w-3.5" />
+              <SmartphoneNfc className="h-4 w-4" />
               <span>{isAr ? '+ تحصيل جديد' : '+ New Charge'}</span>
             </button>
           </div>
@@ -651,4 +651,6 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     </div>
   );
 };
+
+
 
