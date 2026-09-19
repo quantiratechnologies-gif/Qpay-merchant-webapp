@@ -149,11 +149,6 @@ export const SmsOtpScreen: React.FC = () => {
     }
 
     sessionStorage.setItem('qpay_merchant_authenticated', 'true');
-    try {
-      localStorage.removeItem('qpay_merchant_explicit_logout');
-    } catch {
-      // ignore
-    }
 
     // Route to MERCHANT_PIN_SETUP flow
     navigateTo('MERCHANT_PIN_SETUP');
