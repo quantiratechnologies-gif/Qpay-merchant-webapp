@@ -49,7 +49,7 @@ export const HistoryScreen: React.FC = () => {
   };
 
   return (
-    <div className="fade-in" style={{ backgroundColor: '#0B0B0B', minHeight: '100%', paddingBottom: '96px' }}>
+    <div className="fade-in" style={{ backgroundColor: '#080C14', minHeight: '100%', paddingBottom: '96px' }}>
       <AppHeader
         title={t('history.title', 'Transactions')}
         showSearch
@@ -63,14 +63,14 @@ export const HistoryScreen: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
-              backgroundColor: '#171717',
-              border: '1px solid rgba(212, 175, 55, 0.4)',
+              backgroundColor: '#111726',
+              border: '1px solid rgba(127, 232, 127, 0.4)',
               borderRadius: '12px',
               padding: '10px 14px',
-              boxShadow: '0 0 16px rgba(212, 175, 55, 0.1)',
+              boxShadow: '0 0 16px rgba(127, 232, 127, 0.12)',
             }}
           >
-            <Search size={16} color="#D4AF37" />
+            <Search size={16} color="#7FE87F" />
             <input
               type="text"
               placeholder={language === 'العربية' ? 'البحث بالاسم أو المرجع البنكي...' : 'Search by name or UTR...'}
@@ -95,7 +95,7 @@ export const HistoryScreen: React.FC = () => {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#737373',
+                  color: '#6E6E85',
                   cursor: 'pointer',
                   padding: 0,
                   display: 'flex',
@@ -127,9 +127,9 @@ export const HistoryScreen: React.FC = () => {
               onClick={() => setFilter(f)}
               className={`interactive-tap ${isActive ? 'gold-gradient-btn' : ''}`}
               style={{
-                backgroundColor: isActive ? undefined : '#1E1E1E',
-                border: isActive ? 'none' : '1px solid #262626',
-                color: isActive ? '#0B0B0B' : '#A3A3A3',
+                backgroundColor: isActive ? undefined : '#151524',
+                border: isActive ? 'none' : '1px solid #2C2C44',
+                color: isActive ? '#080C14' : '#A2A2BA',
                 borderRadius: '20px',
                 padding: '7px 16px',
                 fontSize: '12px',
@@ -138,7 +138,7 @@ export const HistoryScreen: React.FC = () => {
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.15s ease',
-                boxShadow: isActive ? '0 2px 10px rgba(212, 175, 55, 0.25)' : 'none',
+                boxShadow: isActive ? '0 2px 10px rgba(127, 232, 127, 0.25)' : 'none',
               }}
             >
               {getFilterLabel(f)}
@@ -153,11 +153,11 @@ export const HistoryScreen: React.FC = () => {
           <div
             style={{
               textAlign: 'center',
-              backgroundColor: '#171717',
-              border: '1px solid #262626',
+              backgroundColor: '#111726',
+              border: '1px solid #2C2C44',
               borderRadius: '16px',
               padding: '40px 20px',
-              color: '#A3A3A3',
+              color: '#A2A2BA',
               boxShadow: 'none',
             }}
           >
@@ -166,9 +166,9 @@ export const HistoryScreen: React.FC = () => {
                 width: '48px',
                 height: '48px',
                 borderRadius: '14px',
-                backgroundColor: '#212121',
-                color: '#D4AF37',
-                border: '1px solid rgba(212, 175, 55, 0.25)',
+                backgroundColor: '#182236',
+                color: '#7FE87F',
+                border: '1px solid rgba(127, 232, 127, 0.25)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -180,7 +180,7 @@ export const HistoryScreen: React.FC = () => {
             <div style={{ fontSize: '15px', fontWeight: 800, color: '#FFFFFF' }}>
               {language === 'العربية' ? 'لا توجد عمليات' : 'No transactions'}
             </div>
-            <div style={{ fontSize: '13px', marginTop: '4px', color: '#737373' }}>
+            <div style={{ fontSize: '13px', marginTop: '4px', color: '#6E6E85' }}>
               {language === 'العربية' ? 'جرّب تعديل البحث أو الفلاتر' : 'Try adjusting your search or filters'}
             </div>
           </div>
@@ -189,7 +189,7 @@ export const HistoryScreen: React.FC = () => {
             <div key={dateLabel} style={{ marginBottom: '20px' }}>
               <div
                 style={{
-                  fontSize: '12px', fontWeight: 500, color: '#A3A3A3',
+                  fontSize: '12px', fontWeight: 500, color: '#A2A2BA',
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
                   marginBottom: '8px',
@@ -200,8 +200,8 @@ export const HistoryScreen: React.FC = () => {
               </div>
               <div
                 style={{
-                  backgroundColor: '#171717',
-                  border: '1px solid #262626',
+                  backgroundColor: '#111726',
+                  border: '1px solid #2C2C44',
                   borderRadius: '16px',
                   overflow: 'hidden',
                   padding: '8px 8px 0 8px',

@@ -5,7 +5,7 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto rounded-xl border border-[#262626] bg-[#171717]">
+  <div className="relative w-full overflow-auto rounded-xl border border-[#2C2C44] bg-[#111726]">
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-xs text-left border-collapse", className)}
@@ -21,7 +21,7 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead
     ref={ref}
-    className={cn("bg-[#121212] border-b border-[#262626]", className)}
+    className={cn("bg-[#121212] border-b border-[#2C2C44]", className)}
     {...props}
   />
 ));
@@ -33,7 +33,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn("divide-y divide-[#262626]/70 bg-[#171717]", className)}
+    className={cn("divide-y divide-[#2C2C44]/70 bg-[#111726]", className)}
     {...props}
   />
 ));
@@ -45,7 +45,7 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn("border-t border-[#262626] bg-[#121212] font-medium text-white", className)}
+    className={cn("border-t border-[#2C2C44] bg-[#121212] font-medium text-white", className)}
     {...props}
   />
 ));
@@ -58,7 +58,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "transition-colors hover:bg-[#212121] data-[state=selected]:bg-[#212121]",
+      "transition-colors hover:bg-[#182236] data-[state=selected]:bg-[#182236]",
       className
     )}
     {...props}

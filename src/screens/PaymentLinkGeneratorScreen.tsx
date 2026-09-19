@@ -77,7 +77,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
         <h1 style={{ fontSize: '22px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
           {isAr ? 'روابط الدفع' : 'Payment Links'}
         </h1>
-        <p style={{ fontSize: '13px', color: '#A3A3A3', marginTop: '4px', margin: 0 }}>
+        <p style={{ fontSize: '13px', color: '#A2A2BA', marginTop: '4px', margin: 0 }}>
           {isAr ? 'إنشاء ومشاركة روابط الدفع الفورية' : 'Create and share instant payment links'}
         </p>
       </div>
@@ -93,14 +93,14 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
       >
         {/* Left Column: Link Builder Form */}
         <div>
-          <Card variant="elevated" style={{ padding: '24px', background: '#171717', border: '1px solid #262626' }}>
+          <Card variant="elevated" style={{ padding: '24px', background: '#111726', border: '1px solid #2C2C44' }}>
             <form onSubmit={handleGenerate} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', borderBottom: '1px solid #262626', paddingBottom: '10px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', borderBottom: '1px solid #2C2C44', paddingBottom: '10px' }}>
                 {isAr ? 'بيانات الرابط' : 'Link Details'}
               </div>
 
               <div>
-                <label style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                <label style={{ fontSize: '12px', color: '#A2A2BA', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
                   {isAr ? 'اسم العميل' : 'Customer Name'}
                 </label>
                 <input
@@ -111,8 +111,8 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                   style={{
                     width: '100%',
                     padding: '11px 14px',
-                    backgroundColor: '#0B0B0B',
-                    border: '1px solid #262626',
+                    backgroundColor: '#080C14',
+                    border: '1px solid #2C2C44',
                     borderRadius: '10px',
                     color: '#FFFFFF',
                     fontSize: '13px',
@@ -123,7 +123,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                <label style={{ fontSize: '12px', color: '#A2A2BA', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
                   {isAr ? 'المبلغ (ر.س)' : 'Amount (SAR)'}
                 </label>
                 <input
@@ -133,23 +133,23 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                   style={{
                     width: '100%',
                     padding: '12px 14px',
-                    backgroundColor: '#0B0B0B',
-                    border: '1.5px solid #D4AF37',
+                    backgroundColor: '#080C14',
+                    border: '1.5px solid #7FE87F',
                     borderRadius: '10px',
-                    color: '#D4AF37',
+                    color: '#7FE87F',
                     fontSize: '18px',
                     fontWeight: 800,
                     outline: 'none',
                     boxSizing: 'border-box',
                   }}
                 />
-                <div style={{ fontSize: '11.5px', color: '#A3A3A3', marginTop: '4px' }}>
+                <div style={{ fontSize: '11.5px', color: '#A2A2BA', marginTop: '4px' }}>
                   {isAr ? `شامل ${formatSaudiCurrency(parseFloat(vatAmount) || 0, language)} ضريبة (١٥٪)` : `Includes SAR ${vatAmount} (15% VAT)`}
                 </div>
               </div>
 
               <div>
-                <label style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                <label style={{ fontSize: '12px', color: '#A2A2BA', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
                   {isAr ? 'رقم / وصف الطلب' : 'Order Reference'}
                 </label>
                 <input
@@ -160,8 +160,8 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                   style={{
                     width: '100%',
                     padding: '11px 14px',
-                    backgroundColor: '#0B0B0B',
-                    border: '1px solid #262626',
+                    backgroundColor: '#080C14',
+                    border: '1px solid #2C2C44',
                     borderRadius: '10px',
                     color: '#FFFFFF',
                     fontSize: '13px',
@@ -187,7 +187,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: '0 4px 16px rgba(212, 175, 55, 0.25)',
+                  boxShadow: '0 4px 16px rgba(127, 232, 127, 0.25)',
                 }}
               >
                 <Link2 size={16} />
@@ -204,9 +204,9 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
             variant="elevated"
             style={{
               padding: '24px',
-              backgroundColor: '#171717',
-              border: '1px solid rgba(212, 175, 55, 0.35)',
-              background: 'linear-gradient(145deg, #171717 0%, #111111 100%)',
+              backgroundColor: '#111726',
+              border: '1px solid rgba(127, 232, 127, 0.35)',
+              background: 'linear-gradient(145deg, #111726 0%, #111111 100%)',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -217,9 +217,9 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 style={{
                   fontSize: '11px',
                   fontWeight: 800,
-                  backgroundColor: 'rgba(212, 175, 55, 0.15)',
-                  color: '#D4AF37',
-                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                  color: '#7FE87F',
+                  border: '1px solid rgba(127, 232, 127, 0.3)',
                   padding: '3px 8px',
                   borderRadius: '6px',
                 }}
@@ -228,13 +228,13 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
               </span>
             </div>
 
-            <div style={{ margin: '18px 0', padding: '14px', backgroundColor: '#0B0B0B', borderRadius: '12px', border: '1px solid #262626' }}>
-              <div style={{ fontSize: '11px', color: '#A3A3A3' }}>{isAr ? 'الرابط' : 'URL'}</div>
+            <div style={{ margin: '18px 0', padding: '14px', backgroundColor: '#080C14', borderRadius: '12px', border: '1px solid #2C2C44' }}>
+              <div style={{ fontSize: '11px', color: '#A2A2BA' }}>{isAr ? 'الرابط' : 'URL'}</div>
               <div
                 style={{
                   fontSize: '13.5px',
                   fontWeight: 700,
-                  color: '#D4AF37',
+                  color: '#7FE87F',
                   fontFamily: 'monospace',
                   wordBreak: 'break-all',
                   marginTop: '4px',
@@ -245,8 +245,8 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', fontSize: '13px' }}>
-              <span style={{ color: '#A3A3A3' }}>{isAr ? 'المبلغ' : 'Amount'}</span>
-              <span style={{ color: '#D4AF37', fontWeight: 900, fontSize: '16px' }}>{formatSaudiCurrency(numAmount, language)}</span>
+              <span style={{ color: '#A2A2BA' }}>{isAr ? 'المبلغ' : 'Amount'}</span>
+              <span style={{ color: '#7FE87F', fontWeight: 900, fontSize: '16px' }}>{formatSaudiCurrency(numAmount, language)}</span>
             </div>
 
             {/* Share Grid */}
@@ -257,8 +257,8 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '12px',
                   borderRadius: '10px',
-                  backgroundColor: '#212121',
-                  border: '1px solid #262626',
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
                   color: '#FFFFFF',
                   fontSize: '13px',
                   fontWeight: 800,
@@ -269,7 +269,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                {copied ? <Check size={16} color="#D4AF37" /> : <Copy size={16} color="#D4AF37" />}
+                {copied ? <Check size={16} color="#7FE87F" /> : <Copy size={16} color="#7FE87F" />}
                 <span>{copied ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ الرابط' : 'Copy Link')}</span>
               </button>
 
@@ -279,9 +279,9 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '12px',
                   borderRadius: '10px',
-                  backgroundColor: 'rgba(212, 175, 55, 0.12)',
-                  border: '1px solid rgba(212, 175, 55, 0.3)',
-                  color: '#D4AF37',
+                  backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                  border: '1px solid rgba(127, 232, 127, 0.3)',
+                  color: '#7FE87F',
                   fontSize: '13px',
                   fontWeight: 800,
                   cursor: 'pointer',
@@ -306,9 +306,9 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 width: '100%',
                 padding: '11px',
                 borderRadius: '10px',
-                backgroundColor: '#1E1E1E',
-                border: '1px solid #262626',
-                color: '#A3A3A3',
+                backgroundColor: '#151524',
+                border: '1px solid #2C2C44',
+                color: '#A2A2BA',
                 fontSize: '12.5px',
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -318,7 +318,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
                 gap: '6px',
               }}
             >
-              <Sparkles size={14} color="#D4AF37" />
+              <Sparkles size={14} color="#7FE87F" />
               <span>{isSimulating ? (isAr ? 'جاري التحويل...' : 'Simulating...') : (isAr ? 'محاكاة الدفع' : 'Simulate Payment')}</span>
             </button>
           </Card>

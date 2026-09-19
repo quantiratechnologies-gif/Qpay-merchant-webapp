@@ -99,8 +99,8 @@ export const TapCardScreen: React.FC = () => {
             padding: '48px 24px',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             gap: '24px',
-            background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, #171717 70%)',
-            border: '1px solid #262626',
+            background: 'radial-gradient(ellipse at center, rgba(127, 232, 127, 0.08) 0%, #111726 70%)',
+            border: '1px solid #2C2C44',
             minHeight: '400px',
           }}
         >
@@ -112,7 +112,7 @@ export const TapCardScreen: React.FC = () => {
                   style={{
                     position: 'absolute', width: '220px', height: '220px',
                     borderRadius: '50%',
-                    border: '2px solid rgba(212, 175, 55, 0.25)',
+                    border: '2px solid rgba(127, 232, 127, 0.25)',
                     animation: 'nfcPulseGold 2.4s infinite ease-out',
                   }}
                 />
@@ -120,7 +120,7 @@ export const TapCardScreen: React.FC = () => {
                   style={{
                     position: 'absolute', width: '165px', height: '165px',
                     borderRadius: '50%',
-                    border: '2px solid rgba(212, 175, 55, 0.45)',
+                    border: '2px solid rgba(127, 232, 127, 0.45)',
                     animation: 'nfcPulseGold 2.4s infinite ease-out 0.6s',
                   }}
                 />
@@ -132,19 +132,19 @@ export const TapCardScreen: React.FC = () => {
               style={{
                 width: '100px', height: '100px',
                 borderRadius: '30px',
-                backgroundColor: '#1E1E1E',
-                border: `2px solid ${step === 'success' ? '#D4AF37' : 'rgba(212, 175, 55, 0.6)'}`,
+                backgroundColor: '#151524',
+                border: `2px solid ${step === 'success' ? '#7FE87F' : 'rgba(127, 232, 127, 0.6)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#D4AF37',
+                color: '#7FE87F',
                 zIndex: 2,
-                boxShadow: `0 0 ${step === 'success' ? '48px' : '24px'} rgba(212, 175, 55, 0.35)`,
+                boxShadow: `0 0 ${step === 'success' ? '48px' : '24px'} rgba(127, 232, 127, 0.35)`,
                 transition: 'all 0.4s ease',
               }}
             >
               {step === 'success' ? (
-                <CheckCircle2 size={52} color="#D4AF37" />
+                <CheckCircle2 size={52} color="#7FE87F" />
               ) : (
-                <Wifi size={52} color="#D4AF37" style={{ transform: 'rotate(90deg)' }} />
+                <Wifi size={52} color="#7FE87F" style={{ transform: 'rotate(90deg)' }} />
               )}
             </div>
           </div>
@@ -155,7 +155,7 @@ export const TapCardScreen: React.FC = () => {
             <div style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', marginTop: '12px' }}>
               {current.title}
             </div>
-            <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '8px 0 0 0', maxWidth: '320px', lineHeight: 1.5 }}>
+            <p style={{ fontSize: '13px', color: '#A2A2BA', margin: '8px 0 0 0', maxWidth: '320px', lineHeight: 1.5 }}>
               {current.sub}
             </p>
           </div>
@@ -168,19 +168,19 @@ export const TapCardScreen: React.FC = () => {
             variant="elevated"
             style={{
               padding: '24px',
-              background: 'linear-gradient(145deg, #171717 0%, #121212 100%)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
+              background: 'linear-gradient(145deg, #111726 0%, #121212 100%)',
+              border: '1px solid rgba(127, 232, 127, 0.3)',
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#A2A2BA', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
               {isAr ? 'مبلغ العملية' : 'CHARGE AMOUNT'}
             </div>
             <div
               className="tabular-nums"
               style={{
                 fontSize: '42px', fontWeight: 900,
-                color: '#D4AF37',
+                color: '#7FE87F',
                 letterSpacing: '-0.04em',
                 transition: 'color 0.4s ease',
               }}
@@ -188,15 +188,15 @@ export const TapCardScreen: React.FC = () => {
               {formatCurrency(amount, language)}
             </div>
             {step === 'success' && (
-              <div style={{ marginTop: '8px', fontSize: '12.5px', color: '#A3A3A3' }}>
+              <div style={{ marginTop: '8px', fontSize: '12.5px', color: '#A2A2BA' }}>
                 {isAr ? 'تمت التسوية إلى حسابك البنكي' : 'Settled to your bank account'}
               </div>
             )}
           </Card>
 
           {/* Terminal Info */}
-          <Card variant="elevated" style={{ padding: '18px 20px', background: '#171717', border: '1px solid #262626' }}>
-            <div style={{ fontSize: '11px', fontWeight: 800, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '14px' }}>
+          <Card variant="elevated" style={{ padding: '18px 20px', background: '#111726', border: '1px solid #2C2C44' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, color: '#A2A2BA', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '14px' }}>
               {isAr ? 'معلومات الجهاز' : 'TERMINAL INFO'}
             </div>
 
@@ -206,8 +206,8 @@ export const TapCardScreen: React.FC = () => {
               { icon: <ShieldCheck size={13} />, label: isAr ? 'التشفير' : 'Security', value: 'EMV + 3DS' },
               { icon: <Smartphone size={13} />, label: isAr ? 'الجهاز' : 'Terminal', value: `#${merchantInfo.terminalId}` },
             ].map(({ icon, label, value }) => (
-              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #262626' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '7px', color: '#A3A3A3', fontSize: '12.5px' }}>
+              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #2C2C44' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '7px', color: '#A2A2BA', fontSize: '12.5px' }}>
                   {icon}
                   {label}
                 </div>
@@ -217,15 +217,15 @@ export const TapCardScreen: React.FC = () => {
           </Card>
 
           {/* Accepted Cards */}
-          <Card variant="inset" style={{ padding: '14px 16px', background: '#121212', border: '1px solid #262626' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#737373', marginBottom: '10px' }}>
+          <Card variant="inset" style={{ padding: '14px 16px', background: '#121212', border: '1px solid #2C2C44' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#6E6E85', marginBottom: '10px' }}>
               {isAr ? 'طرق الدفع المقبولة' : 'ACCEPTED METHODS'}
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {[
-                { label: isAr ? '💳 بطاقة مدى' : '💳 Debit Card', color: '#D4AF37' },
+                { label: isAr ? '💳 بطاقة مدى' : '💳 Debit Card', color: '#7FE87F' },
                 { label: isAr ? ' أبل باي' : ' Apple Pay', color: '#FFFFFF' },
-                { label: 'VISA', color: '#F1D77A' },
+                { label: 'VISA', color: '#98F598' },
                 { label: 'Mastercard', color: '#FF7B54' },
               ].map(({ label, color }) => (
                 <span

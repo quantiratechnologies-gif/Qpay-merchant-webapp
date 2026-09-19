@@ -191,7 +191,7 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
         position: 'relative',
         minHeight: '100vh',
         width: '100%',
-        backgroundColor: '#0B0B0B',
+        backgroundColor: '#080C14',
         color: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column',
@@ -228,9 +228,9 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
             }}
             className="interactive-tap"
             style={{
-              backgroundColor: '#171717',
-              border: '1px solid #262626',
-              color: '#A3A3A3',
+              backgroundColor: '#111726',
+              border: '1px solid #2C2C44',
+              color: '#A2A2BA',
               fontSize: '12px',
               fontWeight: 700,
               padding: '5px 14px',
@@ -303,8 +303,8 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
             maxWidth: '320px',
             height: '48px',
             borderRadius: '12px',
-            background: 'linear-gradient(135deg, #D4AF37 0%, #F1D77A 50%, #B8972E 100%)',
-            color: '#0B0B0B',
+            background: 'linear-gradient(135deg, #7FE87F 0%, #98F598 50%, #5FBF5F 100%)',
+            color: '#080C14',
             border: 'none',
             fontSize: '14px',
             fontWeight: 800,
@@ -314,7 +314,7 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
             justifyContent: 'center',
             gap: '6px',
             cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(212, 175, 55, 0.25)',
+            boxShadow: '0 4px 14px rgba(127, 232, 127, 0.25)',
             transition: 'all 0.15s ease',
           }}
         >

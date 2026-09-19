@@ -256,11 +256,11 @@ export const MerchantRegistrationScreen: React.FC = () => {
   return (
     <div className="w-full text-white flex flex-col select-none" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Top Header Row with Back Button */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#262626] mb-4">
+      <div className="flex items-center justify-between pb-3 border-b border-[#2C2C44] mb-4">
         <button
           type="button"
           onClick={() => navigateTo('MOBILE_NUMBER')}
-          className="flex items-center gap-1.5 text-xs font-bold text-[#A3A3A3] hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs font-bold text-[#A2A2BA] hover:text-white transition-colors cursor-pointer"
         >
           <ArrowLeft className={`h-4 w-4 ${isRtl ? 'rotate-180' : ''}`} />
           <span>{isAr ? 'العودة لتسجيل الدخول' : 'Back to Sign In'}</span>
@@ -272,7 +272,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
         <h2 className="text-xl font-extrabold text-white tracking-tight">
           {isAr ? 'تسجيل المنشأة' : 'Store Registration'}
         </h2>
-        <p className="text-xs text-[#A3A3A3] mt-0.5">
+        <p className="text-xs text-[#A2A2BA] mt-0.5">
           {isAr ? 'أدخل البيانات للاعتماد الفوري' : 'Enter details for instant setup'}
         </p>
       </div>
@@ -288,14 +288,14 @@ export const MerchantRegistrationScreen: React.FC = () => {
       {!isSubmitted ? (
         <form onSubmit={handleSubmit} noValidate className="space-y-3.5 text-start">
           {/* 1. Mobile */}
-          <div className={`p-3 bg-[#171717] border rounded-xl space-y-1.5 transition-colors ${errors.mobileNumber ? 'border-red-500/60 bg-red-500/5' : 'border-[#262626]'}`}>
+          <div className={`p-3 bg-[#111726] border rounded-xl space-y-1.5 transition-colors ${errors.mobileNumber ? 'border-red-500/60 bg-red-500/5' : 'border-[#2C2C44]'}`}>
             <label className="text-[11px] font-bold text-neutral-300 flex items-center gap-1">
               <span>{isAr ? 'رقم الجوال' : 'Mobile Number'}</span>
               <span className="text-red-400 font-bold">*</span>
             </label>
-            <div className={`flex items-center h-9 bg-[#1E1E1E] border rounded-lg px-2.5 focus-within:border-[#D4AF37] transition-colors ${errors.mobileNumber ? 'border-red-500/70' : 'border-[#262626]'}`}>
-              <Phone className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
-              <div className={`text-xs font-bold text-[#A3A3A3] px-2 ${isRtl ? 'border-l border-[#333333]' : 'border-r border-[#333333]'}`}>
+            <div className={`flex items-center h-9 bg-[#151524] border rounded-lg px-2.5 focus-within:border-[#7FE87F] transition-colors ${errors.mobileNumber ? 'border-red-500/70' : 'border-[#2C2C44]'}`}>
+              <Phone className="h-3.5 w-3.5 text-[#7FE87F] flex-shrink-0" />
+              <div className={`text-xs font-bold text-[#A2A2BA] px-2 ${isRtl ? 'border-l border-[#3A3A52]' : 'border-r border-[#3A3A52]'}`}>
                 +966
               </div>
               <input
@@ -308,7 +308,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
                 placeholder="50 123 4567"
                 maxLength={10}
                 dir="ltr"
-                className="w-full bg-transparent border-none outline-none text-xs font-bold text-white px-2 tracking-wider placeholder-[#737373]"
+                className="w-full bg-transparent border-none outline-none text-xs font-bold text-white px-2 tracking-wider placeholder-[#6E6E85]"
               />
             </div>
             {errors.mobileNumber && (
@@ -317,14 +317,14 @@ export const MerchantRegistrationScreen: React.FC = () => {
           </div>
 
           {/* 2. Business Name & Type */}
-          <div className={`p-3 bg-[#171717] border rounded-xl space-y-2 transition-colors ${errors.businessName ? 'border-red-500/60 bg-red-500/5' : 'border-[#262626]'}`}>
+          <div className={`p-3 bg-[#111726] border rounded-xl space-y-2 transition-colors ${errors.businessName ? 'border-red-500/60 bg-red-500/5' : 'border-[#2C2C44]'}`}>
             <label className="text-[11px] font-bold text-neutral-300 flex items-center gap-1">
               <span>{isAr ? 'اسم المنشأة والكيان' : 'Business Name & Type'}</span>
               <span className="text-red-400 font-bold">*</span>
             </label>
             <div className="space-y-2">
               <div className="relative flex items-center">
-                <Store className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                <Store className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                 <input
                   type="text"
                   value={businessName}
@@ -333,8 +333,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                     if (errors.businessName) setErrors((prev) => ({ ...prev, businessName: '' }));
                   }}
                   placeholder={isAr ? 'اسم المنشأة' : 'Store Name'}
-                  className={`w-full h-9 bg-[#1E1E1E] border rounded-lg text-xs font-semibold text-white placeholder-[#737373] outline-none focus:border-[#D4AF37] transition-colors ${
-                    errors.businessName ? 'border-red-500/70' : 'border-[#262626]'
+                  className={`w-full h-9 bg-[#151524] border rounded-lg text-xs font-semibold text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] transition-colors ${
+                    errors.businessName ? 'border-red-500/70' : 'border-[#2C2C44]'
                   } ${isRtl ? 'pr-8 pl-2.5' : 'pl-8 pr-2.5'}`}
                 />
               </div>
@@ -343,16 +343,16 @@ export const MerchantRegistrationScreen: React.FC = () => {
               )}
 
               <div className="relative flex items-center">
-                <Building2 className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                <Building2 className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                 <select
                   value={businessType}
                   onChange={(e) => setBusinessType(e.target.value)}
-                  className={`w-full h-9 bg-[#1E1E1E] border border-[#262626] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#D4AF37] cursor-pointer ${
+                  className={`w-full h-9 bg-[#151524] border border-[#2C2C44] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#7FE87F] cursor-pointer ${
                     isRtl ? 'pr-8 pl-2.5' : 'pl-8 pr-2.5'
                   }`}
                 >
                   {BUSINESS_TYPES.map((t) => (
-                    <option key={t.en} value={t.en} className="bg-[#171717] text-white">
+                    <option key={t.en} value={t.en} className="bg-[#111726] text-white">
                       {isAr ? t.ar : t.en}
                     </option>
                   ))}
@@ -362,19 +362,19 @@ export const MerchantRegistrationScreen: React.FC = () => {
           </div>
 
           {/* 3. CR & VAT ID */}
-          <div className={`p-3 bg-[#171717] border rounded-xl space-y-2 transition-colors ${errors.crNumber || errors.vatNumber ? 'border-red-500/60 bg-red-500/5' : 'border-[#262626]'}`}>
+          <div className={`p-3 bg-[#111726] border rounded-xl space-y-2 transition-colors ${errors.crNumber || errors.vatNumber ? 'border-red-500/60 bg-red-500/5' : 'border-[#2C2C44]'}`}>
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-bold text-neutral-300 flex items-center gap-1">
                 <span>{isAr ? 'السجل والضريبة' : 'CR & VAT Number'}</span>
                 <span className="text-red-400 font-bold">*</span>
               </label>
-              <span className="text-[10px] text-[#D4AF37] font-bold">Wathq Verified</span>
+              <span className="text-[10px] text-[#7FE87F] font-bold">Wathq Verified</span>
             </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <div className="relative flex items-center">
-                  <FileText className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                  <FileText className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                   <input
                     type="text"
                     maxLength={10}
@@ -385,8 +385,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                     }}
                     placeholder={isAr ? 'السجل (10 أرقام)' : 'CR (10 digits)'}
                     dir="ltr"
-                    className={`w-full h-9 bg-[#1E1E1E] border rounded-lg text-xs font-bold font-mono text-white placeholder-[#737373] outline-none focus:border-[#D4AF37] transition-colors ${
-                      errors.crNumber ? 'border-red-500/70' : 'border-[#262626]'
+                    className={`w-full h-9 bg-[#151524] border rounded-lg text-xs font-bold font-mono text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] transition-colors ${
+                      errors.crNumber ? 'border-red-500/70' : 'border-[#2C2C44]'
                     } ${isRtl ? 'pr-7 pl-2' : 'pl-7 pr-2'}`}
                   />
                 </div>
@@ -397,7 +397,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
 
               <div>
                 <div className="relative flex items-center">
-                  <Hash className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                  <Hash className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                   <input
                     type="text"
                     maxLength={15}
@@ -408,8 +408,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                     }}
                     placeholder={isAr ? 'الضريبة (15 رقم)' : 'VAT (15 digits)'}
                     dir="ltr"
-                    className={`w-full h-9 bg-[#1E1E1E] border rounded-lg text-xs font-bold font-mono text-white placeholder-[#737373] outline-none focus:border-[#D4AF37] transition-colors ${
-                      errors.vatNumber ? 'border-red-500/70' : 'border-[#262626]'
+                    className={`w-full h-9 bg-[#151524] border rounded-lg text-xs font-bold font-mono text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] transition-colors ${
+                      errors.vatNumber ? 'border-red-500/70' : 'border-[#2C2C44]'
                     } ${isRtl ? 'pr-7 pl-2' : 'pl-7 pr-2'}`}
                   />
                 </div>
@@ -421,7 +421,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
           </div>
 
           {/* 4. Owner Details */}
-          <div className={`p-3 bg-[#171717] border rounded-xl space-y-2 transition-colors ${errors.ownerName || errors.nationalId ? 'border-red-500/60 bg-red-500/5' : 'border-[#262626]'}`}>
+          <div className={`p-3 bg-[#111726] border rounded-xl space-y-2 transition-colors ${errors.ownerName || errors.nationalId ? 'border-red-500/60 bg-red-500/5' : 'border-[#2C2C44]'}`}>
             <label className="text-[11px] font-bold text-neutral-300 flex items-center gap-1">
               <span>{isAr ? 'بيانات المالك' : 'Owner Details'}</span>
               <span className="text-red-400 font-bold">*</span>
@@ -429,7 +429,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <div className="relative flex items-center">
-                  <User className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                  <User className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                   <input
                     type="text"
                     value={ownerName}
@@ -438,8 +438,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                       if (errors.ownerName) setErrors((prev) => ({ ...prev, ownerName: '' }));
                     }}
                     placeholder={isAr ? 'اسم المالك' : 'Full Name'}
-                    className={`w-full h-9 bg-[#1E1E1E] border rounded-lg text-xs font-semibold text-white placeholder-[#737373] outline-none focus:border-[#D4AF37] transition-colors ${
-                      errors.ownerName ? 'border-red-500/70' : 'border-[#262626]'
+                    className={`w-full h-9 bg-[#151524] border rounded-lg text-xs font-semibold text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] transition-colors ${
+                      errors.ownerName ? 'border-red-500/70' : 'border-[#2C2C44]'
                     } ${isRtl ? 'pr-7 pl-2' : 'pl-7 pr-2'}`}
                   />
                 </div>
@@ -450,7 +450,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
 
               <div>
                 <div className="relative flex items-center">
-                  <ShieldCheck className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                  <ShieldCheck className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                   <input
                     type="text"
                     maxLength={10}
@@ -461,8 +461,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                     }}
                     placeholder={isAr ? 'الهوية (10 أرقام)' : 'National ID (10)'}
                     dir="ltr"
-                    className={`w-full h-9 bg-[#1E1E1E] border rounded-lg text-xs font-bold font-mono text-white placeholder-[#737373] outline-none focus:border-[#D4AF37] transition-colors ${
-                      errors.nationalId ? 'border-red-500/70' : 'border-[#262626]'
+                    className={`w-full h-9 bg-[#151524] border rounded-lg text-xs font-bold font-mono text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] transition-colors ${
+                      errors.nationalId ? 'border-red-500/70' : 'border-[#2C2C44]'
                     } ${isRtl ? 'pr-7 pl-2' : 'pl-7 pr-2'}`}
                   />
                 </div>
@@ -474,23 +474,23 @@ export const MerchantRegistrationScreen: React.FC = () => {
           </div>
 
           {/* 5. Address & Activity */}
-          <div className={`p-3 bg-[#171717] border rounded-xl space-y-2 transition-colors ${errors.address ? 'border-red-500/60 bg-red-500/5' : 'border-[#262626]'}`}>
+          <div className={`p-3 bg-[#111726] border rounded-xl space-y-2 transition-colors ${errors.address ? 'border-red-500/60 bg-red-500/5' : 'border-[#2C2C44]'}`}>
             <label className="text-[11px] font-bold text-neutral-300 flex items-center gap-1">
               <span>{isAr ? 'النشاط والموقع' : 'Activity & Location'}</span>
               <span className="text-red-400 font-bold">*</span>
             </label>
             <div className="space-y-2">
               <div className="relative flex items-center">
-                <Tag className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                <Tag className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                 <select
                   value={activity}
                   onChange={(e) => setActivity(e.target.value)}
-                  className={`w-full h-9 bg-[#1E1E1E] border border-[#262626] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#D4AF37] cursor-pointer ${
+                  className={`w-full h-9 bg-[#151524] border border-[#2C2C44] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#7FE87F] cursor-pointer ${
                     isRtl ? 'pr-8 pl-2.5' : 'pl-8 pr-2.5'
                   }`}
                 >
                   {BUSINESS_ACTIVITIES.map((a) => (
-                    <option key={a.en} value={a.en} className="bg-[#171717] text-white">
+                    <option key={a.en} value={a.en} className="bg-[#111726] text-white">
                       {isAr ? a.ar : a.en}
                     </option>
                   ))}
@@ -499,16 +499,16 @@ export const MerchantRegistrationScreen: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="relative flex items-center">
-                  <MapPin className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                  <MapPin className={`absolute ${isRtl ? 'right-2' : 'left-2'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                   <select
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className={`w-full h-9 bg-[#1E1E1E] border border-[#262626] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#D4AF37] cursor-pointer ${
+                    className={`w-full h-9 bg-[#151524] border border-[#2C2C44] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#7FE87F] cursor-pointer ${
                       isRtl ? 'pr-7 pl-2' : 'pl-7 pr-2'
                     }`}
                   >
                     {SAUDI_CITIES.map((c) => (
-                      <option key={c.en} value={c.en} className="bg-[#171717] text-white">
+                      <option key={c.en} value={c.en} className="bg-[#111726] text-white">
                         {isAr ? c.ar : c.en}
                       </option>
                     ))}
@@ -524,8 +524,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                       if (errors.address) setErrors((prev) => ({ ...prev, address: '' }));
                     }}
                     placeholder={isAr ? 'الحي / الشارع' : 'District / Street'}
-                    className={`w-full h-9 bg-[#1E1E1E] border rounded-lg px-2.5 text-xs font-semibold text-white placeholder-[#737373] outline-none focus:border-[#D4AF37] transition-colors ${
-                      errors.address ? 'border-red-500/70' : 'border-[#262626]'
+                    className={`w-full h-9 bg-[#151524] border rounded-lg px-2.5 text-xs font-semibold text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] transition-colors ${
+                      errors.address ? 'border-red-500/70' : 'border-[#2C2C44]'
                     }`}
                   />
                   {errors.address && (
@@ -537,26 +537,26 @@ export const MerchantRegistrationScreen: React.FC = () => {
           </div>
 
           {/* 6. Settlement Bank */}
-          <div className={`p-3 bg-[#171717] border rounded-xl space-y-2 transition-colors ${errors.iban ? 'border-red-500/60 bg-red-500/5' : 'border-[#262626]'}`}>
+          <div className={`p-3 bg-[#111726] border rounded-xl space-y-2 transition-colors ${errors.iban ? 'border-red-500/60 bg-red-500/5' : 'border-[#2C2C44]'}`}>
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-bold text-neutral-300 flex items-center gap-1">
                 <span>{isAr ? 'حساب التسوية' : 'Settlement Account'}</span>
                 <span className="text-red-400 font-bold">*</span>
               </label>
-              <span className="text-[10px] text-[#D4AF37] font-bold">Sarie T+0</span>
+              <span className="text-[10px] text-[#7FE87F] font-bold">Sarie T+0</span>
             </div>
             <div className="space-y-2">
               <div className="relative flex items-center">
-                <Building2 className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#D4AF37] pointer-events-none`} />
+                <Building2 className={`absolute ${isRtl ? 'right-2.5' : 'left-2.5'} h-3.5 w-3.5 text-[#7FE87F] pointer-events-none`} />
                 <select
                   value={bankName}
                   onChange={(e) => setBankName(e.target.value)}
-                  className={`w-full h-9 bg-[#1E1E1E] border border-[#262626] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#D4AF37] cursor-pointer ${
+                  className={`w-full h-9 bg-[#151524] border border-[#2C2C44] rounded-lg text-xs font-semibold text-white outline-none focus:border-[#7FE87F] cursor-pointer ${
                     isRtl ? 'pr-8 pl-2.5' : 'pl-8 pr-2.5'
                   }`}
                 >
                   {SAUDI_BANKS.map((b) => (
-                    <option key={b.nameEn} value={b.nameEn} className="bg-[#171717] text-white">
+                    <option key={b.nameEn} value={b.nameEn} className="bg-[#111726] text-white">
                       {isAr ? b.nameAr : b.nameEn}
                     </option>
                   ))}
@@ -573,8 +573,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                   }}
                   placeholder="SA03 8000 0451 9820 1849 2011"
                   dir="ltr"
-                  className={`w-full h-9 bg-[#1E1E1E] border rounded-lg px-2.5 text-xs font-bold font-mono text-white placeholder-[#737373] outline-none focus:border-[#D4AF37] transition-colors ${
-                    errors.iban ? 'border-red-500/70' : 'border-[#262626]'
+                  className={`w-full h-9 bg-[#151524] border rounded-lg px-2.5 text-xs font-bold font-mono text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] transition-colors ${
+                    errors.iban ? 'border-red-500/70' : 'border-[#2C2C44]'
                   }`}
                 />
                 {errors.iban && (
@@ -585,7 +585,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
           </div>
 
           {/* 7. Document */}
-          <div className={`p-3 bg-[#171717] border rounded-xl space-y-2 transition-colors ${errors.uploadedFile ? 'border-red-500/60 bg-red-500/5' : 'border-[#262626]'}`}>
+          <div className={`p-3 bg-[#111726] border rounded-xl space-y-2 transition-colors ${errors.uploadedFile ? 'border-red-500/60 bg-red-500/5' : 'border-[#2C2C44]'}`}>
             <input
               ref={fileInputRef}
               type="file"
@@ -598,14 +598,14 @@ export const MerchantRegistrationScreen: React.FC = () => {
                 <span>{isAr ? 'مستند السجل' : 'CR Document'}</span>
                 <span className="text-red-400 font-bold">*</span>
               </label>
-              <span className="text-[10px] text-[#D4AF37] font-bold">
+              <span className="text-[10px] text-[#7FE87F] font-bold">
                 {uploadedFile ? (isAr ? 'مرفق' : 'Uploaded') : (isAr ? 'مطلوب' : 'Required')}
               </span>
             </div>
 
-            <div className={`flex items-center justify-between p-2 bg-[#1E1E1E] border rounded-lg ${errors.uploadedFile ? 'border-red-500/70' : 'border-[#262626]'}`}>
+            <div className={`flex items-center justify-between p-2 bg-[#151524] border rounded-lg ${errors.uploadedFile ? 'border-red-500/70' : 'border-[#2C2C44]'}`}>
               <div className="flex items-center gap-2 min-w-0 flex-1">
-                <FileCheck2 className={`h-4 w-4 flex-shrink-0 ${uploadedFile ? 'text-[#D4AF37]' : 'text-neutral-500'}`} />
+                <FileCheck2 className={`h-4 w-4 flex-shrink-0 ${uploadedFile ? 'text-[#7FE87F]' : 'text-neutral-500'}`} />
                 <span className="text-xs font-bold text-white truncate">
                   {uploadedFile ? uploadedFile.name : (isAr ? 'لم يتم إرفاق ملف بعد' : 'No file chosen yet')}
                 </span>
@@ -614,9 +614,9 @@ export const MerchantRegistrationScreen: React.FC = () => {
                 type="button"
                 onClick={handleTriggerUpload}
                 disabled={isUploadingFile}
-                className="px-2.5 py-1 rounded-lg bg-[#171717] border border-[#333333] text-[11px] font-bold text-neutral-200 hover:text-white hover:border-[#D4AF37] transition-colors cursor-pointer flex items-center gap-1 flex-shrink-0 ml-2"
+                className="px-2.5 py-1 rounded-lg bg-[#111726] border border-[#3A3A52] text-[11px] font-bold text-neutral-200 hover:text-white hover:border-[#7FE87F] transition-colors cursor-pointer flex items-center gap-1 flex-shrink-0 ml-2"
               >
-                <Upload className="h-3 w-3 text-[#D4AF37]" />
+                <Upload className="h-3 w-3 text-[#7FE87F]" />
                 <span>{uploadedFile ? (isAr ? 'تغيير' : 'Change') : (isAr ? 'رفع ملف' : 'Upload')}</span>
               </button>
             </div>
@@ -629,7 +629,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
           <button
             type="submit"
             disabled={isVerifying}
-            className="w-full h-11 mt-2 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F1D77A] to-[#B8972E] text-[#0B0B0B] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 disabled:opacity-50 transition-all shadow-lg shadow-[#D4AF37]/25 cursor-pointer"
+            className="w-full h-11 mt-2 rounded-xl bg-gradient-to-r from-[#7FE87F] via-[#98F598] to-[#5FBF5F] text-[#080C14] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 disabled:opacity-50 transition-all shadow-lg shadow-[#7FE87F]/25 cursor-pointer"
           >
             {isVerifying ? (
               <div className="flex items-center gap-2">
@@ -647,7 +647,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
       ) : (
         /* Result State */
         <div className="space-y-4 text-center py-4">
-          <div className="w-14 h-14 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] mx-auto shadow-lg shadow-[#D4AF37]/20">
+          <div className="w-14 h-14 rounded-full bg-[#7FE87F]/10 border border-[#7FE87F]/30 flex items-center justify-center text-[#7FE87F] mx-auto shadow-lg shadow-[#7FE87F]/20">
             <CheckCircle2 className="h-8 w-8" />
           </div>
 
@@ -655,27 +655,27 @@ export const MerchantRegistrationScreen: React.FC = () => {
             <h3 className="text-lg font-black text-white">
               {isAr ? 'تم تسجيل المنشأة بنجاح!' : 'Registration Complete!'}
             </h3>
-            <p className="text-xs text-[#A3A3A3] mt-1">
+            <p className="text-xs text-[#A2A2BA] mt-1">
               {isAr ? 'تم تفعيل نقاط البيع والتسويات' : 'SoftPOS & instant settlements active'}
             </p>
           </div>
 
           {/* Summary Confirmation Card */}
-          <div className="p-3 bg-[#171717] border border-[#262626] rounded-xl space-y-2 text-start text-xs">
-            <div className="flex justify-between items-center py-0.5 border-b border-[#262626]">
-              <span className="text-[#A3A3A3]">{isAr ? 'المنشأة' : 'Business'}</span>
+          <div className="p-3 bg-[#111726] border border-[#2C2C44] rounded-xl space-y-2 text-start text-xs">
+            <div className="flex justify-between items-center py-0.5 border-b border-[#2C2C44]">
+              <span className="text-[#A2A2BA]">{isAr ? 'المنشأة' : 'Business'}</span>
               <span className="font-bold text-white truncate max-w-[180px]">{businessName}</span>
             </div>
-            <div className="flex justify-between items-center py-0.5 border-b border-[#262626]">
-              <span className="text-[#A3A3A3]">{isAr ? 'السجل' : 'CR'}</span>
+            <div className="flex justify-between items-center py-0.5 border-b border-[#2C2C44]">
+              <span className="text-[#A2A2BA]">{isAr ? 'السجل' : 'CR'}</span>
               <span className="font-mono font-bold text-neutral-200">{crNumber}</span>
             </div>
-            <div className="flex justify-between items-center py-0.5 border-b border-[#262626]">
-              <span className="text-[#A3A3A3]">MID</span>
-              <span className="font-mono font-bold text-[#D4AF37]">MID-966-20268491</span>
+            <div className="flex justify-between items-center py-0.5 border-b border-[#2C2C44]">
+              <span className="text-[#A2A2BA]">MID</span>
+              <span className="font-mono font-bold text-[#7FE87F]">MID-966-20268491</span>
             </div>
             <div className="flex justify-between items-center py-0.5">
-              <span className="text-[#A3A3A3]">{isAr ? 'البنك' : 'Bank'}</span>
+              <span className="text-[#A2A2BA]">{isAr ? 'البنك' : 'Bank'}</span>
               <span className="font-bold text-neutral-300">{bankName}</span>
             </div>
           </div>
@@ -684,7 +684,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
           <button
             type="button"
             onClick={handleLaunchPortal}
-            className="w-full h-11 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F1D77A] to-[#B8972E] text-[#0B0B0B] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-lg shadow-[#D4AF37]/25 cursor-pointer"
+            className="w-full h-11 rounded-xl bg-gradient-to-r from-[#7FE87F] via-[#98F598] to-[#5FBF5F] text-[#080C14] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-lg shadow-[#7FE87F]/25 cursor-pointer"
           >
             <Zap className="h-4 w-4" />
             <span>{isAr ? 'لوحة التحكم' : 'Dashboard'}</span>

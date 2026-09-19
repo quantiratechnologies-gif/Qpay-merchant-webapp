@@ -79,7 +79,7 @@ export const MerchantSettlementBankScreen: React.FC = () => {
         <h1 style={{ fontSize: '24px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
           {isAr ? 'حساب التسوية' : 'Settlement Account'}
         </h1>
-        <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '4px 0 0 0', fontWeight: 500 }}>
+        <p style={{ fontSize: '13px', color: '#A2A2BA', margin: '4px 0 0 0', fontWeight: 500 }}>
           {isAr ? 'التحويل المباشر لمبيعات المتجر عبر سريع' : 'Automatic daily settlements via Sarie'}
         </p>
       </div>
@@ -95,7 +95,7 @@ export const MerchantSettlementBankScreen: React.FC = () => {
       >
         {/* ─── LEFT: Bank Selector ─────────────────────────── */}
         <div>
-          <div style={{ fontSize: '11px', fontWeight: 800, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '12px' }}>
+          <div style={{ fontSize: '11px', fontWeight: 800, color: '#A2A2BA', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '12px' }}>
             {isAr ? 'اختر البنك' : 'Select Bank'}
           </div>
 
@@ -112,8 +112,8 @@ export const MerchantSettlementBankScreen: React.FC = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '14px 18px',
-                    backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.1)' : '#171717',
-                    border: `1.5px solid ${isSelected ? '#D4AF37' : '#262626'}`,
+                    backgroundColor: isSelected ? 'rgba(127, 232, 127, 0.12)' : '#111726',
+                    border: `1.5px solid ${isSelected ? '#7FE87F' : '#2C2C44'}`,
                     borderRadius: radii.lg,
                     cursor: 'pointer',
                     transition: 'all 0.15s ease',
@@ -124,10 +124,10 @@ export const MerchantSettlementBankScreen: React.FC = () => {
                       style={{
                         width: '40px', height: '40px',
                         borderRadius: radii.md,
-                        backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.15)' : '#1E1E1E',
-                        border: `1px solid ${isSelected ? 'rgba(212, 175, 55, 0.35)' : '#262626'}`,
+                        backgroundColor: isSelected ? 'rgba(127, 232, 127, 0.14)' : '#151524',
+                        border: `1px solid ${isSelected ? 'rgba(127, 232, 127, 0.35)' : '#2C2C44'}`,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: isSelected ? '#D4AF37' : '#737373',
+                        color: isSelected ? '#7FE87F' : '#6E6E85',
                         flexShrink: 0,
                       }}
                     >
@@ -135,10 +135,10 @@ export const MerchantSettlementBankScreen: React.FC = () => {
                     </div>
 
                     <div>
-                      <div style={{ fontSize: '13.5px', fontWeight: isSelected ? 800 : 600, color: isSelected ? '#FFFFFF' : '#A3A3A3' }}>
+                      <div style={{ fontSize: '13.5px', fontWeight: isSelected ? 800 : 600, color: isSelected ? '#FFFFFF' : '#A2A2BA' }}>
                         {isAr ? bank.arabicName : bank.name}
                       </div>
-                      <div style={{ fontSize: '11px', color: '#737373', fontFamily: 'monospace', marginTop: '2px' }} dir="ltr">
+                      <div style={{ fontSize: '11px', color: '#6E6E85', fontFamily: 'monospace', marginTop: '2px' }} dir="ltr">
                         {bank.iban}
                       </div>
                     </div>
@@ -149,10 +149,10 @@ export const MerchantSettlementBankScreen: React.FC = () => {
                     style={{
                       width: '20px', height: '20px',
                       borderRadius: radii.full,
-                      backgroundColor: isSelected ? '#D4AF37' : 'transparent',
-                      border: `1.5px solid ${isSelected ? '#D4AF37' : '#262626'}`,
+                      backgroundColor: isSelected ? '#7FE87F' : 'transparent',
+                      border: `1.5px solid ${isSelected ? '#7FE87F' : '#2C2C44'}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: '#0B0B0B',
+                      color: '#080C14',
                       transition: 'all 0.15s ease',
                       flexShrink: 0,
                     }}
@@ -172,8 +172,8 @@ export const MerchantSettlementBankScreen: React.FC = () => {
             variant="elevated"
             style={{
               padding: '20px',
-              background: 'radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.12) 0%, #171717 70%)',
-              border: '1px solid rgba(212, 175, 55, 0.25)',
+              background: 'radial-gradient(ellipse at top left, rgba(127, 232, 127, 0.14) 0%, #111726 70%)',
+              border: '1px solid rgba(127, 232, 127, 0.25)',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
@@ -181,10 +181,10 @@ export const MerchantSettlementBankScreen: React.FC = () => {
                 style={{
                   width: '44px', height: '44px',
                   borderRadius: '12px',
-                  backgroundColor: 'rgba(212, 175, 55, 0.15)',
-                  border: '1px solid rgba(212, 175, 55, 0.35)',
+                  backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                  border: '1px solid rgba(127, 232, 127, 0.35)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#D4AF37',
+                  color: '#7FE87F',
                 }}
               >
                 <Building2 size={22} />
@@ -216,8 +216,8 @@ export const MerchantSettlementBankScreen: React.FC = () => {
                   value: isAr ? 'سريع' : 'Sarie Instant',
                 },
               ].map(({ label, value, mono }) => (
-                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: '1px solid #262626' }}>
-                  <span style={{ fontSize: '12px', color: '#A3A3A3' }}>{label}</span>
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: '1px solid #2C2C44' }}>
+                  <span style={{ fontSize: '12px', color: '#A2A2BA' }}>{label}</span>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', fontFamily: mono ? 'monospace' : undefined }}>
                     {value}
                   </span>
@@ -227,9 +227,9 @@ export const MerchantSettlementBankScreen: React.FC = () => {
           </Card>
 
           {/* Trust Note */}
-          <Card variant="inset" style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', gap: '8px', background: '#121212', border: '1px solid #262626' }}>
-            <ShieldCheck size={15} color="#D4AF37" style={{ flexShrink: 0 }} />
-            <p style={{ fontSize: '11.5px', color: '#A3A3A3', margin: 0, fontWeight: 500 }}>
+          <Card variant="inset" style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', gap: '8px', background: '#121212', border: '1px solid #2C2C44' }}>
+            <ShieldCheck size={15} color="#7FE87F" style={{ flexShrink: 0 }} />
+            <p style={{ fontSize: '11.5px', color: '#A2A2BA', margin: 0, fontWeight: 500 }}>
               {isAr ? 'جميع البنوك معتمدة وتدعم تسوية سريع الفورية' : 'All banks support instant Sarie settlements'}
             </p>
           </Card>

@@ -69,7 +69,7 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
         <h1 style={{ fontSize: '24px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
           {isAr ? 'إيصال الدفع' : 'Payment Receipt'}
         </h1>
-        <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '4px 0 0 0', fontWeight: 500 }}>
+        <p style={{ fontSize: '13px', color: '#A2A2BA', margin: '4px 0 0 0', fontWeight: 500 }}>
           {isAr ? 'فاتورة إلكترونية معتمدة' : 'ZATCA compliant receipt'}
         </p>
       </div>
@@ -91,8 +91,8 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
             style={{
               padding: '36px 28px',
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              background: 'radial-gradient(ellipse at top, rgba(212, 175, 55, 0.15) 0%, #171717 70%)',
-              border: '1px solid rgba(212, 175, 55, 0.35)',
+              background: 'radial-gradient(ellipse at top, rgba(127, 232, 127, 0.14) 0%, #111726 70%)',
+              border: '1px solid rgba(127, 232, 127, 0.35)',
               textAlign: 'center',
               gap: '14px',
             }}
@@ -102,13 +102,13 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
               style={{
                 width: '72px', height: '72px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(212, 175, 55, 0.15)',
-                border: '2px solid #D4AF37',
+                backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                border: '2px solid #7FE87F',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 0 24px rgba(212, 175, 55, 0.3)',
+                boxShadow: '0 0 24px rgba(127, 232, 127, 0.3)',
               }}
             >
-              <CheckCircle2 size={38} color="#D4AF37" />
+              <CheckCircle2 size={38} color="#7FE87F" />
             </div>
 
             <div>
@@ -119,14 +119,14 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                 className="tabular-nums"
                 style={{
                   fontSize: '40px', fontWeight: 900,
-                  color: '#D4AF37',
+                  color: '#7FE87F',
                   letterSpacing: '-0.04em',
                   margin: '4px 0',
                 }}
               >
                 +{formatCurrency(collection.amount, language)}
               </div>
-              <p style={{ fontSize: '12.5px', color: '#A3A3A3', margin: '4px 0 0 0' }}>
+              <p style={{ fontSize: '12.5px', color: '#A2A2BA', margin: '4px 0 0 0' }}>
                 {collection.paymentMethod === 'cash'
                   ? isAr
                     ? 'تم استلام الدفعة نقداً وتوثيق الفاتورة في السجل'
@@ -142,14 +142,14 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
               style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
                 padding: '8px 16px',
-                backgroundColor: 'rgba(212, 175, 55, 0.08)',
-                border: '1px solid rgba(212, 175, 55, 0.25)',
+                backgroundColor: 'rgba(127, 232, 127, 0.08)',
+                border: '1px solid rgba(127, 232, 127, 0.25)',
                 borderRadius: radii.full,
                 fontSize: '12px',
                 color: '#FFFFFF',
               }}
             >
-              <Building2 size={13} color="#D4AF37" />
+              <Building2 size={13} color="#7FE87F" />
               <span>
                 {collection.paymentMethod === 'cash'
                   ? isAr
@@ -157,7 +157,7 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                     : 'Cash Register Drawer'
                   : translateText(merchantInfo.settlementBank, language)}
               </span>
-              <span style={{ color: '#D4AF37', fontWeight: 700, fontSize: '11px' }}>
+              <span style={{ color: '#7FE87F', fontWeight: 700, fontSize: '11px' }}>
                 ✓ {collection.paymentMethod === 'cash' ? (isAr ? 'توثيق فوري' : 'Instant Log') : (isAr ? 'تسوية سريعة' : 'Sarie Settled')}
               </span>
             </div>
@@ -174,8 +174,8 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
               onClick={() => navigateTo('MERCHANT_HOME')}
               className="interactive-tap"
               style={{
-                backgroundColor: '#1E1E1E',
-                border: '1px solid #262626',
+                backgroundColor: '#151524',
+                border: '1px solid #2C2C44',
                 borderRadius: '14px',
                 padding: '13px',
                 color: '#FFFFFF',
@@ -195,9 +195,9 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
         {/* ─── RIGHT: ZATCA Digital Receipt ───────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'sticky', top: '24px' }}>
           {/* Receipt Card */}
-          <Card variant="elevated" style={{ padding: '20px', background: '#171717', border: '1px solid #262626' }}>
+          <Card variant="elevated" style={{ padding: '20px', background: '#111726', border: '1px solid #2C2C44' }}>
             {/* Receipt Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', paddingBottom: '10px', borderBottom: '1px solid #262626' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', paddingBottom: '10px', borderBottom: '1px solid #2C2C44' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <ZatcaLogo variant="icon" size={18} />
                 <span style={{ fontSize: '12px', fontWeight: 800, color: '#FFFFFF' }}>
@@ -215,40 +215,40 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                 { label: isAr ? 'المرجع' : 'Reference', value: collection.id, mono: true },
                 { label: isAr ? 'طريقة الدفع' : 'Method', value: `${getLocalizedPaymentMethod(collection.paymentMethod, language)}${collection.cardLast4 ? ` • ${isAr ? formatLocalizedNumber(collection.cardLast4, language) : collection.cardLast4}` : ''}` },
               ].map(({ label, value, mono }) => (
-                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderBottom: '1px solid #262626' }}>
-                  <span style={{ color: '#A3A3A3' }}>{label}</span>
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderBottom: '1px solid #2C2C44' }}>
+                  <span style={{ color: '#A2A2BA' }}>{label}</span>
                   <span style={{ fontWeight: 700, color: '#FFFFFF', fontFamily: mono ? 'monospace' : undefined, fontSize: '12px' }}>{value}</span>
                 </div>
               ))}
 
               {/* VAT */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderBottom: '1px solid #262626' }}>
-                <span style={{ color: '#D4AF37', fontWeight: 700 }}>{isAr ? 'المبلغ قبل الضريبة' : 'Subtotal'}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderBottom: '1px solid #2C2C44' }}>
+                <span style={{ color: '#7FE87F', fontWeight: 700 }}>{isAr ? 'المبلغ قبل الضريبة' : 'Subtotal'}</span>
                 <span style={{ fontWeight: 700, color: '#FFFFFF' }}>{formatSaudiCurrency(collection.netAmount, language)}</span>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderBottom: '1px solid #262626' }}>
-                <span style={{ color: '#D4AF37', fontWeight: 700 }}>{isAr ? 'الضريبة (١٥٪)' : 'VAT (15%)'}</span>
-                <span style={{ fontWeight: 800, color: '#D4AF37' }}>{formatSaudiCurrency(collection.vatAmount, language)}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderBottom: '1px solid #2C2C44' }}>
+                <span style={{ color: '#7FE87F', fontWeight: 700 }}>{isAr ? 'الضريبة (١٥٪)' : 'VAT (15%)'}</span>
+                <span style={{ fontWeight: 800, color: '#7FE87F' }}>{formatSaudiCurrency(collection.vatAmount, language)}</span>
               </div>
 
               {/* Gross Total */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0' }}>
                 <span style={{ fontWeight: 900, color: '#FFFFFF', fontSize: '13.5px' }}>{isAr ? 'الإجمالي' : 'Total'}</span>
-                <span style={{ fontWeight: 900, color: '#D4AF37', fontSize: '15px' }}>{formatSaudiCurrency(collection.amount, language)}</span>
+                <span style={{ fontWeight: 900, color: '#7FE87F', fontSize: '15px' }}>{formatSaudiCurrency(collection.amount, language)}</span>
               </div>
             </div>
 
             {/* Receipt Actions */}
-            <div style={{ display: 'flex', gap: '8px', marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #262626' }}>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #2C2C44' }}>
               <button
                 onClick={() => speakSoundBox(collection.amount)}
                 className="interactive-tap"
                 style={{
                   flex: 1,
-                  backgroundColor: '#212121',
-                  border: '1px solid #262626',
-                  color: '#D4AF37',
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
+                  color: '#7FE87F',
                   borderRadius: '10px',
                   padding: '9px 8px',
                   fontSize: '11.5px',
@@ -266,8 +266,8 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                 className="interactive-tap"
                 style={{
                   flex: 1,
-                  backgroundColor: '#212121',
-                  border: '1px solid #262626',
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
                   color: '#FFFFFF',
                   borderRadius: '10px',
                   padding: '9px 8px',
@@ -277,7 +277,7 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                   cursor: 'pointer',
                 }}
               >
-                <Printer size={13} color="#D4AF37" />
+                <Printer size={13} color="#7FE87F" />
                 {isAr ? 'طباعة' : 'Print'}
               </button>
 
@@ -286,8 +286,8 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                 className="interactive-tap"
                 style={{
                   flex: 1,
-                  backgroundColor: '#212121',
-                  border: '1px solid #262626',
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
                   color: '#FFFFFF',
                   borderRadius: '10px',
                   padding: '9px 8px',
@@ -297,7 +297,7 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                   cursor: 'pointer',
                 }}
               >
-                {copied ? <Check size={13} color="#22C55E" /> : <Share2 size={13} color="#D4AF37" />}
+                {copied ? <Check size={13} color="#22C55E" /> : <Share2 size={13} color="#7FE87F" />}
                 {copied ? (isAr ? 'تم النسخ' : 'Copied!') : (isAr ? 'نسخ' : 'Copy')}
               </button>
             </div>
@@ -306,8 +306,8 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
           {/* Compliance Dock */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
             <ZatcaLogo variant="full" height={12} themeMode="dark" />
-            <span style={{ fontSize: '10px', color: '#737373' }}>•</span>
-            <span style={{ fontSize: '10.5px', color: '#737373', fontWeight: 600 }}>
+            <span style={{ fontSize: '10px', color: '#6E6E85' }}>•</span>
+            <span style={{ fontSize: '10.5px', color: '#6E6E85', fontWeight: 600 }}>
               <Receipt size={11} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
               {isAr ? 'معتمد من هيئة الزكاة والضريبة' : 'ZATCA Approved'}
             </span>

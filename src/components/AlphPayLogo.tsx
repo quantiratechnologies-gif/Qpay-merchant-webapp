@@ -21,8 +21,8 @@ export const AlphPayLogo: React.FC<AlphPayLogoProps> = ({
     <Logo
       height={height}
       showText={showText}
-      textColor={themeMode === 'dark' ? '#FFFFFF' : '#0B0B0B'}
-      accentColor="#D4AF37"
+      textColor={themeMode === 'dark' ? '#FFFFFF' : '#080C14'}
+      accentColor="#7FE87F"
       className={className}
     />
   );

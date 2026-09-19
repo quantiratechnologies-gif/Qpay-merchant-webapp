@@ -50,7 +50,7 @@ export const CardsIllustration: React.FC = () => {
           {/* Ambient Glow */}
           <radialGradient id="cardsGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#00C853" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="#0B0B14" stopOpacity="0" />
+            <stop offset="100%" stopColor="#080C14" stopOpacity="0" />
           </radialGradient>
         </defs>
 

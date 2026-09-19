@@ -59,8 +59,8 @@ export const PWAInstallPrompt: React.FC = () => {
     <div
       style={{
         margin: '10px 20px 0 20px',
-        backgroundColor: '#171717',
-        border: '1px solid #262626',
+        backgroundColor: '#111726',
+        border: '1px solid #2C2C44',
         borderRadius: '10px',
         padding: '10px 14px',
         display: 'flex',
@@ -76,12 +76,12 @@ export const PWAInstallPrompt: React.FC = () => {
             width: '34px',
             height: '34px',
             borderRadius: '8px',
-            backgroundColor: '#212121',
-            border: '1px solid rgba(212, 175, 55, 0.25)',
+            backgroundColor: '#182236',
+            border: '1px solid rgba(127, 232, 127, 0.25)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#D4AF37',
+            color: '#7FE87F',
             flexShrink: 0,
           }}
         >
@@ -91,7 +91,7 @@ export const PWAInstallPrompt: React.FC = () => {
           <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF' }}>
             {isAr ? 'تثبيت تطبيق QTPay' : 'Install QTPay'}
           </div>
-          <div style={{ fontSize: '11px', color: '#A3A3A3' }}>
+          <div style={{ fontSize: '11px', color: '#A2A2BA' }}>
             {isAr ? 'تشغيل فوري ووصول مباشر لنقاط البيع' : 'Fast launch & instant access'}
           </div>
         </div>
@@ -102,7 +102,7 @@ export const PWAInstallPrompt: React.FC = () => {
           onClick={handleInstallClick}
           className="interactive-tap gold-gradient-btn"
           style={{
-            color: '#0B0B0B',
+            color: '#080C14',
             border: 'none',
             borderRadius: '6px',
             padding: '6px 12px',
@@ -119,7 +119,7 @@ export const PWAInstallPrompt: React.FC = () => {
           style={{
             background: 'none',
             border: 'none',
-            color: '#737373',
+            color: '#6E6E85',
             cursor: 'pointer',
             padding: '4px',
             display: 'flex',

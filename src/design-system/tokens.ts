@@ -1,88 +1,89 @@
 /**
  * Quantira Technologies / QtPay Merchant Design Tokens
  * Centralized Type-Safe Design Tokens & Variables
+ * Official Unified Green & Signature Dark Palette
  */
 
 export const colors = {
-  // Surface & Background Colors
-  bgPage: '#0B0B0B',
-  bgCard: '#171717',
-  bgInset: '#1E1E1E',
-  background: '#0B0B0B',
-  surface: '#171717',
-  surfaceElevated: '#212121',
-  subSurface: '#1E1E1E',
+  // Surface & Background Colors (Signature Dark)
+  bgPage: '#080C14',
+  bgCard: '#111726',
+  bgInset: '#151524',
+  background: '#080C14',
+  surface: '#111726',
+  surfaceElevated: '#182236',
+  surfaceHover: '#1E293B',
+  subSurface: '#151524',
+  overlay: 'rgba(0, 0, 0, 0.75)',
 
-  // Borders
-  border: '#262626',
-  borderFocus: '#D4AF37',
-  borderHairline: '#262626',
-  borderStrong: '#333333',
+  // Borders & Dividers
+  border: 'rgba(255, 255, 255, 0.08)',
+  borderHairline: 'rgba(255, 255, 255, 0.06)',
+  borderStrong: '#2C2C44',
+  borderFocus: '#7FE87F',
 
-  // Accents (Luxury Gold)
-  accentGreen: '#D4AF37',
-  accentGreenBright: '#F1D77A',
-  accentGold: '#D4AF37',
-  accentGoldBright: '#F1D77A',
+  // Brand Primary (Unified Green)
+  primary: '#7FE87F',
+  primaryHover: '#6FD86F',
+  primaryDark: '#5FBF5F',
+  primaryActive: '#5FBF5F',
+  primaryLight: 'rgba(127, 232, 127, 0.14)',
+  primaryLightHover: 'rgba(127, 232, 127, 0.22)',
+  primaryBorder: 'rgba(127, 232, 127, 0.35)',
+  textOnPrimary: '#080C14',
+
+  // Accents
+  accentGreen: '#7FE87F',
+  accentGreenBright: '#98F598',
+  accentGold: '#F59E0B',
+  accentGoldBright: '#FCD34D',
   accentBlue: '#38BDF8',
   accentPurple: '#A855F7',
-  accentAmber: '#D4AF37',
-
-  // Primary Theme Aliases
-  primary: '#D4AF37',
-  primaryHover: '#F1D77A',
-  primaryActive: '#B8972E',
-  primaryLight: 'rgba(212, 175, 55, 0.12)',
-  primaryLightHover: 'rgba(212, 175, 55, 0.20)',
-  primaryBorder: '#D4AF37',
-  primaryDark: '#B8972E',
-  textOnPrimary: '#0B0B0B',
+  accentAmber: '#F59E0B',
 
   // Secondary & Dark Accents
-  secondary: '#000000',
-  secondaryHover: '#212121',
-  darkBg: '#0B0B0B',
-  darkSurface: '#171717',
-  darkSurfaceElevated: '#212121',
-  darkBorder: '#262626',
-  darkDisabled: '#262626',
-  darkPlaceholder: '#737373',
+  secondary: '#182236',
+  secondaryHover: '#1E293B',
+  darkBg: '#080C14',
+  darkSurface: '#111726',
+  darkSurfaceElevated: '#182236',
+  darkBorder: '#2C2C44',
+  darkDisabled: '#1E293B',
+  darkPlaceholder: '#6E6E85',
 
-  // Neutral Light Surfaces
+  // Neutral Light Surfaces (for contrast/light fallback)
   lightBg: '#FFFFFF',
-  lightSurface: '#F5F5F7',
+  lightSurface: '#F8FAFC',
   lightSurfaceElevated: '#FFFFFF',
-  lightBorder: '#E6E6E6',
+  lightBorder: '#E2E8F0',
 
   // Typography
   textPrimary: '#FFFFFF',
-  textSecondary: '#E5E5E5',
-  textMuted: '#A3A3A3',
-  textDisabled: '#737373',
+  textSecondary: '#A2A2BA',
+  textMuted: '#6E6E85',
+  textDisabled: '#4B4B60',
 
   // Semantic Status Colors
-  success: '#D4AF37',
-  successBright: '#F1D77A',
-  successLight: 'rgba(212, 175, 55, 0.12)',
-  successText: '#D4AF37',
+  success: '#7FE87F',
+  successBright: '#98F598',
+  successLight: 'rgba(127, 232, 127, 0.14)',
+  successText: '#7FE87F',
 
   info: '#38BDF8',
-  infoLight: 'rgba(56, 189, 248, 0.12)',
+  infoLight: 'rgba(56, 189, 248, 0.14)',
   infoText: '#38BDF8',
 
   purple: '#A855F7',
-  purpleLight: 'rgba(168, 85, 247, 0.12)',
+  purpleLight: 'rgba(168, 85, 247, 0.14)',
   purpleText: '#A855F7',
 
   warning: '#F59E0B',
   warningLight: 'rgba(245, 158, 11, 0.12)',
   warningText: '#F59E0B',
 
-  danger: '#FF4757',
-  dangerLight: 'rgba(255, 71, 87, 0.12)',
+  danger: '#EF4444',
+  dangerLight: 'rgba(239, 68, 68, 0.12)',
   dangerText: '#FF6B7A',
-
-  overlay: 'rgba(11, 11, 11, 0.88)',
 } as const;
 
 export const spacing = {
@@ -136,14 +137,14 @@ export const typography = {
 export const shadows = {
   none: 'none',
   flat: 'none',
-  sm: 'none',
-  md: 'none',
-  lg: 'none',
-  xl: 'none',
+  sm: '0 1px 2px rgba(0, 0, 0, 0.3)',
+  md: '0 4px 16px rgba(0, 0, 0, 0.4)',
+  lg: '0 8px 24px rgba(0, 0, 0, 0.5)',
+  xl: '0 16px 48px rgba(0, 0, 0, 0.6)',
 } as const;
 
 export const focus = {
-  ring: '2.5px solid #D4AF37',
+  ring: '2.5px solid #7FE87F',
   offset: '2px',
   outline: 'none',
 } as const;
@@ -157,7 +158,7 @@ export const componentPresets = {
   },
   cardInset: {
     backgroundColor: colors.bgInset,
-    border: `1px solid ${colors.border}`,
+    border: `1px solid ${colors.borderStrong}`,
     borderRadius: radii.md,
     boxShadow: 'none',
   },
@@ -167,24 +168,24 @@ export const componentPresets = {
     boxShadow: 'none',
   },
   buttonPrimary: {
-    backgroundColor: colors.accentGreen,
+    backgroundColor: colors.primary,
     color: colors.textOnPrimary,
     borderRadius: radii.sm,
     fontWeight: typography.weights.bold,
     border: 'none',
-    boxShadow: '0 4px 20px rgba(212, 175, 55, 0.35)',
+    boxShadow: '0 4px 20px rgba(127, 232, 127, 0.35)',
   },
   buttonSecondary: {
     backgroundColor: 'transparent',
-    color: colors.accentGreenBright,
+    color: colors.primary,
     borderRadius: radii.sm,
     fontWeight: typography.weights.semibold,
-    border: `1.5px solid ${colors.border}`,
+    border: `1.5px solid ${colors.borderStrong}`,
     boxShadow: 'none',
   },
   input: {
     backgroundColor: colors.bgCard,
-    border: `1px solid ${colors.border}`,
+    border: `1px solid ${colors.borderStrong}`,
     borderRadius: radii.sm,
     color: colors.textPrimary,
     boxShadow: 'none',

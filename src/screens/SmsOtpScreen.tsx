@@ -167,23 +167,23 @@ export const SmsOtpScreen: React.FC = () => {
     <div className="w-full text-white flex flex-col select-none" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Top Simulated SMS Notification Banner */}
       {showSmsBanner && (
-        <div className="mb-4 bg-[#171717]/95 border border-[#D4AF37]/40 rounded-xl p-3 shadow-xl shadow-black/80 flex items-center justify-between gap-3">
+        <div className="mb-4 bg-[#111726]/95 border border-[#7FE87F]/40 rounded-xl p-3 shadow-xl shadow-black/80 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="text-xl">💬</span>
             <div className={isRtl ? 'text-right' : 'text-left'}>
-              <div className="text-[10px] font-extrabold text-[#A3A3A3] uppercase tracking-wider">
+              <div className="text-[10px] font-extrabold text-[#A2A2BA] uppercase tracking-wider">
                 {isAr ? 'رسالة نصية • الآن' : 'SMS OTP • Messages'}
               </div>
               <div className="text-xs text-white font-semibold">
                 {isAr ? 'رمز تحقق بوابة التاجر: ' : 'Merchant Portal Code: '}
-                <strong className="text-[#D4AF37] text-sm font-mono tracking-wider">{activeOtp}</strong>
+                <strong className="text-[#7FE87F] text-sm font-mono tracking-wider">{activeOtp}</strong>
               </div>
             </div>
           </div>
           <button
             type="button"
             onClick={() => handleQuickFill(activeOtp)}
-            className="bg-gradient-to-r from-[#D4AF37] to-[#F1D77A] text-[#0B0B0B] font-extrabold text-xs px-3 py-1.5 rounded-lg hover:brightness-105 transition-all whitespace-nowrap cursor-pointer shadow-md shadow-[#D4AF37]/20"
+            className="bg-gradient-to-r from-[#7FE87F] to-[#98F598] text-[#080C14] font-extrabold text-xs px-3 py-1.5 rounded-lg hover:brightness-105 transition-all whitespace-nowrap cursor-pointer shadow-md shadow-[#7FE87F]/20"
           >
             {isAr ? 'تعبئة تلقائية' : 'Autofill'}
           </button>
@@ -194,7 +194,7 @@ export const SmsOtpScreen: React.FC = () => {
       <div className="mb-3">
         <button
           onClick={goBack}
-          className="flex items-center gap-1.5 text-xs font-semibold text-[#A3A3A3] hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs font-semibold text-[#A2A2BA] hover:text-white transition-colors cursor-pointer"
         >
           <ArrowLeft className={`h-3.5 w-3.5 ${isRtl ? 'scale-x-[-1]' : ''}`} />
           <span>{isAr ? 'السابق' : 'Back'}</span>
@@ -206,9 +206,9 @@ export const SmsOtpScreen: React.FC = () => {
         <h2 className="text-xl font-extrabold text-white tracking-tight">
           {isAr ? 'رمز التحقق' : 'Verify OTP'}
         </h2>
-        <p className="text-xs text-[#A3A3A3] mt-1">
+        <p className="text-xs text-[#A2A2BA] mt-1">
           {isAr ? 'أرسل إلى ' : 'Sent to '}
-          <span className="text-[#D4AF37] font-bold" dir="ltr">
+          <span className="text-[#7FE87F] font-bold" dir="ltr">
             +966 {mobile}
           </span>
         </p>
@@ -239,33 +239,33 @@ export const SmsOtpScreen: React.FC = () => {
             onPaste={handlePaste}
             className={`w-full h-12 rounded-xl text-center text-lg font-black outline-none transition-all ${
               digit
-                ? 'bg-[#D4AF37]/10 border-2 border-[#D4AF37] text-white shadow-sm shadow-[#D4AF37]/30'
+                ? 'bg-[#7FE87F]/10 border-2 border-[#7FE87F] text-white shadow-sm shadow-[#7FE87F]/30'
                 : errorMsg
-                ? 'bg-rose-500/5 border border-rose-500/60 text-[#A3A3A3] focus:border-rose-400'
-                : 'bg-[#1E1E1E] border border-[#262626] text-[#A3A3A3] focus:border-[#D4AF37]'
+                ? 'bg-rose-500/5 border border-rose-500/60 text-[#A2A2BA] focus:border-rose-400'
+                : 'bg-[#151524] border border-[#2C2C44] text-[#A2A2BA] focus:border-[#7FE87F]'
             }`}
           />
         ))}
       </div>
 
       {/* Demo helper */}
-      <div className="flex items-center justify-between text-xs text-[#A3A3A3] mb-5 bg-[#171717] border border-[#262626] rounded-lg px-3 py-2">
+      <div className="flex items-center justify-between text-xs text-[#A2A2BA] mb-5 bg-[#111726] border border-[#2C2C44] rounded-lg px-3 py-2">
         <button
           type="button"
           onClick={() => handleQuickFill(activeOtp)}
           className="flex items-center gap-1.5 text-[11px] hover:text-white transition-colors cursor-pointer text-left"
         >
-          <CheckCircle2 className="h-3.5 w-3.5 text-[#D4AF37]" />
+          <CheckCircle2 className="h-3.5 w-3.5 text-[#7FE87F]" />
           <span>{isAr ? `الرمز: ${activeOtp}` : `OTP: ${activeOtp}`}</span>
         </button>
         <div>
           {timer > 0 ? (
-            <span className="text-[#737373] font-mono text-[11px]">{timer}s</span>
+            <span className="text-[#6E6E85] font-mono text-[11px]">{timer}s</span>
           ) : (
             <button
               type="button"
               onClick={handleResend}
-              className="text-[#D4AF37] font-bold text-[11px] flex items-center gap-1 hover:underline cursor-pointer"
+              className="text-[#7FE87F] font-bold text-[11px] flex items-center gap-1 hover:underline cursor-pointer"
             >
               <RefreshCw className="h-3 w-3" />
               <span>{isAr ? 'إعادة الإرسال' : 'Resend'}</span>
@@ -275,7 +275,7 @@ export const SmsOtpScreen: React.FC = () => {
       </div>
 
       {isResent && (
-        <div className="text-center text-xs text-[#D4AF37] mb-3 font-semibold animate-pulse">
+        <div className="text-center text-xs text-[#7FE87F] mb-3 font-semibold animate-pulse">
           {isAr ? 'تم إرسال رمز جديد' : 'New code sent!'}
         </div>
       )}
@@ -285,7 +285,7 @@ export const SmsOtpScreen: React.FC = () => {
         type="button"
         onClick={handleVerify}
         disabled={!isOtpComplete || isVerifying}
-        className="w-full h-11 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F1D77A] to-[#B8972E] text-[#0B0B0B] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#D4AF37]/25 cursor-pointer"
+        className="w-full h-11 rounded-xl bg-gradient-to-r from-[#7FE87F] via-[#98F598] to-[#5FBF5F] text-[#080C14] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#7FE87F]/25 cursor-pointer"
       >
         <span>
           {isVerifying

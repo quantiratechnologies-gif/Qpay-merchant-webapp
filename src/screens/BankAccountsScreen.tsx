@@ -16,7 +16,7 @@ import { formatCurrency } from '../utils/formatters';
 import { translateText, formatLocalizedNumber } from '../utils/i18n';
 
 // Contactless NFC Waves Icon
-const ContactlessIcon: React.FC<{ color?: string; size?: number }> = ({ color = '#D4AF37', size = 18 }) => (
+const ContactlessIcon: React.FC<{ color?: string; size?: number }> = ({ color = '#7FE87F', size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'rotate(90deg)', flexShrink: 0 }}>
     <path d="M5 12.55a11 11 0 0 1 14.08 0" />
     <path d="M1.42 9a16 16 0 0 1 21.16 0" />
@@ -53,16 +53,16 @@ export const BankAccountsScreen: React.FC = () => {
   };
 
   return (
-    <div className="fade-in" style={{ backgroundColor: '#0B0B0B', minHeight: '100%', paddingBottom: '96px' }}>
+    <div className="fade-in" style={{ backgroundColor: '#080C14', minHeight: '100%', paddingBottom: '96px' }}>
       <AppHeader title={t('banks.title', 'Bank Accounts')} showBack />
 
       <div style={{ padding: '16px 20px' }}>
         {/* Top Summary Banner */}
         <div
           style={{
-            backgroundColor: '#171717',
+            backgroundColor: '#111726',
             borderRadius: '16px',
-            border: '1px solid #262626',
+            border: '1px solid #2C2C44',
             padding: '16px 18px',
             marginBottom: '20px',
             display: 'flex',
@@ -77,9 +77,9 @@ export const BankAccountsScreen: React.FC = () => {
                 width: '42px',
                 height: '42px',
                 borderRadius: '12px',
-                backgroundColor: '#212121',
-                color: '#D4AF37',
-                border: '1px solid rgba(212, 175, 55, 0.25)',
+                backgroundColor: '#182236',
+                color: '#7FE87F',
+                border: '1px solid rgba(127, 232, 127, 0.25)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -97,9 +97,9 @@ export const BankAccountsScreen: React.FC = () => {
                   style={{
                     fontSize: '11px',
                     fontWeight: 800,
-                    color: '#D4AF37',
-                    backgroundColor: 'rgba(212, 175, 55, 0.12)',
-                    border: '1px solid rgba(212, 175, 55, 0.3)',
+                    color: '#7FE87F',
+                    backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                    border: '1px solid rgba(127, 232, 127, 0.3)',
                     padding: '2px 7px',
                     borderRadius: '10px',
                   }}
@@ -107,7 +107,7 @@ export const BankAccountsScreen: React.FC = () => {
                   {language === 'العربية' ? `${formatLocalizedNumber(bankAccounts.length, language)} نشطة` : `${bankAccounts.length} Active`}
                 </span>
               </div>
-              <div style={{ fontSize: '11.5px', color: '#A3A3A3', fontWeight: 600, marginTop: '4px' }}>
+              <div style={{ fontSize: '11.5px', color: '#A2A2BA', fontWeight: 600, marginTop: '4px' }}>
                 {language === 'العربية' ? 'حسابات التسوية عبر سريع' : 'Sarie Settlement Accounts'}
               </div>
             </div>
@@ -126,10 +126,10 @@ export const BankAccountsScreen: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '5px',
-              boxShadow: '0 2px 10px rgba(212, 175, 55, 0.25)',
+              boxShadow: '0 2px 10px rgba(127, 232, 127, 0.25)',
             }}
           >
-            <Plus size={15} color="#0B0B0B" /> {language === 'العربية' ? 'إضافة بنك' : 'Add Bank'}
+            <Plus size={15} color="#080C14" /> {language === 'العربية' ? 'إضافة بنك' : 'Add Bank'}
           </button>
         </div>
 
@@ -146,13 +146,13 @@ export const BankAccountsScreen: React.FC = () => {
                 <div
                   key={bank.id}
                   style={{
-                    backgroundColor: '#171717',
+                    backgroundColor: '#111726',
                     borderRadius: '20px',
                     padding: '20px',
                     position: 'relative',
                     overflow: 'hidden',
-                    border: '1.5px solid #D4AF37',
-                    boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)',
+                    border: '1.5px solid #7FE87F',
+                    boxShadow: '0 0 20px rgba(127, 232, 127, 0.12)',
                     color: '#FFFFFF',
                     transition: 'all 0.15s ease',
                   }}
@@ -165,20 +165,20 @@ export const BankAccountsScreen: React.FC = () => {
                           width: '42px',
                           height: '42px',
                           borderRadius: '12px',
-                          backgroundColor: '#212121',
-                          border: '1px solid rgba(212, 175, 55, 0.3)',
+                          backgroundColor: '#182236',
+                          border: '1px solid rgba(127, 232, 127, 0.3)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}
                       >
-                        <Landmark size={20} color="#D4AF37" />
+                        <Landmark size={20} color="#7FE87F" />
                       </div>
                       <div>
                         <div style={{ fontSize: '16px', fontWeight: 800, letterSpacing: '0.01em', color: '#FFFFFF' }}>
                           {displayBankName}
                         </div>
-                        <div style={{ fontSize: '11px', fontWeight: 600, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '1px' }}>
+                        <div style={{ fontSize: '11px', fontWeight: 600, color: '#A2A2BA', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '1px' }}>
                           {displayAccType}
                         </div>
                       </div>
@@ -186,9 +186,9 @@ export const BankAccountsScreen: React.FC = () => {
 
                     <div
                       style={{
-                        backgroundColor: 'rgba(212, 175, 55, 0.12)',
-                        border: '1px solid rgba(212, 175, 55, 0.3)',
-                        color: '#D4AF37',
+                        backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                        border: '1px solid rgba(127, 232, 127, 0.3)',
+                        color: '#7FE87F',
                         fontSize: '10.5px',
                         fontWeight: 800,
                         letterSpacing: '0.06em',
@@ -199,7 +199,7 @@ export const BankAccountsScreen: React.FC = () => {
                         gap: '5px',
                       }}
                     >
-                      <Star size={11} fill="#D4AF37" color="#D4AF37" /> {t('banks.primary', 'PRIMARY')}
+                      <Star size={11} fill="#7FE87F" color="#7FE87F" /> {t('banks.primary', 'PRIMARY')}
                     </div>
                   </div>
 
@@ -211,10 +211,10 @@ export const BankAccountsScreen: React.FC = () => {
                           width: '32px',
                           height: '24px',
                           borderRadius: '4px',
-                          backgroundColor: '#D4AF37',
+                          backgroundColor: '#7FE87F',
                         }}
                       />
-                      <ContactlessIcon color="#D4AF37" size={18} />
+                      <ContactlessIcon color="#7FE87F" size={18} />
                     </div>
 
                     <div
@@ -234,8 +234,8 @@ export const BankAccountsScreen: React.FC = () => {
                   {/* Integrated Balance Container */}
                   <div
                     style={{
-                      backgroundColor: '#1E1E1E',
-                      border: '1px solid #262626',
+                      backgroundColor: '#151524',
+                      border: '1px solid #2C2C44',
                       borderRadius: '14px',
                       padding: '12px 16px',
                       display: 'flex',
@@ -247,10 +247,10 @@ export const BankAccountsScreen: React.FC = () => {
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A3A3A3' }}>
+                      <div style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A2A2BA' }}>
                         {t('home.total_balance', 'Available Balance')}
                       </div>
-                      <div className="tabular-nums" style={{ fontSize: '19px', fontWeight: 900, color: '#D4AF37', marginTop: '2px', letterSpacing: '0.02em' }}>
+                      <div className="tabular-nums" style={{ fontSize: '19px', fontWeight: 900, color: '#7FE87F', marginTop: '2px', letterSpacing: '0.02em' }}>
                         {bank.showBalance ? formatCurrency(bank.balance, language) : (language === 'العربية' ? '•••••••• ر.س' : 'SAR ••••••••')}
                       </div>
                     </div>
@@ -270,15 +270,15 @@ export const BankAccountsScreen: React.FC = () => {
                         cursor: 'pointer',
                       }}
                     >
-                      {bank.showBalance ? <EyeOff size={13} color="#0B0B0B" /> : <Eye size={13} color="#0B0B0B" />}
+                      {bank.showBalance ? <EyeOff size={13} color="#080C14" /> : <Eye size={13} color="#080C14" />}
                       <span>{bank.showBalance ? t('home.hide', 'Hide') : t('banks.check_balance', 'Check')}</span>
                     </button>
                   </div>
 
                   {/* Action Strip */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 2 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#D4AF37' }}>
-                      <CheckCircle2 size={15} color="#D4AF37" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#7FE87F' }}>
+                      <CheckCircle2 size={15} color="#7FE87F" />
                       <span>{language === 'العربية' ? 'الحساب الافتراضي' : 'Default Account'}</span>
                     </div>
 
@@ -286,9 +286,9 @@ export const BankAccountsScreen: React.FC = () => {
                       onClick={() => setBankToRemove(bank.id)}
                       className="interactive-tap"
                       style={{
-                        backgroundColor: '#212121',
-                        border: '1px solid #262626',
-                        color: '#A3A3A3',
+                        backgroundColor: '#182236',
+                        border: '1px solid #2C2C44',
+                        color: '#A2A2BA',
                         padding: '7px 12px',
                         borderRadius: '10px',
                         fontSize: '11.5px',
@@ -299,7 +299,7 @@ export const BankAccountsScreen: React.FC = () => {
                         cursor: 'pointer',
                       }}
                     >
-                      <Trash2 size={13} color="#A3A3A3" />
+                      <Trash2 size={13} color="#A2A2BA" />
                       <span>{language === 'العربية' ? 'حذف' : 'Remove'}</span>
                     </button>
                   </div>
@@ -312,8 +312,8 @@ export const BankAccountsScreen: React.FC = () => {
               <div
                 key={bank.id}
                 style={{
-                  backgroundColor: '#171717',
-                  border: '1px solid #262626',
+                  backgroundColor: '#111726',
+                  border: '1px solid #2C2C44',
                   borderRadius: '20px',
                   padding: '20px',
                   position: 'relative',
@@ -330,9 +330,9 @@ export const BankAccountsScreen: React.FC = () => {
                         width: '42px',
                         height: '42px',
                         borderRadius: '12px',
-                        backgroundColor: '#212121',
-                        border: '1px solid #262626',
-                        color: '#D4AF37',
+                        backgroundColor: '#182236',
+                        border: '1px solid #2C2C44',
+                        color: '#7FE87F',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -345,13 +345,13 @@ export const BankAccountsScreen: React.FC = () => {
                       <div style={{ fontSize: '15.5px', fontWeight: 800, color: '#FFFFFF', letterSpacing: '0.01em' }}>
                         {displayBankName}
                       </div>
-                      <div style={{ fontSize: '11px', fontWeight: 600, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '1px' }}>
+                      <div style={{ fontSize: '11px', fontWeight: 600, color: '#A2A2BA', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '1px' }}>
                         {displayAccType}
                       </div>
                     </div>
                   </div>
 
-                  <ContactlessIcon color="#737373" size={18} />
+                  <ContactlessIcon color="#6E6E85" size={18} />
                 </div>
 
                 {/* EMV Chip & Account Number Row */}
@@ -361,7 +361,7 @@ export const BankAccountsScreen: React.FC = () => {
                       width: '32px',
                       height: '24px',
                       borderRadius: '4px',
-                      backgroundColor: '#262626',
+                      backgroundColor: '#2C2C44',
                     }}
                   />
 
@@ -382,8 +382,8 @@ export const BankAccountsScreen: React.FC = () => {
                 {/* Integrated Balance Container */}
                 <div
                   style={{
-                    backgroundColor: '#1E1E1E',
-                    border: '1px solid #262626',
+                    backgroundColor: '#151524',
+                    border: '1px solid #2C2C44',
                     borderRadius: '14px',
                     padding: '12px 16px',
                     display: 'flex',
@@ -393,7 +393,7 @@ export const BankAccountsScreen: React.FC = () => {
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A3A3A3' }}>
+                    <div style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#A2A2BA' }}>
                       {t('home.total_balance', 'Available Balance')}
                     </div>
                     <div className="tabular-nums" style={{ fontSize: '18px', fontWeight: 900, color: '#FFFFFF', marginTop: '2px', letterSpacing: '0.01em' }}>
@@ -405,9 +405,9 @@ export const BankAccountsScreen: React.FC = () => {
                     onClick={() => handleBalanceCheck(bank)}
                     className="interactive-tap"
                     style={{
-                      backgroundColor: '#212121',
-                      border: '1px solid rgba(212, 175, 55, 0.3)',
-                      color: '#D4AF37',
+                      backgroundColor: '#182236',
+                      border: '1px solid rgba(127, 232, 127, 0.3)',
+                      color: '#7FE87F',
                       padding: '6px 14px',
                       borderRadius: '20px',
                       fontSize: '11.5px',
@@ -418,7 +418,7 @@ export const BankAccountsScreen: React.FC = () => {
                       cursor: 'pointer',
                     }}
                   >
-                    {bank.showBalance ? <EyeOff size={13} color="#A3A3A3" /> : <Eye size={13} color="#D4AF37" />}
+                    {bank.showBalance ? <EyeOff size={13} color="#A2A2BA" /> : <Eye size={13} color="#7FE87F" />}
                     <span>{bank.showBalance ? t('home.hide', 'Hide') : t('banks.check_balance', 'Check')}</span>
                   </button>
                 </div>
@@ -430,9 +430,9 @@ export const BankAccountsScreen: React.FC = () => {
                     className="interactive-tap"
                     style={{
                       flex: 1,
-                      backgroundColor: '#212121',
-                      border: '1px solid rgba(212, 175, 55, 0.3)',
-                      color: '#D4AF37',
+                      backgroundColor: '#182236',
+                      border: '1px solid rgba(127, 232, 127, 0.3)',
+                      color: '#7FE87F',
                       padding: '9px 12px',
                       borderRadius: '10px',
                       fontSize: '12px',
@@ -444,16 +444,16 @@ export const BankAccountsScreen: React.FC = () => {
                       gap: '5px',
                     }}
                   >
-                    <Star size={13} color="#D4AF37" /> {language === 'العربية' ? 'تعيين كأساسي' : 'Set as Primary'}
+                    <Star size={13} color="#7FE87F" /> {language === 'العربية' ? 'تعيين كأساسي' : 'Set as Primary'}
                   </button>
 
                   <button
                     onClick={() => setBankToRemove(bank.id)}
                     className="interactive-tap"
                     style={{
-                      backgroundColor: '#212121',
-                      border: '1px solid #262626',
-                      color: '#A3A3A3',
+                      backgroundColor: '#182236',
+                      border: '1px solid #2C2C44',
+                      color: '#A2A2BA',
                       padding: '9px 14px',
                       borderRadius: '10px',
                       fontSize: '12px',
@@ -465,7 +465,7 @@ export const BankAccountsScreen: React.FC = () => {
                       cursor: 'pointer',
                     }}
                   >
-                    <Trash2 size={13} color="#A3A3A3" />
+                    <Trash2 size={13} color="#A2A2BA" />
                     <span>{language === 'العربية' ? 'حذف' : 'Remove'}</span>
                   </button>
                 </div>
@@ -489,13 +489,13 @@ export const BankAccountsScreen: React.FC = () => {
             alignItems: 'center',
             gap: '8px',
             padding: '12px',
-            backgroundColor: '#171717',
-            border: '1px solid #262626',
+            backgroundColor: '#111726',
+            border: '1px solid #2C2C44',
             borderRadius: '12px',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '11px', color: '#A3A3A3', fontWeight: 600 }}>
+            <span style={{ fontSize: '11px', color: '#A2A2BA', fontWeight: 600 }}>
               &bull; {language === 'العربية' ? 'مدعوم بنظام سريع وتشفير أمني متقدم' : 'Secured by Sarie & 256-Bit Encryption'}
             </span>
           </div>
@@ -510,7 +510,7 @@ export const BankAccountsScreen: React.FC = () => {
           title={language === 'العربية' ? 'حذف الحساب' : 'Remove Account'}
         >
           <div style={{ textAlign: 'center', padding: '10px 0' }}>
-            <p style={{ color: '#A3A3A3', fontSize: '14px', marginBottom: '20px', lineHeight: '20px' }}>
+            <p style={{ color: '#A2A2BA', fontSize: '14px', marginBottom: '20px', lineHeight: '20px' }}>
               {language === 'العربية'
                 ? 'هل أنت متأكد من رغبتك في حذف هذا الحساب؟'
                 : 'Are you sure you want to remove this bank account?'}
@@ -521,8 +521,8 @@ export const BankAccountsScreen: React.FC = () => {
                 className="interactive-tap"
                 style={{
                   flex: 1,
-                  backgroundColor: '#212121',
-                  border: '1px solid #262626',
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
                   borderRadius: '10px',
                   padding: '12px',
                   color: '#FFFFFF',

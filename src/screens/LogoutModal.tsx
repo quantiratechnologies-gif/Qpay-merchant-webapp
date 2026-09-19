@@ -30,14 +30,14 @@ export const LogoutModal: React.FC = () => {
               width: '60px',
               height: '60px',
               borderRadius: '50%',
-              backgroundColor: 'rgba(212, 175, 55, 0.12)',
-              color: '#D4AF37',
+              backgroundColor: 'rgba(127, 232, 127, 0.14)',
+              color: '#7FE87F',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 14px auto',
-              boxShadow: '0 0 20px rgba(212, 175, 55, 0.25)',
-              border: '2px solid #D4AF37',
+              boxShadow: '0 0 20px rgba(127, 232, 127, 0.25)',
+              border: '2px solid #7FE87F',
             }}
           >
             <CheckCircle2 size={32} />
@@ -45,7 +45,7 @@ export const LogoutModal: React.FC = () => {
           <h3 style={{ fontSize: '20px', fontWeight: '800', color: '#FFFFFF' }}>
             {language === 'العربية' ? 'تم تسجيل الخروج بنجاح' : 'Logged Out Successfully'}
           </h3>
-          <p style={{ color: '#A3A3A3', fontSize: '13px', marginTop: '6px' }}>
+          <p style={{ color: '#A2A2BA', fontSize: '13px', marginTop: '6px' }}>
             {language === 'العربية' ? 'جاري العودة لشاشة تسجيل الدخول...' : 'Returning to mobile registration screen...'}
           </p>
         </div>
@@ -56,13 +56,13 @@ export const LogoutModal: React.FC = () => {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              backgroundColor: '#1E1E1E',
+              backgroundColor: '#151524',
               color: '#EF4444',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 16px auto',
-              border: '1px solid #262626',
+              border: '1px solid #2C2C44',
             }}
           >
             <LogOut size={26} />
@@ -71,7 +71,7 @@ export const LogoutModal: React.FC = () => {
           <h3 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '8px', color: '#FFFFFF' }}>
             {language === 'العربية' ? 'تأكيد تسجيل الخروج' : 'Confirm Logout'}
           </h3>
-          <p style={{ color: '#A3A3A3', fontSize: '14px', marginBottom: '24px' }}>
+          <p style={{ color: '#A2A2BA', fontSize: '14px', marginBottom: '24px' }}>
             {language === 'العربية'
               ? 'هل أنت متأكد من تسجيل الخروج من كيو تي باي؟ سيتم إنهاء جلستك بأمان.'
               : 'Are you sure you want to log out of QTPay? Your session will be safely cleared.'}
@@ -82,11 +82,11 @@ export const LogoutModal: React.FC = () => {
               onClick={() => setIsLogoutModalOpen(false)}
               style={{
                 flex: 1,
-                backgroundColor: '#1E1E1E',
-                border: '1px solid #262626',
+                backgroundColor: '#151524',
+                border: '1px solid #2C2C44',
                 borderRadius: '12px',
                 padding: '14px',
-                color: '#A3A3A3',
+                color: '#A2A2BA',
                 fontWeight: '700',
                 fontSize: '14px',
                 cursor: 'pointer',

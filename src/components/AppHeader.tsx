@@ -81,7 +81,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             aria-label={t('btn.back', 'Go back')}
             className="interactive-tap"
             style={{
-              backgroundColor: '#171717',
+              backgroundColor: '#111726',
               border: `1px solid ${designSystem.colors.borderHairline}`,
               color: '#FFFFFF',
               width: '38px',
@@ -106,9 +106,9 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               width: '38px',
               height: '38px',
               borderRadius: '12px',
-              backgroundColor: 'rgba(212, 175, 55, 0.12)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              color: '#D4AF37',
+              backgroundColor: 'rgba(127, 232, 127, 0.14)',
+              border: '1px solid rgba(127, 232, 127, 0.3)',
+              color: '#7FE87F',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -118,7 +118,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               flexShrink: 0,
             }}
           >
-            <Store size={18} color="#D4AF37" />
+            <Store size={18} color="#7FE87F" />
           </button>
         )}
       </div>
@@ -186,7 +186,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             aria-label="Search"
             className="interactive-tap"
             style={{
-              backgroundColor: '#171717',
+              backgroundColor: '#111726',
               border: `1px solid ${designSystem.colors.borderHairline}`,
               color: '#FFFFFF',
               width: '38px',
@@ -212,7 +212,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             aria-label="Settings"
             className="interactive-tap"
             style={{
-              backgroundColor: '#171717',
+              backgroundColor: '#111726',
               border: `1px solid ${designSystem.colors.borderHairline}`,
               color: '#FFFFFF',
               width: '38px',

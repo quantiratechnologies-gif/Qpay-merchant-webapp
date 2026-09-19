@@ -21,7 +21,7 @@ export const PaymentPartnerLogo: React.FC<PaymentPartnerLogoProps> = ({
   const calcHeight = height || size || (typeof calcWidth === 'number' ? calcWidth * (540 / 960) : 56);
 
   const primaryFill = themeMode === 'dark' ? '#FFFFFF' : themeMode === 'light' ? '#053026' : '#053026';
-  const accentFill = '#D4AF37';
+  const accentFill = '#7FE87F';
 
   return (
     <svg

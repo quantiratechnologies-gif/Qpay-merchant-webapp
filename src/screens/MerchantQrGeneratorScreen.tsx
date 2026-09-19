@@ -93,7 +93,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
         <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
           {isAr ? 'رمز PAY QR والفواتير' : 'PAY QR & Invoices'}
         </h1>
-        <p style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '3px', margin: 0 }}>
+        <p style={{ fontSize: '12px', color: '#A2A2BA', marginTop: '3px', margin: 0 }}>
           {isAr ? 'إنشاء باركود المتجر وفواتير الدفع والروابط المباشرة' : 'Generate counter QR stand, invoices & direct pay links'}
         </p>
       </div>
@@ -110,7 +110,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
         {/* Left Column: Mode Selector & Configuration */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {/* Mode Selector Tabs */}
-          <Card variant="elevated" style={{ padding: '14px', background: '#171717', border: '1px solid #262626' }}>
+          <Card variant="elevated" style={{ padding: '14px', background: '#111726', border: '1px solid #2C2C44' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
               <button
                 onClick={() => setQrMode('stand')}
@@ -118,9 +118,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '10px 12px',
                   borderRadius: '10px',
-                  backgroundColor: qrMode === 'stand' ? 'rgba(212, 175, 55, 0.15)' : '#1E1E1E',
-                  border: qrMode === 'stand' ? '1.5px solid #D4AF37' : '1px solid #262626',
-                  color: qrMode === 'stand' ? '#D4AF37' : '#FFFFFF',
+                  backgroundColor: qrMode === 'stand' ? 'rgba(127, 232, 127, 0.14)' : '#151524',
+                  border: qrMode === 'stand' ? '1.5px solid #7FE87F' : '1px solid #2C2C44',
+                  color: qrMode === 'stand' ? '#7FE87F' : '#FFFFFF',
                   fontWeight: 800,
                   fontSize: '12.5px',
                   cursor: 'pointer',
@@ -140,9 +140,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '10px 12px',
                   borderRadius: '10px',
-                  backgroundColor: qrMode === 'invoice' ? 'rgba(212, 175, 55, 0.15)' : '#1E1E1E',
-                  border: qrMode === 'invoice' ? '1.5px solid #D4AF37' : '1px solid #262626',
-                  color: qrMode === 'invoice' ? '#D4AF37' : '#FFFFFF',
+                  backgroundColor: qrMode === 'invoice' ? 'rgba(127, 232, 127, 0.14)' : '#151524',
+                  border: qrMode === 'invoice' ? '1.5px solid #7FE87F' : '1px solid #2C2C44',
+                  color: qrMode === 'invoice' ? '#7FE87F' : '#FFFFFF',
                   fontWeight: 800,
                   fontSize: '12.5px',
                   cursor: 'pointer',
@@ -159,24 +159,24 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
           </Card>
 
           {/* Configuration Form Card */}
-          <Card variant="elevated" style={{ padding: '18px', background: '#171717', border: '1px solid #262626' }}>
+          <Card variant="elevated" style={{ padding: '18px', background: '#111726', border: '1px solid #2C2C44' }}>
             {qrMode === 'stand' ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF' }}>
                   {isAr ? 'بيانات ملصق الكاونتر والطاولات' : 'Store Stand Details'}
                 </div>
-                <div style={{ fontSize: '12.5px', color: '#A3A3A3', lineHeight: 1.5 }}>
+                <div style={{ fontSize: '12.5px', color: '#A2A2BA', lineHeight: 1.5 }}>
                   {isAr
                     ? 'يمكن للعميل مسح هذا الرمز بأي تطبيق بنكي سعودي وإدخال المبلغ المطلوب مباشرة.'
                     : 'Customers scan this code with any Saudi Banking app (Al Rajhi, SNB, Riyad, Urpay) and enter the custom amount.'}
                 </div>
 
-                <div style={{ padding: '14px', backgroundColor: '#0B0B0B', borderRadius: '12px', border: '1px solid #262626' }}>
-                  <div style={{ fontSize: '12px', color: '#A3A3A3' }}>{isAr ? 'اسم المنشأة' : 'Business Name'}</div>
+                <div style={{ padding: '14px', backgroundColor: '#080C14', borderRadius: '12px', border: '1px solid #2C2C44' }}>
+                  <div style={{ fontSize: '12px', color: '#A2A2BA' }}>{isAr ? 'اسم المنشأة' : 'Business Name'}</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', marginTop: '2px' }}>
                     {translateText(merchantInfo.businessName, language)}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#D4AF37', marginTop: '6px', fontWeight: 700 }}>
+                  <div style={{ fontSize: '12px', color: '#7FE87F', marginTop: '6px', fontWeight: 700 }}>
                     {isAr ? 'الرقم الضريبي' : 'VAT ID'}: {formatLocalizedNumber(merchantInfo.vatNumber, language)}
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                  <label style={{ fontSize: '12px', color: '#A2A2BA', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
                     {isAr ? 'المبلغ الإجمالي (شامل الضريبة ١٥٪)' : 'Total Amount (Inc. 15% VAT)'}
                   </label>
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -200,10 +200,10 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                       style={{
                         width: '100%',
                         padding: '12px 14px',
-                        backgroundColor: '#0B0B0B',
-                        border: '1.5px solid #D4AF37',
+                        backgroundColor: '#080C14',
+                        border: '1.5px solid #7FE87F',
                         borderRadius: '10px',
-                        color: '#D4AF37',
+                        color: '#7FE87F',
                         fontSize: '18px',
                         fontWeight: 800,
                         outline: 'none',
@@ -223,9 +223,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                       style={{
                         padding: '6px',
                         borderRadius: '8px',
-                        backgroundColor: invoiceAmount === amt + '.00' ? '#D4AF37' : '#1E1E1E',
-                        border: '1px solid #262626',
-                        color: invoiceAmount === amt + '.00' ? '#0B0B0B' : '#A3A3A3',
+                        backgroundColor: invoiceAmount === amt + '.00' ? '#7FE87F' : '#151524',
+                        border: '1px solid #2C2C44',
+                        color: invoiceAmount === amt + '.00' ? '#080C14' : '#A2A2BA',
                         fontSize: '12px',
                         fontWeight: 800,
                         cursor: 'pointer',
@@ -237,23 +237,23 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 </div>
 
                 {/* Invoice Breakdown */}
-                <div style={{ padding: '12px 14px', backgroundColor: '#0B0B0B', borderRadius: '10px', border: '1px solid #262626', fontSize: '12px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3', marginBottom: '4px' }}>
+                <div style={{ padding: '12px 14px', backgroundColor: '#080C14', borderRadius: '10px', border: '1px solid #2C2C44', fontSize: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A2A2BA', marginBottom: '4px' }}>
                     <span>{isAr ? 'المبلغ الأساسي' : 'Subtotal'}</span>
                     <span className="font-mono text-white">SAR {subtotal}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A2A2BA', marginBottom: '6px' }}>
                     <span>{isAr ? 'ضريبة القيمة المضافة (١٥٪)' : 'VAT (15%)'}</span>
                     <span className="font-mono text-white">SAR {vatAmount.toFixed(2)}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#D4AF37', fontWeight: 800, borderTop: '1px solid #262626', paddingTop: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#7FE87F', fontWeight: 800, borderTop: '1px solid #2C2C44', paddingTop: '6px' }}>
                     <span>{isAr ? 'الإجمالي المستحق' : 'Total Due'}</span>
                     <span className="font-mono">{formatSaudiCurrency(numAmount, language)}</span>
                   </div>
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                  <label style={{ fontSize: '12px', color: '#A2A2BA', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
                     {isAr ? 'مرجع الفاتورة / الملاحظة' : 'Invoice Ref / Note'}
                   </label>
                   <input
@@ -263,8 +263,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      backgroundColor: '#0B0B0B',
-                      border: '1px solid #262626',
+                      backgroundColor: '#080C14',
+                      border: '1px solid #2C2C44',
                       borderRadius: '10px',
                       color: '#FFFFFF',
                       fontSize: '12.5px',
@@ -286,9 +286,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 width: '100%',
                 padding: '12px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(212, 175, 55, 0.12)',
-                border: '1px solid rgba(212, 175, 55, 0.3)',
-                color: '#D4AF37',
+                backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                border: '1px solid rgba(127, 232, 127, 0.3)',
+                color: '#7FE87F',
                 fontSize: '13px',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -311,8 +311,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
             style={{
               padding: '28px',
               textAlign: 'center',
-              backgroundColor: '#171717',
-              border: '1px solid rgba(212, 175, 55, 0.25)',
+              backgroundColor: '#111726',
+              border: '1px solid rgba(127, 232, 127, 0.25)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -326,7 +326,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               </span>
             </div>
 
-            <div style={{ fontSize: '12px', color: '#A3A3A3', marginBottom: '18px' }}>
+            <div style={{ fontSize: '12px', color: '#A2A2BA', marginBottom: '18px' }}>
               {isAr ? 'امسح الرمز أو استخدم الرابط للدفع الفوري' : 'Scan via Any Saudi Bank App or Use Direct Pay Link'}
             </div>
 
@@ -348,7 +348,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
 
             {/* Amount Label (if Dynamic Invoice) */}
             {qrMode === 'invoice' && (
-              <div style={{ fontSize: '20px', fontWeight: 900, color: '#D4AF37', marginBottom: '12px' }}>
+              <div style={{ fontSize: '20px', fontWeight: 900, color: '#7FE87F', marginBottom: '12px' }}>
                 {formatSaudiCurrency(numAmount, language)}
               </div>
             )}
@@ -357,7 +357,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               {translateText(merchantInfo.businessName, language)}
             </div>
 
-            <div style={{ fontSize: '11.5px', color: '#737373', marginTop: '4px' }}>
+            <div style={{ fontSize: '11.5px', color: '#6E6E85', marginTop: '4px' }}>
               {isAr ? 'السجل التجاري' : 'CR'}: {formatLocalizedNumber(merchantInfo.crNumber, language)} &bull; {isAr ? 'الرقم الضريبي' : 'VAT'}: {formatLocalizedNumber(merchantInfo.vatNumber, language)}
             </div>
 
@@ -377,8 +377,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '10px',
                   borderRadius: '10px',
-                  backgroundColor: '#212121',
-                  border: '1px solid #262626',
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
                   color: '#FFFFFF',
                   fontSize: '12.5px',
                   fontWeight: 700,
@@ -389,7 +389,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                <Printer size={15} color="#D4AF37" />
+                <Printer size={15} color="#7FE87F" />
                 <span>{isAr ? 'طباعة' : 'Print A4'}</span>
               </button>
 
@@ -399,8 +399,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '10px',
                   borderRadius: '10px',
-                  backgroundColor: '#212121',
-                  border: '1px solid #262626',
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
                   color: '#FFFFFF',
                   fontSize: '12.5px',
                   fontWeight: 700,
@@ -411,7 +411,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                {copiedPayload ? <Check size={15} color="#D4AF37" /> : <Copy size={15} color="#D4AF37" />}
+                {copiedPayload ? <Check size={15} color="#7FE87F" /> : <Copy size={15} color="#7FE87F" />}
                 <span>{copiedPayload ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ النص' : 'Copy')}</span>
               </button>
 
@@ -422,9 +422,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '10px',
                   borderRadius: '10px',
-                  backgroundColor: copiedLink ? 'rgba(212, 175, 55, 0.2)' : '#212121',
-                  border: copiedLink ? '1.5px solid #D4AF37' : '1px solid #262626',
-                  color: copiedLink ? '#D4AF37' : '#FFFFFF',
+                  backgroundColor: copiedLink ? 'rgba(127, 232, 127, 0.2)' : '#182236',
+                  border: copiedLink ? '1.5px solid #7FE87F' : '1px solid #2C2C44',
+                  color: copiedLink ? '#7FE87F' : '#FFFFFF',
                   fontSize: '12.5px',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -435,7 +435,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   transition: 'all 0.15s ease',
                 }}
               >
-                {copiedLink ? <Check size={15} color="#D4AF37" /> : <Link2 size={15} color="#D4AF37" />}
+                {copiedLink ? <Check size={15} color="#7FE87F" /> : <Link2 size={15} color="#7FE87F" />}
                 <span>{copiedLink ? (isAr ? 'تم النسخ' : 'Copied Link') : (isAr ? 'رابط الدفع' : 'Pay Link')}</span>
               </button>
             </div>
@@ -446,8 +446,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 width: '100%',
                 marginTop: '16px',
                 padding: '10px 14px',
-                backgroundColor: '#0B0B0B',
-                border: '1px solid #262626',
+                backgroundColor: '#080C14',
+                border: '1px solid #2C2C44',
                 borderRadius: '12px',
                 display: 'flex',
                 alignItems: 'center',
@@ -457,14 +457,14 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               }}
             >
               <div style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ fontSize: '10px', fontWeight: 700, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#A2A2BA', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   {isAr ? 'رابط الدفع المباشر' : 'Direct Pay Link'}
                 </div>
                 <div
                   style={{
                     fontSize: '12px',
                     fontWeight: 700,
-                    color: '#D4AF37',
+                    color: '#7FE87F',
                     fontFamily: 'monospace',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -483,9 +483,9 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '6px 12px',
                   borderRadius: '8px',
-                  backgroundColor: copiedLink ? '#D4AF37' : 'rgba(212, 175, 55, 0.12)',
-                  border: '1px solid rgba(212, 175, 55, 0.3)',
-                  color: copiedLink ? '#0B0B0B' : '#D4AF37',
+                  backgroundColor: copiedLink ? '#7FE87F' : 'rgba(127, 232, 127, 0.14)',
+                  border: '1px solid rgba(127, 232, 127, 0.3)',
+                  color: copiedLink ? '#080C14' : '#7FE87F',
                   fontSize: '11px',
                   fontWeight: 800,
                   cursor: 'pointer',

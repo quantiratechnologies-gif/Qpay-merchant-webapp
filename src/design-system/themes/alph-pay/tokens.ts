@@ -1,82 +1,82 @@
 /**
  * alph pay — Official Mobile App Design System Tokens
- * Primary: Vibrant Lime Green (#00C853)
- * UI Base: Deep Navy Charcoal (#1A1A2E) & Dark Card Surfaces (#2A2A3E)
- * Secondary: Pure Black (#000000) & Pure White (#FFFFFF)
+ * Primary: Unified Emerald Green (#7FE87F)
+ * UI Base: Signature Dark (#080C14) & Deep Card Surfaces (#111726 / #182236)
+ * Secondary: #A2A2BA / #6E6E85 & Pure White (#FFFFFF)
  * Typography: Inter / SF Pro / Google Sans Flex Scale
- * Border Radius: 8px (Buttons/Inputs), 12px (Cards), 16px (Modals), 24px (Hero)
- * Contrast: High contrast WCAG AA compliant (black text on green CTAs, white text on dark cards)
+ * Border Radius: 8px (Buttons/Inputs), 12px (Cards), 16px (Modals), 20px (Hero)
+ * Contrast: High contrast WCAG AA compliant (dark text #080C14 on green CTAs, white text on dark cards)
  */
 
 export const colors = {
-  // 1. Primary Color — Regal Gold & Tiers
-  primary: '#D4AF37',
-  primaryHover: '#E5C453',
-  primaryActive: '#B8972E',
-  primaryLight: 'rgba(212, 175, 55, 0.15)',
-  primaryLightHover: 'rgba(212, 175, 55, 0.25)',
-  primaryBorder: 'rgba(212, 175, 55, 0.4)',
-  primaryDark: '#8C7320',
-  textOnPrimary: '#0B0B0B', // Black text on Gold for maximum luxury readability
+  // 1. Primary Color — Unified Green & Tiers
+  primary: '#7FE87F',
+  primaryHover: '#6FD86F',
+  primaryActive: '#5FBF5F',
+  primaryLight: 'rgba(127, 232, 127, 0.14)',
+  primaryLightHover: 'rgba(127, 232, 127, 0.22)',
+  primaryBorder: 'rgba(127, 232, 127, 0.35)',
+  primaryDark: '#5FBF5F',
+  textOnPrimary: '#080C14', // Dark text on green for maximum readability
 
-  // 2. Secondary Color — Champagne Gold & Grays
-  secondary: '#F1D77A',
-  secondaryHover: '#E5C453',
-  gray25: '#212121',
-  gray50: '#525252',
-  gray75: '#A3A3A3',
-  gray90: '#E5E5E5',
+  // 2. Secondary Color
+  secondary: '#182236',
+  secondaryHover: '#1E293B',
+  gray25: '#111726',
+  gray50: '#182236',
+  gray75: '#6E6E85',
+  gray90: '#A2A2BA',
 
-  // 3. Accent Dark — Obsidian UI Surfaces
-  darkBg: '#0B0B0B',
-  darkSurface: '#171717',
-  darkSurfaceElevated: '#212121',
-  darkBorder: '#262626',
-  darkDisabled: '#333333',
-  darkPlaceholder: '#A3A3A3',
+  // 3. Accent Dark — Signature Dark Surfaces
+  darkBg: '#080C14',
+  darkSurface: '#111726',
+  darkSurfaceElevated: '#182236',
+  darkBorder: '#2C2C44',
+  darkDisabled: '#1E293B',
+  darkPlaceholder: '#6E6E85',
 
   // 4. Neutral — Pure White & Light Surfaces
-  lightBg: '#0B0B0B',
-  lightSurface: '#171717',
-  lightSurfaceElevated: '#212121',
-  lightBorder: '#262626',
+  lightBg: '#080C14',
+  lightSurface: '#111726',
+  lightSurfaceElevated: '#182236',
+  lightBorder: '#2C2C44',
 
-  // Active App Surfaces (Black + Gold Signature Luxury Experience)
-  surface: '#171717',
-  surfaceElevated: '#212121',
-  background: '#0B0B0B',
-  subSurface: '#1E1E1E',
-  surfaceHover: '#212121',
-  inputFill: '#171717',
-  overlay: 'rgba(0, 0, 0, 0.8)',
+  // Active App Surfaces
+  surface: '#111726',
+  surfaceElevated: '#182236',
+  background: '#080C14',
+  subSurface: '#151524',
+  surfaceHover: '#1E293B',
+  inputFill: '#111726',
+  overlay: 'rgba(0, 0, 0, 0.75)',
 
   // Typography Tiers
   textPrimary: '#FFFFFF',
-  textSecondary: '#A3A3A3',
-  textMuted: '#737373',
-  textDisabled: '#525252',
+  textSecondary: '#A2A2BA',
+  textMuted: '#6E6E85',
+  textDisabled: '#4B4B60',
 
   // Borders & Dividers
-  borderHairline: '#262626',
-  borderStrong: '#404040',
-  borderFocus: '#D4AF37',
+  borderHairline: 'rgba(255, 255, 255, 0.06)',
+  borderStrong: '#2C2C44',
+  borderFocus: '#7FE87F',
 
   // Semantic & Feedback Colors
-  success: '#22C55E',
-  successLight: 'rgba(34, 197, 94, 0.15)',
-  successText: '#4ADE80',
+  success: '#7FE87F',
+  successLight: 'rgba(127, 232, 127, 0.14)',
+  successText: '#7FE87F',
 
   warning: '#F59E0B',
-  warningLight: 'rgba(245, 158, 11, 0.15)',
-  warningText: '#FBBF24',
+  warningLight: 'rgba(245, 158, 11, 0.12)',
+  warningText: '#F59E0B',
 
   danger: '#EF4444',
-  dangerLight: 'rgba(239, 68, 68, 0.15)',
-  dangerText: '#F87171',
+  dangerLight: 'rgba(239, 68, 68, 0.12)',
+  dangerText: '#FF6B7A',
 
-  info: '#D4AF37',
-  infoLight: 'rgba(212, 175, 55, 0.15)',
-  infoText: '#D4AF37',
+  info: '#38BDF8',
+  infoLight: 'rgba(56, 189, 248, 0.14)',
+  infoText: '#38BDF8',
 } as const;
 
 export const typography = {
@@ -104,10 +104,10 @@ export const typography = {
 export const radii = {
   none: '0px',
   xs: '4px',
-  sm: '8px',   // Buttons, inputs, small chips
-  md: '12px',  // Cards, list items
-  lg: '16px',  // Balance cards, modals
-  xl: '24px',  // Hero banners, large surfaces
+  sm: '8px',
+  md: '12px',
+  lg: '16px',
+  xl: '20px',
   full: '999px',
 } as const;
 
@@ -130,7 +130,7 @@ export const spacing = {
 } as const;
 
 export const focus = {
-  ring: '2.5px solid #00C853',
+  ring: '2.5px solid #7FE87F',
   offset: '2px',
   outline: 'none',
 } as const;
@@ -138,13 +138,13 @@ export const focus = {
 export const componentPresets = {
   card: {
     backgroundColor: colors.darkSurface,
-    border: `1px solid ${colors.darkBorder}`,
+    border: `1px solid ${colors.borderHairline}`,
     borderRadius: radii.md,
     boxShadow: shadows.md,
   },
   header: {
     backgroundColor: colors.darkBg,
-    borderBottom: `1px solid ${colors.darkBorder}`,
+    borderBottom: `1px solid ${colors.borderHairline}`,
     boxShadow: shadows.none,
   },
   buttonPrimary: {
@@ -153,19 +153,19 @@ export const componentPresets = {
     borderRadius: radii.sm,
     fontWeight: typography.weights.bold,
     border: 'none',
-    boxShadow: shadows.none,
+    boxShadow: '0 4px 20px rgba(127, 232, 127, 0.35)',
   },
   buttonSecondary: {
     backgroundColor: 'transparent',
     color: colors.primary,
     borderRadius: radii.sm,
     fontWeight: typography.weights.semibold,
-    border: `1.5px solid ${colors.primary}`,
+    border: `1.5px solid ${colors.borderStrong}`,
     boxShadow: shadows.none,
   },
   input: {
-    backgroundColor: colors.darkBg,
-    border: `1px solid ${colors.darkBorder}`,
+    backgroundColor: colors.darkSurface,
+    border: `1px solid ${colors.borderStrong}`,
     borderRadius: radii.sm,
     color: colors.textPrimary,
     boxShadow: shadows.none,
@@ -181,4 +181,3 @@ export const designSystem = {
   focus,
   componentPresets,
 };
-

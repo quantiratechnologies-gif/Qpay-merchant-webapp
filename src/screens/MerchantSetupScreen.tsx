@@ -65,7 +65,7 @@ export const MerchantSetupScreen: React.FC = () => {
       className="fade-in"
       style={{
         minHeight: '100%',
-        backgroundColor: '#0B0B0B',
+        backgroundColor: '#080C14',
         color: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column',
@@ -96,8 +96,8 @@ export const MerchantSetupScreen: React.FC = () => {
               width: '40px',
               height: '40px',
               borderRadius: '12px',
-              backgroundColor: '#171717',
-              border: '1px solid #262626',
+              backgroundColor: '#111726',
+              border: '1px solid #2C2C44',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -125,7 +125,7 @@ export const MerchantSetupScreen: React.FC = () => {
           <p
             style={{
               fontSize: '13px',
-              color: '#A3A3A3',
+              color: '#A2A2BA',
               margin: 0,
             }}
           >
@@ -138,8 +138,8 @@ export const MerchantSetupScreen: React.FC = () => {
           {/* 1. Storefront & Brand Logo Inset Card */}
           <div
             style={{
-              backgroundColor: '#171717',
-              border: '1px solid #262626',
+              backgroundColor: '#111726',
+              border: '1px solid #2C2C44',
               borderRadius: '14px',
               padding: '12px 14px',
               display: 'flex',
@@ -156,15 +156,15 @@ export const MerchantSetupScreen: React.FC = () => {
                   width: '40px',
                   height: '40px',
                   borderRadius: '10px',
-                  border: '1.5px dashed rgba(212, 175, 55, 0.6)',
-                  backgroundColor: 'rgba(212, 175, 55, 0.08)',
+                  border: '1.5px dashed rgba(127, 232, 127, 0.6)',
+                  backgroundColor: 'rgba(127, 232, 127, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '2px',
                   cursor: 'pointer',
-                  color: '#D4AF37',
+                  color: '#7FE87F',
                   flexShrink: 0,
                 }}
               >
@@ -175,7 +175,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 <div style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
                   {isAr ? 'شعار المتجر' : 'Store Logo'}
                 </div>
-                <div style={{ fontSize: '11px', color: '#A3A3A3', marginTop: '2px' }}>
+                <div style={{ fontSize: '11px', color: '#A2A2BA', marginTop: '2px' }}>
                   {hasLogo
                     ? (isAr ? '✓ تم التحميل' : '✓ Uploaded')
                     : (isAr ? 'PNG أو JPG' : 'PNG, JPG')}
@@ -191,12 +191,12 @@ export const MerchantSetupScreen: React.FC = () => {
                 width: '32px',
                 height: '32px',
                 borderRadius: '8px',
-                backgroundColor: '#212121',
-                border: '1px solid #262626',
+                backgroundColor: '#182236',
+                border: '1px solid #2C2C44',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#A3A3A3',
+                color: '#A2A2BA',
                 cursor: 'pointer',
                 flexShrink: 0,
               }}
@@ -211,18 +211,18 @@ export const MerchantSetupScreen: React.FC = () => {
               style={{
                 fontSize: '12px',
                 fontWeight: 700,
-                color: '#A3A3A3',
+                color: '#A2A2BA',
                 marginBottom: '6px',
                 display: 'block',
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'اسم المنشأة' : 'Business Name'} <span style={{ color: '#D4AF37' }}>*</span>
+              {isAr ? 'اسم المنشأة' : 'Business Name'} <span style={{ color: '#7FE87F' }}>*</span>
             </label>
             <div
               style={{
-                backgroundColor: '#171717',
-                border: '1px solid #262626',
+                backgroundColor: '#111726',
+                border: '1px solid #2C2C44',
                 borderRadius: '14px',
                 padding: '0 16px',
                 height: '50px',
@@ -232,7 +232,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 boxSizing: 'border-box',
               }}
             >
-              <Building2 size={17} color="#D4AF37" style={{ flexShrink: 0 }} />
+              <Building2 size={17} color="#7FE87F" style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={businessName}
@@ -259,19 +259,19 @@ export const MerchantSetupScreen: React.FC = () => {
               style={{
                 fontSize: '12px',
                 fontWeight: 700,
-                color: '#A3A3A3',
+                color: '#A2A2BA',
                 marginBottom: '6px',
                 display: 'block',
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'النشاط التجاري' : 'Category'} <span style={{ color: '#D4AF37' }}>*</span>
+              {isAr ? 'النشاط التجاري' : 'Category'} <span style={{ color: '#7FE87F' }}>*</span>
             </label>
             <div
               style={{
                 position: 'relative',
-                backgroundColor: '#171717',
-                border: '1px solid #262626',
+                backgroundColor: '#111726',
+                border: '1px solid #2C2C44',
                 borderRadius: '14px',
                 padding: '0 16px',
                 height: '50px',
@@ -281,7 +281,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 boxSizing: 'border-box',
               }}
             >
-              <Tag size={17} color="#D4AF37" style={{ flexShrink: 0 }} />
+              <Tag size={17} color="#7FE87F" style={{ flexShrink: 0 }} />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -301,14 +301,14 @@ export const MerchantSetupScreen: React.FC = () => {
                 }}
               >
                 {CATEGORIES.map((cat) => (
-                  <option key={cat.en} value={cat.en} style={{ backgroundColor: '#171717', color: '#FFFFFF' }}>
+                  <option key={cat.en} value={cat.en} style={{ backgroundColor: '#111726', color: '#FFFFFF' }}>
                     {isAr ? cat.ar : cat.en}
                   </option>
                 ))}
               </select>
               <ChevronDown
                 size={16}
-                color="#A3A3A3"
+                color="#A2A2BA"
                 style={{
                   position: 'absolute',
                   right: isRtl ? 'auto' : '16px',
@@ -325,19 +325,19 @@ export const MerchantSetupScreen: React.FC = () => {
               style={{
                 fontSize: '12px',
                 fontWeight: 700,
-                color: '#A3A3A3',
+                color: '#A2A2BA',
                 marginBottom: '6px',
                 display: 'block',
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'الرقم الضريبي' : 'VAT ID'} <span style={{ color: '#D4AF37' }}>*</span>
+              {isAr ? 'الرقم الضريبي' : 'VAT ID'} <span style={{ color: '#7FE87F' }}>*</span>
             </label>
 
             <div
               style={{
-                backgroundColor: '#171717',
-                border: '1px solid #262626',
+                backgroundColor: '#111726',
+                border: '1px solid #2C2C44',
                 borderRadius: '14px',
                 padding: '0 16px',
                 height: '50px',
@@ -347,7 +347,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 boxSizing: 'border-box',
               }}
             >
-              <Hash size={17} color="#D4AF37" style={{ flexShrink: 0 }} />
+              <Hash size={17} color="#7FE87F" style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={vatNumber}
@@ -377,19 +377,19 @@ export const MerchantSetupScreen: React.FC = () => {
                 style={{
                   fontSize: '12px',
                   fontWeight: 700,
-                  color: '#A3A3A3',
+                  color: '#A2A2BA',
                   marginBottom: '6px',
                   display: 'block',
                   textAlign: isRtl ? 'right' : 'left',
                 }}
               >
-                {isAr ? 'المدينة' : 'City'} <span style={{ color: '#D4AF37' }}>*</span>
+                {isAr ? 'المدينة' : 'City'} <span style={{ color: '#7FE87F' }}>*</span>
               </label>
               <div
                 style={{
                   position: 'relative',
-                  backgroundColor: '#171717',
-                  border: '1px solid #262626',
+                  backgroundColor: '#111726',
+                  border: '1px solid #2C2C44',
                   borderRadius: '14px',
                   padding: '0 12px',
                   height: '50px',
@@ -399,7 +399,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   boxSizing: 'border-box',
                 }}
               >
-                <MapPin size={15} color="#D4AF37" style={{ flexShrink: 0 }} />
+                <MapPin size={15} color="#7FE87F" style={{ flexShrink: 0 }} />
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
@@ -419,14 +419,14 @@ export const MerchantSetupScreen: React.FC = () => {
                   }}
                 >
                   {CITIES.map((c) => (
-                    <option key={c.en} value={c.en} style={{ backgroundColor: '#171717', color: '#FFFFFF' }}>
+                    <option key={c.en} value={c.en} style={{ backgroundColor: '#111726', color: '#FFFFFF' }}>
                       {isAr ? c.ar : c.en}
                     </option>
                   ))}
                 </select>
                 <ChevronDown
                   size={14}
-                  color="#A3A3A3"
+                  color="#A2A2BA"
                   style={{
                     position: 'absolute',
                     right: isRtl ? 'auto' : '10px',
@@ -443,18 +443,18 @@ export const MerchantSetupScreen: React.FC = () => {
                 style={{
                   fontSize: '12px',
                   fontWeight: 700,
-                  color: '#A3A3A3',
+                  color: '#A2A2BA',
                   marginBottom: '6px',
                   display: 'block',
                   textAlign: isRtl ? 'right' : 'left',
                 }}
               >
-                {isAr ? 'الرمز البريدي' : 'Postal Code'} <span style={{ color: '#D4AF37' }}>*</span>
+                {isAr ? 'الرمز البريدي' : 'Postal Code'} <span style={{ color: '#7FE87F' }}>*</span>
               </label>
               <div
                 style={{
-                  backgroundColor: '#171717',
-                  border: '1px solid #262626',
+                  backgroundColor: '#111726',
+                  border: '1px solid #2C2C44',
                   borderRadius: '14px',
                   padding: '0 12px',
                   height: '50px',
@@ -464,7 +464,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   boxSizing: 'border-box',
                 }}
               >
-                <Mail size={15} color="#D4AF37" style={{ flexShrink: 0 }} />
+                <Mail size={15} color="#7FE87F" style={{ flexShrink: 0 }} />
                 <input
                   type="text"
                   maxLength={5}
@@ -505,7 +505,7 @@ export const MerchantSetupScreen: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              boxShadow: '0 4px 20px rgba(212, 175, 55, 0.25)',
+              boxShadow: '0 4px 20px rgba(127, 232, 127, 0.25)',
               transition: 'all 0.2s ease',
             }}
           >

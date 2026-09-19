@@ -9,16 +9,16 @@ export interface ButtonProps
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "default", ...props }, ref) => {
-    let variantStyles = "bg-gradient-to-r from-[#D4AF37] via-[#F1D77A] to-[#B8972E] text-[#0B0B0B] hover:brightness-110 font-bold shadow-md shadow-[#D4AF37]/20 active:scale-[0.98]";
+    let variantStyles = "bg-gradient-to-r from-[#7FE87F] via-[#98F598] to-[#5FBF5F] text-[#080C14] hover:brightness-110 font-bold shadow-md shadow-[#7FE87F]/20 active:scale-[0.98]";
 
     if (variant === "destructive") {
       variantStyles = "bg-red-500/15 text-red-400 border border-red-500/30 hover:bg-red-500/25 font-semibold";
     } else if (variant === "outline") {
-      variantStyles = "bg-[#171717] text-neutral-200 border border-[#262626] hover:bg-[#212121] hover:text-[#D4AF37] hover:border-[#D4AF37]/40 font-medium";
+      variantStyles = "bg-[#111726] text-neutral-200 border border-[#2C2C44] hover:bg-[#182236] hover:text-[#7FE87F] hover:border-[#7FE87F]/40 font-medium";
     } else if (variant === "secondary") {
-      variantStyles = "bg-[#212121] text-neutral-200 hover:bg-[#2A2A2A] font-semibold border border-[#333333]";
+      variantStyles = "bg-[#182236] text-neutral-200 hover:bg-[#2A2A2A] font-semibold border border-[#3A3A52]";
     } else if (variant === "ghost") {
-      variantStyles = "bg-transparent text-neutral-400 hover:text-[#D4AF37] hover:bg-[#212121]/50 font-medium";
+      variantStyles = "bg-transparent text-neutral-400 hover:text-[#7FE87F] hover:bg-[#182236]/50 font-medium";
     }
 
     let sizeStyles = "h-9 px-3.5 py-2 text-xs rounded-lg";

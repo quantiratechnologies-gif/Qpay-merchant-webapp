@@ -40,8 +40,8 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '14px 16px',
-        backgroundColor: '#171717',
-        border: '1px solid #262626',
+        backgroundColor: '#111726',
+        border: '1px solid #2C2C44',
         borderRadius: '14px',
         marginBottom: '10px',
         cursor: onClick ? 'pointer' : 'default',
@@ -55,9 +55,9 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
             width: '42px',
             height: '42px',
             borderRadius: '12px',
-            backgroundColor: isReceived ? 'rgba(212, 175, 55, 0.12)' : '#1F1F1F',
-            border: `1px solid ${isReceived ? 'rgba(212, 175, 55, 0.35)' : '#2A2A2A'}`,
-            color: isReceived ? '#D4AF37' : '#FFFFFF',
+            backgroundColor: isReceived ? 'rgba(127, 232, 127, 0.14)' : '#1F1F1F',
+            border: `1px solid ${isReceived ? 'rgba(127, 232, 127, 0.35)' : '#2A2A2A'}`,
+            color: isReceived ? '#7FE87F' : '#FFFFFF',
             fontWeight: 800,
             fontSize: '13px',
             display: 'flex',
@@ -72,7 +72,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
           <div style={{ fontWeight: 800, fontSize: '14px', color: '#FFFFFF', lineHeight: '18px' }}>
             {displayTitle}
           </div>
-          <div style={{ fontSize: '11.5px', color: '#A3A3A3', marginTop: '2px' }}>
+          <div style={{ fontSize: '11.5px', color: '#A2A2BA', marginTop: '2px' }}>
             {displaySub} &bull; {transaction.utr.substring(0, 10)}
           </div>
         </div>
@@ -84,12 +84,12 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
           style={{
             fontWeight: 900,
             fontSize: '15px',
-            color: isReceived ? '#D4AF37' : '#FFFFFF',
+            color: isReceived ? '#7FE87F' : '#FFFFFF',
           }}
         >
           {isReceived ? '+' : '-'}{formatCurrency(transaction.amount, language)}
         </div>
-        <div style={{ fontSize: '10.5px', color: '#737373', marginTop: '2px', fontWeight: 600 }}>
+        <div style={{ fontSize: '10.5px', color: '#6E6E85', marginTop: '2px', fontWeight: 600 }}>
           {displayDate}
         </div>
       </div>

@@ -29,7 +29,7 @@ export const HubIllustration: React.FC = () => {
           {/* Screen Gradient */}
           <linearGradient id="screenGrad" x1="80" y1="30" x2="220" y2="250" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#151528" />
-            <stop offset="100%" stopColor="#0B0B14" />
+            <stop offset="100%" stopColor="#080C14" />
           </linearGradient>
 
           {/* Emerald Glow */}
@@ -46,7 +46,7 @@ export const HubIllustration: React.FC = () => {
 
           <radialGradient id="hubBackdrop" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#00C853" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#0B0B14" stopOpacity="0" />
+            <stop offset="100%" stopColor="#080C14" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -81,7 +81,7 @@ export const HubIllustration: React.FC = () => {
           />
 
           {/* Dynamic Island / Speaker */}
-          <rect x="56" y="14" width="48" height="10" rx="5" fill="#0B0B14" />
+          <rect x="56" y="14" width="48" height="10" rx="5" fill="#080C14" />
           <circle cx="88" cy="19" r="2" fill="rgba(255,255,255,0.3)" />
 
           {/* Screen Content: Balance Pill */}
@@ -93,7 +93,7 @@ export const HubIllustration: React.FC = () => {
           <g transform="translate(20, 96)">
             <rect width="120" height="85" rx="12" fill="rgba(0, 200, 83, 0.12)" stroke="#00C853" strokeWidth="1.2" />
             <circle cx="28" cy="24" r="14" fill="#00C853" />
-            <path d="M23 24 L 27 28 L 34 20" stroke="#0B0B14" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M23 24 L 27 28 L 34 20" stroke="#080C14" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
             <text x="48" y="20" fill="#FFFFFF" fontSize="9" fontWeight="800">Sarie Instant</text>
             <text x="48" y="31" fill="#00C853" fontSize="8" fontWeight="700">+SAR 1,250.00</text>
 

@@ -30,7 +30,7 @@ export const MerchantInsightsScreen: React.FC = () => {
       shortName: isAr ? 'مدى / بطاقات' : 'mada / Cards',
       percent: 58,
       amount: totalVolume * 0.58,
-      color: '#D4AF37',
+      color: '#7FE87F',
       icon: CreditCard,
     },
     {
@@ -38,7 +38,7 @@ export const MerchantInsightsScreen: React.FC = () => {
       shortName: 'Apple Pay',
       percent: 24,
       amount: totalVolume * 0.24,
-      color: '#F1D77A',
+      color: '#98F598',
       icon: Smartphone,
     },
     {
@@ -98,7 +98,7 @@ export const MerchantInsightsScreen: React.FC = () => {
         </div>
 
         {/* Period Selector Chips */}
-        <div className="flex items-center gap-1.5 bg-[#171717] p-1 rounded-xl border border-[#262626]">
+        <div className="flex items-center gap-1.5 bg-[#111726] p-1 rounded-xl border border-[#2C2C44]">
           {periods.map((p) => {
             const isSelected = selectedPeriod === p.id;
             return (
@@ -107,7 +107,7 @@ export const MerchantInsightsScreen: React.FC = () => {
                 onClick={() => setSelectedPeriod(p.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   isSelected
-                    ? 'bg-gradient-to-r from-[#D4AF37] to-[#F1D77A] text-black font-extrabold shadow-sm shadow-[#D4AF37]/30'
+                    ? 'bg-gradient-to-r from-[#7FE87F] to-[#98F598] text-black font-extrabold shadow-sm shadow-[#7FE87F]/30'
                     : 'bg-transparent text-slate-400 hover:text-white'
                 }`}
               >
@@ -148,12 +148,12 @@ export const MerchantInsightsScreen: React.FC = () => {
       {/* 2-Column Visual Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         {/* Left Column: Donut Pie Chart & Payment Rail Distribution */}
-        <Card className="p-6 bg-[#171717] border border-[#262626]">
+        <Card className="p-6 bg-[#111726] border border-[#2C2C44]">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-bold text-white">
               {isAr ? 'طرق الدفع' : 'Payment Methods'}
             </span>
-            <span className="text-xs text-[#D4AF37] font-bold">
+            <span className="text-xs text-[#7FE87F] font-bold">
               {isAr ? '١٠٠٪ رقمي' : '100% Digital'}
             </span>
           </div>
@@ -169,7 +169,7 @@ export const MerchantInsightsScreen: React.FC = () => {
         </Card>
 
         {/* Right Column: Hourly Velocity Activity Visualizer */}
-        <Card className="p-6 bg-[#171717] border border-[#262626]">
+        <Card className="p-6 bg-[#111726] border border-[#2C2C44]">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-bold text-white">
               {isAr ? 'النشاط بالساعات' : 'Hourly Activity'}
@@ -180,29 +180,29 @@ export const MerchantInsightsScreen: React.FC = () => {
           </div>
 
           {/* Bar Chart Visualization */}
-          <div className="flex items-end justify-between h-44 p-4 bg-[#0B0B0B] rounded-xl border border-[#262626] mb-4">
+          <div className="flex items-end justify-between h-44 p-4 bg-[#080C14] rounded-xl border border-[#2C2C44] mb-4">
             {hourlyData.map((d, idx) => (
               <div key={idx} className="flex flex-col items-center gap-2 flex-1">
                 <div
                   style={{ height: `${Math.max(12, (d.volume / 100) * 110)}px` }}
                   className={`w-4 sm:w-6 rounded-md transition-all duration-300 ${
-                    d.isPeak ? 'bg-[#D4AF37] shadow-sm shadow-[#D4AF37]/40' : 'bg-[#262626]'
+                    d.isPeak ? 'bg-[#7FE87F] shadow-sm shadow-[#7FE87F]/40' : 'bg-[#2C2C44]'
                   }`}
                 />
-                <span className={`text-[11px] font-bold ${d.isPeak ? 'text-[#D4AF37]' : 'text-slate-500'}`}>
+                <span className={`text-[11px] font-bold ${d.isPeak ? 'text-[#7FE87F]' : 'text-slate-500'}`}>
                   {isAr ? d.hourAr : d.hour}
                 </span>
               </div>
             ))}
           </div>
 
-          <div className="flex justify-between items-center pt-3 border-t border-[#262626]">
+          <div className="flex justify-between items-center pt-3 border-t border-[#2C2C44]">
             <div className="text-xs text-slate-400">
               {isAr ? 'سجل العمليات' : 'Transactions'}
             </div>
             <button
               onClick={() => navigateTo('MERCHANT_COLLECTIONS')}
-              className="text-xs font-bold text-[#D4AF37] hover:underline cursor-pointer flex items-center gap-1"
+              className="text-xs font-bold text-[#7FE87F] hover:underline cursor-pointer flex items-center gap-1"
             >
               <span>{isAr ? '← عرض الكل' : 'View All →'}</span>
             </button>

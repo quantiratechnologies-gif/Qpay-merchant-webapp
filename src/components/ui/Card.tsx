@@ -9,12 +9,12 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = "default", ...props }, ref) => {
     const variantStyles =
       variant === "elevated"
-        ? "bg-[#171717] border-[#262626] shadow-lg shadow-black/50"
+        ? "bg-[#111726] border-[#2C2C44] shadow-lg shadow-black/50"
         : variant === "inset"
-        ? "bg-[#141414] border-[#262626]/80"
+        ? "bg-[#0E1422] border-[#2C2C44]/80"
         : variant === "outline"
-        ? "bg-transparent border-[#262626]"
-        : "bg-[#171717] border-[#262626]";
+        ? "bg-transparent border-[#2C2C44]"
+        : "bg-[#111726] border-[#2C2C44]";
 
     return (
       <div

@@ -94,9 +94,9 @@ export const ManagerPinModal: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: '#171717',
-          border: '1px solid rgba(212, 175, 55, 0.35)',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 24px rgba(212, 175, 55, 0.15)',
+          backgroundColor: '#111726',
+          border: '1px solid rgba(127, 232, 127, 0.35)',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 24px rgba(127, 232, 127, 0.14)',
           boxSizing: 'border-box',
         }}
       >
@@ -109,7 +109,7 @@ export const ManagerPinModal: React.FC = () => {
             position: 'absolute',
             top: '16px',
             [isRtl ? 'left' : 'right']: '16px',
-            color: '#A3A3A3',
+            color: '#A2A2BA',
             background: 'rgba(255, 255, 255, 0.05)',
             border: 'none',
             padding: '6px',
@@ -133,9 +133,9 @@ export const ManagerPinModal: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: '12px',
-            backgroundColor: isSuccess ? 'rgba(212, 175, 55, 0.2)' : '#1F1F1F',
-            border: `1.5px solid ${isSuccess ? '#D4AF37' : 'rgba(212, 175, 55, 0.25)'}`,
-            color: '#D4AF37',
+            backgroundColor: isSuccess ? 'rgba(127, 232, 127, 0.2)' : '#1F1F1F',
+            border: `1.5px solid ${isSuccess ? '#7FE87F' : 'rgba(127, 232, 127, 0.25)'}`,
+            color: '#7FE87F',
           }}
         >
           {isSuccess ? <CheckCircle2 size={30} /> : <Lock size={26} />}
@@ -145,7 +145,7 @@ export const ManagerPinModal: React.FC = () => {
         <h3 style={{ fontSize: '17px', fontWeight: 900, color: '#FFFFFF', textAlign: 'center', margin: '0 0 4px 0' }}>
           {managerPinModalData.title}
         </h3>
-        <p style={{ fontSize: '12px', color: '#A3A3A3', textAlign: 'center', margin: '0 0 20px 0', padding: '0 8px', lineHeight: 1.4 }}>
+        <p style={{ fontSize: '12px', color: '#A2A2BA', textAlign: 'center', margin: '0 0 20px 0', padding: '0 8px', lineHeight: 1.4 }}>
           {managerPinModalData.subtitle ||
             (isAr
               ? 'أدخل رمز المدير السري المكون من ٤ أرقام للمتابعة'
@@ -163,9 +163,9 @@ export const ManagerPinModal: React.FC = () => {
                   width: '16px',
                   height: '16px',
                   borderRadius: '50%',
-                  backgroundColor: isFilled ? '#D4AF37' : 'transparent',
-                  border: isFilled ? '2px solid #D4AF37' : '2px solid rgba(255, 255, 255, 0.25)',
-                  boxShadow: isFilled ? '0 0 12px rgba(212, 175, 55, 0.6)' : 'none',
+                  backgroundColor: isFilled ? '#7FE87F' : 'transparent',
+                  border: isFilled ? '2px solid #7FE87F' : '2px solid rgba(255, 255, 255, 0.25)',
+                  boxShadow: isFilled ? '0 0 12px rgba(127, 232, 127, 0.6)' : 'none',
                   transform: isFilled ? 'scale(1.2)' : 'scale(1)',
                   transition: 'all 0.15s ease',
                 }}
@@ -219,8 +219,8 @@ export const ManagerPinModal: React.FC = () => {
                 fontSize: '18px',
                 fontWeight: 800,
                 color: '#FFFFFF',
-                backgroundColor: '#1E1E1E',
-                border: '1px solid #333333',
+                backgroundColor: '#151524',
+                border: '1px solid #3A3A52',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -246,8 +246,8 @@ export const ManagerPinModal: React.FC = () => {
               fontSize: '18px',
               fontWeight: 800,
               color: '#FFFFFF',
-              backgroundColor: '#1E1E1E',
-              border: '1px solid #333333',
+              backgroundColor: '#151524',
+              border: '1px solid #3A3A52',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -266,9 +266,9 @@ export const ManagerPinModal: React.FC = () => {
             style={{
               height: '48px',
               borderRadius: '12px',
-              color: '#A3A3A3',
-              backgroundColor: '#1E1E1E',
-              border: '1px solid #333333',
+              color: '#A2A2BA',
+              backgroundColor: '#151524',
+              border: '1px solid #3A3A52',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -281,7 +281,7 @@ export const ManagerPinModal: React.FC = () => {
         </div>
 
         {/* Helper Footer */}
-        <div style={{ marginTop: '16px', fontSize: '11px', color: '#737373', fontWeight: 600 }}>
+        <div style={{ marginTop: '16px', fontSize: '11px', color: '#6E6E85', fontWeight: 600 }}>
           {isAr ? 'الرمز الافتراضي للتجربة: 1234' : 'Default Demo PIN: 1234'}
         </div>
       </div>

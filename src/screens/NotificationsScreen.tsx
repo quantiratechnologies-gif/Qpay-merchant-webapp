@@ -10,9 +10,9 @@ export const NotificationsScreen: React.FC = () => {
   const isAr = language === 'العربية';
 
   const getTypeConfig = (type: string) => {
-    if (type === 'success') return { icon: <CheckCircle2 size={18} />, color: '#D4AF37', bg: 'rgba(212, 175, 55, 0.12)', badge: 'success' as const };
-    if (type === 'alert') return { icon: <BellRing size={18} />, color: '#F1D77A', bg: 'rgba(241, 215, 122, 0.1)', badge: 'warning' as const };
-    return { icon: <Info size={18} />, color: '#A3A3A3', bg: 'rgba(163, 163, 163, 0.1)', badge: 'info' as const };
+    if (type === 'success') return { icon: <CheckCircle2 size={18} />, color: '#7FE87F', bg: 'rgba(127, 232, 127, 0.14)', badge: 'success' as const };
+    if (type === 'alert') return { icon: <BellRing size={18} />, color: '#98F598', bg: 'rgba(241, 215, 122, 0.1)', badge: 'warning' as const };
+    return { icon: <Info size={18} />, color: '#A2A2BA', bg: 'rgba(163, 163, 163, 0.1)', badge: 'info' as const };
   };
 
   return (
@@ -31,7 +31,7 @@ export const NotificationsScreen: React.FC = () => {
           <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
             {t('notifications', isAr ? 'الإشعارات' : 'Notifications')}
           </h1>
-          <p style={{ fontSize: '13.5px', color: '#A3A3A3', margin: '6px 0 0 0', fontWeight: 500 }}>
+          <p style={{ fontSize: '13.5px', color: '#A2A2BA', margin: '6px 0 0 0', fontWeight: 500 }}>
             {isAr ? 'آخر التنبيهات والنشاطات الفورية' : 'Latest alerts and real-time activity feed'}
           </p>
         </div>
@@ -41,10 +41,10 @@ export const NotificationsScreen: React.FC = () => {
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '6px',
               padding: '5px 14px',
-              backgroundColor: 'rgba(212, 175, 55, 0.12)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
+              backgroundColor: 'rgba(127, 232, 127, 0.14)',
+              border: '1px solid rgba(127, 232, 127, 0.3)',
               borderRadius: radii.full,
-              color: '#D4AF37',
+              color: '#7FE87F',
               fontSize: '12px',
               fontWeight: 800,
             }}
@@ -63,17 +63,17 @@ export const NotificationsScreen: React.FC = () => {
             padding: '60px 20px',
             textAlign: 'center',
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px',
-            background: '#171717',
-            border: '1px solid #262626',
+            background: '#111726',
+            border: '1px solid #2C2C44',
           }}
         >
           <div
             style={{
               width: '56px', height: '56px',
               borderRadius: '16px',
-              backgroundColor: 'rgba(212, 175, 55, 0.12)',
-              color: '#D4AF37',
-              border: '1px solid rgba(212, 175, 55, 0.25)',
+              backgroundColor: 'rgba(127, 232, 127, 0.14)',
+              color: '#7FE87F',
+              border: '1px solid rgba(127, 232, 127, 0.25)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
@@ -82,7 +82,7 @@ export const NotificationsScreen: React.FC = () => {
           <div style={{ fontSize: '16px', fontWeight: 800, color: '#FFFFFF' }}>
             {translateText('No notifications', language)}
           </div>
-          <p style={{ fontSize: '13px', color: '#737373', margin: 0 }}>
+          <p style={{ fontSize: '13px', color: '#6E6E85', margin: 0 }}>
             {translateText("You're all caught up.", language)}
           </p>
         </Card>
@@ -94,7 +94,7 @@ export const NotificationsScreen: React.FC = () => {
               <Card
                 key={notif.id}
                 variant="elevated"
-                style={{ padding: '16px 20px', background: '#171717', border: '1px solid #262626' }}
+                style={{ padding: '16px 20px', background: '#111726', border: '1px solid #2C2C44' }}
                 className="interactive-tap"
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
@@ -121,12 +121,12 @@ export const NotificationsScreen: React.FC = () => {
                       </span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <StatusBadge status={badge} size="sm" label={notif.type === 'success' ? (isAr ? 'نجاح' : 'Success') : notif.type === 'alert' ? (isAr ? 'تنبيه' : 'Alert') : (isAr ? 'معلومة' : 'Info')} />
-                        <span style={{ fontSize: '11px', color: '#737373', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        <span style={{ fontSize: '11px', color: '#6E6E85', fontWeight: 600, whiteSpace: 'nowrap' }}>
                           {translateText(notif.timestamp, language)}
                         </span>
                       </div>
                     </div>
-                    <div style={{ fontSize: '13px', color: '#A3A3A3', lineHeight: '1.5' }}>
+                    <div style={{ fontSize: '13px', color: '#A2A2BA', lineHeight: '1.5' }}>
                       {translateText(notif.description, language)}
                     </div>
                   </div>

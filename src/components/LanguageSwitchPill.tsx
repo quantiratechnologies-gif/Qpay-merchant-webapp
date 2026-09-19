@@ -41,8 +41,8 @@ export const LanguageSwitchPill: React.FC<LanguageSwitchPillProps> = ({
         padding: variant === 'compact' ? '4px 10px' : '6px 14px',
         height: variant === 'compact' ? '32px' : '36px',
         borderRadius: '9999px',
-        backgroundColor: variant === 'glass' ? 'rgba(255, 255, 255, 0.08)' : '#171717',
-        border: '1px solid rgba(212, 175, 55, 0.35)',
+        backgroundColor: variant === 'glass' ? 'rgba(255, 255, 255, 0.08)' : '#111726',
+        border: '1px solid rgba(127, 232, 127, 0.35)',
         color: '#FFFFFF',
         fontSize: '12px',
         fontWeight: 700,
@@ -56,7 +56,7 @@ export const LanguageSwitchPill: React.FC<LanguageSwitchPillProps> = ({
       }}
     >
       <span style={{ fontSize: '13px', lineHeight: 1 }}>{targetFlag}</span>
-      <span style={{ color: '#D4AF37', fontWeight: 800 }}>{targetLabel}</span>
+      <span style={{ color: '#7FE87F', fontWeight: 800 }}>{targetLabel}</span>
       <Globe size={13} color="rgba(212, 175, 55, 0.8)" style={{ marginLeft: '1px' }} />
     </button>
   );

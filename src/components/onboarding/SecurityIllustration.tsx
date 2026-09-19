@@ -68,7 +68,7 @@ export const SecurityIllustration: React.FC = () => {
           <radialGradient id="secGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#00D2FF" stopOpacity="0.22" />
             <stop offset="60%" stopColor="#00C853" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#0B0B14" stopOpacity="0" />
+            <stop offset="100%" stopColor="#080C14" stopOpacity="0" />
           </radialGradient>
         </defs>
 

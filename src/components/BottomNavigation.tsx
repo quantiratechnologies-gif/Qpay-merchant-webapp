@@ -62,7 +62,7 @@ export const BottomNavigation: React.FC = () => {
         height: '68px',
         backgroundColor: 'rgba(11, 11, 11, 0.96)',
         backdropFilter: 'blur(16px)',
-        borderTop: '1px solid #262626',
+        borderTop: '1px solid #2C2C44',
         display: isKeyboardOpen ? 'none' : 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -108,14 +108,14 @@ export const BottomNavigation: React.FC = () => {
                   width: '56px',
                   height: '56px',
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #D4AF37 0%, #F1D77A 50%, #B8972E 100%)',
-                  color: '#0B0B0B',
+                  background: 'linear-gradient(135deg, #7FE87F 0%, #98F598 50%, #5FBF5F 100%)',
+                  color: '#080C14',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '3.5px solid #0B0B0B',
-                  outline: '1.5px solid #D4AF37',
-                  boxShadow: '0 4px 16px rgba(212, 175, 55, 0.45)',
+                  border: '3.5px solid #080C14',
+                  outline: '1.5px solid #7FE87F',
+                  boxShadow: '0 4px 16px rgba(127, 232, 127, 0.45)',
                   transition: 'transform 0.15s ease',
                 }}
               >
@@ -125,7 +125,7 @@ export const BottomNavigation: React.FC = () => {
                 style={{
                   fontSize: '10px',
                   fontWeight: 800,
-                  color: '#D4AF37',
+                  color: '#7FE87F',
                   marginTop: '2px',
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
@@ -157,7 +157,7 @@ export const BottomNavigation: React.FC = () => {
               flex: 1,
               height: '100%',
               cursor: 'pointer',
-              color: isActive ? '#D4AF37' : '#737373',
+              color: isActive ? '#7FE87F' : '#6E6E85',
               transition: 'color 0.15s ease',
               position: 'relative',
             }}
@@ -174,8 +174,8 @@ export const BottomNavigation: React.FC = () => {
                     width: '7px',
                     height: '7px',
                     borderRadius: '50%',
-                    backgroundColor: '#D4AF37',
-                    border: '1.5px solid #0B0B0B',
+                    backgroundColor: '#7FE87F',
+                    border: '1.5px solid #080C14',
                   }}
                 />
               )}
@@ -184,7 +184,7 @@ export const BottomNavigation: React.FC = () => {
               style={{
                 fontSize: '11px',
                 fontWeight: isActive ? 800 : 600,
-                color: isActive ? '#FFFFFF' : '#A3A3A3',
+                color: isActive ? '#FFFFFF' : '#A2A2BA',
                 marginTop: '3px',
                 letterSpacing: '-0.01em',
               }}
@@ -201,7 +201,7 @@ export const BottomNavigation: React.FC = () => {
                   width: '14px',
                   height: '2.5px',
                   borderRadius: '2px',
-                  backgroundColor: '#D4AF37',
+                  backgroundColor: '#7FE87F',
                 }}
               />
             )}

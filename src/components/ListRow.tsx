@@ -39,8 +39,8 @@ export const ListRow: React.FC<ListRowProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '14px 16px',
-        backgroundColor: '#171717',
-        border: '1px solid #262626',
+        backgroundColor: '#111726',
+        border: '1px solid #2C2C44',
         borderRadius: '12px',
         marginBottom: '10px',
         cursor: onClick ? 'pointer' : 'default',
@@ -55,12 +55,12 @@ export const ListRow: React.FC<ListRowProps> = ({
               width: '38px',
               height: '38px',
               borderRadius: '10px',
-              backgroundColor: danger ? 'rgba(239, 68, 68, 0.12)' : '#212121',
-              color: danger ? '#EF4444' : '#D4AF37',
+              backgroundColor: danger ? 'rgba(239, 68, 68, 0.12)' : '#182236',
+              color: danger ? '#EF4444' : '#7FE87F',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: `1px solid ${danger ? '#EF4444' : '#262626'}`,
+              border: `1px solid ${danger ? '#EF4444' : '#2C2C44'}`,
               flexShrink: 0,
             }}
           >
@@ -78,7 +78,7 @@ export const ListRow: React.FC<ListRowProps> = ({
             {displayLabel}
           </div>
           {displaySubLabel && (
-            <div style={{ fontSize: '11.5px', color: '#A3A3A3', marginTop: '2px' }}>
+            <div style={{ fontSize: '11.5px', color: '#A2A2BA', marginTop: '2px' }}>
               {displaySubLabel}
             </div>
           )}
@@ -88,7 +88,7 @@ export const ListRow: React.FC<ListRowProps> = ({
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {rightElement}
         {onClick && !rightElement && (
-          <ChevronRight size={18} color="#737373" style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
+          <ChevronRight size={18} color="#6E6E85" style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
         )}
       </div>
     </div>

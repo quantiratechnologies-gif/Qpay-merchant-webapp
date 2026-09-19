@@ -156,7 +156,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
         /* ======================================================== */
         <div className="space-y-4 text-center py-4">
           {/* Animated Success Icon */}
-          <div className="w-14 h-14 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] mx-auto shadow-lg shadow-[#D4AF37]/20">
+          <div className="w-14 h-14 rounded-full bg-[#7FE87F]/10 border border-[#7FE87F]/30 flex items-center justify-center text-[#7FE87F] mx-auto shadow-lg shadow-[#7FE87F]/20">
             <CheckCircle2 className="h-8 w-8" />
           </div>
 
@@ -165,7 +165,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
             <h2 className="text-xl font-black text-white tracking-tight">
               {isAr ? 'تم تفعيل الرمز السري!' : 'PIN Set Successfully!'}
             </h2>
-            <p className="text-xs text-[#A3A3A3] mt-1">
+            <p className="text-xs text-[#A2A2BA] mt-1">
               {isAr
                 ? 'تم حفظ رمز الأمان لنقاط البيع والتسويات'
                 : 'Your 4-digit PIN is active for SoftPOS & settlements'}
@@ -177,7 +177,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
             <button
               type="button"
               onClick={handleOkProceed}
-              className="w-full h-11 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F1D77A] to-[#B8972E] text-[#0B0B0B] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-lg shadow-[#D4AF37]/25 cursor-pointer"
+              className="w-full h-11 rounded-xl bg-gradient-to-r from-[#7FE87F] via-[#98F598] to-[#5FBF5F] text-[#080C14] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-lg shadow-[#7FE87F]/25 cursor-pointer"
             >
               <span>{isAr ? 'لوحة التحكم' : 'Dashboard'}</span>
               <ArrowRight className={`h-4 w-4 ${isRtl ? 'rotate-180' : ''}`} />
@@ -186,9 +186,9 @@ export const MerchantPinSetupScreen: React.FC = () => {
             <button
               type="button"
               onClick={handleResetPin}
-              className="w-full h-10 rounded-xl bg-[#1E1E1E] border border-[#333333] text-neutral-300 font-bold text-xs flex items-center justify-center gap-1.5 hover:text-white hover:border-[#D4AF37]/50 transition-colors cursor-pointer"
+              className="w-full h-10 rounded-xl bg-[#151524] border border-[#3A3A52] text-neutral-300 font-bold text-xs flex items-center justify-center gap-1.5 hover:text-white hover:border-[#7FE87F]/50 transition-colors cursor-pointer"
             >
-              <RotateCcw className="h-3.5 w-3.5 text-[#D4AF37]" />
+              <RotateCcw className="h-3.5 w-3.5 text-[#7FE87F]" />
               <span>{isAr ? 'إعادة التعيين' : 'Reset PIN'}</span>
             </button>
           </div>
@@ -199,7 +199,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
         /* ======================================================== */
         <div className="space-y-4 text-center">
           {/* Top Icon */}
-          <div className="w-12 h-12 rounded-2xl bg-[#171717] border border-[#262626] flex items-center justify-center mx-auto text-[#D4AF37]">
+          <div className="w-12 h-12 rounded-2xl bg-[#111726] border border-[#2C2C44] flex items-center justify-center mx-auto text-[#7FE87F]">
             <Lock className="h-6 w-6" />
           </div>
 
@@ -214,7 +214,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
                 ? 'تأكيد الرمز السري'
                 : 'Confirm PIN'}
             </h2>
-            <p className="text-xs text-[#A3A3A3] mt-1">
+            <p className="text-xs text-[#A2A2BA] mt-1">
               {step === 'create'
                 ? isAr
                   ? 'لعمليات نقاط البيع والتسويات'
@@ -235,8 +235,8 @@ export const MerchantPinSetupScreen: React.FC = () => {
                     key={idx}
                     className={`w-4 h-4 rounded-full transition-all duration-150 ${
                       isFilled
-                        ? 'bg-[#D4AF37] border-2 border-[#D4AF37] scale-125 shadow-md shadow-[#D4AF37]/40'
-                        : 'bg-[#1E1E1E] border-2 border-[#333333]'
+                        ? 'bg-[#7FE87F] border-2 border-[#7FE87F] scale-125 shadow-md shadow-[#7FE87F]/40'
+                        : 'bg-[#151524] border-2 border-[#3A3A52]'
                     }`}
                   />
                 );
@@ -258,7 +258,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
                   key={d}
                   type="button"
                   onClick={() => handleKeyPress(d)}
-                  className="h-12 rounded-xl bg-[#1E1E1E] border border-[#262626] text-white font-extrabold text-lg hover:bg-white/10 hover:border-[#D4AF37]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                  className="h-12 rounded-xl bg-[#151524] border border-[#2C2C44] text-white font-extrabold text-lg hover:bg-white/10 hover:border-[#7FE87F]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
                 >
                   {isAr ? toArabicNumerals(d) : d}
                 </button>
@@ -270,7 +270,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleKeyPress('0')}
-                className="h-12 rounded-xl bg-[#1E1E1E] border border-[#262626] text-white font-extrabold text-lg hover:bg-white/10 hover:border-[#D4AF37]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                className="h-12 rounded-xl bg-[#151524] border border-[#2C2C44] text-white font-extrabold text-lg hover:bg-white/10 hover:border-[#7FE87F]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
               >
                 {isAr ? '٠' : '0'}
               </button>
@@ -279,7 +279,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={handleDelete}
-                className="h-12 rounded-xl bg-[#1E1E1E] border border-[#262626] text-[#A3A3A3] hover:text-white hover:bg-white/10 hover:border-[#D4AF37]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                className="h-12 rounded-xl bg-[#151524] border border-[#2C2C44] text-[#A2A2BA] hover:text-white hover:bg-white/10 hover:border-[#7FE87F]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
               >
                 <Delete className={`h-5 w-5 ${isRtl ? 'scale-x-[-1]' : ''}`} />
               </button>

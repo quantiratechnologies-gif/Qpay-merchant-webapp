@@ -35,15 +35,15 @@ export const QtPayLogo: React.FC<QtPayLogoProps> = ({
       <Logo
         height={height}
         showText={showText}
-        textColor={themeMode === 'light' ? '#0B0B0B' : '#FFFFFF'}
-        accentColor="#D4AF37"
+        textColor={themeMode === 'light' ? '#080C14' : '#FFFFFF'}
+        accentColor="#7FE87F"
       />
       {showTagline && (
         <span
           style={{
             fontSize: '9px',
             fontWeight: 800,
-            color: '#D4AF37',
+            color: '#7FE87F',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             marginTop: '4px',

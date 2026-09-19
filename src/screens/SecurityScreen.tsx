@@ -24,7 +24,7 @@ export const SecurityScreen: React.FC = () => {
         <h1 style={{ fontSize: '24px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
           {isAr ? 'الأمان والأجهزة' : 'Security & Devices'}
         </h1>
-        <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '4px 0 0 0', fontWeight: 500 }}>
+        <p style={{ fontSize: '13px', color: '#A2A2BA', margin: '4px 0 0 0', fontWeight: 500 }}>
           {isAr ? 'إدارة الجلسات وإعدادات الأمان' : 'Active sessions and security'}
         </p>
       </div>
@@ -36,9 +36,9 @@ export const SecurityScreen: React.FC = () => {
           variant="elevated"
           style={{
             padding: '18px 20px',
-            border: '1px solid rgba(212, 175, 55, 0.3)',
-            backgroundColor: '#171717',
-            background: 'linear-gradient(145deg, #171717 0%, #111111 100%)',
+            border: '1px solid rgba(127, 232, 127, 0.3)',
+            backgroundColor: '#111726',
+            background: 'linear-gradient(145deg, #111726 0%, #111111 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -51,9 +51,9 @@ export const SecurityScreen: React.FC = () => {
                 width: '42px',
                 height: '42px',
                 borderRadius: '12px',
-                backgroundColor: 'rgba(212, 175, 55, 0.12)',
-                color: '#D4AF37',
-                border: '1px solid rgba(212, 175, 55, 0.25)',
+                backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                color: '#7FE87F',
+                border: '1px solid rgba(127, 232, 127, 0.25)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -66,7 +66,7 @@ export const SecurityScreen: React.FC = () => {
               <div style={{ fontWeight: 800, fontSize: '14.5px', color: '#FFFFFF' }}>
                 {isAr ? 'رمز المدير السري (PIN)' : 'Manager PIN'}
               </div>
-              <div style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '2px' }}>
+              <div style={{ fontSize: '12px', color: '#A2A2BA', marginTop: '2px' }}>
                 {isAr ? 'مطلوب للتسويات وعمليات الاسترداد' : 'Required for settlements & refunds'}
               </div>
             </div>
@@ -76,9 +76,9 @@ export const SecurityScreen: React.FC = () => {
             onClick={() => navigateTo('MERCHANT_PIN_SETUP', { fromSettings: true })}
             className="interactive-tap cursor-pointer"
             style={{
-              backgroundColor: 'rgba(212, 175, 55, 0.12)',
-              border: '1px solid rgba(212, 175, 55, 0.4)',
-              color: '#D4AF37',
+              backgroundColor: 'rgba(127, 232, 127, 0.14)',
+              border: '1px solid rgba(127, 232, 127, 0.4)',
+              color: '#7FE87F',
               padding: '8px 14px',
               borderRadius: '10px',
               fontSize: '12px',
@@ -92,11 +92,11 @@ export const SecurityScreen: React.FC = () => {
         </Card>
 
         {/* Section Label */}
-        <div style={{ fontSize: '11px', fontWeight: 800, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+        <div style={{ fontSize: '11px', fontWeight: 800, color: '#A2A2BA', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
           {isAr ? 'الأجهزة النشطة' : 'Active Devices'} ({formatLocalizedNumber(deviceSessions.length, language)})
         </div>
 
-        <Card variant="elevated" style={{ padding: 0, overflow: 'hidden', background: '#171717', border: '1px solid #262626' }}>
+        <Card variant="elevated" style={{ padding: 0, overflow: 'hidden', background: '#111726', border: '1px solid #2C2C44' }}>
           {/* Table Header */}
           <div
             style={{
@@ -104,7 +104,7 @@ export const SecurityScreen: React.FC = () => {
               gridTemplateColumns: '2fr 1fr 1fr 90px',
               padding: '11px 20px',
               backgroundColor: '#121212',
-              borderBottom: '1px solid #262626',
+              borderBottom: '1px solid #2C2C44',
               gap: '12px',
             }}
           >
@@ -118,7 +118,7 @@ export const SecurityScreen: React.FC = () => {
                 key={i}
                 style={{
                   fontSize: '10.5px', fontWeight: 700,
-                  color: '#737373', textTransform: 'uppercase',
+                  color: '#6E6E85', textTransform: 'uppercase',
                   letterSpacing: '0.07em',
                   textAlign: i === 3 ? 'right' : 'left',
                 }}
@@ -136,10 +136,10 @@ export const SecurityScreen: React.FC = () => {
                 display: 'grid',
                 gridTemplateColumns: '2fr 1fr 1fr 90px',
                 padding: '15px 20px',
-                borderBottom: index < deviceSessions.length - 1 ? '1px solid #262626' : 'none',
+                borderBottom: index < deviceSessions.length - 1 ? '1px solid #2C2C44' : 'none',
                 gap: '12px',
                 alignItems: 'center',
-                backgroundColor: session.isCurrent ? 'rgba(212, 175, 55, 0.05)' : 'transparent',
+                backgroundColor: session.isCurrent ? 'rgba(127, 232, 127, 0.05)' : 'transparent',
               }}
             >
               {/* Device col */}
@@ -148,9 +148,9 @@ export const SecurityScreen: React.FC = () => {
                   style={{
                     width: '40px', height: '40px',
                     borderRadius: '12px',
-                    backgroundColor: session.isCurrent ? 'rgba(212, 175, 55, 0.15)' : '#1E1E1E',
-                    color: session.isCurrent ? '#D4AF37' : '#737373',
-                    border: `1px solid ${session.isCurrent ? 'rgba(212, 175, 55, 0.35)' : '#262626'}`,
+                    backgroundColor: session.isCurrent ? 'rgba(127, 232, 127, 0.14)' : '#151524',
+                    color: session.isCurrent ? '#7FE87F' : '#6E6E85',
+                    border: `1px solid ${session.isCurrent ? 'rgba(127, 232, 127, 0.35)' : '#2C2C44'}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}
@@ -170,10 +170,10 @@ export const SecurityScreen: React.FC = () => {
               </div>
 
               {/* Location */}
-              <span style={{ fontSize: '12.5px', color: '#A3A3A3' }}>{session.location}</span>
+              <span style={{ fontSize: '12.5px', color: '#A2A2BA' }}>{session.location}</span>
 
               {/* Last Active */}
-              <span style={{ fontSize: '12.5px', color: '#A3A3A3' }}>
+              <span style={{ fontSize: '12.5px', color: '#A2A2BA' }}>
                 {translateText(session.lastActive, language)}
               </span>
 
@@ -183,7 +183,7 @@ export const SecurityScreen: React.FC = () => {
                   <span
                     style={{
                       fontSize: '10.5px', fontWeight: 800,
-                      color: '#0B0B0B', backgroundColor: '#D4AF37',
+                      color: '#080C14', backgroundColor: '#7FE87F',
                       padding: '4px 10px', borderRadius: '10px',
                       textTransform: 'uppercase', letterSpacing: '0.04em',
                     }}
@@ -195,7 +195,7 @@ export const SecurityScreen: React.FC = () => {
                     onClick={() => terminateSession(session.id)}
                     className="interactive-tap cursor-pointer"
                     style={{
-                      backgroundColor: '#1E1E1E',
+                      backgroundColor: '#151524',
                       border: '1px solid #3D1A1A',
                       color: '#EF4444',
                       padding: '5px 12px',

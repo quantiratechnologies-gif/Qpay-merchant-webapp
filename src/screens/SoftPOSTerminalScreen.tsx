@@ -37,8 +37,8 @@ const PAYMENT_RAILS: PaymentRail[] = [
           width: '9px',
           height: '9px',
           borderRadius: radii.full,
-          backgroundColor: '#D4AF37',
-          boxShadow: '0 0 8px rgba(212, 175, 55, 0.6)',
+          backgroundColor: '#7FE87F',
+          boxShadow: '0 0 8px rgba(127, 232, 127, 0.6)',
         }}
       />
     ),
@@ -57,7 +57,7 @@ const PAYMENT_RAILS: PaymentRail[] = [
           fontSize: '11px',
           fontWeight: 900,
           fontStyle: 'italic',
-          color: '#F1D77A',
+          color: '#98F598',
           letterSpacing: '0.05em',
         }}
       >
@@ -253,7 +253,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
         <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
           {translateText('softpos.title', language)}
         </h1>
-        <p style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '3px', margin: 0 }}>
+        <p style={{ fontSize: '12px', color: '#A2A2BA', marginTop: '3px', margin: 0 }}>
           {translateText('softpos.subtitle', language)}
         </p>
       </div>
@@ -275,16 +275,16 @@ export const SoftPOSTerminalScreen: React.FC = () => {
             style={{
               padding: '20px',
               textAlign: 'center',
-              background: 'radial-gradient(ellipse at top, rgba(212, 175, 55, 0.12) 0%, #171717 70%)',
-              border: '1px solid rgba(212, 175, 55, 0.25)',
+              background: 'radial-gradient(ellipse at top, rgba(127, 232, 127, 0.14) 0%, #111726 70%)',
+              border: '1px solid rgba(127, 232, 127, 0.25)',
             }}
           >
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#7FE87F', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               {translateText('softpos.total_charge', language)}
             </div>
 
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px', margin: '6px 0 10px 0' }}>
-              <span style={{ fontSize: '18px', fontWeight: 700, color: '#D4AF37' }}>
+              <span style={{ fontSize: '18px', fontWeight: 700, color: '#7FE87F' }}>
                 {isAr ? 'ر.س' : 'SAR'}
               </span>
               <span style={{ fontSize: '42px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1 }}>
@@ -301,8 +301,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   onClick={() => handleQuickAdd(sar)}
                   className="interactive-tap"
                   style={{
-                    backgroundColor: '#212121',
-                    border: '1px solid #262626',
+                    backgroundColor: '#182236',
+                    border: '1px solid #2C2C44',
                     color: '#FFFFFF',
                     borderRadius: '8px',
                     padding: '5px 12px',
@@ -335,7 +335,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           </Card>
 
           {/* Virtual Numeric Keypad */}
-          <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+          <Card variant="elevated" style={{ padding: '16px', background: '#111726', border: '1px solid #2C2C44' }}>
             <div
               style={{
                 display: 'grid',
@@ -352,8 +352,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   style={{
                     height: '48px',
                     borderRadius: '10px',
-                    backgroundColor: '#1E1E1E',
-                    border: '1px solid #262626',
+                    backgroundColor: '#151524',
+                    border: '1px solid #2C2C44',
                     color: '#FFFFFF',
                     fontSize: '20px',
                     fontWeight: 800,
@@ -374,8 +374,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 style={{
                   height: '48px',
                   borderRadius: '10px',
-                  backgroundColor: '#1E1E1E',
-                  border: '1px solid #262626',
+                  backgroundColor: '#151524',
+                  border: '1px solid #2C2C44',
                   color: '#FFFFFF',
                   fontSize: '16px',
                   fontWeight: 800,
@@ -395,8 +395,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 style={{
                   height: '48px',
                   borderRadius: '10px',
-                  backgroundColor: '#1E1E1E',
-                  border: '1px solid #262626',
+                  backgroundColor: '#151524',
+                  border: '1px solid #2C2C44',
                   color: '#FFFFFF',
                   fontSize: '20px',
                   fontWeight: 800,
@@ -416,9 +416,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 style={{
                   height: '48px',
                   borderRadius: '10px',
-                  backgroundColor: '#1E1E1E',
-                  border: '1px solid #262626',
-                  color: '#A3A3A3',
+                  backgroundColor: '#151524',
+                  border: '1px solid #2C2C44',
+                  color: '#A2A2BA',
                   fontSize: '18px',
                   cursor: 'pointer',
                   display: 'flex',
@@ -440,10 +440,10 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '8px',
-              backgroundColor: '#171717',
+              backgroundColor: '#111726',
               padding: '6px',
               borderRadius: '14px',
-              border: '1px solid #262626',
+              border: '1px solid #2C2C44',
             }}
           >
             <button
@@ -457,9 +457,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 gap: '6px',
                 padding: '10px 8px',
                 borderRadius: '10px',
-                border: checkoutMode === 'card' ? '1.5px solid #D4AF37' : '1px solid transparent',
-                backgroundColor: checkoutMode === 'card' ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
-                color: checkoutMode === 'card' ? '#D4AF37' : '#A3A3A3',
+                border: checkoutMode === 'card' ? '1.5px solid #7FE87F' : '1px solid transparent',
+                backgroundColor: checkoutMode === 'card' ? 'rgba(127, 232, 127, 0.14)' : 'transparent',
+                color: checkoutMode === 'card' ? '#7FE87F' : '#A2A2BA',
                 fontSize: '12.5px',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -484,9 +484,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 gap: '6px',
                 padding: '10px 8px',
                 borderRadius: '10px',
-                border: checkoutMode === 'cash' ? '1.5px solid #D4AF37' : '1px solid transparent',
-                backgroundColor: checkoutMode === 'cash' ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
-                color: checkoutMode === 'cash' ? '#D4AF37' : '#A3A3A3',
+                border: checkoutMode === 'cash' ? '1.5px solid #7FE87F' : '1px solid transparent',
+                backgroundColor: checkoutMode === 'cash' ? 'rgba(127, 232, 127, 0.14)' : 'transparent',
+                color: checkoutMode === 'cash' ? '#7FE87F' : '#A2A2BA',
                 fontSize: '12.5px',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -508,9 +508,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 gap: '6px',
                 padding: '10px 8px',
                 borderRadius: '10px',
-                border: checkoutMode === 'online' ? '1.5px solid #D4AF37' : '1px solid transparent',
-                backgroundColor: checkoutMode === 'online' ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
-                color: checkoutMode === 'online' ? '#D4AF37' : '#A3A3A3',
+                border: checkoutMode === 'online' ? '1.5px solid #7FE87F' : '1px solid transparent',
+                backgroundColor: checkoutMode === 'online' ? 'rgba(127, 232, 127, 0.14)' : 'transparent',
+                color: checkoutMode === 'online' ? '#7FE87F' : '#A2A2BA',
                 fontSize: '12.5px',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -525,12 +525,12 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           {/* ── Mode 1: CARD PAY (SoftPOS Tap & Networks) ── */}
           {checkoutMode === 'card' && (
             <>
-              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+              <Card variant="elevated" style={{ padding: '16px', background: '#111726', border: '1px solid #2C2C44' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                   <span style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF' }}>
                     {translateText('softpos.rail_scheme', language)}
                   </span>
-                  <span style={{ fontSize: '11px', color: '#D4AF37', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ fontSize: '11px', color: '#7FE87F', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <ShieldCheck size={13} />
                     {isAr ? 'مدى و EMV L2' : 'mada & EMV L2'}
                   </span>
@@ -551,9 +551,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                           gap: '8px',
                           padding: '10px 12px',
                           borderRadius: '10px',
-                          backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.12)' : '#1E1E1E',
-                          border: isSelected ? '1.5px solid #D4AF37' : '1px solid #262626',
-                          color: isSelected ? '#D4AF37' : '#FFFFFF',
+                          backgroundColor: isSelected ? 'rgba(127, 232, 127, 0.14)' : '#151524',
+                          border: isSelected ? '1.5px solid #7FE87F' : '1px solid #2C2C44',
+                          color: isSelected ? '#7FE87F' : '#FFFFFF',
                           cursor: 'pointer',
                           fontWeight: 800,
                           fontSize: '12.5px',
@@ -568,25 +568,25 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               </Card>
 
               {/* Invoice Summary */}
-              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+              <Card variant="elevated" style={{ padding: '16px', background: '#111726', border: '1px solid #2C2C44' }}>
                 <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF', marginBottom: '10px' }}>
                   {translateText('softpos.tax_summary', language)}
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A2A2BA' }}>
                     <span>{translateText('softpos.taxable_subtotal', language)}</span>
                     <span style={{ color: '#FFFFFF', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(subtotal) || 0, language)}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A2A2BA' }}>
                     <span>{translateText('softpos.vat_15', language)}</span>
-                    <span style={{ color: '#D4AF37', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
+                    <span style={{ color: '#7FE87F', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
                   </div>
                   <div
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      borderTop: '1px solid #262626',
+                      borderTop: '1px solid #2C2C44',
                       paddingTop: '8px',
                       fontSize: '14px',
                       fontWeight: 900,
@@ -594,7 +594,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     }}
                   >
                     <span>{translateText('softpos.gross_total', language)}</span>
-                    <span style={{ color: '#D4AF37' }}>{formatSaudiCurrency(numericValue, language)}</span>
+                    <span style={{ color: '#7FE87F' }}>{formatSaudiCurrency(numericValue, language)}</span>
                   </div>
                 </div>
 
@@ -607,8 +607,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      backgroundColor: '#1E1E1E',
-                      border: '1px solid #262626',
+                      backgroundColor: '#151524',
+                      border: '1px solid #2C2C44',
                       borderRadius: '8px',
                       color: '#FFFFFF',
                       fontSize: '12px',
@@ -629,8 +629,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   width: '100%',
                   padding: '14px',
                   borderRadius: '12px',
-                  backgroundColor: numericValue > 0 ? undefined : '#262626',
-                  color: numericValue > 0 ? '#0B0B0B' : '#737373',
+                  backgroundColor: numericValue > 0 ? undefined : '#2C2C44',
+                  color: numericValue > 0 ? '#080C14' : '#6E6E85',
                   fontSize: '14px',
                   fontWeight: 900,
                   border: 'none',
@@ -639,7 +639,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: numericValue > 0 ? '0 4px 16px rgba(212, 175, 55, 0.25)' : 'none',
+                  boxShadow: numericValue > 0 ? '0 4px 16px rgba(127, 232, 127, 0.25)' : 'none',
                 }}
               >
                 <Wifi size={17} />
@@ -655,13 +655,13 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           {/* ── Mode 2: CASH PAY (Supermarket Cashier Counter) ── */}
           {checkoutMode === 'cash' && (
             <>
-              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+              <Card variant="elevated" style={{ padding: '16px', background: '#111726', border: '1px solid #2C2C44' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                   <span style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF' }}>
                     {translateText('softpos.cash_tendered', language)}
                   </span>
-                  <span style={{ fontSize: '11px', color: '#A3A3A3', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Store size={12} color="#D4AF37" />
+                  <span style={{ fontSize: '11px', color: '#A2A2BA', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Store size={12} color="#7FE87F" />
                     {isAr ? 'صندوق النقد المباشر' : 'Cash Drawer'}
                   </span>
                 </div>
@@ -676,8 +676,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     style={{
                       width: '100%',
                       padding: '10px 14px',
-                      backgroundColor: '#1E1E1E',
-                      border: '1.5px solid rgba(212, 175, 55, 0.35)',
+                      backgroundColor: '#151524',
+                      border: '1.5px solid rgba(127, 232, 127, 0.35)',
                       borderRadius: '10px',
                       color: '#FFFFFF',
                       fontSize: '18px',
@@ -695,7 +695,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                       transform: 'translateY(-50%)',
                       fontSize: '13px',
                       fontWeight: 800,
-                      color: '#D4AF37',
+                      color: '#7FE87F',
                     }}
                   >
                     {isAr ? 'ر.س' : 'SAR'}
@@ -711,9 +711,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     style={{
                       padding: '5px 10px',
                       borderRadius: '8px',
-                      backgroundColor: cashTenderedVal === numericValue ? 'rgba(212, 175, 55, 0.2)' : '#212121',
-                      border: cashTenderedVal === numericValue ? '1px solid #D4AF37' : '1px solid #262626',
-                      color: cashTenderedVal === numericValue ? '#D4AF37' : '#FFFFFF',
+                      backgroundColor: cashTenderedVal === numericValue ? 'rgba(127, 232, 127, 0.2)' : '#182236',
+                      border: cashTenderedVal === numericValue ? '1px solid #7FE87F' : '1px solid #2C2C44',
+                      color: cashTenderedVal === numericValue ? '#7FE87F' : '#FFFFFF',
                       fontSize: '11.5px',
                       fontWeight: 800,
                       cursor: 'pointer',
@@ -731,9 +731,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                       style={{
                         padding: '5px 10px',
                         borderRadius: '8px',
-                        backgroundColor: cashTenderedVal === note ? 'rgba(212, 175, 55, 0.2)' : '#212121',
-                        border: cashTenderedVal === note ? '1px solid #D4AF37' : '1px solid #262626',
-                        color: cashTenderedVal === note ? '#D4AF37' : '#FFFFFF',
+                        backgroundColor: cashTenderedVal === note ? 'rgba(127, 232, 127, 0.2)' : '#182236',
+                        border: cashTenderedVal === note ? '1px solid #7FE87F' : '1px solid #2C2C44',
+                        color: cashTenderedVal === note ? '#7FE87F' : '#FFFFFF',
                         fontSize: '11.5px',
                         fontWeight: 800,
                         cursor: 'pointer',
@@ -772,21 +772,21 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               </Card>
 
               {/* Invoice Summary */}
-              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+              <Card variant="elevated" style={{ padding: '16px', background: '#111726', border: '1px solid #2C2C44' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A2A2BA' }}>
                     <span>{translateText('softpos.taxable_subtotal', language)}</span>
                     <span style={{ color: '#FFFFFF', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(subtotal) || 0, language)}</span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A2A2BA' }}>
                     <span>{translateText('softpos.vat_15', language)}</span>
-                    <span style={{ color: '#D4AF37', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
+                    <span style={{ color: '#7FE87F', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
                   </div>
                   <div
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
-                      borderTop: '1px solid #262626',
+                      borderTop: '1px solid #2C2C44',
                       paddingTop: '8px',
                       fontSize: '14px',
                       fontWeight: 900,
@@ -794,7 +794,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     }}
                   >
                     <span>{translateText('softpos.gross_total', language)}</span>
-                    <span style={{ color: '#D4AF37' }}>{formatSaudiCurrency(numericValue, language)}</span>
+                    <span style={{ color: '#7FE87F' }}>{formatSaudiCurrency(numericValue, language)}</span>
                   </div>
                 </div>
 
@@ -807,8 +807,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      backgroundColor: '#1E1E1E',
-                      border: '1px solid #262626',
+                      backgroundColor: '#151524',
+                      border: '1px solid #2C2C44',
                       borderRadius: '8px',
                       color: '#FFFFFF',
                       fontSize: '12px',
@@ -829,8 +829,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   width: '100%',
                   padding: '14px',
                   borderRadius: '12px',
-                  backgroundColor: numericValue > 0 ? undefined : '#262626',
-                  color: numericValue > 0 ? '#0B0B0B' : '#737373',
+                  backgroundColor: numericValue > 0 ? undefined : '#2C2C44',
+                  color: numericValue > 0 ? '#080C14' : '#6E6E85',
                   fontSize: '14px',
                   fontWeight: 900,
                   border: 'none',
@@ -839,7 +839,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: numericValue > 0 ? '0 4px 16px rgba(212, 175, 55, 0.25)' : 'none',
+                  boxShadow: numericValue > 0 ? '0 4px 16px rgba(127, 232, 127, 0.25)' : 'none',
                 }}
               >
                 {isProcessingCash ? (
@@ -866,15 +866,15 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 variant="elevated"
                 style={{
                   padding: '20px',
-                  background: 'radial-gradient(ellipse at top, rgba(212, 175, 55, 0.1) 0%, #171717 80%)',
-                  border: '1px solid rgba(212, 175, 55, 0.25)',
+                  background: 'radial-gradient(ellipse at top, rgba(127, 232, 127, 0.12) 0%, #111726 80%)',
+                  border: '1px solid rgba(127, 232, 127, 0.25)',
                   textAlign: 'center',
                 }}
               >
                 <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
                   {translateText('softpos.online_qr_title', language)}
                 </div>
-                <p style={{ fontSize: '11.5px', color: '#A3A3A3', margin: '0 0 14px 0' }}>
+                <p style={{ fontSize: '11.5px', color: '#A2A2BA', margin: '0 0 14px 0' }}>
                   {translateText('softpos.online_qr_desc', language)}
                 </p>
 
@@ -905,7 +905,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     backgroundColor: '#121212',
-                    border: '1px solid #262626',
+                    border: '1px solid #2C2C44',
                     borderRadius: '8px',
                     padding: '8px 12px',
                     gap: '8px',
@@ -914,7 +914,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   <span
                     style={{
                       fontSize: '11.5px',
-                      color: '#D4AF37',
+                      color: '#7FE87F',
                       fontFamily: 'monospace',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -932,8 +932,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '4px',
-                      backgroundColor: '#212121',
-                      border: '1px solid #333333',
+                      backgroundColor: '#182236',
+                      border: '1px solid #3A3A52',
                       borderRadius: '6px',
                       padding: '4px 8px',
                       color: '#FFFFFF',
@@ -943,7 +943,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {isCopied ? <Check size={12} color="#22C55E" /> : <Copy size={12} color="#D4AF37" />}
+                    {isCopied ? <Check size={12} color="#22C55E" /> : <Copy size={12} color="#7FE87F" />}
                     <span>{isCopied ? translateText('softpos.pay_link_copied', language) : translateText('softpos.copy_pay_link', language)}</span>
                   </button>
                 </div>
@@ -960,9 +960,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     width: '100%',
                     padding: '12px',
                     borderRadius: '12px',
-                    backgroundColor: 'rgba(212, 175, 55, 0.15)',
-                    border: '1.5px solid #D4AF37',
-                    color: '#D4AF37',
+                    backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                    border: '1.5px solid #7FE87F',
+                    color: '#7FE87F',
                     fontSize: '13px',
                     fontWeight: 800,
                     cursor: numericValue > 0 ? 'pointer' : 'not-allowed',
@@ -994,8 +994,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     width: '100%',
                     padding: '13px',
                     borderRadius: '12px',
-                    backgroundColor: numericValue > 0 ? undefined : '#262626',
-                    color: numericValue > 0 ? '#0B0B0B' : '#737373',
+                    backgroundColor: numericValue > 0 ? undefined : '#2C2C44',
+                    color: numericValue > 0 ? '#080C14' : '#6E6E85',
                     fontSize: '13.5px',
                     fontWeight: 900,
                     border: 'none',

@@ -76,7 +76,7 @@ export const PermissionsScreen: React.FC = () => {
   };
 
   return (
-    <div className="fade-in" style={{ backgroundColor: '#0B0B0B', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '32px', color: '#FFFFFF' }}>
+    <div className="fade-in" style={{ backgroundColor: '#080C14', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '32px', color: '#FFFFFF' }}>
       <div>
         <AppHeader title={language === 'العربية' ? 'الصلاحيات' : 'Permissions'} showBack={true} onBack={goBack} showSettings={false} />
 
@@ -84,8 +84,8 @@ export const PermissionsScreen: React.FC = () => {
           {/* Header Card */}
           <div
             style={{
-              backgroundColor: '#171717',
-              border: '1px solid #262626',
+              backgroundColor: '#111726',
+              border: '1px solid #2C2C44',
               borderRadius: '16px',
               padding: '16px 18px',
               marginBottom: '18px',
@@ -102,9 +102,9 @@ export const PermissionsScreen: React.FC = () => {
                   width: '40px',
                   height: '40px',
                   borderRadius: '12px',
-                  backgroundColor: 'rgba(212, 175, 55, 0.12)',
-                  color: '#D4AF37',
-                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                  color: '#7FE87F',
+                  border: '1px solid rgba(127, 232, 127, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -117,7 +117,7 @@ export const PermissionsScreen: React.FC = () => {
                 <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF' }}>
                   {language === 'العربية' ? 'صلاحيات نقطة البيع' : 'Device Permissions'}
                 </div>
-                <div style={{ fontSize: '11px', color: '#A3A3A3', marginTop: '2px' }}>
+                <div style={{ fontSize: '11px', color: '#A2A2BA', marginTop: '2px' }}>
                   {language === 'العربية' ? 'لتفعيل الدفع عبر NFC ومسح الرمز' : 'Enable NFC & QR payments'}
                 </div>
               </div>
@@ -127,9 +127,9 @@ export const PermissionsScreen: React.FC = () => {
           {/* Grouped Permissions Card */}
           <div
             style={{
-              backgroundColor: '#171717',
+              backgroundColor: '#111726',
               borderRadius: '16px',
-              border: '1px solid #262626',
+              border: '1px solid #2C2C44',
               overflow: 'hidden',
               boxShadow: 'none',
             }}
@@ -138,7 +138,7 @@ export const PermissionsScreen: React.FC = () => {
               const isOn = toggles[perm.key];
               return (
                 <React.Fragment key={perm.key}>
-                  {index > 0 && <div style={{ height: '1px', backgroundColor: '#262626', margin: '0 16px' }} />}
+                  {index > 0 && <div style={{ height: '1px', backgroundColor: '#2C2C44', margin: '0 16px' }} />}
                   <div
                     style={{
                       display: 'flex',
@@ -154,9 +154,9 @@ export const PermissionsScreen: React.FC = () => {
                           width: '36px',
                           height: '36px',
                           borderRadius: '10px',
-                          backgroundColor: isOn ? 'rgba(212, 175, 55, 0.12)' : '#1F1F1F',
-                          color: isOn ? '#D4AF37' : '#737373',
-                          border: isOn ? '1px solid rgba(212, 175, 55, 0.35)' : '1px solid #262626',
+                          backgroundColor: isOn ? 'rgba(127, 232, 127, 0.14)' : '#1F1F1F',
+                          color: isOn ? '#7FE87F' : '#6E6E85',
+                          border: isOn ? '1px solid rgba(127, 232, 127, 0.35)' : '1px solid #2C2C44',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -171,7 +171,7 @@ export const PermissionsScreen: React.FC = () => {
                           {perm.name}
                         </span>
                         {perm.required && (
-                          <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: 'rgba(212, 175, 55, 0.12)', color: '#D4AF37', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.3)' }}>
+                          <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: 'rgba(127, 232, 127, 0.14)', color: '#7FE87F', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(127, 232, 127, 0.3)' }}>
                             {language === 'العربية' ? 'إلزامي' : 'REQUIRED'}
                           </span>
                         )}
@@ -194,8 +194,8 @@ export const PermissionsScreen: React.FC = () => {
                         width: '44px',
                         height: '24px',
                         borderRadius: '9999px',
-                        backgroundColor: isOn ? '#D4AF37' : '#1F1F1F',
-                        border: isOn ? 'none' : '1px solid #262626',
+                        backgroundColor: isOn ? '#7FE87F' : '#1F1F1F',
+                        border: isOn ? 'none' : '1px solid #2C2C44',
                         display: 'flex',
                         alignItems: 'center',
                         padding: '2px',
@@ -210,7 +210,7 @@ export const PermissionsScreen: React.FC = () => {
                           width: '20px',
                           height: '20px',
                           borderRadius: '50%',
-                          backgroundColor: isOn ? '#0B0B0B' : '#737373',
+                          backgroundColor: isOn ? '#080C14' : '#6E6E85',
                           transform: isOn ? 'translateX(20px)' : 'translateX(0px)',
                           transition: 'transform 0.2s ease',
                           boxShadow: 'none',
@@ -254,9 +254,9 @@ export const PermissionsScreen: React.FC = () => {
           <div
             className="fade-in"
             style={{
-              backgroundColor: '#171717',
+              backgroundColor: '#111726',
               borderRadius: '20px',
-              border: '1px solid rgba(212, 175, 55, 0.35)',
+              border: '1px solid rgba(127, 232, 127, 0.35)',
               padding: '24px 20px',
               width: '100%',
               maxWidth: '320px',
@@ -270,23 +270,23 @@ export const PermissionsScreen: React.FC = () => {
                 width: '52px',
                 height: '52px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(212, 175, 55, 0.12)',
-                color: '#D4AF37',
-                border: '1px solid rgba(212, 175, 55, 0.3)',
+                backgroundColor: 'rgba(127, 232, 127, 0.14)',
+                color: '#7FE87F',
+                border: '1px solid rgba(127, 232, 127, 0.3)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 12px auto',
               }}
             >
-              {discoveryStep === 1 ? <Loader2 size={26} className="animate-spin" /> : <CheckCircle2 size={30} color="#D4AF37" />}
+              {discoveryStep === 1 ? <Loader2 size={26} className="animate-spin" /> : <CheckCircle2 size={30} color="#7FE87F" />}
             </div>
 
             <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 4px 0' }}>
               {discoveryStep === 1 ? (language === 'العربية' ? 'تهيئة نقطة البيع...' : 'Setting up POS...') : (language === 'العربية' ? 'جاهز!' : 'Ready!')}
             </h3>
 
-            <p style={{ fontSize: '12px', color: '#A3A3A3', margin: 0 }}>
+            <p style={{ fontSize: '12px', color: '#A2A2BA', margin: 0 }}>
               {discoveryStep === 1 ? (language === 'العربية' ? 'تأمين الاتصال' : 'Securing NFC connection') : (language === 'العربية' ? 'تم تفعيل الخدمة' : 'POS ready')}
             </p>
           </div>
