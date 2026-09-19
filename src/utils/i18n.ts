@@ -158,29 +158,46 @@ export const TRANSLATIONS: Record<string, { en: string; ar: string }> = {
   'method.cash': { en: 'Cash Sale', ar: 'نقدي' },
   'method.payment_link': { en: 'Payment Link', ar: 'رابط دفع' },
 
-  // SoftPOS Terminal
-  'softpos.title': { en: 'SoftPOS Virtual Terminal', ar: 'نقطة البيع الافتراضية (SoftPOS Terminal)' },
+  // SoftPOS Terminal & Checkout Modes
+  'softpos.title': { en: 'SoftPOS Terminal', ar: 'نقطة البيع (SoftPOS Terminal)' },
   'softpos.subtitle': {
-    en: 'Accept mada, Apple Pay, & EMV contactless card payments with instant ZATCA tax receipt',
-    ar: 'قبول مدفوعات مدى وأبل باي والبطاقات الائتمانية مع إصدار فواتير ضريبية فورية',
+    en: 'Supermarket & Retail Checkout • Card, Cash & Online QR',
+    ar: 'محطة الكاشير ونقاط البيع • بطاقات، نقدي وباركود أونلاين',
   },
+  'softpos.tab_card': { en: 'Card', ar: 'بطاقة' },
+  'softpos.tab_cash': { en: 'Cash', ar: 'نقداً' },
+  'softpos.tab_online': { en: 'Online / QR', ar: 'دفع إلكتروني' },
   'softpos.total_charge': { en: 'TOTAL CHARGE AMOUNT', ar: 'المبلغ المطلوب تحصيله' },
-  'softpos.rail_scheme': { en: 'Payment Rail Scheme', ar: 'شبكة وطريقة الدفع' },
+  'softpos.rail_scheme': { en: 'Card Network / Rail', ar: 'شبكة وطريقة الدفع' },
   'softpos.tax_summary': { en: 'ZATCA Tax Invoice Summary', ar: 'تفاصيل الفاتورة الضريبية (زاتكا)' },
   'softpos.taxable_subtotal': { en: 'Taxable Subtotal', ar: 'المبلغ الصافي الخاضع للضريبة' },
   'softpos.vat_15': { en: 'VAT (15%)', ar: 'ضريبة القيمة المضافة (١٥٪)' },
   'softpos.gross_total': { en: 'Gross Total', ar: 'المجموع النهائي' },
+  'softpos.cash_tendered': { en: 'Cash Received', ar: 'المبلغ المستلم من العميل' },
+  'softpos.change_due': { en: 'Change Due', ar: 'الباقي للمشتري' },
+  'softpos.remaining_due': { en: 'Remaining Due', ar: 'المبلغ المتبقي' },
+  'softpos.exact_amount': { en: 'Exact', ar: 'بالضبط' },
+  'softpos.charge_cash_cta': { en: 'Confirm Cash & Issue Receipt', ar: 'إتمام الدفع نقداً وإصدار الفاتورة' },
+  'softpos.charge_online_cta': { en: 'Confirm QR Payment', ar: 'تأكيد الدفع بالباركود' },
+  'softpos.simulate_qr_scan': { en: 'Simulate Customer Scan & Pay', ar: 'محاكاة مسح ودفع العميل' },
+  'softpos.online_qr_title': { en: 'Dynamic Pay QR Code', ar: 'باركود الدفع الفوري (PAY QR)' },
+  'softpos.online_qr_desc': {
+    en: 'Customer scans with Banking App / Apple Pay to complete instant payment',
+    ar: 'يقوم العميل بمسح الباركود عبر تطبيقه البنكي أو أبل باي لإتمام الدفع فوراً',
+  },
+  'softpos.copy_pay_link': { en: 'Copy Pay Link', ar: 'نسخ رابط الدفع' },
+  'softpos.pay_link_copied': { en: 'Pay Link Copied!', ar: 'تم نسخ الرابط!' },
   'softpos.order_ref_label': {
     en: 'Invoice / Order Reference (Optional)',
     ar: 'رقم الفاتورة أو ملاحظة (اختياري)',
   },
   'softpos.order_ref_placeholder': {
-    en: 'e.g., Order #1092 or Table 4',
-    ar: 'مثال: طاولة رقم ٤ أو طلب #١٠٩',
+    en: 'e.g., Order #1092 or Cashier 1',
+    ar: 'مثال: طلب #١٠٩ أو كاشير ١',
   },
   'softpos.charge_cta': {
-    en: 'Charge via SoftPOS Tap',
-    ar: 'تحصيل عبر اللمس بالجوال',
+    en: 'Tap / Pay with Card',
+    ar: 'ادفع بتمرير البطاقة',
   },
 
   // Tap Card NFC Screen
@@ -590,28 +607,28 @@ export const formatLocalizedDate = (
 export const getLocalizedPaymentMethod = (
   method: string,
   language: SupportedLanguage = 'English'
-): { label: string; en: string; ar: string } => {
+): string => {
   const isAr = language === 'العربية' || language === 'ar';
   if (method === 'softpos_mada' || method.includes('mada')) {
-    return { label: isAr ? 'مدى اللاتلامسية' : 'mada Contactless', en: 'mada Contactless', ar: 'مدى اللاتلامسية' };
+    return isAr ? 'مدى اللاتلامسية' : 'mada Contactless';
   }
   if (method === 'softpos_applepay' || method.includes('apple')) {
-    return { label: 'Apple Pay', en: 'Apple Pay', ar: 'أبل باي' };
+    return isAr ? 'أبل باي' : 'Apple Pay';
   }
   if (method === 'softpos_visa' || method.includes('visa')) {
-    return { label: isAr ? 'فيزا اللاتلامسية' : 'VISA Contactless', en: 'VISA Contactless', ar: 'فيزا اللاتلامسية' };
+    return isAr ? 'فيزا اللاتلامسية' : 'VISA Contactless';
   }
   if (method === 'softpos_mastercard' || method.includes('mastercard')) {
-    return { label: isAr ? 'ماستركارد اللاتلامسية' : 'Mastercard Contactless', en: 'Mastercard Contactless', ar: 'ماستركارد اللاتلامسية' };
+    return isAr ? 'ماستركارد اللاتلامسية' : 'Mastercard Contactless';
   }
-  if (method === 'zatca_qr') {
-    return { label: isAr ? 'رمز زاتكا المفوتر' : 'ZATCA Dynamic QR', en: 'ZATCA Dynamic QR', ar: 'رمز زاتكا المفوتر' };
+  if (method === 'zatca_qr' || method === 'online_qr' || method === 'pay_qr') {
+    return isAr ? 'دفع إلكتروني (PAY QR)' : 'Online Pay QR';
   }
   if (method === 'cash') {
-    return { label: isAr ? 'بيع نقدي' : 'Cash Register', en: 'Cash Register', ar: 'بيع نقدي' };
+    return isAr ? 'دفع نقدي مباشر' : 'Cash Payment';
   }
   if (method === 'payment_link') {
-    return { label: isAr ? 'رابط دفع رقمي' : 'Digital Pay Link', en: 'Digital Pay Link', ar: 'رابط دفع رقمي' };
+    return isAr ? 'رابط دفع رقمي' : 'Digital Pay Link';
   }
-  return { label: translateText(method, language), en: method, ar: translateText(method, 'ar') };
+  return translateText(method, language);
 };

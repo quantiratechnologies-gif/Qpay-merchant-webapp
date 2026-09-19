@@ -1,9 +1,25 @@
 import React, { useState } from 'react';
-import { Delete, Wifi } from 'lucide-react';
+import {
+  CreditCard,
+  Banknote,
+  QrCode,
+  Delete,
+  Wifi,
+  Copy,
+  Check,
+  Sparkles,
+  ArrowRight,
+  ShieldCheck,
+  Store,
+  Receipt,
+  Loader2,
+} from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { Card } from '../components/ui';
 import { colors, radii } from '../design-system/tokens';
-import { formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
+import { formatSaudiCurrency, formatLocalizedNumber, translateText } from '../utils/i18n';
+
+type CheckoutMode = 'card' | 'cash' | 'online';
 
 interface PaymentRail {
   id: string;
@@ -19,10 +35,11 @@ const PAYMENT_RAILS: PaymentRail[] = [
       <span
         style={{
           display: 'inline-block',
-          width: '8px',
-          height: '8px',
+          width: '9px',
+          height: '9px',
           borderRadius: radii.full,
           backgroundColor: '#D4AF37',
+          boxShadow: '0 0 8px rgba(212, 175, 55, 0.6)',
         }}
       />
     ),
@@ -87,22 +104,42 @@ export const SoftPOSTerminalScreen: React.FC = () => {
     setSoftPosAmount,
     softPosCardScheme,
     setSoftPosCardScheme,
+    processMerchantCollection,
     navigateTo,
+    merchantInfo,
     language,
     isRtl,
   } = useApp();
 
   const isAr = language === 'العربية';
 
+  // Checkout Mode: 'card' | 'cash' | 'online'
+  const [checkoutMode, setCheckoutMode] = useState<CheckoutMode>('card');
+
+  // Amount Builder State
   const [rawAmountStr, setRawAmountStr] = useState<string>(
     softPosAmount > 0 ? (softPosAmount * 100).toString() : '6700'
   );
   const [customerNote, setCustomerNote] = useState<string>('');
 
-  const numericValue = (parseInt(rawAmountStr || '0', 10) / 100) || 0;
+  // Cashier Cash-Specific State
+  const [cashTenderedStr, setCashTenderedStr] = useState<string>('');
+
+  // Online Pay QR-Specific State
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isSimulatingQr, setIsSimulatingQr] = useState<boolean>(false);
+
+  // Calculations
+  const numericValue = parseInt(rawAmountStr || '0', 10) / 100 || 0;
   const vatAmount = numericValue > 0 ? (numericValue - numericValue / 1.15).toFixed(2) : '0.00';
   const subtotal = (numericValue - parseFloat(vatAmount)).toFixed(2);
 
+  // Cash Change calculations
+  const cashTenderedVal = parseFloat(cashTenderedStr) || 0;
+  const changeDue = Math.max(0, cashTenderedVal - numericValue);
+  const remainingDue = Math.max(0, numericValue - cashTenderedVal);
+
+  // Keypad Handlers
   const handleKeyPress = (digit: string) => {
     if (rawAmountStr.length < 8) {
       if (rawAmountStr === '0') setRawAmountStr(digit);
@@ -115,7 +152,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
   };
 
   const handleQuickAdd = (addSar: number) => {
-    const current = (parseInt(rawAmountStr || '0', 10) / 100) || 0;
+    const current = parseInt(rawAmountStr || '0', 10) / 100 || 0;
     const updated = current + addSar;
     setRawAmountStr(Math.round(updated * 100).toString());
   };
@@ -124,7 +161,8 @@ export const SoftPOSTerminalScreen: React.FC = () => {
     setRawAmountStr('0');
   };
 
-  const handleCharge = () => {
+  // 1. Card Checkout
+  const handleCardCharge = () => {
     if (numericValue > 0) {
       setSoftPosAmount(numericValue);
       navigateTo('SOFTPOS_TAP', {
@@ -135,7 +173,57 @@ export const SoftPOSTerminalScreen: React.FC = () => {
     }
   };
 
+  // 2. Cash Checkout
+  const handleCashCharge = async () => {
+    if (numericValue <= 0) return;
+    await processMerchantCollection({
+      amount: numericValue,
+      paymentMethod: 'cash',
+      orderRef: customerNote || 'CASH-ORD-' + Math.floor(1000 + Math.random() * 9000).toString(),
+      customerMasked: isAr ? 'دفع نقدي مباشر • كاشير ١' : 'Cash Register #1',
+    });
+    navigateTo('MERCHANT_PAYMENT_SUCCESS');
+  };
+
+  // 3. Online QR Checkout
+  const payQrUrl = `https://qtpay.sa/pay/pos_${merchantInfo.terminalId || '8839201'}?amt=${numericValue.toFixed(2)}`;
+
+  const handleCopyLink = () => {
+    navigator.clipboard?.writeText(payQrUrl);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2200);
+  };
+
+  const handleOnlineCharge = async () => {
+    if (numericValue <= 0) return;
+    await processMerchantCollection({
+      amount: numericValue,
+      paymentMethod: 'zatca_qr',
+      orderRef: customerNote || 'QR-POS-' + Math.floor(1000 + Math.random() * 9000).toString(),
+      customerMasked: isAr ? 'دفع إلكتروني فوري' : 'Online Pay QR Customer',
+    });
+    navigateTo('MERCHANT_PAYMENT_SUCCESS');
+  };
+
+  const handleSimulateQrPayment = () => {
+    setIsSimulatingQr(true);
+    setTimeout(async () => {
+      setIsSimulatingQr(false);
+      await handleOnlineCharge();
+    }, 1200);
+  };
+
   const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+  // Cash quick notes suggestions
+  const cashNotes = [
+    Math.ceil(numericValue),
+    Math.ceil(numericValue / 10) * 10,
+    50,
+    100,
+    200,
+    500,
+  ].filter((amt, idx, arr) => amt >= numericValue && arr.indexOf(amt) === idx && amt > 0);
 
   return (
     <div
@@ -151,18 +239,18 @@ export const SoftPOSTerminalScreen: React.FC = () => {
       {/* Page Header */}
       <div style={{ marginBottom: '16px' }}>
         <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
-          {isAr ? 'نقطة البيع (SoftPOS)' : 'SoftPOS Terminal'}
+          {translateText('softpos.title', language)}
         </h1>
         <p style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '3px', margin: 0 }}>
-          {isAr ? 'قبول مدى، أبل باي والبطاقات' : 'Accept mada, Apple Pay & cards'}
+          {translateText('softpos.subtitle', language)}
         </p>
       </div>
 
-      {/* Side-by-Side 2-Column Desktop Grid */}
+      {/* Side-by-Side 2-Column Desktop POS Grid */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)',
+          gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 1.25fr)',
           gap: '20px',
           alignItems: 'start',
         }}
@@ -180,7 +268,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
             }}
           >
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              {isAr ? 'المبلغ' : 'AMOUNT'}
+              {translateText('softpos.total_charge', language)}
             </div>
 
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px', margin: '6px 0 10px 0' }}>
@@ -328,127 +416,576 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           </Card>
         </div>
 
-        {/* Right Column: Card Scheme, VAT Breakdown & Checkout Terminal */}
+        {/* Right Column: Supermarket Checkout Modes (Card, Cash, Online QR) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          {/* Card Scheme & Method Selector */}
-          <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
-            <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF', marginBottom: '10px' }}>
-              {isAr ? 'طريقة الدفع' : 'Payment Method'}
-            </div>
+          {/* ── 3 Supermarket Mode Tabs ── */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '8px',
+              backgroundColor: '#171717',
+              padding: '6px',
+              borderRadius: '14px',
+              border: '1px solid #262626',
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setCheckoutMode('card')}
+              className="interactive-tap"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                padding: '10px 8px',
+                borderRadius: '10px',
+                border: checkoutMode === 'card' ? '1.5px solid #D4AF37' : '1px solid transparent',
+                backgroundColor: checkoutMode === 'card' ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
+                color: checkoutMode === 'card' ? '#D4AF37' : '#A3A3A3',
+                fontSize: '12.5px',
+                fontWeight: 800,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <CreditCard size={15} />
+              <span>{translateText('softpos.tab_card', language)}</span>
+            </button>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-              {PAYMENT_RAILS.map((rail) => {
-                const isSelected = softPosCardScheme === rail.id;
-                return (
+            <button
+              type="button"
+              onClick={() => {
+                setCheckoutMode('cash');
+                if (!cashTenderedStr) setCashTenderedStr(numericValue > 0 ? numericValue.toString() : '');
+              }}
+              className="interactive-tap"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                padding: '10px 8px',
+                borderRadius: '10px',
+                border: checkoutMode === 'cash' ? '1.5px solid #D4AF37' : '1px solid transparent',
+                backgroundColor: checkoutMode === 'cash' ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
+                color: checkoutMode === 'cash' ? '#D4AF37' : '#A3A3A3',
+                fontSize: '12.5px',
+                fontWeight: 800,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <Banknote size={15} />
+              <span>{translateText('softpos.tab_cash', language)}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setCheckoutMode('online')}
+              className="interactive-tap"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                padding: '10px 8px',
+                borderRadius: '10px',
+                border: checkoutMode === 'online' ? '1.5px solid #D4AF37' : '1px solid transparent',
+                backgroundColor: checkoutMode === 'online' ? 'rgba(212, 175, 55, 0.15)' : 'transparent',
+                color: checkoutMode === 'online' ? '#D4AF37' : '#A3A3A3',
+                fontSize: '12.5px',
+                fontWeight: 800,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <QrCode size={15} />
+              <span>{translateText('softpos.tab_online', language)}</span>
+            </button>
+          </div>
+
+          {/* ── Mode 1: CARD PAY (SoftPOS Tap & Networks) ── */}
+          {checkoutMode === 'card' && (
+            <>
+              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF' }}>
+                    {translateText('softpos.rail_scheme', language)}
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#D4AF37', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <ShieldCheck size={13} />
+                    {isAr ? 'مدى و EMV L2' : 'mada & EMV L2'}
+                  </span>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                  {PAYMENT_RAILS.map((rail) => {
+                    const isSelected = softPosCardScheme === rail.id;
+                    return (
+                      <button
+                        key={rail.id}
+                        onClick={() => setSoftPosCardScheme(rail.id)}
+                        className="interactive-tap"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '10px 12px',
+                          borderRadius: '10px',
+                          backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.12)' : '#1E1E1E',
+                          border: isSelected ? '1.5px solid #D4AF37' : '1px solid #262626',
+                          color: isSelected ? '#D4AF37' : '#FFFFFF',
+                          cursor: 'pointer',
+                          fontWeight: 800,
+                          fontSize: '12.5px',
+                        }}
+                      >
+                        {rail.renderIcon()}
+                        <span>{rail.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </Card>
+
+              {/* Invoice Summary */}
+              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+                <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF', marginBottom: '10px' }}>
+                  {translateText('softpos.tax_summary', language)}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                    <span>{translateText('softpos.taxable_subtotal', language)}</span>
+                    <span style={{ color: '#FFFFFF', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(subtotal) || 0, language)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                    <span>{translateText('softpos.vat_15', language)}</span>
+                    <span style={{ color: '#D4AF37', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      borderTop: '1px solid #262626',
+                      paddingTop: '8px',
+                      fontSize: '14px',
+                      fontWeight: 900,
+                      color: '#FFFFFF',
+                    }}
+                  >
+                    <span>{translateText('softpos.gross_total', language)}</span>
+                    <span style={{ color: '#D4AF37' }}>{formatSaudiCurrency(numericValue, language)}</span>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '12px' }}>
+                  <input
+                    type="text"
+                    value={customerNote}
+                    onChange={(e) => setCustomerNote(e.target.value)}
+                    placeholder={translateText('softpos.order_ref_placeholder', language)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      backgroundColor: '#1E1E1E',
+                      border: '1px solid #262626',
+                      borderRadius: '8px',
+                      color: '#FFFFFF',
+                      fontSize: '12px',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+              </Card>
+
+              {/* Card CTA */}
+              <button
+                onClick={handleCardCharge}
+                disabled={numericValue <= 0}
+                className={`interactive-tap ${numericValue > 0 ? 'gold-gradient-btn' : ''}`}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '12px',
+                  backgroundColor: numericValue > 0 ? undefined : '#262626',
+                  color: numericValue > 0 ? '#0B0B0B' : '#737373',
+                  fontSize: '14px',
+                  fontWeight: 900,
+                  border: 'none',
+                  cursor: numericValue > 0 ? 'pointer' : 'not-allowed',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: numericValue > 0 ? '0 4px 16px rgba(212, 175, 55, 0.25)' : 'none',
+                }}
+              >
+                <Wifi size={17} />
+                <span>
+                  {isAr
+                    ? `تحصيل ${formatSaudiCurrency(numericValue, language)} بالبطاقة`
+                    : `Tap to Pay ${formatSaudiCurrency(numericValue, language)}`}
+                </span>
+              </button>
+            </>
+          )}
+
+          {/* ── Mode 2: CASH PAY (Supermarket Cashier Counter) ── */}
+          {checkoutMode === 'cash' && (
+            <>
+              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <span style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF' }}>
+                    {translateText('softpos.cash_tendered', language)}
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#A3A3A3', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Store size={12} color="#D4AF37" />
+                    {isAr ? 'صندوق النقد المباشر' : 'Cash Drawer'}
+                  </span>
+                </div>
+
+                {/* Cash Tendered Input */}
+                <div style={{ position: 'relative', marginBottom: '10px' }}>
+                  <input
+                    type="number"
+                    value={cashTenderedStr}
+                    onChange={(e) => setCashTenderedStr(e.target.value)}
+                    placeholder={numericValue.toFixed(2)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      backgroundColor: '#1E1E1E',
+                      border: '1.5px solid rgba(212, 175, 55, 0.35)',
+                      borderRadius: '10px',
+                      color: '#FFFFFF',
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      right: isRtl ? 'auto' : '14px',
+                      left: isRtl ? '14px' : 'auto',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      fontSize: '13px',
+                      fontWeight: 800,
+                      color: '#D4AF37',
+                    }}
+                  >
+                    {isAr ? 'ر.س' : 'SAR'}
+                  </span>
+                </div>
+
+                {/* Quick Cash Presets */}
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '14px' }}>
                   <button
-                    key={rail.id}
-                    onClick={() => setSoftPosCardScheme(rail.id)}
+                    type="button"
+                    onClick={() => setCashTenderedStr(numericValue.toString())}
+                    className="interactive-tap"
+                    style={{
+                      padding: '5px 10px',
+                      borderRadius: '8px',
+                      backgroundColor: cashTenderedVal === numericValue ? 'rgba(212, 175, 55, 0.2)' : '#212121',
+                      border: cashTenderedVal === numericValue ? '1px solid #D4AF37' : '1px solid #262626',
+                      color: cashTenderedVal === numericValue ? '#D4AF37' : '#FFFFFF',
+                      fontSize: '11.5px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {translateText('softpos.exact_amount', language)} ({formatSaudiCurrency(numericValue, language)})
+                  </button>
+
+                  {cashNotes.map((note) => (
+                    <button
+                      key={note}
+                      type="button"
+                      onClick={() => setCashTenderedStr(note.toString())}
+                      className="interactive-tap"
+                      style={{
+                        padding: '5px 10px',
+                        borderRadius: '8px',
+                        backgroundColor: cashTenderedVal === note ? 'rgba(212, 175, 55, 0.2)' : '#212121',
+                        border: cashTenderedVal === note ? '1px solid #D4AF37' : '1px solid #262626',
+                        color: cashTenderedVal === note ? '#D4AF37' : '#FFFFFF',
+                        fontSize: '11.5px',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {formatSaudiCurrency(note, language)}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Change Due / Remaining Box */}
+                {numericValue > 0 && (
+                  <div
+                    style={{
+                      padding: '12px 14px',
+                      borderRadius: '10px',
+                      backgroundColor: cashTenderedVal >= numericValue ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                      border: cashTenderedVal >= numericValue ? '1px solid rgba(34, 197, 94, 0.3)' : '1px solid rgba(239, 68, 68, 0.3)',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span style={{ fontSize: '13px', fontWeight: 800, color: cashTenderedVal >= numericValue ? '#22C55E' : '#EF4444' }}>
+                      {cashTenderedVal >= numericValue
+                        ? translateText('softpos.change_due', language)
+                        : translateText('softpos.remaining_due', language)}
+                    </span>
+                    <span style={{ fontSize: '18px', fontWeight: 900, color: cashTenderedVal >= numericValue ? '#22C55E' : '#EF4444' }}>
+                      {cashTenderedVal >= numericValue
+                        ? formatSaudiCurrency(changeDue, language)
+                        : formatSaudiCurrency(remainingDue, language)}
+                    </span>
+                  </div>
+                )}
+              </Card>
+
+              {/* Invoice Summary */}
+              <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                    <span>{translateText('softpos.taxable_subtotal', language)}</span>
+                    <span style={{ color: '#FFFFFF', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(subtotal) || 0, language)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                    <span>{translateText('softpos.vat_15', language)}</span>
+                    <span style={{ color: '#D4AF37', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      borderTop: '1px solid #262626',
+                      paddingTop: '8px',
+                      fontSize: '14px',
+                      fontWeight: 900,
+                      color: '#FFFFFF',
+                    }}
+                  >
+                    <span>{translateText('softpos.gross_total', language)}</span>
+                    <span style={{ color: '#D4AF37' }}>{formatSaudiCurrency(numericValue, language)}</span>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '12px' }}>
+                  <input
+                    type="text"
+                    value={customerNote}
+                    onChange={(e) => setCustomerNote(e.target.value)}
+                    placeholder={translateText('softpos.order_ref_placeholder', language)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      backgroundColor: '#1E1E1E',
+                      border: '1px solid #262626',
+                      borderRadius: '8px',
+                      color: '#FFFFFF',
+                      fontSize: '12px',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+              </Card>
+
+              {/* Cash CTA */}
+              <button
+                onClick={handleCashCharge}
+                disabled={numericValue <= 0 || (cashTenderedVal > 0 && cashTenderedVal < numericValue)}
+                className={`interactive-tap ${numericValue > 0 ? 'gold-gradient-btn' : ''}`}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '12px',
+                  backgroundColor: numericValue > 0 ? undefined : '#262626',
+                  color: numericValue > 0 ? '#0B0B0B' : '#737373',
+                  fontSize: '14px',
+                  fontWeight: 900,
+                  border: 'none',
+                  cursor: numericValue > 0 ? 'pointer' : 'not-allowed',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: numericValue > 0 ? '0 4px 16px rgba(212, 175, 55, 0.25)' : 'none',
+                }}
+              >
+                <Banknote size={18} />
+                <span>
+                  {translateText('softpos.charge_cash_cta', language)} ({formatSaudiCurrency(numericValue, language)})
+                </span>
+              </button>
+            </>
+          )}
+
+          {/* ── Mode 3: ONLINE / PAY QR (Dynamic Instant QR) ── */}
+          {checkoutMode === 'online' && (
+            <>
+              <Card
+                variant="elevated"
+                style={{
+                  padding: '20px',
+                  background: 'radial-gradient(ellipse at top, rgba(212, 175, 55, 0.1) 0%, #171717 80%)',
+                  border: '1px solid rgba(212, 175, 55, 0.25)',
+                  textAlign: 'center',
+                }}
+              >
+                <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
+                  {translateText('softpos.online_qr_title', language)}
+                </div>
+                <p style={{ fontSize: '11.5px', color: '#A3A3A3', margin: '0 0 14px 0' }}>
+                  {translateText('softpos.online_qr_desc', language)}
+                </p>
+
+                {/* Dynamic QR Code */}
+                <div
+                  style={{
+                    display: 'inline-block',
+                    padding: '12px',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '14px',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+                    marginBottom: '14px',
+                  }}
+                >
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=${encodeURIComponent(
+                      payQrUrl
+                    )}`}
+                    alt="Payment QR"
+                    style={{ width: '160px', height: '160px', display: 'block', borderRadius: '6px' }}
+                  />
+                </div>
+
+                {/* Direct Pay Link Pill + Copy */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: '#121212',
+                    border: '1px solid #262626',
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                    gap: '8px',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '11.5px',
+                      color: '#D4AF37',
+                      fontFamily: 'monospace',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {payQrUrl}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
                     className="interactive-tap"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '8px',
-                      padding: '10px 12px',
-                      borderRadius: '10px',
-                      backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.12)' : '#1E1E1E',
-                      border: isSelected ? '1.5px solid #D4AF37' : '1px solid #262626',
-                      color: isSelected ? '#D4AF37' : '#FFFFFF',
+                      gap: '4px',
+                      backgroundColor: '#212121',
+                      border: '1px solid #333333',
+                      borderRadius: '6px',
+                      padding: '4px 8px',
+                      color: '#FFFFFF',
+                      fontSize: '11px',
+                      fontWeight: 700,
                       cursor: 'pointer',
-                      fontWeight: 800,
-                      fontSize: '12.5px',
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    {rail.renderIcon()}
-                    <span>{rail.name}</span>
+                    {isCopied ? <Check size={12} color="#22C55E" /> : <Copy size={12} color="#D4AF37" />}
+                    <span>{isCopied ? translateText('softpos.pay_link_copied', language) : translateText('softpos.copy_pay_link', language)}</span>
                   </button>
-                );
-              })}
-            </div>
-          </Card>
+                </div>
+              </Card>
 
-          {/* ZATCA VAT Breakdown & Receipt Info */}
-          <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
-            <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF', marginBottom: '10px' }}>
-              {isAr ? 'ملخص الفاتورة' : 'Invoice Summary'}
-            </div>
+              {/* Online Pay Action Buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={handleSimulateQrPayment}
+                  disabled={numericValue <= 0 || isSimulatingQr}
+                  className="interactive-tap"
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    borderRadius: '12px',
+                    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                    border: '1.5px solid #D4AF37',
+                    color: '#D4AF37',
+                    fontSize: '13px',
+                    fontWeight: 800,
+                    cursor: numericValue > 0 ? 'pointer' : 'not-allowed',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  {isSimulatingQr ? (
+                    <>
+                      <Loader2 size={16} className="spin-animation" />
+                      <span>{isAr ? 'جاري معالجة دفع العميل...' : 'Customer Paying Online...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles size={16} />
+                      <span>{translateText('softpos.simulate_qr_scan', language)}</span>
+                    </>
+                  )}
+                </button>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
-                <span>{isAr ? 'المبلغ الصافي' : 'Subtotal'}</span>
-                <span style={{ color: '#FFFFFF', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(subtotal) || 0, language)}</span>
+                <button
+                  type="button"
+                  onClick={handleOnlineCharge}
+                  disabled={numericValue <= 0}
+                  className={`interactive-tap ${numericValue > 0 ? 'gold-gradient-btn' : ''}`}
+                  style={{
+                    width: '100%',
+                    padding: '13px',
+                    borderRadius: '12px',
+                    backgroundColor: numericValue > 0 ? undefined : '#262626',
+                    color: numericValue > 0 ? '#0B0B0B' : '#737373',
+                    fontSize: '13.5px',
+                    fontWeight: 900,
+                    border: 'none',
+                    cursor: numericValue > 0 ? 'pointer' : 'not-allowed',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <Receipt size={16} />
+                  <span>
+                    {translateText('softpos.charge_online_cta', language)} ({formatSaudiCurrency(numericValue, language)})
+                  </span>
+                </button>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
-                <span>{isAr ? 'الضريبة (١٥٪)' : 'VAT (15%)'}</span>
-                <span style={{ color: '#D4AF37', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  borderTop: '1px solid #262626',
-                  paddingTop: '8px',
-                  fontSize: '14px',
-                  fontWeight: 900,
-                  color: '#FFFFFF',
-                }}
-              >
-                <span>{isAr ? 'الإجمالي' : 'Total'}</span>
-                <span style={{ color: '#D4AF37' }}>{formatSaudiCurrency(numericValue, language)}</span>
-              </div>
-            </div>
-
-            {/* Optional Customer Note / Invoice Reference Input */}
-            <div style={{ marginTop: '12px' }}>
-              <input
-                type="text"
-                value={customerNote}
-                onChange={(e) => setCustomerNote(e.target.value)}
-                placeholder={isAr ? 'رقم الطلب أو ملاحظة (اختياري)' : 'Order ref / note (optional)'}
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  backgroundColor: '#1E1E1E',
-                  border: '1px solid #262626',
-                  borderRadius: '8px',
-                  color: '#FFFFFF',
-                  fontSize: '12px',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-              />
-            </div>
-          </Card>
-
-          {/* Primary Charge CTA */}
-          <button
-            onClick={handleCharge}
-            disabled={numericValue <= 0}
-            className={`interactive-tap ${numericValue > 0 ? 'gold-gradient-btn' : ''}`}
-            style={{
-              width: '100%',
-              padding: '14px',
-              borderRadius: '12px',
-              backgroundColor: numericValue > 0 ? undefined : '#262626',
-              color: numericValue > 0 ? '#0B0B0B' : '#737373',
-              fontSize: '14px',
-              fontWeight: 900,
-              border: 'none',
-              cursor: numericValue > 0 ? 'pointer' : 'not-allowed',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              boxShadow: numericValue > 0 ? '0 4px 16px rgba(212, 175, 55, 0.25)' : 'none',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <Wifi size={17} />
-            <span>
-              {isAr
-                ? `تحصيل ${formatSaudiCurrency(numericValue, language)}`
-                : `Charge ${formatSaudiCurrency(numericValue, language)}`}
-            </span>
-          </button>
+            </>
+          )}
         </div>
       </div>
     </div>
