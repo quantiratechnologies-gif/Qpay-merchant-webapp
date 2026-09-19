@@ -296,6 +296,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (paramScreen && (paramScreen === 'MOBILE_NUMBER' || paramScreen === 'SMS_OTP' || paramScreen === 'MERCHANT_REGISTER')) {
         return false;
       }
+      const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
+      if (explicitlyLoggedOut) {
+        return false;
+      }
       return true;
     }
     return true;
@@ -307,6 +311,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return paramScreen;
 
+      const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
+      if (explicitlyLoggedOut) return 'MOBILE_NUMBER';
+
       return 'MERCHANT_HOME';
     }
     return 'MERCHANT_HOME';
@@ -317,6 +324,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const urlParams = new URLSearchParams(window.location.search);
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return [{ screen: paramScreen }];
+
+      const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
+      if (explicitlyLoggedOut) return [{ screen: 'MOBILE_NUMBER' }];
     }
     return [{ screen: 'MERCHANT_HOME' }];
   });
@@ -850,12 +860,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [isRtl]);
 
   const performLogout = () => {
-    sessionStorage.removeItem('qpay_merchant_authenticated');
-    localStorage.removeItem('qpay_merchant_authenticated');
-    localStorage.removeItem('qpay_merchant_session');
-    localStorage.removeItem('hasSeenOnboarding');
-    localStorage.removeItem('hasCompletedOnboarding');
-    localStorage.removeItem('hasGrantedPermissions');
+    try {
+      localStorage.setItem('qpay_merchant_explicit_logout', 'true');
+      sessionStorage.removeItem('qpay_merchant_authenticated');
+      localStorage.removeItem('qpay_merchant_authenticated');
+      localStorage.removeItem('qpay_merchant_session');
+      localStorage.removeItem('hasSeenOnboarding');
+      localStorage.removeItem('hasCompletedOnboarding');
+      localStorage.removeItem('hasGrantedPermissions');
+    } catch {
+      // ignore
+    }
     setIsAuthenticated(false);
     setIsLogoutModalOpen(false);
     setCurrentScreen('MOBILE_NUMBER');
