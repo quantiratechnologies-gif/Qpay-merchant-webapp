@@ -1,7 +1,7 @@
 import React from 'react';
-import { Volume2, Radio, Play, Wifi, Info } from 'lucide-react';
+import { Volume2, Radio, Play, Wifi, Info, Globe } from 'lucide-react';
 import { useApp } from '../state/AppContext';
-import { formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
+import { formatSaudiCurrency } from '../utils/i18n';
 import { Card } from '../components/ui';
 import { colors, radii } from '../design-system/tokens';
 
@@ -9,8 +9,6 @@ export const SoundBoxNotifierScreen: React.FC = () => {
   const {
     soundBoxLanguage,
     setSoundBoxLanguage,
-    soundBoxVolume,
-    setSoundBoxVolume,
     speakSoundBox,
     language,
     isRtl,
@@ -18,8 +16,13 @@ export const SoundBoxNotifierScreen: React.FC = () => {
 
   const isAr = language === 'العربية';
 
+  const handleLanguageSelect = (lang: 'ar' | 'en') => {
+    setSoundBoxLanguage(lang);
+    speakSoundBox(150, lang);
+  };
+
   const handlePlayTest = (amount: number) => {
-    speakSoundBox(amount);
+    speakSoundBox(amount, soundBoxLanguage);
   };
 
   return (
@@ -121,7 +124,11 @@ export const SoundBoxNotifierScreen: React.FC = () => {
               {[
                 { icon: <Wifi size={13} />, label: isAr ? 'متصل' : 'Online', gold: true },
                 { icon: <Radio size={13} />, label: isAr ? 'نشط' : 'Active', gold: true },
-                { icon: <Volume2 size={13} />, label: `${formatLocalizedNumber(soundBoxVolume, language)}%`, gold: false },
+                {
+                  icon: <Globe size={13} />,
+                  label: soundBoxLanguage === 'ar' ? (isAr ? 'صوت عربي (SA)' : 'SA Arabic') : (isAr ? 'صوت إنجليزي (GB)' : 'GB English'),
+                  gold: true,
+                },
               ].map(({ icon, label, gold }) => (
                 <span
                   key={label}
@@ -185,44 +192,6 @@ export const SoundBoxNotifierScreen: React.FC = () => {
 
         {/* ─── RIGHT PANEL: Controls ───────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* Volume Control */}
-          <Card variant="elevated" style={{ padding: '20px', background: '#111726', border: '1px solid #2C2C44' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-              <div>
-                <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF' }}>
-                  {isAr ? 'مستوى الصوت' : 'Volume'}
-                </div>
-                <div style={{ fontSize: '12px', color: '#A2A2BA', marginTop: '2px' }}>
-                  {isAr ? 'التحكم في شدة الصوت' : 'Adjust speaker volume'}
-                </div>
-              </div>
-              <span
-                style={{
-                  fontSize: '20px',
-                  fontWeight: 900,
-                  color: '#7FE87F',
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {formatLocalizedNumber(soundBoxVolume, language)}%
-              </span>
-            </div>
-
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={soundBoxVolume}
-              onChange={(e) => setSoundBoxVolume(Number(e.target.value))}
-              style={{ width: '100%', accentColor: '#7FE87F', cursor: 'pointer', height: '6px' }}
-            />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-              <span style={{ fontSize: '11px', color: '#6E6E85' }}>{formatLocalizedNumber(0, language)}%</span>
-              <span style={{ fontSize: '11px', color: '#6E6E85' }}>{formatLocalizedNumber(100, language)}%</span>
-            </div>
-          </Card>
-
           {/* Voice Language Selector */}
           <Card variant="elevated" style={{ padding: '20px', background: '#111726', border: '1px solid #2C2C44' }}>
             <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
@@ -232,37 +201,53 @@ export const SoundBoxNotifierScreen: React.FC = () => {
               {isAr ? 'لغة الإعلانات الصوتية' : 'Default voice for alerts'}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               {[
-                { id: 'ar', flag: '🇸🇦', label: isAr ? 'العربية' : 'Arabic' },
-                { id: 'en', flag: '🇬🇧', label: isAr ? 'الإنجليزية' : 'English' },
-              ].map(({ id, flag, label }) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setSoundBoxLanguage(id as 'ar' | 'en')}
-                  className="interactive-tap"
-                  style={{
-                    backgroundColor: soundBoxLanguage === id ? 'rgba(127, 232, 127, 0.14)' : '#151524',
-                    border: `1.5px solid ${soundBoxLanguage === id ? '#7FE87F' : '#2C2C44'}`,
-                    borderRadius: radii.lg,
-                    padding: '12px 14px',
-                    color: '#FFFFFF',
-                    fontSize: '13px',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    transition: 'all 0.15s ease',
-                  }}
-                >
-                  <span style={{ fontSize: '20px' }}>{flag}</span>
-                  <span style={{ fontSize: '13px', fontWeight: 800, color: soundBoxLanguage === id ? '#7FE87F' : '#FFFFFF' }}>
-                    {label}
-                  </span>
-                </button>
-              ))}
+                { id: 'ar' as const, flag: 'SA', label: isAr ? 'العربية' : 'Arabic' },
+                { id: 'en' as const, flag: 'GB', label: isAr ? 'الإنجليزية' : 'English' },
+              ].map(({ id, flag, label }) => {
+                const isSelected = soundBoxLanguage === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => handleLanguageSelect(id)}
+                    className="interactive-tap"
+                    style={{
+                      backgroundColor: isSelected ? 'rgba(127, 232, 127, 0.14)' : '#151524',
+                      border: `1.5px solid ${isSelected ? '#7FE87F' : '#2C2C44'}`,
+                      borderRadius: radii.lg,
+                      padding: '16px 18px',
+                      color: '#FFFFFF',
+                      fontSize: '13.5px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      transition: 'all 0.15s ease',
+                      boxShadow: isSelected ? '0 4px 16px rgba(127, 232, 127, 0.15)' : 'none',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: '12px',
+                        fontWeight: 900,
+                        backgroundColor: isSelected ? '#7FE87F' : '#2C2C44',
+                        color: isSelected ? '#080C14' : '#FFFFFF',
+                        padding: '3px 7px',
+                        borderRadius: '6px',
+                        letterSpacing: '0.04em',
+                      }}
+                    >
+                      {flag}
+                    </span>
+                    <span style={{ fontSize: '14px', fontWeight: 800, color: isSelected ? '#7FE87F' : '#FFFFFF' }}>
+                      {label}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </Card>
 
@@ -272,7 +257,9 @@ export const SoundBoxNotifierScreen: React.FC = () => {
               {isAr ? 'اختبار الصوت' : 'Audio Test'}
             </div>
             <div style={{ fontSize: '12px', color: '#A2A2BA', marginBottom: '14px' }}>
-              {isAr ? 'تجربة إعلان المبالغ' : 'Test voice announcements'}
+              {isAr
+                ? (soundBoxLanguage === 'ar' ? 'تجربة إعلان المبالغ باللغة العربية' : 'تجربة إعلان المبالغ باللغة الإنجليزية')
+                : (soundBoxLanguage === 'ar' ? 'Test voice announcements in Arabic' : 'Test voice announcements in English')}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
@@ -286,19 +273,19 @@ export const SoundBoxNotifierScreen: React.FC = () => {
                     backgroundColor: '#151524',
                     border: '1px solid #2C2C44',
                     borderRadius: radii.md,
-                    padding: '10px 8px',
+                    padding: '12px 10px',
                     color: '#FFFFFF',
-                    fontSize: '12px',
+                    fontSize: '12.5px',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '5px',
+                    gap: '6px',
                     transition: 'border-color 0.12s ease',
                   }}
                 >
-                  <Play size={11} color="#7FE87F" fill="#7FE87F" />
+                  <Play size={12} color="#7FE87F" fill="#7FE87F" />
                   {formatSaudiCurrency(amt, language)}
                 </button>
               ))}
@@ -309,3 +296,4 @@ export const SoundBoxNotifierScreen: React.FC = () => {
     </div>
   );
 };
+export default SoundBoxNotifierScreen;

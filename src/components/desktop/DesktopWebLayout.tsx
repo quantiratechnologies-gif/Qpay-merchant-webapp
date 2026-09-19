@@ -642,8 +642,8 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
 
       {/* 2. Main Content Canvas & Top Enterprise Header */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        {/* Top Desktop Navigation & Search Bar (Modern Glassmorphic Centered Search) */}
-        <header className="h-20 bg-[#121212]/90 backdrop-blur-2xl border-b border-[#2C2C44] flex items-center justify-between px-6 lg:px-8 gap-6 sticky top-0 z-30 w-full">
+        {/* Top Desktop Navigation & Search Bar (Modern High-Contrast Prominent Search) */}
+        <header className="h-20 lg:h-22 bg-[#0A0E1A] border-b border-[#242E44] flex items-center justify-between px-6 lg:px-8 gap-6 sticky top-0 z-40 w-full shadow-lg shadow-black/50">
           {/* Left: Sidebar Toggle Button & Brand Logo */}
           <div className="flex items-center gap-4 shrink-0">
             {/* 1. Sidebar Toggle Icon Button */}
@@ -661,7 +661,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
               }
               className={`h-11 w-11 rounded-xl border transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                 sidebarOpen
-                  ? 'bg-[#111726] border-[#2C2C44] text-[#A2A2BA] hover:text-white hover:border-[#7FE87F]/40 hover:bg-[#151524]'
+                  ? 'bg-[#121A2C] border-[#2C3954] text-[#A2A2BA] hover:text-white hover:border-[#7FE87F]/40 hover:bg-[#18233B]'
                   : 'bg-[#7FE87F]/10 border-[#7FE87F]/30 text-[#7FE87F] hover:bg-[#7FE87F]/20 shadow-md shadow-[#7FE87F]/10'
               }`}
             >
@@ -684,21 +684,21 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
           </div>
 
           {/* Center: Sleek Premium Global Search Bar */}
-          <div ref={searchContainerRef} className="relative flex-1 max-w-2xl">
+          <div ref={searchContainerRef} className="relative flex-1 max-w-2xl lg:max-w-3xl my-auto">
             <div
-              className={`relative w-full flex items-center rounded-2xl transition-all duration-200 ${
+              className={`relative w-full flex items-center h-12 lg:h-[50px] rounded-2xl transition-all duration-200 ${
                 isSearchFocused
-                  ? 'bg-[#111726] border border-[#7FE87F]/60 ring-4 ring-[#7FE87F]/10 shadow-xl shadow-black/80'
-                  : 'bg-[#111726]/90 hover:bg-[#111726] border border-[#2C2C44] hover:border-[#3A3A52] shadow-inner'
+                  ? 'bg-[#141E34] border-2 border-[#7FE87F] ring-4 ring-[#7FE87F]/15 shadow-2xl shadow-black'
+                  : 'bg-[#121A2C] hover:bg-[#152037] border border-[#2B3954] hover:border-[#3D4F74] shadow-md shadow-black/40'
               }`}
             >
               {/* Search Icon */}
               <div
                 className={`flex items-center justify-center shrink-0 transition-colors ${
-                  isRtl ? 'pr-4 pl-1' : 'pl-4 pr-1'
-                } ${isSearchFocused ? 'text-[#7FE87F]' : 'text-[#A2A2BA]'}`}
+                  isRtl ? 'pr-4 pl-2' : 'pl-4 pr-2'
+                } ${isSearchFocused ? 'text-[#7FE87F]' : 'text-[#8E9AB5]'}`}
               >
-                <Search className="h-4.5 w-4.5" />
+                <Search className="h-5 w-5" />
               </div>
 
               {/* Input Field */}
@@ -713,15 +713,15 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                     ? 'بحث سريع في التحصيلات، العمليات، الفواتير، المرجع البنكي...'
                     : 'Search collections, UTR, transactions, customers, invoices...'
                 }
-                className={`w-full h-12 bg-transparent text-xs sm:text-sm text-white placeholder-[#6E6E85] font-medium outline-none transition-all ${
-                  isRtl ? 'pr-2.5 pl-14' : 'pl-2.5 pr-14'
+                className={`w-full h-full bg-transparent text-sm text-white placeholder-[#7885A3] font-medium outline-none transition-all ${
+                  isRtl ? 'pr-2 pl-16' : 'pl-2 pr-16'
                 }`}
               />
 
               {/* Right Action: Clear Button or Cmd+K Badge */}
               <div
                 className={`absolute top-1/2 -translate-y-1/2 flex items-center gap-1.5 ${
-                  isRtl ? 'left-3' : 'right-3'
+                  isRtl ? 'left-3.5' : 'right-3.5'
                 }`}
               >
                 {searchQuery ? (
@@ -737,7 +737,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                   </button>
                 ) : (
                   <div className="hidden sm:flex items-center gap-1">
-                    <kbd className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#182236] border border-[#3A3A52] text-[#A2A2BA] shadow-sm">
+                    <kbd className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-[#1B253D] border border-[#344468] text-[#A2A2BA] shadow-sm">
                       ⌘K
                     </kbd>
                   </div>
@@ -745,21 +745,26 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
               </div>
             </div>
 
-            {/* Live Interactive Search Popup Dropdown */}
+            {/* Live Interactive Search Popup Dropdown (100% Solid Opaque Background) */}
             {isSearchFocused && cleanSearch.length > 0 && (
               <div
-                className="absolute top-full mt-2.5 w-full bg-[#0E1422]/98 backdrop-blur-2xl border border-[#2C2C44] rounded-2xl shadow-2xl shadow-black/90 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150"
+                className="absolute top-full mt-3 w-full bg-[#0D1424] border border-[#2B3954] rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.95)] overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150"
+                style={{ backgroundColor: '#0D1424', opacity: 1 }}
                 dir={isRtl ? 'rtl' : 'ltr'}
               >
                 {/* Results Body */}
-                <div className="max-h-80 overflow-y-auto p-2.5 space-y-3">
+                <div
+                  className="max-h-88 overflow-y-auto p-3 space-y-3 bg-[#0D1424] custom-scrollbar"
+                  style={{ backgroundColor: '#0D1424' }}
+                >
                   {/* 1. Quick Navigation Links */}
                   {matchingNavItems.length > 0 && (
                     <div>
-                      <div className="text-[10px] font-extrabold text-[#A2A2BA] uppercase tracking-wider px-2.5 py-1">
-                        {isAr ? 'الصفحات والأقسام' : 'Pages & Features'}
+                      <div className="text-[10.5px] font-extrabold text-[#7FE87F] uppercase tracking-wider px-2.5 py-1 flex items-center justify-between">
+                        <span>{isAr ? 'الصفحات والأقسام' : 'Pages & Features'}</span>
+                        <span className="text-[10px] text-[#6E7B98] font-normal lowercase">{matchingNavItems.length} {isAr ? 'نتائج' : 'found'}</span>
                       </div>
-                      <div className="space-y-0.5">
+                      <div className="space-y-1 mt-1">
                         {matchingNavItems.map((item) => {
                           const Icon = item.icon;
                           return (
@@ -771,14 +776,16 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                                 setIsSearchFocused(false);
                                 setSearchQuery('');
                               }}
-                              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition-colors cursor-pointer text-start"
+                              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-[#131C30] hover:bg-[#1B2742] border border-[#1E2B45] hover:border-[#7FE87F]/40 text-neutral-200 hover:text-white transition-all cursor-pointer text-start shadow-sm"
                             >
-                              <div className="flex items-center gap-2.5">
-                                <Icon className="h-4 w-4 text-[#7FE87F]" />
+                              <div className="flex items-center gap-3">
+                                <div className="w-7 h-7 rounded-lg bg-[#7FE87F]/10 border border-[#7FE87F]/20 flex items-center justify-center text-[#7FE87F]">
+                                  <Icon className="h-4 w-4" />
+                                </div>
                                 <span>{isAr ? item.labelAr : item.labelEn}</span>
                               </div>
-                              <span className="text-[10px] text-[#6E6E85] font-mono">
-                                {isAr ? 'انتقال' : 'Jump'}
+                              <span className="text-[10px] text-[#7FE87F] font-mono px-2 py-0.5 rounded bg-[#7FE87F]/10 border border-[#7FE87F]/20 font-bold">
+                                {isAr ? 'انتقال ↵' : 'Jump ↵'}
                               </span>
                             </button>
                           );
@@ -790,11 +797,12 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                   {/* 2. Collections / Transactions */}
                   {matchingCollections.length > 0 && (
                     <div>
-                      <div className="text-[10px] font-extrabold text-[#A2A2BA] uppercase tracking-wider px-2.5 py-1">
-                        {isAr ? 'العمليات والتحصيلات' : 'Transactions & Collections'}
+                      <div className="text-[10.5px] font-extrabold text-[#7FE87F] uppercase tracking-wider px-2.5 py-1 flex items-center justify-between">
+                        <span>{isAr ? 'العمليات والتحصيلات' : 'Transactions & Collections'}</span>
+                        <span className="text-[10px] text-[#6E7B98] font-normal lowercase">{matchingCollections.length} {isAr ? 'عملية' : 'items'}</span>
                       </div>
-                      <div className="space-y-0.5">
-                        {matchingCollections.slice(0, 4).map((c) => (
+                      <div className="space-y-1 mt-1">
+                        {matchingCollections.slice(0, 5).map((c) => (
                           <button
                             key={c.id}
                             type="button"
@@ -803,20 +811,22 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                               setIsSearchFocused(false);
                               setSearchQuery('');
                             }}
-                            className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-white/5 transition-colors cursor-pointer text-start"
+                            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs bg-[#131C30] hover:bg-[#1B2742] border border-[#1E2B45] hover:border-[#7FE87F]/40 transition-all cursor-pointer text-start shadow-sm"
                           >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <CreditCard className="h-4 w-4 text-[#A2A2BA] shrink-0" />
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+                                <CreditCard className="h-3.5 w-3.5" />
+                              </div>
                               <div className="truncate">
-                                <div className="font-bold text-white text-[11.5px] truncate">
+                                <div className="font-bold text-white text-xs truncate">
                                   {c.customerMasked || c.orderRef}
                                 </div>
-                                <div className="text-[10px] text-[#A2A2BA]">
-                                  {c.paymentMethod} • {c.orderRef}
+                                <div className="text-[10px] text-[#8E9AB5] mt-0.5">
+                                  {c.paymentMethod} • <span className="font-mono">{c.orderRef}</span>
                                 </div>
                               </div>
                             </div>
-                            <span className="font-extrabold text-[#7FE87F] text-xs font-mono shrink-0">
+                            <span className="font-extrabold text-[#7FE87F] text-xs font-mono shrink-0 ml-2">
                               {formatSaudiCurrency(c.amount, language)}
                             </span>
                           </button>
@@ -829,17 +839,27 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
                   {cleanSearch.length > 0 &&
                     matchingNavItems.length === 0 &&
                     matchingCollections.length === 0 && (
-                      <div className="py-6 text-center text-xs text-[#A2A2BA] space-y-1">
-                        <p>{isAr ? 'لم يتم العثور على نتائج لـ' : 'No matches found for'}</p>
-                        <p className="font-bold text-white">"{searchQuery}"</p>
+                      <div className="py-8 px-4 text-center bg-[#131C30] border border-[#1E2B45] rounded-xl space-y-2">
+                        <div className="w-10 h-10 mx-auto rounded-full bg-[#7FE87F]/10 border border-[#7FE87F]/20 flex items-center justify-center text-[#7FE87F]">
+                          <Search className="h-5 w-5" />
+                        </div>
+                        <p className="text-xs text-[#8E9AB5]">
+                          {isAr ? 'لم يتم العثور على نتائج لـ' : 'No matches found for'}
+                        </p>
+                        <p className="font-bold text-white text-sm break-all font-mono">"{searchQuery}"</p>
+                        <p className="text-[11px] text-[#6E7B98]">
+                          {isAr ? 'جرّب البحث باسم المتجر، أو المرجع، أو الصفحة' : 'Try searching by customer name, order ref, amount or feature'}
+                        </p>
                       </div>
                     )}
                 </div>
 
                 {/* Dropdown Footer */}
-                <div className="px-3.5 py-2 bg-[#080C14] border-t border-[#2C2C44] text-[10px] text-[#A2A2BA] flex items-center justify-between">
-                  <span>{isAr ? 'ESC للإغلاق' : 'ESC to dismiss'}</span>
-                  <span className="text-[#7FE87F] font-semibold">{isAr ? 'بحث تاجر كيو باي' : 'QPay Merchant Search'}</span>
+                <div className="px-4 py-2.5 bg-[#080D18] border-t border-[#1E2B45] text-[11px] text-[#8E9AB5] flex items-center justify-between">
+                  <span>{isAr ? 'اضغط ESC للإغلاق' : 'Press ESC to dismiss'}</span>
+                  <span className="text-[#7FE87F] font-semibold flex items-center gap-1">
+                    <span>⚡</span> {isAr ? 'بحث تاجر كيو باي' : 'QPay Merchant Search'}
+                  </span>
                 </div>
               </div>
             )}
@@ -850,7 +870,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
         </header>
 
         {/* Desktop Screen Content Canvas */}
-        <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-6 lg:p-8 w-full">
           {children}
         </main>
       </div>

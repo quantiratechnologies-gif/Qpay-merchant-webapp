@@ -635,7 +635,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // SoundBox Audio Chime & Speech Synthesizer
-  const speakSoundBox = (amount: number) => {
+  const speakSoundBox = (amount: number, forceLang?: 'ar' | 'en') => {
     try {
       if (typeof window !== 'undefined' && ((window as any).AudioContext || (window as any).webkitAudioContext)) {
         const AudioCtx = (window as any).AudioContext || (window as any).webkitAudioContext;
@@ -659,14 +659,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const isArabic = soundBoxLanguage === 'ar';
+        const currentLang = forceLang || soundBoxLanguage || 'ar';
+        const isArabic = currentLang === 'ar';
         const text = isArabic
-          ? `تم استلام ${amount} ريال سعودي عبر كيو تي باي`
-          : `Received ${amount} Saudi Riyals on QTPay`;
+          ? `تم استلام ${amount} ريال سعودي بنجاح`
+          : `Received ${amount} Saudi Riyals successfully`;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = isArabic ? 'ar-SA' : 'en-US';
-        utterance.rate = 1.0;
-        utterance.volume = soundBoxVolume;
+        utterance.rate = 0.95;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        if (voices && voices.length > 0) {
+          const targetVoice = isArabic
+            ? voices.find((v) => v.lang.toLowerCase().startsWith('ar'))
+            : voices.find((v) => v.lang.toLowerCase().startsWith('en'));
+          if (targetVoice) {
+            utterance.voice = targetVoice;
+          }
+        }
+
         window.speechSynthesis.speak(utterance);
       }
     } catch {

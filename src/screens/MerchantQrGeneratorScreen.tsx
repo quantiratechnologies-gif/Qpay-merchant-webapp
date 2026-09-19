@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Link2,
   Copy,
@@ -7,6 +7,7 @@ import {
   FileText,
   Printer,
   Sparkles,
+  CheckCircle2,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { Card } from '../components/ui';
@@ -25,11 +26,13 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
   } = useApp();
 
   const isAr = language === 'العربية';
+  const qrCodeContainerRef = useRef<HTMLDivElement>(null);
   const [qrMode, setQrMode] = useState<'stand' | 'invoice'>('stand');
   const [invoiceAmount, setInvoiceAmount] = useState<string>('150.00');
   const [orderNote, setOrderNote] = useState<string>(isAr ? 'فاتورة رقم #INV-9901' : 'Invoice #INV-9901');
-  const [copiedPayload, setCopiedPayload] = useState(false);
+  const [copiedQr, setCopiedQr] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isSimulatingScan, setIsSimulatingScan] = useState(false);
 
   const numAmount = qrMode === 'invoice' ? (parseFloat(invoiceAmount) || 0) : 0;
@@ -51,30 +54,100 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
       : `zatca://posqr?seller=${encodeURIComponent(merchantInfo.businessName)}&cr=${merchantInfo.crNumber}&vat=${merchantInfo.vatNumber}&terminal=${merchantInfo.terminalId}&rail=sarie_mada`;
 
   const handleSimulateCustomerPayment = async () => {
-    const payAmount = qrMode === 'invoice' && numAmount > 0 ? numAmount : 85.0;
+    if (isSimulatingScan) return;
+    const payAmount = qrMode === 'invoice' ? (numAmount > 0 ? numAmount : 150.0) : 85.0;
     setIsSimulatingScan(true);
-    await processMerchantCollection({
-      amount: payAmount,
-      paymentMethod: 'zatca_qr',
-      orderRef: qrMode === 'invoice' ? (orderNote || 'QR-INVOICE') : 'COUNTER-QR',
-      customerMasked: '+966 54 ••• 8821',
-    });
-    setTimeout(() => {
-      setIsSimulatingScan(false);
-      navigateTo('MERCHANT_PAYMENT_SUCCESS');
-    }, 600);
+    try {
+      await processMerchantCollection({
+        amount: payAmount,
+        paymentMethod: 'zatca_qr',
+        orderRef: qrMode === 'invoice' ? (orderNote || 'QR-INVOICE') : 'COUNTER-QR',
+        customerMasked: '+966 54 ••• 8821',
+      });
+    } catch (err) {
+      console.error('Error processing simulation collection:', err);
+    } finally {
+      setTimeout(() => {
+        setIsSimulatingScan(false);
+        navigateTo('MERCHANT_PAYMENT_SUCCESS');
+      }, 500);
+    }
   };
 
-  const handleCopyPayload = () => {
-    navigator.clipboard?.writeText(zatcaPayload);
-    setCopiedPayload(true);
-    setTimeout(() => setCopiedPayload(false), 2000);
+  const handleCopyQr = async () => {
+    try {
+      const container = qrCodeContainerRef.current;
+      const svg = container?.querySelector('svg');
+
+      if (svg) {
+        const svgString = new XMLSerializer().serializeToString(svg);
+        const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        const URLObj = window.URL || window.webkitURL || window;
+        const blobUrl = URLObj.createObjectURL(svgBlob);
+
+        const img = new Image();
+        img.onload = async () => {
+          try {
+            const canvas = document.createElement('canvas');
+            const padding = 24;
+            canvas.width = img.width + padding * 2;
+            canvas.height = img.height + padding * 2;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.fillStyle = '#FFFFFF';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, padding, padding);
+
+              canvas.toBlob(async (blob) => {
+                if (blob && navigator.clipboard?.write) {
+                  try {
+                    await navigator.clipboard.write([
+                      new ClipboardItem({
+                        'image/png': blob,
+                      }),
+                    ]);
+                  } catch {
+                    // Fallback to text copy if image clipboard permission is not granted
+                    await navigator.clipboard?.writeText(payLinkUrl || zatcaPayload);
+                  }
+                }
+              }, 'image/png');
+            }
+          } catch {
+            await navigator.clipboard?.writeText(payLinkUrl || zatcaPayload);
+          } finally {
+            URLObj.revokeObjectURL(blobUrl);
+          }
+        };
+        img.src = blobUrl;
+      }
+
+      // Also copy text payload as backup
+      await navigator.clipboard?.writeText(payLinkUrl || zatcaPayload);
+    } catch {
+      try {
+        await navigator.clipboard?.writeText(payLinkUrl || zatcaPayload);
+      } catch {
+        // Ignore fallback errors
+      }
+    }
+
+    setCopiedQr(true);
+    setToastMessage(isAr ? 'تم نسخ رمز QR إلى الحافظة بنجاح!' : 'QR Code copied to clipboard!');
+    setTimeout(() => {
+      setCopiedQr(false);
+      setToastMessage(null);
+    }, 2500);
   };
 
   const handleCopyPayLink = () => {
     navigator.clipboard?.writeText(payLinkUrl);
     setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2000);
+    setToastMessage(isAr ? 'تم نسخ رابط الدفع المباشر!' : 'Direct Pay Link copied to clipboard!');
+    setTimeout(() => {
+      setCopiedLink(false);
+      setToastMessage(null);
+    }, 2500);
   };
 
   return (
@@ -113,6 +186,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
           <Card variant="elevated" style={{ padding: '14px', background: '#111726', border: '1px solid #2C2C44' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
               <button
+                type="button"
+                disabled={isSimulatingScan}
                 onClick={() => setQrMode('stand')}
                 className="interactive-tap"
                 style={{
@@ -123,7 +198,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   color: qrMode === 'stand' ? '#7FE87F' : '#FFFFFF',
                   fontWeight: 800,
                   fontSize: '12.5px',
-                  cursor: 'pointer',
+                  cursor: isSimulatingScan ? 'not-allowed' : 'pointer',
+                  opacity: isSimulatingScan ? 0.6 : 1,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -135,6 +211,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               </button>
 
               <button
+                type="button"
+                disabled={isSimulatingScan}
                 onClick={() => setQrMode('invoice')}
                 className="interactive-tap"
                 style={{
@@ -145,7 +223,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   color: qrMode === 'invoice' ? '#7FE87F' : '#FFFFFF',
                   fontWeight: 800,
                   fontSize: '12.5px',
-                  cursor: 'pointer',
+                  cursor: isSimulatingScan ? 'not-allowed' : 'pointer',
+                  opacity: isSimulatingScan ? 0.6 : 1,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -194,6 +273,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <input
                       type="number"
+                      disabled={isSimulatingScan}
                       value={invoiceAmount}
                       onChange={(e) => setInvoiceAmount(e.target.value)}
                       placeholder="0.00"
@@ -208,6 +288,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                         fontWeight: 800,
                         outline: 'none',
                         boxSizing: 'border-box',
+                        opacity: isSimulatingScan ? 0.6 : 1,
+                        cursor: isSimulatingScan ? 'not-allowed' : 'text',
                       }}
                     />
                   </div>
@@ -218,6 +300,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   {['50', '100', '250', '500'].map((amt) => (
                     <button
                       key={amt}
+                      type="button"
+                      disabled={isSimulatingScan}
                       onClick={() => setInvoiceAmount(amt + '.00')}
                       className="interactive-tap"
                       style={{
@@ -228,7 +312,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                         color: invoiceAmount === amt + '.00' ? '#080C14' : '#A2A2BA',
                         fontSize: '12px',
                         fontWeight: 800,
-                        cursor: 'pointer',
+                        cursor: isSimulatingScan ? 'not-allowed' : 'pointer',
+                        opacity: isSimulatingScan ? 0.5 : 1,
                       }}
                     >
                       {amt}
@@ -258,6 +343,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   </label>
                   <input
                     type="text"
+                    disabled={isSimulatingScan}
                     value={orderNote}
                     onChange={(e) => setOrderNote(e.target.value)}
                     style={{
@@ -270,6 +356,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                       fontSize: '12.5px',
                       outline: 'none',
                       boxSizing: 'border-box',
+                      opacity: isSimulatingScan ? 0.6 : 1,
+                      cursor: isSimulatingScan ? 'not-allowed' : 'text',
                     }}
                   />
                 </div>
@@ -278,6 +366,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
 
             {/* Test Customer Payment Simulation Button */}
             <button
+              type="button"
               onClick={handleSimulateCustomerPayment}
               disabled={isSimulatingScan}
               className="interactive-tap"
@@ -291,7 +380,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 color: '#7FE87F',
                 fontSize: '13px',
                 fontWeight: 800,
-                cursor: 'pointer',
+                cursor: isSimulatingScan ? 'not-allowed' : 'pointer',
+                opacity: isSimulatingScan ? 0.75 : 1,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -332,6 +422,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
 
             {/* High-Resolution QR Display */}
             <div
+              ref={qrCodeContainerRef}
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: '20px',
@@ -394,14 +485,15 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               </button>
 
               <button
-                onClick={handleCopyPayload}
+                type="button"
+                onClick={handleCopyQr}
                 className="interactive-tap"
                 style={{
                   padding: '10px',
                   borderRadius: '10px',
-                  backgroundColor: '#182236',
-                  border: '1px solid #2C2C44',
-                  color: '#FFFFFF',
+                  backgroundColor: copiedQr ? 'rgba(127, 232, 127, 0.18)' : '#182236',
+                  border: copiedQr ? '1.5px solid #7FE87F' : '1px solid #2C2C44',
+                  color: copiedQr ? '#7FE87F' : '#FFFFFF',
                   fontSize: '12.5px',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -409,10 +501,11 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '6px',
+                  transition: 'all 0.15s ease',
                 }}
               >
-                {copiedPayload ? <Check size={15} color="#7FE87F" /> : <Copy size={15} color="#7FE87F" />}
-                <span>{copiedPayload ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ النص' : 'Copy')}</span>
+                {copiedQr ? <Check size={15} color="#7FE87F" /> : <Copy size={15} color="#7FE87F" />}
+                <span>{copiedQr ? (isAr ? 'تم نسخ QR' : 'QR Copied!') : (isAr ? 'نسخ QR' : 'Copy')}</span>
               </button>
 
               {/* Pay Link Button (Replaced WhatsApp) */}
@@ -439,6 +532,32 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 <span>{copiedLink ? (isAr ? 'تم النسخ' : 'Copied Link') : (isAr ? 'رابط الدفع' : 'Pay Link')}</span>
               </button>
             </div>
+
+            {/* Toast Notification */}
+            {toastMessage && (
+              <div
+                className="slide-up"
+                style={{
+                  marginTop: '14px',
+                  width: '100%',
+                  padding: '9px 14px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(127, 232, 127, 0.15)',
+                  border: '1px solid #7FE87F',
+                  color: '#7FE87F',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                }}
+              >
+                <CheckCircle2 size={15} />
+                <span>{toastMessage}</span>
+              </div>
+            )}
 
             {/* Direct Pay Link Strip */}
             <div

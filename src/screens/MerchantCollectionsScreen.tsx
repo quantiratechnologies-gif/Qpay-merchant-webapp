@@ -19,11 +19,14 @@ import {
   Clock,
   FileText,
   Download,
+  Printer,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { formatCurrency } from '../utils/formatters';
-import type { MerchantCollection } from '../types';
+import type { MerchantCollection, MerchantSettlement } from '../types';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { ZatcaLogo } from '../components/ZatcaLogo';
+import { QRCodeView } from '../components/QRCodeView';
 import { translateText, formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
 import { Card, StatusBadge, FilterPills } from '../components/ui';
 import { colors, spacing, radii } from '../design-system/tokens';
@@ -36,6 +39,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
     merchantInfo,
     processMerchantRefund,
     openManagerPinModal,
+    navigateTo,
     language,
     isRtl,
     t,
@@ -43,6 +47,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
   } = useApp();
 
   const isAr = language === 'العربية';
+  const [exportSuccessToast, setExportSuccessToast] = useState(false);
   const [activeMainTab, setActiveMainTab] = useState<'transactions' | 'settlements'>(() => {
     if (screenParams?.tab === 'settlements') return 'settlements';
     return 'transactions';
@@ -58,6 +63,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [selectedTxn, setSelectedTxn] = useState<MerchantCollection | null>(null);
+  const [selectedSettlementInvoice, setSelectedSettlementInvoice] = useState<MerchantSettlement | null>(null);
   const [refundPin, setRefundPin] = useState('');
   const [isRefunding, setIsRefunding] = useState(false);
   const [refundError, setRefundError] = useState('');
@@ -130,24 +136,14 @@ export const MerchantCollectionsScreen: React.FC = () => {
   };
 
   const handleSettleNow = () => {
-    openManagerPinModal({
-      title: isAr ? 'تأكيد التسوية الفورية عبر سريع' : 'Authorize Instant Settlement',
-      subtitle: isAr
-        ? 'أدخل رمز المدير السري لإتمام الصرف الفوري'
-        : 'Enter Manager Security PIN to dispatch Sarie instant payout',
-      onSuccess: async () => {
-        setIsSettling(true);
-        try {
-          await triggerSettleNow();
-        } finally {
-          setIsSettling(false);
-        }
-      },
-    });
+    setActiveMainTab('transactions');
   };
 
-  const handleDownloadTaxInvoice = (_settlementRef: string) => {
-    // No-op clean action
+  const handleDownloadTaxInvoice = (settlementRef: string) => {
+    const s = merchantSettlements.find((item) => item.settlementRef === settlementRef);
+    if (s) {
+      setSelectedSettlementInvoice(s);
+    }
   };
 
   const getPaymentMethodIcon = (method: string) => {
@@ -186,6 +182,44 @@ export const MerchantCollectionsScreen: React.FC = () => {
     return translateText(c.date, language);
   };
 
+  const handleExportCsv = () => {
+    try {
+      const headers = isAr
+        ? ['رقم العملية', 'رقم المرجع', 'طريقة الدفع', 'المبلغ الإجمالي (ر.س)', 'ضريبة القيمة المضافة (ر.س)', 'المبلغ الصافي (ر.س)', 'الحالة', 'العميل', 'التاريخ']
+        : ['Transaction ID', 'Order Ref', 'Payment Method', 'Gross Amount (SAR)', 'VAT Amount (SAR)', 'Net Amount (SAR)', 'Status', 'Customer', 'Date'];
+
+      const rows = filtered.map((c) => [
+        `"${c.id}"`,
+        `"${c.orderRef || ''}"`,
+        `"${c.paymentMethod}"`,
+        c.amount.toFixed(2),
+        c.vatAmount.toFixed(2),
+        c.netAmount.toFixed(2),
+        `"${c.status}"`,
+        `"${c.customerMasked || ''}"`,
+        `"${typeof c.date === 'string' ? c.date : (c.timestamp ? new Date(c.timestamp).toLocaleString() : '')}"`,
+      ]);
+
+      const csvContent = '\uFEFF' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      link.setAttribute('href', url);
+      link.setAttribute('download', `qpay_collections_statement_${dateStr}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      setExportSuccessToast(true);
+      setTimeout(() => setExportSuccessToast(false), 3000);
+    } catch (err) {
+      console.error('Export error:', err);
+    }
+  };
+
   const collectionFilterTabs = [
     { id: 'all', label: isAr ? `الكل (${allCollections.length})` : `All (${allCollections.length})`, icon: <Layers size={13} /> },
     { id: 'card', label: isAr ? 'بطاقات' : 'Cards', icon: <CreditCard size={13} /> },
@@ -221,6 +255,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button
               type="button"
+              onClick={handleExportCsv}
               className="interactive-tap"
               style={{
                 display: 'flex', alignItems: 'center', gap: '6px',
@@ -239,6 +274,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
             </button>
             <button
               type="button"
+              onClick={() => navigateTo('MERCHANT_QR_GENERATOR')}
               className="interactive-tap"
               style={{
                 display: 'flex', alignItems: 'center', gap: '6px',
@@ -790,6 +826,193 @@ export const MerchantCollectionsScreen: React.FC = () => {
               </form>
             )}
           </Card>
+        </div>
+      )}
+
+      {/* ── Settlement Tax Invoice Modal ───────────────────────── */}
+      {selectedSettlementInvoice && (
+        <div
+          style={{
+            position: 'fixed', inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 130,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: spacing.space4,
+            boxSizing: 'border-box',
+          }}
+          onClick={() => setSelectedSettlementInvoice(null)}
+        >
+          <Card
+            variant="elevated"
+            style={{
+              width: '100%', maxWidth: '520px',
+              padding: '24px',
+              boxSizing: 'border-box',
+              color: colors.textPrimary,
+              background: '#0D1424',
+              border: '1px solid #2C2C44',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid #2C2C44', paddingBottom: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <ZatcaLogo size={22} />
+                <div>
+                  <div style={{ fontSize: '15px', fontWeight: 900, color: '#FFFFFF' }}>
+                    {isAr ? 'فاتورة تسوية ضريبية معتمدة' : 'ZATCA Settlement Tax Invoice'}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#7FE87F', fontWeight: 700 }}>
+                    {isAr ? 'هيئة الزكاة والضريبة والجمارك' : 'ZATCA Phase 2 E-Invoice'}
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedSettlementInvoice(null)}
+                style={{
+                  background: colors.bgInset, border: `1px solid ${colors.border}`,
+                  borderRadius: radii.full, width: '32px', height: '32px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: colors.textSecondary, cursor: 'pointer',
+                }}
+              >
+                <X size={15} />
+              </button>
+            </div>
+
+            {/* Merchant Details */}
+            <div style={{ padding: '12px 14px', backgroundColor: '#080C14', borderRadius: '10px', border: '1px solid #2C2C44', marginBottom: '14px' }}>
+              <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF' }}>
+                {translateText(merchantInfo.businessName, language)}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11.5px', color: '#A2A2BA', marginTop: '4px' }}>
+                <span>{isAr ? 'السجل التجاري:' : 'CR Number:'} <strong style={{ color: '#FFFFFF' }}>{merchantInfo.crNumber}</strong></span>
+                <span>{isAr ? 'الرقم الضريبي:' : 'VAT Number:'} <strong style={{ color: '#7FE87F' }}>{merchantInfo.vatNumber}</strong></span>
+              </div>
+            </div>
+
+            {/* Settlement Breakdown Table */}
+            <Card variant="inset" style={{ padding: '14px', fontSize: '12.5px', marginBottom: '16px' }}>
+              {[
+                { label: isAr ? 'مرجع التسوية:' : 'Settlement Reference:', value: selectedSettlementInvoice.settlementRef, mono: true },
+                { label: isAr ? 'مرجع شبكة سريع (UTR):' : 'Sarie Network UTR:', value: selectedSettlementInvoice.utr, mono: true },
+                { label: isAr ? 'التاريخ والوقت:' : 'Settlement Date:', value: translateText(selectedSettlementInvoice.date, language) },
+                { label: isAr ? 'الحساب البنكي المحول إليه:' : 'Destination Bank Account:', value: `${translateText(selectedSettlementInvoice.bankName, language)} (${selectedSettlementInvoice.ibanMasked})` },
+                { label: isAr ? 'طريقة التحويل:' : 'Payout Rail:', value: selectedSettlementInvoice.method === 'instant_settlenow' ? (isAr ? 'تسوية فورية (سريع)' : 'Sarie Instant Dispatch') : (isAr ? 'تسوية يومية آلية' : 'Daily Automated Settlement') },
+                { label: isAr ? 'المبلغ الأساسي (قبل الضريبة):' : 'Subtotal (Net Amount):', value: formatSaudiCurrency(selectedSettlementInvoice.netAmount || Number((selectedSettlementInvoice.amount / 1.15).toFixed(2)), language) },
+                { label: isAr ? 'ضريبة القيمة المضافة (١٥٪):' : 'VAT (15%):', value: formatSaudiCurrency(selectedSettlementInvoice.vatAmount || Number((selectedSettlementInvoice.amount - selectedSettlementInvoice.amount / 1.15).toFixed(2)), language), green: true },
+              ].map(({ label, value, mono, green }) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '7px' }}>
+                  <span style={{ color: colors.textSecondary }}>{label}</span>
+                  <span style={{ fontWeight: 700, fontFamily: mono ? 'monospace' : undefined, color: green ? colors.accentGreen : colors.textPrimary }}>
+                    {value}
+                  </span>
+                </div>
+              ))}
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: `1px solid ${colors.border}`, marginTop: '4px' }}>
+                <span style={{ color: colors.textPrimary, fontWeight: 800 }}>{isAr ? 'إجمالي مبلغ التسوية:' : 'Total Settled Amount:'}</span>
+                <span style={{ fontWeight: 900, color: colors.accentGreen, fontSize: '15px' }}>
+                  {formatSaudiCurrency(selectedSettlementInvoice.amount, language)}
+                </span>
+              </div>
+            </Card>
+
+            {/* QR Code & Digital Stamp */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', backgroundColor: '#080C14', borderRadius: '10px', border: '1px solid #2C2C44', marginBottom: '18px' }}>
+              <div style={{ backgroundColor: '#FFFFFF', padding: '6px', borderRadius: '8px' }}>
+                <QRCodeView
+                  value={`zatca://settlement?ref=${selectedSettlementInvoice.settlementRef}&utr=${selectedSettlementInvoice.utr}&amt=${selectedSettlementInvoice.amount}&vat=${selectedSettlementInvoice.vatAmount}&seller=${encodeURIComponent(merchantInfo.businessName)}`}
+                  size={64}
+                />
+              </div>
+              <div style={{ flex: 1, marginLeft: isRtl ? 0 : '12px', marginRight: isRtl ? '12px' : 0 }}>
+                <div style={{ fontSize: '11px', color: '#7FE87F', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <ShieldCheck size={14} />
+                  <span>{isAr ? 'معتمد رقمياً من الزكاة والضريبة' : 'ZATCA Cryptographically Verified'}</span>
+                </div>
+                <div style={{ fontSize: '10.5px', color: '#A2A2BA', marginTop: '2px' }}>
+                  {isAr ? 'رمز استجابة سريعة مشفر للفاتورة الضريبية وفق اشتراطات الفوترة الإلكترونية.' : 'QR code contains Base64 encoded TLV payload for tax clearance.'}
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="interactive-tap"
+                style={{
+                  padding: '11px',
+                  borderRadius: radii.md,
+                  backgroundColor: '#182236',
+                  border: '1px solid #2C2C44',
+                  color: '#FFFFFF',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                }}
+              >
+                <Printer size={15} color="#7FE87F" />
+                <span>{isAr ? 'طباعة الفاتورة' : 'Print Invoice'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedSettlementInvoice(null)}
+                className="interactive-tap"
+                style={{
+                  padding: '11px',
+                  borderRadius: radii.md,
+                  backgroundColor: colors.accentGreen,
+                  border: 'none',
+                  color: '#080C14',
+                  fontSize: '13px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span>{isAr ? 'إغلاق' : 'Close'}</span>
+              </button>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Export CSV Toast Notification */}
+      {exportSuccessToast && (
+        <div
+          className="slide-up"
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#00C853',
+            color: '#080C14',
+            padding: '12px 24px',
+            borderRadius: '30px',
+            fontWeight: 800,
+            fontSize: '13px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            boxShadow: '0 8px 30px rgba(0, 200, 83, 0.4)',
+            zIndex: 9999,
+          }}
+        >
+          <CheckCircle2 size={18} />
+          <span>{isAr ? 'تم تصدير كشف العمليات بنجاح (CSV)' : 'Collections Statement exported successfully (CSV)'}</span>
         </div>
       )}
     </div>

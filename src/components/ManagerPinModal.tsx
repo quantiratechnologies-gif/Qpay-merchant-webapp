@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Lock, Delete, X, ShieldAlert, CheckCircle2 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { toArabicNumerals } from '../utils/i18n';
@@ -17,9 +17,14 @@ export const ManagerPinModal: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  if (!isManagerPinModalOpen || !managerPinModalData) return null;
-
   const isAr = language === 'العربية';
+
+  const handleClose = () => {
+    setPin('');
+    setErrorMsg('');
+    setIsSuccess(false);
+    closeManagerPinModal();
+  };
 
   const handleKeyPress = (digit: string) => {
     if (isSuccess) return;
@@ -33,14 +38,16 @@ export const ManagerPinModal: React.FC = () => {
         if (verifyMerchantPin(nextPin)) {
           setIsSuccess(true);
           setTimeout(() => {
-            managerPinModalData.onSuccess();
+            if (managerPinModalData) {
+              managerPinModalData.onSuccess();
+            }
             handleClose();
           }, 600);
         } else {
           setErrorMsg(
             isAr
-              ? 'رمز المدير غير صحيح. يرجى المحاولة مرة أخرى.'
-              : 'Incorrect Manager PIN. Please try again.'
+              ? 'رمز PIN غير صحيح. يرجى المحاولة مرة أخرى.'
+              : 'Incorrect Security PIN. Please try again.'
           );
           setTimeout(() => {
             setPin('');
@@ -56,12 +63,25 @@ export const ManagerPinModal: React.FC = () => {
     setPin((prev) => prev.slice(0, -1));
   };
 
-  const handleClose = () => {
-    setPin('');
-    setErrorMsg('');
-    setIsSuccess(false);
-    closeManagerPinModal();
-  };
+  // Physical keyboard support for desktop web
+  useEffect(() => {
+    if (!isManagerPinModalOpen || !managerPinModalData) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      } else if (e.key >= '0' && e.key <= '9') {
+        handleKeyPress(e.key);
+      } else if (e.key === 'Backspace') {
+        handleDelete();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isManagerPinModalOpen, managerPinModalData, pin, isSuccess]);
+
+  if (!isManagerPinModalOpen || !managerPinModalData) return null;
 
   const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 

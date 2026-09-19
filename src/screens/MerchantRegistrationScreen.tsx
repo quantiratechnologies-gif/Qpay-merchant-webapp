@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -15,8 +15,11 @@ import {
   Upload,
   User,
   Zap,
+  ChevronDown,
+  Search,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
+import { COUNTRY_CODES, type CountryCodeOption } from './MobileNumberScreen';
 
 const BUSINESS_TYPES = [
   { en: 'Sole Proprietorship (Establishment)', ar: 'مؤسسة فردية' },
@@ -62,17 +65,33 @@ export const MerchantRegistrationScreen: React.FC = () => {
     updateUser,
     setUserRole,
     setIsAuthenticated,
-    user,
     isRtl,
     language,
   } = useApp();
 
   const isAr = language === 'العربية';
 
-  // 1. Mobile Number (empty or from user.mobile if exists)
-  const [mobileNumber, setMobileNumber] = useState(
-    user?.mobile ? user.mobile.replace(/^\+966\s*/, '').replace(/\D/g, '') : ''
-  );
+  // 1. Mobile Number (empty by default for user to fill)
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState<CountryCodeOption>(COUNTRY_CODES[0]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [searchCountry, setSearchCountry] = useState<string>('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   // 2. Business Name & Type
   const [businessName, setBusinessName] = useState('');
@@ -82,8 +101,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
   const [crNumber, setCrNumber] = useState('');
   const [vatNumber, setVatNumber] = useState('');
 
-  // 4. Owner / Authorized Person identity details
-  const [ownerName, setOwnerName] = useState(user?.name || '');
+  // 4. Owner / Authorized Person identity details (empty by default for user to fill)
+  const [ownerName, setOwnerName] = useState('');
   const [nationalId, setNationalId] = useState('');
 
   // 5. Business address & activity
@@ -139,15 +158,25 @@ export const MerchantRegistrationScreen: React.FC = () => {
     fileInputRef.current?.click();
   };
 
+  const filteredCountries = COUNTRY_CODES.filter((c) => {
+    const q = searchCountry.toLowerCase();
+    return (
+      c.countryEn.toLowerCase().includes(q) ||
+      c.countryAr.includes(q) ||
+      c.code.includes(q)
+    );
+  });
+
   const validate = () => {
     const errs: Record<string, string> = {};
 
-    if (!mobileNumber.trim()) {
+    const cleanDigits = mobileNumber.replace(/\D/g, '');
+    if (!cleanDigits) {
       errs.mobileNumber = isAr ? 'رقم الجوال مطلوب' : 'Mobile number is required';
-    } else if (mobileNumber.trim().length < 9) {
+    } else if (cleanDigits.length < 7) {
       errs.mobileNumber = isAr
-        ? 'رقم الجوال يجب أن يتكون من 9 أرقام على الأقل'
-        : 'Mobile number must be at least 9 digits';
+        ? 'رقم الجوال غير مكتمل'
+        : 'Mobile number is incomplete';
     }
 
     if (!businessName.trim()) {
@@ -228,10 +257,12 @@ export const MerchantRegistrationScreen: React.FC = () => {
 
   const handleLaunchPortal = () => {
     setUserRole('merchant');
+    const cleanPhone = mobileNumber.trim();
+    const formattedMobile = `${selectedCountry.code} ${cleanPhone}`;
     updateUser({
-      name: ownerName,
-      mobile: `+966 ${mobileNumber}`,
-      upiId: `${mobileNumber}@sarie`,
+      name: ownerName.trim(),
+      mobile: formattedMobile,
+      upiId: `${cleanPhone}@sarie`,
     });
 
     updateMerchantInfo({
@@ -246,7 +277,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
       settlementIban: iban,
       merchantPin: '1234',
       terminalId: 'TID-SAMA-77412',
-      storePhone: `+966 ${mobileNumber}`,
+      storePhone: formattedMobile,
     });
 
     setIsAuthenticated(true);
@@ -293,11 +324,91 @@ export const MerchantRegistrationScreen: React.FC = () => {
               <span>{isAr ? 'رقم الجوال' : 'Mobile Number'}</span>
               <span className="text-red-400 font-bold">*</span>
             </label>
-            <div className={`flex items-center h-9 bg-[#151524] border rounded-lg px-2.5 focus-within:border-[#7FE87F] transition-colors ${errors.mobileNumber ? 'border-red-500/70' : 'border-[#2C2C44]'}`}>
-              <Phone className="h-3.5 w-3.5 text-[#7FE87F] flex-shrink-0" />
-              <div className={`text-xs font-bold text-[#A2A2BA] px-2 ${isRtl ? 'border-l border-[#3A3A52]' : 'border-r border-[#3A3A52]'}`}>
-                +966
+            <div className={`relative flex items-center h-9 bg-[#151524] border rounded-lg px-2 focus-within:border-[#7FE87F] transition-colors ${errors.mobileNumber ? 'border-red-500/70' : 'border-[#2C2C44]'}`}>
+              <Phone className="h-3.5 w-3.5 text-[#7FE87F] flex-shrink-0 ml-0.5 mr-0.5" />
+
+              {/* Country Selector Dropdown Trigger */}
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsDropdownOpen((prev) => !prev)}
+                  className={`flex items-center gap-1 h-7 px-1.5 rounded bg-[#111726]/80 hover:bg-[#2C2C44]/80 text-xs font-bold text-white transition-colors cursor-pointer ${
+                    isRtl ? 'border-l border-[#3A3A52] ml-1.5' : 'border-r border-[#3A3A52] mr-1.5'
+                  }`}
+                >
+                  <span className="text-sm leading-none">{selectedCountry.flag}</span>
+                  <span className="text-[#7FE87F] font-mono text-[11px] font-bold" dir="ltr">
+                    {selectedCountry.code}
+                  </span>
+                  <ChevronDown
+                    className={`h-3 w-3 text-[#A2A2BA] transition-transform ${
+                      isDropdownOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {/* Popover Dropdown Menu */}
+                {isDropdownOpen && (
+                  <div
+                    className={`absolute top-full mt-2 ${
+                      isRtl ? 'right-0' : 'left-0'
+                    } w-64 bg-[#111726] border border-[#2C2C44] rounded-xl shadow-2xl shadow-black/95 p-2 z-50 text-start animate-fadeIn`}
+                  >
+                    <div className="relative mb-2">
+                      <Search
+                        className={`absolute ${
+                          isRtl ? 'right-2' : 'left-2'
+                        } top-2 h-3.5 w-3.5 text-[#6E6E85]`}
+                      />
+                      <input
+                        type="text"
+                        value={searchCountry}
+                        onChange={(e) => setSearchCountry(e.target.value)}
+                        placeholder={isAr ? 'بحث عن دولة...' : 'Search country...'}
+                        className={`w-full h-7.5 bg-[#151524] border border-[#2C2C44] rounded-lg text-xs text-white placeholder-[#6E6E85] outline-none focus:border-[#7FE87F] ${
+                          isRtl ? 'pr-7 pl-2' : 'pl-7 pr-2'
+                        }`}
+                        autoFocus
+                      />
+                    </div>
+                    <div className="max-h-44 overflow-y-auto space-y-1 custom-scrollbar">
+                      {filteredCountries.map((country) => (
+                        <button
+                          key={country.code + country.countryEn}
+                          type="button"
+                          onClick={() => {
+                            setSelectedCountry(country);
+                            setIsDropdownOpen(false);
+                            setSearchCountry('');
+                          }}
+                          className={`w-full flex items-center justify-between px-2 py-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
+                            selectedCountry.code === country.code
+                              ? 'bg-[#7FE87F]/15 text-[#7FE87F] font-bold border border-[#7FE87F]/30'
+                              : 'text-neutral-300 hover:bg-[#151524] hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5 truncate">
+                            <span className="text-sm leading-none">{country.flag}</span>
+                            <span className="truncate text-xs">
+                              {isAr ? country.countryAr : country.countryEn}
+                            </span>
+                          </div>
+                          <span className="font-mono text-[#A2A2BA] text-[10.5px] ml-2 shrink-0" dir="ltr">
+                            {country.code}
+                          </span>
+                        </button>
+                      ))}
+                      {filteredCountries.length === 0 && (
+                        <div className="text-[11px] text-[#6E6E85] text-center py-2">
+                          {isAr ? 'لم يتم العثور على نتائج' : 'No country found'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* Phone Input */}
               <input
                 type="tel"
                 value={mobileNumber}
@@ -305,8 +416,8 @@ export const MerchantRegistrationScreen: React.FC = () => {
                   setMobileNumber(e.target.value.replace(/\D/g, ''));
                   if (errors.mobileNumber) setErrors((prev) => ({ ...prev, mobileNumber: '' }));
                 }}
-                placeholder="50 123 4567"
-                maxLength={10}
+                placeholder={selectedCountry.placeholder}
+                maxLength={selectedCountry.maxDigits}
                 dir="ltr"
                 className="w-full bg-transparent border-none outline-none text-xs font-bold text-white px-2 tracking-wider placeholder-[#6E6E85]"
               />

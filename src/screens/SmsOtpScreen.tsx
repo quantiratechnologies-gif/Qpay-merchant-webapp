@@ -19,6 +19,8 @@ export const SmsOtpScreen: React.FC = () => {
 
   const isAr = language === 'العربية';
   const mobile = screenParams.mobile || '501234567';
+  const countryCode = screenParams.countryCode || '+966';
+  const fullMobile = screenParams.fullMobile || `${countryCode} ${mobile}`;
 
   const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(28);
@@ -209,7 +211,7 @@ export const SmsOtpScreen: React.FC = () => {
         <p className="text-xs text-[#A2A2BA] mt-1">
           {isAr ? 'أرسل إلى ' : 'Sent to '}
           <span className="text-[#7FE87F] font-bold" dir="ltr">
-            +966 {mobile}
+            {fullMobile}
           </span>
         </p>
       </div>

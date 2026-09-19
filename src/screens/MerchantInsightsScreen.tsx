@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import {
-  CreditCard,
-  QrCode,
-  Smartphone,
-  Banknote
-} from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { Card, MetricTile, StatusBadge, PieChart } from '../components/ui';
 import { formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
+
+type PeriodType = 'today' | 'week' | 'month' | 'year';
 
 export const MerchantInsightsScreen: React.FC = () => {
   const {
@@ -18,70 +14,143 @@ export const MerchantInsightsScreen: React.FC = () => {
   } = useApp();
 
   const isAr = language === 'العربية';
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('today');
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('today');
 
-  const totalVolume = merchantCollections.reduce((sum, c) => sum + (c.status === 'settled' ? c.amount : 0), 0) || 14850.5;
-  const settledCount = merchantCollections.filter((c) => c.status === 'settled').length || 142;
-  const avgTicket = settledCount > 0 ? (totalVolume / settledCount).toFixed(2) : '104.58';
+  const liveTodayTotal = merchantCollections.reduce(
+    (sum, c) => sum + (c.status === 'settled' ? c.amount : 0),
+    0
+  ) || 2392.50;
+  const liveTodayCount = merchantCollections.filter((c) => c.status === 'settled').length || 8;
 
-  const railStats = [
-    {
-      name: isAr ? 'مدى والبطاقات البنكية' : 'mada & Contactless Debit',
-      shortName: isAr ? 'مدى / بطاقات' : 'mada / Cards',
-      percent: 58,
-      amount: totalVolume * 0.58,
-      color: '#7FE87F',
-      icon: CreditCard,
+  // Rich, realistic dynamic data for each requested timeframe: today, week, month, year
+  const periodData = {
+    today: {
+      totalVolume: liveTodayTotal,
+      settledCount: liveTodayCount,
+      avgTicket: liveTodayTotal / liveTodayCount,
+      trendSales: '+18.4%',
+      trendTicket: '+4.2%',
+      priorPeriodLabel: isAr ? 'مقارنة بأمس' : 'vs yesterday',
+      settlementStatusLabel: isAr ? 'جاهز للتحويل' : 'Ready to settle',
+      settlementBadgeLabel: isAr ? 'سريع' : 'Sarie',
+      activityTitle: isAr ? 'النشاط بالساعات' : 'Hourly Activity',
+      activityPeak: isAr ? 'الذروة: ١١ ص - ١٢ م' : 'Peak: 11 AM - 12 PM',
+      distribution: [
+        { shortName: isAr ? 'مدى / بطاقات' : 'mada / Cards', percent: 58, color: '#7FE87F' },
+        { shortName: 'Apple Pay', percent: 24, color: '#98F598' },
+        { shortName: isAr ? 'رمز PAY QR' : 'PAY QR', percent: 14, color: '#C59B27' },
+        { shortName: isAr ? 'نقدي' : 'Cash', percent: 4, color: '#8C6D1F' },
+      ],
+      chartData: [
+        { label: '9A', labelAr: '٩ص', volume: 15, isPeak: false },
+        { label: '10A', labelAr: '١٠ص', volume: 30, isPeak: false },
+        { label: '11A', labelAr: '١١ص', volume: 100, isPeak: true },
+        { label: '12P', labelAr: '١٢م', volume: 85, isPeak: true },
+        { label: '1P', labelAr: '١م', volume: 25, isPeak: false },
+        { label: '2P', labelAr: '٢م', volume: 35, isPeak: false },
+        { label: '3P', labelAr: '٣م', volume: 20, isPeak: false },
+        { label: '4P', labelAr: '٤م', volume: 75, isPeak: true },
+      ],
     },
-    {
-      name: isAr ? 'أبل باي والمحافظ الرقمية' : 'Apple Pay & Wallets',
-      shortName: 'Apple Pay',
-      percent: 24,
-      amount: totalVolume * 0.24,
-      color: '#98F598',
-      icon: Smartphone,
+    week: {
+      totalVolume: 18450.00,
+      settledCount: 62,
+      avgTicket: 297.58,
+      trendSales: '+12.8%',
+      trendTicket: '+6.1%',
+      priorPeriodLabel: isAr ? 'مقارنة بالأسبوع الماضي' : 'vs last week',
+      settlementStatusLabel: isAr ? 'تمت التسوية آلياً عبر سريع' : 'Auto settled via Sarie',
+      settlementBadgeLabel: isAr ? 'مكتملة' : 'Settled',
+      activityTitle: isAr ? 'النشاط اليومي خلال الأسبوع' : 'Daily Activity (This Week)',
+      activityPeak: isAr ? 'الذروة: الخميس والجمعة' : 'Peak: Thursday & Friday',
+      distribution: [
+        { shortName: isAr ? 'مدى / بطاقات' : 'mada / Cards', percent: 62, color: '#7FE87F' },
+        { shortName: 'Apple Pay', percent: 26, color: '#98F598' },
+        { shortName: isAr ? 'رمز PAY QR' : 'PAY QR', percent: 9, color: '#C59B27' },
+        { shortName: isAr ? 'نقدي' : 'Cash', percent: 3, color: '#8C6D1F' },
+      ],
+      chartData: [
+        { label: 'Sun', labelAr: 'أحد', volume: 40, isPeak: false },
+        { label: 'Mon', labelAr: 'اثن', volume: 55, isPeak: false },
+        { label: 'Tue', labelAr: 'ثلا', volume: 50, isPeak: false },
+        { label: 'Wed', labelAr: 'أرب', volume: 65, isPeak: false },
+        { label: 'Thu', labelAr: 'خمي', volume: 100, isPeak: true },
+        { label: 'Fri', labelAr: 'جمع', volume: 92, isPeak: true },
+        { label: 'Sat', labelAr: 'سبت', volume: 70, isPeak: false },
+      ],
     },
-    {
-      name: isAr ? 'فواتير PAY QR' : 'PAY QR & Invoices',
-      shortName: isAr ? 'رمز PAY QR' : 'PAY QR',
-      percent: 14,
-      amount: totalVolume * 0.14,
-      color: '#C59B27',
-      icon: QrCode,
+    month: {
+      totalVolume: 78920.00,
+      settledCount: 284,
+      avgTicket: 277.89,
+      trendSales: '+24.6%',
+      trendTicket: '+8.3%',
+      priorPeriodLabel: isAr ? 'مقارنة بالشهر الماضي' : 'vs last month',
+      settlementStatusLabel: isAr ? 'حساب الراجحي' : 'Settled to Al Rajhi',
+      settlementBadgeLabel: isAr ? 'سريع' : 'Sarie',
+      activityTitle: isAr ? 'النشاط الأسبوعي خلال الشهر' : 'Weekly Activity (This Month)',
+      activityPeak: isAr ? 'الذروة: الأسبوع الرابع (الرواتب)' : 'Peak: Week 4 (Payday)',
+      distribution: [
+        { shortName: isAr ? 'مدى / بطاقات' : 'mada / Cards', percent: 65, color: '#7FE87F' },
+        { shortName: 'Apple Pay', percent: 23, color: '#98F598' },
+        { shortName: isAr ? 'رمز PAY QR' : 'PAY QR', percent: 10, color: '#C59B27' },
+        { shortName: isAr ? 'نقدي' : 'Cash', percent: 2, color: '#8C6D1F' },
+      ],
+      chartData: [
+        { label: 'W1', labelAr: 'أ١', volume: 60, isPeak: false },
+        { label: 'W2', labelAr: 'أ٢', volume: 72, isPeak: false },
+        { label: 'W3', labelAr: 'أ٣', volume: 78, isPeak: false },
+        { label: 'W4', labelAr: 'أ٤', volume: 100, isPeak: true },
+      ],
     },
-    {
-      name: isAr ? 'سجل المبيعات النقدية' : 'Cash Register',
-      shortName: isAr ? 'نقدي' : 'Cash',
-      percent: 4,
-      amount: totalVolume * 0.04,
-      color: '#8C6D1F',
-      icon: Banknote,
+    year: {
+      totalVolume: 892400.00,
+      settledCount: 3180,
+      avgTicket: 280.63,
+      trendSales: '+38.2%',
+      trendTicket: '+11.5%',
+      priorPeriodLabel: isAr ? 'مقارنة بالعام الماضي' : 'vs last year',
+      settlementStatusLabel: isAr ? 'إجمالي تحويلات سريع' : 'Dispatched via Sarie',
+      settlementBadgeLabel: isAr ? 'معتمد' : 'Verified',
+      activityTitle: isAr ? 'النشاط الشهري خلال السنة' : 'Monthly Activity (This Year)',
+      activityPeak: isAr ? 'الذروة: مارس وسبتمبر' : 'Peak: Ramadan & National Day',
+      distribution: [
+        { shortName: isAr ? 'مدى / بطاقات' : 'mada / Cards', percent: 68, color: '#7FE87F' },
+        { shortName: 'Apple Pay', percent: 22, color: '#98F598' },
+        { shortName: isAr ? 'رمز PAY QR' : 'PAY QR', percent: 8, color: '#C59B27' },
+        { shortName: isAr ? 'نقدي' : 'Cash', percent: 2, color: '#8C6D1F' },
+      ],
+      chartData: [
+        { label: 'Jan', labelAr: 'ينا', volume: 55, isPeak: false },
+        { label: 'Feb', labelAr: 'فبر', volume: 60, isPeak: false },
+        { label: 'Mar', labelAr: 'مار', volume: 95, isPeak: true },
+        { label: 'Apr', labelAr: 'أبر', volume: 70, isPeak: false },
+        { label: 'May', labelAr: 'ماي', volume: 65, isPeak: false },
+        { label: 'Jun', labelAr: 'يون', volume: 58, isPeak: false },
+        { label: 'Jul', labelAr: 'يول', volume: 50, isPeak: false },
+        { label: 'Aug', labelAr: 'أغس', volume: 72, isPeak: false },
+        { label: 'Sep', labelAr: 'سبت', volume: 100, isPeak: true },
+        { label: 'Oct', labelAr: 'أكت', volume: 80, isPeak: false },
+        { label: 'Nov', labelAr: 'نوف', volume: 85, isPeak: false },
+        { label: 'Dec', labelAr: 'ديس', volume: 90, isPeak: true },
+      ],
     },
-  ];
+  };
 
-  const pieData = railStats.map((r) => ({
+  const current = periodData[selectedPeriod];
+
+  const pieData = current.distribution.map((r) => ({
     name: r.shortName,
-    value: Math.round(r.amount),
+    value: Math.round(current.totalVolume * (r.percent / 100)),
     percentage: r.percent,
     color: r.color,
   }));
 
-  const hourlyData = [
-    { hour: '9A', hourAr: '٩ص', volume: 15, count: 1, isPeak: false },
-    { hour: '10A', hourAr: '١٠ص', volume: 30, count: 2, isPeak: false },
-    { hour: '11A', hourAr: '١١ص', volume: 100, count: 4, isPeak: true },
-    { hour: '12P', hourAr: '١٢م', volume: 85, count: 3, isPeak: true },
-    { hour: '1P', hourAr: '١م', volume: 25, count: 2, isPeak: false },
-    { hour: '2P', hourAr: '٢م', volume: 35, count: 2, isPeak: false },
-    { hour: '3P', hourAr: '٣م', volume: 20, count: 1, isPeak: false },
-    { hour: '4P', hourAr: '٤م', volume: 75, count: 3, isPeak: true },
-  ];
-
-  const periods = [
+  const periods: { id: PeriodType; labelEn: string; labelAr: string }[] = [
     { id: 'today', labelEn: 'Today', labelAr: 'اليوم' },
-    { id: 'yesterday', labelEn: 'Yesterday', labelAr: 'أمس' },
-    { id: 'week', labelEn: 'Last 7 Days', labelAr: 'آخر ٧ أيام' },
-    { id: 'month', labelEn: 'This Month', labelAr: 'هذا الشهر' },
+    { id: 'week', labelEn: 'Week', labelAr: 'الأسبوع' },
+    { id: 'month', labelEn: 'Month', labelAr: 'الشهر' },
+    { id: 'year', labelEn: 'Year', labelAr: 'السنة' },
   ];
 
   return (
@@ -97,17 +166,18 @@ export const MerchantInsightsScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Period Selector Chips */}
+        {/* Period Selector Chips: Today, Week, Month, Year */}
         <div className="flex items-center gap-1.5 bg-[#111726] p-1 rounded-xl border border-[#2C2C44]">
           {periods.map((p) => {
             const isSelected = selectedPeriod === p.id;
             return (
               <button
                 key={p.id}
+                type="button"
                 onClick={() => setSelectedPeriod(p.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   isSelected
-                    ? 'bg-gradient-to-r from-[#7FE87F] to-[#98F598] text-black font-extrabold shadow-sm shadow-[#7FE87F]/30'
+                    ? 'bg-gradient-to-r from-[#7FE87F] to-[#98F598] text-[#080C14] font-black shadow-sm shadow-[#7FE87F]/30'
                     : 'bg-transparent text-slate-400 hover:text-white'
                 }`}
               >
@@ -122,25 +192,25 @@ export const MerchantInsightsScreen: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <MetricTile
           title={isAr ? 'إجمالي المبيعات' : 'TOTAL SALES'}
-          value={formatSaudiCurrency(totalVolume, language)}
-          trend={{ value: `+18.4%`, isPositive: true }}
-          subtitle={isAr ? 'مقارنة بالفترة السابقة' : 'vs prior period'}
+          value={formatSaudiCurrency(current.totalVolume, language)}
+          trend={{ value: current.trendSales, isPositive: true }}
+          subtitle={current.priorPeriodLabel}
           highlightGreen={true}
           icon={<StatusBadge status="success" dot={true} size="sm" label={isAr ? 'مباشر' : 'Live'} />}
         />
 
         <MetricTile
           title={isAr ? 'متوسط العملية' : 'AVG TICKET'}
-          value={formatSaudiCurrency(parseFloat(avgTicket) || 0, language)}
-          trend={{ value: `+4.2%`, isPositive: true }}
-          subtitle={isAr ? `${formatLocalizedNumber(settledCount, language)} عملية` : `${settledCount} transactions`}
+          value={formatSaudiCurrency(current.avgTicket, language)}
+          trend={{ value: current.trendTicket, isPositive: true }}
+          subtitle={isAr ? `${formatLocalizedNumber(current.settledCount, language)} عملية` : `${current.settledCount.toLocaleString()} transactions`}
         />
 
         <MetricTile
           title={isAr ? 'الرصيد المتاح' : 'SETTLEMENT'}
-          value={formatSaudiCurrency(totalVolume, language)}
-          subtitle={isAr ? 'جاهز للتحويل' : 'Ready to settle'}
-          icon={<StatusBadge status="success" size="sm" label={isAr ? 'سريع' : 'Sarie'} />}
+          value={formatSaudiCurrency(current.totalVolume, language)}
+          subtitle={current.settlementStatusLabel}
+          icon={<StatusBadge status="success" size="sm" label={current.settlementBadgeLabel} />}
           highlightGreen={true}
         />
       </div>
@@ -161,36 +231,36 @@ export const MerchantInsightsScreen: React.FC = () => {
           {/* Interactive Pie Chart */}
           <PieChart
             data={pieData}
-            centerValue={formatSaudiCurrency(totalVolume, language)}
+            centerValue={formatSaudiCurrency(current.totalVolume, language)}
             centerLabel={isAr ? 'الإجمالي' : 'Total'}
             valuePrefix=""
             size={170}
           />
         </Card>
 
-        {/* Right Column: Hourly Velocity Activity Visualizer */}
+        {/* Right Column: Velocity Activity Visualizer */}
         <Card className="p-6 bg-[#111726] border border-[#2C2C44]">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-bold text-white">
-              {isAr ? 'النشاط بالساعات' : 'Hourly Activity'}
+              {current.activityTitle}
             </span>
             <span className="text-xs text-slate-400">
-              {isAr ? 'الذروة: ١١ ص - ١٢ م' : 'Peak: 11 AM - 12 PM'}
+              {current.activityPeak}
             </span>
           </div>
 
           {/* Bar Chart Visualization */}
-          <div className="flex items-end justify-between h-44 p-4 bg-[#080C14] rounded-xl border border-[#2C2C44] mb-4">
-            {hourlyData.map((d, idx) => (
+          <div className="flex items-end justify-between h-44 p-4 bg-[#080C14] rounded-xl border border-[#2C2C44] mb-4 gap-1 sm:gap-2">
+            {current.chartData.map((d, idx) => (
               <div key={idx} className="flex flex-col items-center gap-2 flex-1">
                 <div
                   style={{ height: `${Math.max(12, (d.volume / 100) * 110)}px` }}
-                  className={`w-4 sm:w-6 rounded-md transition-all duration-300 ${
+                  className={`w-3 sm:w-5 md:w-6 rounded-md transition-all duration-300 ${
                     d.isPeak ? 'bg-[#7FE87F] shadow-sm shadow-[#7FE87F]/40' : 'bg-[#2C2C44]'
                   }`}
                 />
-                <span className={`text-[11px] font-bold ${d.isPeak ? 'text-[#7FE87F]' : 'text-slate-500'}`}>
-                  {isAr ? d.hourAr : d.hour}
+                <span className={`text-[10.5px] font-bold ${d.isPeak ? 'text-[#7FE87F]' : 'text-slate-500'}`}>
+                  {isAr ? d.labelAr : d.label}
                 </span>
               </div>
             ))}

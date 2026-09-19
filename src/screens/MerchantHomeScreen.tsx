@@ -20,6 +20,7 @@ export const MerchantHomeScreen: React.FC = () => {
     navigateTo,
     language,
     isRtl,
+    openManagerPinModal,
   } = useApp();
 
   const [showBalance, setShowBalance] = useState(true);
@@ -32,6 +33,24 @@ export const MerchantHomeScreen: React.FC = () => {
   const displayTotal = totalToday > 0 ? totalToday : 14850.5;
   const paymentCount = 142;
   const avgTicket = (displayTotal / paymentCount).toFixed(2);
+
+  const handleToggleBalance = () => {
+    if (showBalance) {
+      // If balance is already visible, hide/mask it immediately
+      setShowBalance(false);
+    } else {
+      // If masked, open security PIN modal to reveal
+      openManagerPinModal({
+        title: isAr ? 'رمز أمان الرصيد' : 'Balance Security PIN',
+        subtitle: isAr
+          ? 'أدخل رمز PIN السري (1234) لعرض رصيد إجمالي اليوم'
+          : "Enter 4-digit Security PIN (1234) to reveal Today's Total",
+        onSuccess: () => {
+          setShowBalance(true);
+        },
+      });
+    }
+  };
 
   return (
     <div
@@ -61,11 +80,31 @@ export const MerchantHomeScreen: React.FC = () => {
             </span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button
-                onClick={() => setShowBalance(!showBalance)}
+                type="button"
+                onClick={handleToggleBalance}
+                title={
+                  showBalance
+                    ? isAr
+                      ? 'إخفاء الرصيد'
+                      : 'Hide Balance'
+                    : isAr
+                    ? 'عرض الرصيد (يتطلب رمز PIN)'
+                    : 'Reveal Balance (PIN required)'
+                }
                 aria-label="Toggle Balance Visibility"
-                style={{ background: 'none', border: 'none', color: '#A2A2BA', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: showBalance ? '#7FE87F' : '#A2A2BA',
+                  cursor: 'pointer',
+                  padding: '4px',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  transition: 'color 0.2s',
+                }}
               >
-                {showBalance ? <Eye size={15} /> : <EyeOff size={15} />}
+                {showBalance ? <Eye size={16} /> : <EyeOff size={16} />}
               </button>
               <StatusBadge status="success" dot={true} size="sm" label={isAr ? 'مباشر' : 'Live'} />
             </div>
