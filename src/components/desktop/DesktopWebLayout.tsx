@@ -446,13 +446,10 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
       )
     : [];
 
-  // If in web login/OTP/Registration/PIN Setup auth screen or unauthenticated, render with split hero desktop layout
+  // Only render DesktopAuthLayout for unauthenticated login/OTP screens
   const isAuthFlow =
-    !isAuthenticated ||
-    currentScreen === 'MOBILE_NUMBER' ||
-    currentScreen === 'SMS_OTP' ||
-    currentScreen === 'MERCHANT_REGISTER' ||
-    currentScreen === 'MERCHANT_PIN_SETUP';
+    !isAuthenticated &&
+    (currentScreen === 'MOBILE_NUMBER' || currentScreen === 'SMS_OTP');
 
   if (isAuthFlow) {
     return <DesktopAuthLayout>{children}</DesktopAuthLayout>;
@@ -684,7 +681,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
           </div>
 
           {/* Center: Sleek Premium Global Search Bar */}
-          <div ref={searchContainerRef} className="relative flex-1 max-w-2xl">
+          <div ref={searchContainerRef} className="relative flex-1 max-w-3xl">
             <div
               className={`relative w-full flex items-center rounded-2xl transition-all duration-200 ${
                 isSearchFocused
