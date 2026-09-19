@@ -89,6 +89,11 @@ export const MerchantPinSetupScreen: React.FC = () => {
   };
 
   const handleOkProceed = () => {
+    try {
+      localStorage.removeItem('qpay_merchant_explicit_logout');
+    } catch {
+      // ignore
+    }
     setIsAuthenticated(true);
     if (fromSettings) {
       goBack();

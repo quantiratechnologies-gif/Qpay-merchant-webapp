@@ -291,19 +291,18 @@ const INITIAL_CASHIERS: CashierInfo[] = [
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
-      try {
-        localStorage.removeItem('qpay_merchant_authenticated');
-      } catch (e) {
-        // ignore
-      }
       const urlParams = new URLSearchParams(window.location.search);
       const paramScreen = urlParams.get('screen') as ScreenId | null;
-      if (paramScreen && paramScreen !== 'MOBILE_NUMBER' && paramScreen !== 'SMS_OTP') {
-        return true;
+      if (paramScreen && (paramScreen === 'MOBILE_NUMBER' || paramScreen === 'SMS_OTP' || paramScreen === 'MERCHANT_REGISTER')) {
+        return false;
       }
-      return sessionStorage.getItem('qpay_merchant_authenticated') === 'true';
+      const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
+      if (explicitlyLoggedOut) {
+        return false;
+      }
+      return true;
     }
-    return false;
+    return true;
   });
 
   const [currentScreen, setCurrentScreen] = useState<ScreenId>(() => {
@@ -312,10 +311,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return paramScreen;
 
-      const isAuthed = sessionStorage.getItem('qpay_merchant_authenticated') === 'true';
-      if (isAuthed) return 'MERCHANT_HOME';
+      const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
+      if (explicitlyLoggedOut) return 'MOBILE_NUMBER';
+
+      return 'MERCHANT_HOME';
     }
-    return 'MOBILE_NUMBER';
+    return 'MERCHANT_HOME';
   });
 
   const [screenStack, setScreenStack] = useState<{ screen: ScreenId; params?: Record<string, any> }[]>(() => {
@@ -323,8 +324,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const urlParams = new URLSearchParams(window.location.search);
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen) return [{ screen: paramScreen }];
+
+      const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
+      if (explicitlyLoggedOut) return [{ screen: 'MOBILE_NUMBER' }];
     }
-    return [{ screen: 'MOBILE_NUMBER' }];
+    return [{ screen: 'MERCHANT_HOME' }];
   });
   const [screenParams, setScreenParams] = useState<Record<string, any>>({});
   const [activeTab, setActiveTabState] = useState<BottomTab>('home');
@@ -856,12 +860,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [isRtl]);
 
   const performLogout = () => {
-    sessionStorage.removeItem('qpay_merchant_authenticated');
-    localStorage.removeItem('qpay_merchant_authenticated');
-    localStorage.removeItem('qpay_merchant_session');
-    localStorage.removeItem('hasSeenOnboarding');
-    localStorage.removeItem('hasCompletedOnboarding');
-    localStorage.removeItem('hasGrantedPermissions');
+    try {
+      localStorage.setItem('qpay_merchant_explicit_logout', 'true');
+      sessionStorage.removeItem('qpay_merchant_authenticated');
+      localStorage.removeItem('qpay_merchant_authenticated');
+      localStorage.removeItem('qpay_merchant_session');
+      localStorage.removeItem('hasSeenOnboarding');
+      localStorage.removeItem('hasCompletedOnboarding');
+      localStorage.removeItem('hasGrantedPermissions');
+    } catch {
+      // ignore
+    }
     setIsAuthenticated(false);
     setIsLogoutModalOpen(false);
     setCurrentScreen('MOBILE_NUMBER');
