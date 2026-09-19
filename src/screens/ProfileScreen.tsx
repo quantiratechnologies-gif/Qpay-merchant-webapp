@@ -17,6 +17,7 @@ import {
 import { useApp } from '../state/AppContext';
 import { Card, StatusBadge, ListRow } from '../components/ui';
 import { colors, spacing, radii } from '../design-system/tokens';
+import { translateText, formatLocalizedNumber } from '../utils/i18n';
 
 export const ProfileScreen: React.FC = () => {
   const {
@@ -42,23 +43,23 @@ export const ProfileScreen: React.FC = () => {
       }}
     >
       {/* ── Page Header ─────────────────────────────────────── */}
-      <div style={{ marginBottom: '32px' }}>
+      <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
             {isAr ? 'متجري' : 'My Store'}
           </h1>
           <span
             style={{
               width: '8px', height: '8px',
               borderRadius: radii.full,
-              backgroundColor: colors.accentGreen,
+              backgroundColor: '#D4AF37',
               display: 'inline-block',
-              boxShadow: `0 0 8px ${colors.accentGreen}`,
+              boxShadow: '0 0 8px #D4AF37',
             }}
           />
         </div>
-        <p style={{ fontSize: '13.5px', color: colors.textSecondary, margin: '6px 0 0 0', fontWeight: 500 }}>
-          {isAr ? 'إدارة ملف المتجر والأجهزة والامتثال' : 'Manage store profile, hardware & compliance'}
+        <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '4px 0 0 0', fontWeight: 500 }}>
+          {isAr ? 'إدارة ملف المتجر والامتثال' : 'Store profile and settings'}
         </p>
       </div>
 
@@ -77,47 +78,48 @@ export const ProfileScreen: React.FC = () => {
           <Card
             variant="elevated"
             style={{
-              padding: '22px 24px',
-              background: 'radial-gradient(ellipse at top left, rgba(0, 200, 83, 0.07) 0%, #111726 70%)',
+              padding: '20px 22px',
+              background: 'radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.12) 0%, #171717 70%)',
+              border: '1px solid rgba(212, 175, 55, 0.25)',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
               {/* Store avatar */}
               <div
                 style={{
-                  width: '60px', height: '60px',
-                  borderRadius: '18px',
-                  backgroundColor: colors.primaryLight,
-                  border: '1.5px solid rgba(0, 200, 83, 0.3)',
+                  width: '52px', height: '52px',
+                  borderRadius: '16px',
+                  backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                  border: '1.5px solid rgba(212, 175, 55, 0.35)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: colors.accentGreen,
+                  color: '#D4AF37',
                   flexShrink: 0,
                 }}
               >
-                <Store size={28} />
+                <Store size={26} />
               </div>
               <div>
-                <div style={{ fontSize: '17px', fontWeight: 900, color: colors.textPrimary }}>
-                  {merchantInfo.businessName || (isAr ? 'متجر كوانتيرا' : 'Quantira Store')}
+                <div style={{ fontSize: '16px', fontWeight: 900, color: '#FFFFFF' }}>
+                  {translateText(merchantInfo.businessName || (isAr ? 'متجر كوانتيرا' : 'Quantira Store'), language)}
                 </div>
-                <div style={{ fontSize: '12px', color: colors.textSecondary, marginTop: '2px', fontFamily: 'monospace' }}>
-                  CR: {merchantInfo.crNumber || '1010XXXXXX'}
+                <div style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '2px', fontFamily: 'monospace' }}>
+                  {isAr ? 'السجل التجاري' : 'CR'}: {formatLocalizedNumber(merchantInfo.crNumber || '1010XXXXXX', language)}
                 </div>
-                <div style={{ marginTop: '6px' }}>
-                  <StatusBadge status="success" size="sm" label={isAr ? 'معتمد ZATCA' : 'ZATCA Approved'} />
+                <div style={{ marginTop: '4px' }}>
+                  <StatusBadge status="success" size="sm" label={isAr ? 'معتمد' : 'Verified'} />
                 </div>
               </div>
             </div>
 
-            <div style={{ borderTop: `1px solid ${colors.border}`, paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ borderTop: '1px solid #262626', paddingTop: '14px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {[
-                { label: isAr ? 'الرقم الضريبي' : 'VAT Number', value: merchantInfo.vatNumber || '300XXXXXXXXX', mono: true },
-                { label: isAr ? 'المدينة' : 'City', value: merchantInfo.city || (isAr ? 'الرياض' : 'Riyadh') },
-                { label: isAr ? 'التصنيف التجاري' : 'Business Type', value: isAr ? 'تجزئة عامة' : 'General Retail' },
+                { label: isAr ? 'الرقم الضريبي' : 'VAT Number', value: formatLocalizedNumber(merchantInfo.vatNumber || '300XXXXXXXXX', language), mono: true },
+                { label: isAr ? 'المدينة' : 'City', value: translateText(merchantInfo.city || (isAr ? 'الرياض' : 'Riyadh'), language) },
+                { label: isAr ? 'النشاط' : 'Business Type', value: isAr ? 'تجزئة عامة' : 'General Retail' },
               ].map(({ label, value, mono }) => (
                 <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '12.5px', color: colors.textSecondary }}>{label}</span>
-                  <span style={{ fontSize: '12.5px', fontWeight: 700, color: colors.textPrimary, fontFamily: mono ? 'monospace' : undefined }}>
+                  <span style={{ fontSize: '12px', color: '#A3A3A3' }}>{label}</span>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', fontFamily: mono ? 'monospace' : undefined }}>
                     {value}
                   </span>
                 </div>
@@ -126,10 +128,10 @@ export const ProfileScreen: React.FC = () => {
           </Card>
 
           {/* Settlement Account Card */}
-          <Card variant="elevated" style={{ padding: '20px 22px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 800, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                {isAr ? 'حساب التسوية البنكي' : 'SETTLEMENT ACCOUNT'}
+          <Card variant="elevated" style={{ padding: '18px 20px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                {isAr ? 'حساب التسوية' : 'Settlement Account'}
               </span>
               <StatusBadge status="success" size="sm" label={isAr ? 'الأساسي' : 'Primary'} />
             </div>
@@ -142,32 +144,32 @@ export const ProfileScreen: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: spacing.space3 }}>
                 <div
                   style={{
-                    width: '44px', height: '44px',
+                    width: '40px', height: '40px',
                     borderRadius: radii.md,
-                    backgroundColor: colors.primaryLight,
-                    border: '1px solid rgba(0, 200, 83, 0.25)',
+                    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                    border: '1px solid rgba(212, 175, 55, 0.3)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: colors.accentGreen, flexShrink: 0,
+                    color: '#D4AF37', flexShrink: 0,
                   }}
                 >
-                  <Building2 size={22} />
+                  <Building2 size={20} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '14.5px', fontWeight: 800, color: colors.textPrimary }}>
-                    {merchantInfo.settlementBank || 'Al Rajhi Bank'}
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF' }}>
+                    {translateText(merchantInfo.settlementBank || 'Al Rajhi Bank', language)}
                   </div>
-                  <div style={{ fontSize: '12px', color: colors.textSecondary, marginTop: '2px', fontFamily: 'monospace', fontWeight: 600 }} dir="ltr">
+                  <div style={{ fontSize: '11.5px', color: '#A3A3A3', marginTop: '2px', fontFamily: 'monospace', fontWeight: 600 }} dir="ltr">
                     •••• {merchantInfo.settlementIban ? merchantInfo.settlementIban.slice(-9) : '6271 5005'}
                   </div>
                 </div>
               </div>
-              {isRtl ? <ChevronLeft size={18} color={colors.textMuted} /> : <ChevronRight size={18} color={colors.textMuted} />}
+              {isRtl ? <ChevronLeft size={18} color="#737373" /> : <ChevronRight size={18} color="#737373" />}
             </div>
 
-            <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <CheckCircle2 size={13} color={colors.accentGreen} />
-              <span style={{ fontSize: '11.5px', color: colors.textSecondary, fontWeight: 500 }}>
-                {isAr ? 'متصل بنظام سريع • تحويل فوري' : 'Connected to Sarie • Instant settlement'}
+            <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #262626', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <CheckCircle2 size={13} color="#D4AF37" />
+              <span style={{ fontSize: '11.5px', color: '#A3A3A3', fontWeight: 500 }}>
+                {isAr ? 'تسوية فورية عبر سريع' : 'Instant Sarie settlement'}
               </span>
             </div>
           </Card>
@@ -176,36 +178,36 @@ export const ProfileScreen: React.FC = () => {
         {/* ─── RIGHT COLUMN ────────────────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Core Store Management */}
-          <Card variant="elevated" style={{ padding: '6px 0' }}>
-            <div style={{ padding: '12px 18px 8px', borderBottom: `1px solid ${colors.border}`, marginBottom: '4px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 800, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          <Card variant="elevated" style={{ padding: '4px 0', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ padding: '10px 16px 6px', borderBottom: '1px solid #262626', marginBottom: '2px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 {isAr ? 'إدارة المتجر' : 'STORE MANAGEMENT'}
               </span>
             </div>
             <ListRow
               onClick={() => navigateTo('MERCHANT_SETUP')}
-              leftIcon={<Store size={18} />}
+              leftIcon={<Store size={18} color="#D4AF37" />}
               title={isAr ? 'ملف المنشأة' : 'Business Profile'}
-              subtitle={isAr ? 'عرض وتعديل بيانات السجل والضريبة' : 'View & edit store & tax info'}
+              subtitle={isAr ? 'بيانات السجل والضريبة' : 'Store & tax info'}
               showChevron={true}
             />
             <ListRow
               onClick={() => setIsKycModalOpen(true)}
-              leftIcon={<ShieldCheck size={18} />}
+              leftIcon={<ShieldCheck size={18} color="#D4AF37" />}
               title={isAr ? 'التحقق والامتثال' : 'KYC Verification'}
-              subtitle={isAr ? 'توثيق معتمد لرفع سقوف التحصيل' : 'Unlock exclusive tier benefits'}
+              subtitle={isAr ? 'حالة التوثيق' : 'Verification status'}
               showChevron={true}
             />
             <ListRow
               onClick={() => navigateTo('MERCHANT_QR_GENERATOR')}
-              leftIcon={<QrCode size={18} />}
+              leftIcon={<QrCode size={18} color="#D4AF37" />}
               title={isAr ? 'إدارة الباركود' : 'Manage QR'}
-              subtitle={isAr ? 'طباعة ومشاركة باركود المتجر' : 'Manage & order store QR'}
+              subtitle={isAr ? 'عرض ومشاركة الباركود' : 'QR settings'}
               showChevron={true}
             />
             <ListRow
               onClick={() => navigateTo('SECURITY')}
-              leftIcon={<SlidersHorizontal size={18} />}
+              leftIcon={<SlidersHorizontal size={18} color="#D4AF37" />}
               title={isAr ? 'إدارة الأعمال' : 'Manage Business'}
               subtitle={isAr ? 'إعدادات الدفع' : 'Payment settings'}
               showChevron={true}
@@ -213,27 +215,27 @@ export const ProfileScreen: React.FC = () => {
           </Card>
 
           {/* Operations & Settings */}
-          <Card variant="elevated" style={{ padding: '6px 0' }}>
-            <div style={{ padding: '12px 18px 8px', borderBottom: `1px solid ${colors.border}`, marginBottom: '4px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 800, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          <Card variant="elevated" style={{ padding: '4px 0', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ padding: '10px 16px 6px', borderBottom: '1px solid #262626', marginBottom: '2px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 {isAr ? 'الإعدادات والعمليات' : 'OPERATIONS & SETTINGS'}
               </span>
             </div>
             <ListRow
               onClick={() => navigateTo('SOFTPOS_TERMINAL')}
-              leftIcon={<CreditCard size={18} />}
+              leftIcon={<CreditCard size={18} color="#D4AF37" />}
               title={isAr ? 'أجهزة وطرق الدفع' : 'Payment Instruments'}
               rightElement={
-                <ExternalLink size={13} color={colors.textMuted} />
+                <ExternalLink size={13} color="#737373" />
               }
               showChevron={true}
             />
             <ListRow
               onClick={() => navigateTo('SECURITY')}
-              leftIcon={<Users size={18} />}
+              leftIcon={<Users size={18} color="#D4AF37" />}
               title={isAr ? 'إدارة طاقم العمل' : 'Manage Staff'}
               rightElement={
-                <span style={{ fontSize: '12px', color: colors.textSecondary, fontWeight: 600 }}>
+                <span style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600 }}>
                   {isAr ? '٣ نشطين' : '3 Active'}
                 </span>
               }
@@ -241,10 +243,10 @@ export const ProfileScreen: React.FC = () => {
             />
             <ListRow
               onClick={() => setIsLanguageModalOpen(true)}
-              leftIcon={<Languages size={18} />}
+              leftIcon={<Languages size={18} color="#D4AF37" />}
               title={isAr ? 'لغة التطبيق' : 'App Language'}
               rightElement={
-                <span style={{ fontSize: '12.5px', color: '#00FF24', fontWeight: 800 }}>
+                <span style={{ fontSize: '12px', color: '#D4AF37', fontWeight: 800 }}>
                   {isAr ? '🇸🇦 العربية' : '🇬🇧 English'}
                 </span>
               }
@@ -253,12 +255,12 @@ export const ProfileScreen: React.FC = () => {
           </Card>
 
           {/* Danger Zone */}
-          <Card variant="elevated" style={{ padding: '6px 0' }}>
+          <Card variant="elevated" style={{ padding: '4px 0', background: '#171717', border: '1px solid #262626' }}>
             <ListRow
               danger={true}
               onClick={() => setIsLogoutModalOpen(true)}
               leftIcon={<LogOut size={18} />}
-              title={isAr ? 'تسجيل الخروج من الحساب' : 'Log Out Account'}
+              title={isAr ? 'تسجيل الخروج' : 'Log Out'}
               showChevron={true}
             />
           </Card>

@@ -1,19 +1,21 @@
-/* Quantira Technologies / QtPay Merchant Design Tokens */
+/* Quantira Technologies / QtPay Merchant Design Tokens - Luxury Black & Gold */
 :root {
   /* Colors */
-  --bg-page: #080C14;
-  --bg-card: #0E1526;
-  --bg-inset: #10182A;
-  --border: #1E293B;
-  --border-focus: #334155;
-  --accent-green: #00FF24;
-  --accent-green-bright: #00FF24;
+  --bg-page: #0B0B0B;
+  --bg-card: #171717;
+  --bg-inset: #1E1E1E;
+  --border: #262626;
+  --border-focus: #D4AF37;
+  --accent-green: #D4AF37;
+  --accent-green-bright: #F1D77A;
+  --accent-gold: #D4AF37;
+  --accent-gold-bright: #F1D77A;
   --accent-blue: #38BDF8;
   --accent-purple: #A855F7;
-  --accent-amber: #F59E0B;
+  --accent-amber: #D4AF37;
   --text-primary: #FFFFFF;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --text-secondary: #E5E5E5;
+  --text-muted: #A3A3A3;
 
   /* Spacing */
   --space-1: 4px;

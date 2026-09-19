@@ -33,14 +33,12 @@ export const SoundBoxNotifierScreen: React.FC = () => {
       }}
     >
       {/* ── Page Header ─────────────────────────────────────── */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em' }}>
-          {isAr ? 'مكبر الصوت الذكي للتحصيلات' : 'QTPay Smart SoundBox'}
+      <div style={{ marginBottom: '24px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
+          {isAr ? 'صندوق الصوت' : 'SoundBox'}
         </h1>
-        <p style={{ fontSize: '13.5px', color: colors.textSecondary, margin: '6px 0 0 0', fontWeight: 500 }}>
-          {isAr
-            ? 'تكوين وإعداد جهاز الإعلان الصوتي الفوري للمدفوعات'
-            : 'Configure instant payment audio announcements for your POS'}
+        <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '4px 0 0 0', fontWeight: 500 }}>
+          {isAr ? 'إعداد الإشعارات الصوتية الفورية للمدفوعات' : 'Instant audio payment notifications'}
         </p>
       </div>
 
@@ -59,80 +57,81 @@ export const SoundBoxNotifierScreen: React.FC = () => {
           <Card
             variant="elevated"
             style={{
-              padding: '32px 24px',
+              padding: '28px 24px',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '20px',
-              background: 'radial-gradient(ellipse at top, rgba(0, 200, 83, 0.07) 0%, #111726 70%)',
+              gap: '18px',
+              background: 'radial-gradient(ellipse at top, rgba(212, 175, 55, 0.08) 0%, #171717 70%)',
+              border: '1px solid #262626',
             }}
           >
             {/* 3D Speaker Graphic */}
             <div
               style={{
-                width: '200px',
-                height: '200px',
-                borderRadius: '40px',
-                background: 'linear-gradient(145deg, #1C1C2E 0%, #111726 50%, #080C14 100%)',
-                border: '2px solid #1E293B',
+                width: '180px',
+                height: '180px',
+                borderRadius: '36px',
+                background: 'linear-gradient(145deg, #212121 0%, #171717 50%, #0B0B0B 100%)',
+                border: '2px solid rgba(212, 175, 55, 0.3)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
-                boxShadow: '0 0 48px rgba(0, 200, 83, 0.18)',
+                boxShadow: '0 0 36px rgba(212, 175, 55, 0.15)',
               }}
             >
               {/* Status LED */}
               <div
                 style={{
                   position: 'absolute',
-                  top: '18px',
-                  width: '9px',
-                  height: '9px',
+                  top: '16px',
+                  width: '8px',
+                  height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: '#00FF24',
-                  boxShadow: '0 0 10px #00FF24',
+                  backgroundColor: '#D4AF37',
+                  boxShadow: '0 0 8px #D4AF37',
                 }}
               />
 
               {/* Speaker grille */}
               <div
                 style={{
-                  width: '112px',
-                  height: '112px',
+                  width: '100px',
+                  height: '100px',
                   borderRadius: '50%',
-                  backgroundColor: '#0F172A',
-                  border: '2px solid #2A364F',
+                  backgroundColor: '#111111',
+                  border: '2px solid #262626',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <Volume2 size={50} color="#00FF24" />
+                <Volume2 size={44} color="#D4AF37" />
               </div>
 
-              <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8', marginTop: '12px' }}>
-                SoundBox Pro v2.4
+              <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#A3A3A3', marginTop: '10px' }}>
+                SoundBox Pro
               </span>
             </div>
 
             {/* Status Pills */}
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
               {[
-                { icon: <Wifi size={13} />, label: isAr ? 'متصل بالإنترنت' : 'Online', green: true },
-                { icon: <Radio size={13} />, label: isAr ? 'يعمل بكفاءة' : 'Active', green: true },
-                { icon: <Volume2 size={13} />, label: `${formatLocalizedNumber(soundBoxVolume, language)}%`, green: false },
-              ].map(({ icon, label, green }) => (
+                { icon: <Wifi size={13} />, label: isAr ? 'متصل' : 'Online', gold: true },
+                { icon: <Radio size={13} />, label: isAr ? 'نشط' : 'Active', gold: true },
+                { icon: <Volume2 size={13} />, label: `${formatLocalizedNumber(soundBoxVolume, language)}%`, gold: false },
+              ].map(({ icon, label, gold }) => (
                 <span
                   key={label}
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '5px',
-                    padding: '5px 12px',
+                    padding: '4px 12px',
                     borderRadius: radii.full,
-                    backgroundColor: green ? 'rgba(0, 200, 83, 0.1)' : colors.bgInset,
-                    border: `1px solid ${green ? 'rgba(0, 200, 83, 0.3)' : colors.border}`,
-                    color: green ? colors.accentGreen : colors.textSecondary,
+                    backgroundColor: gold ? 'rgba(212, 175, 55, 0.1)' : '#1E1E1E',
+                    border: `1px solid ${gold ? 'rgba(212, 175, 55, 0.3)' : '#262626'}`,
+                    color: gold ? '#D4AF37' : '#A3A3A3',
                     fontSize: '12px',
                     fontWeight: 700,
                   }}
@@ -145,35 +144,35 @@ export const SoundBoxNotifierScreen: React.FC = () => {
           </Card>
 
           {/* Hardware Info Card */}
-          <Card variant="elevated" style={{ padding: '20px 22px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-              <Info size={15} color={colors.accentGreen} />
-              <span style={{ fontSize: '12px', fontWeight: 800, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-                {isAr ? 'معلومات الجهاز' : 'DEVICE DETAILS'}
+          <Card variant="elevated" style={{ padding: '18px 20px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+              <Info size={14} color="#D4AF37" />
+              <span style={{ fontSize: '12px', fontWeight: 800, color: '#A3A3A3', letterSpacing: '0.04em' }}>
+                {isAr ? 'تفاصيل الجهاز' : 'Device Info'}
               </span>
             </div>
 
             {[
               { label: isAr ? 'الموديل' : 'Model', value: 'QTPay SoundBox Pro' },
-              { label: isAr ? 'الإصدار' : 'Firmware', value: 'v2.4.1-stable' },
-              { label: isAr ? 'رقم التسلسل' : 'Serial', value: 'QSB-2026-SA-0041', mono: true },
-              { label: isAr ? 'معيار' : 'Standard', value: 'SAMA Certified' },
-              { label: isAr ? 'الشبكة' : 'Network', value: 'Wi-Fi 6 + 4G LTE' },
+              { label: isAr ? 'الإصدار' : 'Firmware', value: 'v2.4.1' },
+              { label: isAr ? 'الرقم التسلسلي' : 'Serial', value: 'QSB-2026-0041', mono: true },
+              { label: isAr ? 'الاعتماد' : 'Certification', value: 'SAMA Certified' },
+              { label: isAr ? 'الاتصال' : 'Network', value: 'Wi-Fi + 4G LTE' },
             ].map(({ label, value, mono }) => (
               <div
                 key={label}
                 style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  padding: '9px 0',
-                  borderBottom: `1px solid ${colors.border}`,
+                  padding: '8px 0',
+                  borderBottom: '1px solid #262626',
                 }}
               >
-                <span style={{ fontSize: '12.5px', color: colors.textSecondary, fontWeight: 500 }}>{label}</span>
+                <span style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 500 }}>{label}</span>
                 <span
                   style={{
-                    fontSize: '12.5px',
+                    fontSize: '12px',
                     fontWeight: 700,
-                    color: colors.textPrimary,
+                    color: '#FFFFFF',
                     fontFamily: mono ? 'monospace' : undefined,
                   }}
                 >
@@ -187,21 +186,21 @@ export const SoundBoxNotifierScreen: React.FC = () => {
         {/* ─── RIGHT PANEL: Controls ───────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Volume Control */}
-          <Card variant="elevated" style={{ padding: '22px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <Card variant="elevated" style={{ padding: '20px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
               <div>
-                <div style={{ fontSize: '14.5px', fontWeight: 800, color: colors.textPrimary }}>
-                  {isAr ? 'مستوى الصوت' : 'Announcement Volume'}
+                <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF' }}>
+                  {isAr ? 'مستوى الصوت' : 'Volume'}
                 </div>
-                <div style={{ fontSize: '12px', color: colors.textSecondary, marginTop: '3px' }}>
-                  {isAr ? 'يطبق على جميع إعلانات الدفع' : 'Applied to all payment announcements'}
+                <div style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '2px' }}>
+                  {isAr ? 'التحكم في شدة الصوت' : 'Adjust speaker volume'}
                 </div>
               </div>
               <span
                 style={{
-                  fontSize: '22px',
+                  fontSize: '20px',
                   fontWeight: 900,
-                  color: colors.accentGreen,
+                  color: '#D4AF37',
                   letterSpacing: '-0.02em',
                 }}
               >
@@ -215,66 +214,65 @@ export const SoundBoxNotifierScreen: React.FC = () => {
               max="100"
               value={soundBoxVolume}
               onChange={(e) => setSoundBoxVolume(Number(e.target.value))}
-              style={{ width: '100%', accentColor: '#00FF24', cursor: 'pointer', height: '6px' }}
+              style={{ width: '100%', accentColor: '#D4AF37', cursor: 'pointer', height: '6px' }}
             />
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-              <span style={{ fontSize: '11px', color: colors.textMuted }}>0%</span>
-              <span style={{ fontSize: '11px', color: colors.textMuted }}>100%</span>
+              <span style={{ fontSize: '11px', color: '#737373' }}>{formatLocalizedNumber(0, language)}%</span>
+              <span style={{ fontSize: '11px', color: '#737373' }}>{formatLocalizedNumber(100, language)}%</span>
             </div>
           </Card>
 
           {/* Voice Language Selector */}
-          <Card variant="elevated" style={{ padding: '22px' }}>
-            <div style={{ fontSize: '14.5px', fontWeight: 800, color: colors.textPrimary, marginBottom: '6px' }}>
-              {isAr ? 'لغة النطق الصوتي' : 'Voice Announcement Language'}
+          <Card variant="elevated" style={{ padding: '20px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
+              {isAr ? 'لغة الصوت' : 'Voice Language'}
             </div>
-            <div style={{ fontSize: '12px', color: colors.textSecondary, marginBottom: '16px' }}>
-              {isAr ? 'اختر لغة المتحدث الافتراضية للإعلانات' : 'Choose the default voice language for announcements'}
+            <div style={{ fontSize: '12px', color: '#A3A3A3', marginBottom: '14px' }}>
+              {isAr ? 'لغة الإعلانات الصوتية' : 'Default voice for alerts'}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {[
-                { id: 'ar', flag: '🇸🇦', label: 'العربية (Arabic)', sub: isAr ? 'صوت عربي فصيح' : 'Native Arabic TTS' },
-                { id: 'en', flag: '🇬🇧', label: 'English', sub: isAr ? 'صوت إنجليزي' : 'English TTS' },
-              ].map(({ id, flag, label, sub }) => (
+                { id: 'ar', flag: '🇸🇦', label: isAr ? 'العربية' : 'Arabic' },
+                { id: 'en', flag: '🇬🇧', label: isAr ? 'الإنجليزية' : 'English' },
+              ].map(({ id, flag, label }) => (
                 <button
                   key={id}
                   type="button"
                   onClick={() => setSoundBoxLanguage(id as 'ar' | 'en')}
                   className="interactive-tap"
                   style={{
-                    backgroundColor: soundBoxLanguage === id ? 'rgba(0, 200, 83, 0.08)' : colors.bgInset,
-                    border: `1.5px solid ${soundBoxLanguage === id ? colors.accentGreen : colors.border}`,
+                    backgroundColor: soundBoxLanguage === id ? 'rgba(212, 175, 55, 0.12)' : '#1E1E1E',
+                    border: `1.5px solid ${soundBoxLanguage === id ? '#D4AF37' : '#262626'}`,
                     borderRadius: radii.lg,
-                    padding: '14px 16px',
-                    color: colors.textPrimary,
-                    fontSize: '13.5px',
+                    padding: '12px 14px',
+                    color: '#FFFFFF',
+                    fontSize: '13px',
                     fontWeight: 800,
                     cursor: 'pointer',
-                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  <div style={{ fontSize: '22px', marginBottom: '6px' }}>{flag}</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: soundBoxLanguage === id ? colors.accentGreen : colors.textPrimary }}>
+                  <span style={{ fontSize: '20px' }}>{flag}</span>
+                  <span style={{ fontSize: '13px', fontWeight: 800, color: soundBoxLanguage === id ? '#D4AF37' : '#FFFFFF' }}>
                     {label}
-                  </div>
-                  <div style={{ fontSize: '11px', color: colors.textMuted, marginTop: '2px' }}>{sub}</div>
+                  </span>
                 </button>
               ))}
             </div>
           </Card>
 
           {/* Audio Test Panel */}
-          <Card variant="elevated" style={{ padding: '22px' }}>
-            <div style={{ fontSize: '14.5px', fontWeight: 800, color: colors.textPrimary, marginBottom: '6px' }}>
-              {isAr ? 'اختبار النطق الصوتي للمبالغ' : 'Trigger Audio Test Announcement'}
+          <Card variant="elevated" style={{ padding: '20px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', marginBottom: '4px' }}>
+              {isAr ? 'اختبار الصوت' : 'Audio Test'}
             </div>
-            <div style={{ fontSize: '12px', color: colors.textSecondary, marginBottom: '16px' }}>
-              {isAr
-                ? 'اضغط على أي مبلغ لتشغيل الإعلان الصوتي الفوري'
-                : 'Tap any amount to play an instant audio announcement'}
+            <div style={{ fontSize: '12px', color: '#A3A3A3', marginBottom: '14px' }}>
+              {isAr ? 'تجربة إعلان المبالغ' : 'Test voice announcements'}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
@@ -285,12 +283,12 @@ export const SoundBoxNotifierScreen: React.FC = () => {
                   onClick={() => handlePlayTest(amt)}
                   className="interactive-tap"
                   style={{
-                    backgroundColor: colors.bgInset,
-                    border: `1px solid ${colors.border}`,
+                    backgroundColor: '#1E1E1E',
+                    border: '1px solid #262626',
                     borderRadius: radii.md,
-                    padding: '12px 8px',
-                    color: colors.textPrimary,
-                    fontSize: '12.5px',
+                    padding: '10px 8px',
+                    color: '#FFFFFF',
+                    fontSize: '12px',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
@@ -300,7 +298,7 @@ export const SoundBoxNotifierScreen: React.FC = () => {
                     transition: 'border-color 0.12s ease',
                   }}
                 >
-                  <Play size={12} color="#00FF24" fill="#00FF24" />
+                  <Play size={11} color="#D4AF37" fill="#D4AF37" />
                   {formatSaudiCurrency(amt, language)}
                 </button>
               ))}

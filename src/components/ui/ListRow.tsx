@@ -76,11 +76,11 @@ export const ListRow: React.FC<ListRowProps> = ({
               height: '40px',
               borderRadius: 'var(--radius-sm, 8px)',
               backgroundColor: danger ? 'rgba(255, 71, 87, 0.12)' : 'var(--bg-inset, #161F30)',
-              color: danger ? '#FF4757' : 'var(--accent-green, #00C853)',
+              color: danger ? '#FF4757' : 'var(--accent-green, #D4AF37)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: `1px solid ${danger ? 'rgba(255, 71, 87, 0.3)' : 'var(--border, #1E293B)'}`,
+              border: `1px solid ${danger ? 'rgba(255, 71, 87, 0.3)' : 'var(--border, #262626)'}`,
               flexShrink: 0,
             }}
           >

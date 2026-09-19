@@ -3,6 +3,7 @@ import { Delete, Wifi } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { Card } from '../components/ui';
 import { colors, radii } from '../design-system/tokens';
+import { formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
 
 interface PaymentRail {
   id: string;
@@ -21,7 +22,7 @@ const PAYMENT_RAILS: PaymentRail[] = [
           width: '8px',
           height: '8px',
           borderRadius: radii.full,
-          backgroundColor: colors.accentGreen,
+          backgroundColor: '#D4AF37',
         }}
       />
     ),
@@ -40,7 +41,7 @@ const PAYMENT_RAILS: PaymentRail[] = [
           fontSize: '11px',
           fontWeight: 900,
           fontStyle: 'italic',
-          color: colors.accentBlue,
+          color: '#F1D77A',
           letterSpacing: '0.05em',
         }}
       >
@@ -148,14 +149,12 @@ export const SoftPOSTerminalScreen: React.FC = () => {
       }}
     >
       {/* Page Header */}
-      <div style={{ marginBottom: '20px' }}>
-        <h1 style={{ fontSize: '22px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
-          {isAr ? 'نقطة البيع الافتراضية (SoftPOS Terminal)' : 'SoftPOS Virtual Terminal'}
+      <div style={{ marginBottom: '16px' }}>
+        <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
+          {isAr ? 'نقطة البيع (SoftPOS)' : 'SoftPOS Terminal'}
         </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', margin: 0 }}>
-          {isAr
-            ? 'قبول مدفوعات مدى وأبل باي والبطاقات الائتمانية مع إصدار فواتير ضريبية فورية'
-            : 'Accept mada, Apple Pay, & EMV contactless card payments with instant ZATCA tax receipt'}
+        <p style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '3px', margin: 0 }}>
+          {isAr ? 'قبول مدى، أبل باي والبطاقات' : 'Accept mada, Apple Pay & cards'}
         </p>
       </div>
 
@@ -164,34 +163,37 @@ export const SoftPOSTerminalScreen: React.FC = () => {
         style={{
           display: 'grid',
           gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)',
-          gap: '24px',
+          gap: '20px',
           alignItems: 'start',
         }}
       >
         {/* Left Column: Keypad & Charge Builder */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {/* Amount Display Inset */}
           <Card
             variant="elevated"
             style={{
-              padding: '24px',
+              padding: '20px',
               textAlign: 'center',
-              background: 'radial-gradient(ellipse at top, rgba(0, 255, 36, 0.12) 0%, #0E131F 70%)',
+              background: 'radial-gradient(ellipse at top, rgba(212, 175, 55, 0.12) 0%, #171717 70%)',
+              border: '1px solid rgba(212, 175, 55, 0.25)',
             }}
           >
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#00FF24', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              {isAr ? 'المبلغ المطلوب تحصيله' : 'TOTAL CHARGE AMOUNT'}
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              {isAr ? 'المبلغ' : 'AMOUNT'}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px', margin: '8px 0 12px 0' }}>
-              <span style={{ fontSize: '20px', fontWeight: 700, color: '#00FF24' }}>SAR</span>
-              <span style={{ fontSize: '48px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1 }}>
-                {numericValue.toFixed(2)}
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px', margin: '6px 0 10px 0' }}>
+              <span style={{ fontSize: '18px', fontWeight: 700, color: '#D4AF37' }}>
+                {isAr ? 'ر.س' : 'SAR'}
+              </span>
+              <span style={{ fontSize: '42px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                {formatLocalizedNumber(numericValue.toFixed(2), language)}
               </span>
             </div>
 
             {/* Quick Add Pills */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
               {[10, 50, 100, 500].map((sar) => (
                 <button
                   key={sar}
@@ -199,17 +201,17 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   onClick={() => handleQuickAdd(sar)}
                   className="interactive-tap"
                   style={{
-                    backgroundColor: '#151C2C',
-                    border: '1px solid #1E293B',
+                    backgroundColor: '#212121',
+                    border: '1px solid #262626',
                     color: '#FFFFFF',
                     borderRadius: '8px',
-                    padding: '6px 14px',
-                    fontSize: '13px',
+                    padding: '5px 12px',
+                    fontSize: '12px',
                     fontWeight: 800,
                     cursor: 'pointer',
                   }}
                 >
-                  +{sar}
+                  +{formatLocalizedNumber(sar, language)}
                 </button>
               ))}
               <button
@@ -217,12 +219,12 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 onClick={handleClear}
                 className="interactive-tap"
                 style={{
-                  backgroundColor: 'rgba(255, 71, 87, 0.1)',
-                  border: '1px solid rgba(255, 71, 87, 0.3)',
-                  color: '#FF4757',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  color: '#EF4444',
                   borderRadius: '8px',
-                  padding: '6px 14px',
-                  fontSize: '13px',
+                  padding: '5px 12px',
+                  fontSize: '12px',
                   fontWeight: 800,
                   cursor: 'pointer',
                 }}
@@ -233,12 +235,12 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           </Card>
 
           {/* Virtual Numeric Keypad */}
-          <Card variant="elevated" style={{ padding: '20px' }}>
+          <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '10px',
+                gap: '8px',
               }}
             >
               {digits.map((digit) => (
@@ -247,12 +249,12 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   onClick={() => handleKeyPress(digit)}
                   className="interactive-tap"
                   style={{
-                    height: '54px',
-                    borderRadius: '12px',
-                    backgroundColor: '#111726',
-                    border: '1px solid #1E293B',
+                    height: '48px',
+                    borderRadius: '10px',
+                    backgroundColor: '#1E1E1E',
+                    border: '1px solid #262626',
                     color: '#FFFFFF',
-                    fontSize: '22px',
+                    fontSize: '20px',
                     fontWeight: 800,
                     cursor: 'pointer',
                     display: 'flex',
@@ -268,12 +270,12 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 onClick={() => handleKeyPress('00')}
                 className="interactive-tap"
                 style={{
-                  height: '54px',
-                  borderRadius: '12px',
-                  backgroundColor: '#111726',
-                  border: '1px solid #1E293B',
+                  height: '48px',
+                  borderRadius: '10px',
+                  backgroundColor: '#1E1E1E',
+                  border: '1px solid #262626',
                   color: '#FFFFFF',
-                  fontSize: '18px',
+                  fontSize: '16px',
                   fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
@@ -288,12 +290,12 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 onClick={() => handleKeyPress('0')}
                 className="interactive-tap"
                 style={{
-                  height: '54px',
-                  borderRadius: '12px',
-                  backgroundColor: '#111726',
-                  border: '1px solid #1E293B',
+                  height: '48px',
+                  borderRadius: '10px',
+                  backgroundColor: '#1E1E1E',
+                  border: '1px solid #262626',
                   color: '#FFFFFF',
-                  fontSize: '22px',
+                  fontSize: '20px',
                   fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
@@ -308,33 +310,33 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 onClick={handleDelete}
                 className="interactive-tap"
                 style={{
-                  height: '54px',
-                  borderRadius: '12px',
-                  backgroundColor: '#111726',
-                  border: '1px solid #1E293B',
-                  color: '#94A3B8',
-                  fontSize: '20px',
+                  height: '48px',
+                  borderRadius: '10px',
+                  backgroundColor: '#1E1E1E',
+                  border: '1px solid #262626',
+                  color: '#A3A3A3',
+                  fontSize: '18px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <Delete size={20} />
+                <Delete size={18} />
               </button>
             </div>
           </Card>
         </div>
 
         {/* Right Column: Card Scheme, VAT Breakdown & Checkout Terminal */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {/* Card Scheme & Method Selector */}
-          <Card variant="elevated" style={{ padding: '20px' }}>
-            <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF', marginBottom: '12px' }}>
-              {isAr ? 'شبكة وطريقة الدفع' : 'Payment Rail Scheme'}
+          <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF', marginBottom: '10px' }}>
+              {isAr ? 'طريقة الدفع' : 'Payment Method'}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
               {PAYMENT_RAILS.map((rail) => {
                 const isSelected = softPosCardScheme === rail.id;
                 return (
@@ -345,15 +347,15 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '10px',
-                      padding: '12px 14px',
-                      borderRadius: '12px',
-                      backgroundColor: isSelected ? 'rgba(0, 255, 36, 0.12)' : '#111726',
-                      border: isSelected ? '1.5px solid #00FF24' : '1px solid #1E293B',
-                      color: isSelected ? '#00FF24' : '#FFFFFF',
+                      gap: '8px',
+                      padding: '10px 12px',
+                      borderRadius: '10px',
+                      backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.12)' : '#1E1E1E',
+                      border: isSelected ? '1.5px solid #D4AF37' : '1px solid #262626',
+                      color: isSelected ? '#D4AF37' : '#FFFFFF',
                       cursor: 'pointer',
                       fontWeight: 800,
-                      fontSize: '13px',
+                      fontSize: '12.5px',
                     }}
                   >
                     {rail.renderIcon()}
@@ -365,54 +367,51 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           </Card>
 
           {/* ZATCA VAT Breakdown & Receipt Info */}
-          <Card variant="elevated" style={{ padding: '20px' }}>
-            <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF', marginBottom: '14px' }}>
-              {isAr ? 'تفاصيل الفاتورة الضريبية (زاتكا)' : 'ZATCA Tax Invoice Summary'}
+          <Card variant="elevated" style={{ padding: '16px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ fontSize: '12.5px', fontWeight: 800, color: '#FFFFFF', marginBottom: '10px' }}>
+              {isAr ? 'ملخص الفاتورة' : 'Invoice Summary'}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8' }}>
-                <span>{isAr ? 'المبلغ الصافي الخاضع للضريبة' : 'Taxable Subtotal'}</span>
-                <span style={{ color: '#FFFFFF', fontWeight: 700 }}>SAR {subtotal}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                <span>{isAr ? 'المبلغ الصافي' : 'Subtotal'}</span>
+                <span style={{ color: '#FFFFFF', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(subtotal) || 0, language)}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8' }}>
-                <span>{isAr ? 'ضريبة القيمة المضافة (١٥٪)' : 'VAT (15%)'}</span>
-                <span style={{ color: '#00FF24', fontWeight: 700 }}>SAR {vatAmount}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3' }}>
+                <span>{isAr ? 'الضريبة (١٥٪)' : 'VAT (15%)'}</span>
+                <span style={{ color: '#D4AF37', fontWeight: 700 }}>{formatSaudiCurrency(parseFloat(vatAmount) || 0, language)}</span>
               </div>
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  borderTop: '1px solid #1E293B',
-                  paddingTop: '10px',
-                  fontSize: '15px',
+                  borderTop: '1px solid #262626',
+                  paddingTop: '8px',
+                  fontSize: '14px',
                   fontWeight: 900,
                   color: '#FFFFFF',
                 }}
               >
-                <span>{isAr ? 'المجموع النهائي' : 'Gross Total'}</span>
-                <span style={{ color: '#00FF24' }}>SAR {numericValue.toFixed(2)}</span>
+                <span>{isAr ? 'الإجمالي' : 'Total'}</span>
+                <span style={{ color: '#D4AF37' }}>{formatSaudiCurrency(numericValue, language)}</span>
               </div>
             </div>
 
             {/* Optional Customer Note / Invoice Reference Input */}
-            <div style={{ marginTop: '16px' }}>
-              <label style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                {isAr ? 'رقم الفاتورة أو ملاحظة (اختياري)' : 'Invoice / Order Reference (Optional)'}
-              </label>
+            <div style={{ marginTop: '12px' }}>
               <input
                 type="text"
                 value={customerNote}
                 onChange={(e) => setCustomerNote(e.target.value)}
-                placeholder={isAr ? 'مثال: طاولة رقم ٤ أو طلب #١٠٩' : 'e.g., Order #1092 or Table 4'}
+                placeholder={isAr ? 'رقم الطلب أو ملاحظة (اختياري)' : 'Order ref / note (optional)'}
                 style={{
                   width: '100%',
-                  padding: '10px 14px',
-                  backgroundColor: '#111726',
-                  border: '1px solid #1E293B',
-                  borderRadius: '10px',
+                  padding: '8px 12px',
+                  backgroundColor: '#1E1E1E',
+                  border: '1px solid #262626',
+                  borderRadius: '8px',
                   color: '#FFFFFF',
-                  fontSize: '13px',
+                  fontSize: '12px',
                   outline: 'none',
                   boxSizing: 'border-box',
                 }}
@@ -424,14 +423,14 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           <button
             onClick={handleCharge}
             disabled={numericValue <= 0}
-            className="interactive-tap"
+            className={`interactive-tap ${numericValue > 0 ? 'gold-gradient-btn' : ''}`}
             style={{
               width: '100%',
-              padding: '16px',
-              borderRadius: '14px',
-              backgroundColor: numericValue > 0 ? '#00FF24' : '#1E293B',
-              color: numericValue > 0 ? '#080C14' : '#64748B',
-              fontSize: '15px',
+              padding: '14px',
+              borderRadius: '12px',
+              backgroundColor: numericValue > 0 ? undefined : '#262626',
+              color: numericValue > 0 ? '#0B0B0B' : '#737373',
+              fontSize: '14px',
               fontWeight: 900,
               border: 'none',
               cursor: numericValue > 0 ? 'pointer' : 'not-allowed',
@@ -439,15 +438,15 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              boxShadow: numericValue > 0 ? '0 4px 20px rgba(0, 255, 36, 0.4)' : 'none',
+              boxShadow: numericValue > 0 ? '0 4px 16px rgba(212, 175, 55, 0.25)' : 'none',
               transition: 'all 0.15s ease',
             }}
           >
-            <Wifi size={18} />
+            <Wifi size={17} />
             <span>
               {isAr
-                ? `تحصيل ${numericValue.toFixed(2)} ر.س عبر اللمس بالجوال`
-                : `Charge SAR ${numericValue.toFixed(2)} via SoftPOS Tap`}
+                ? `تحصيل ${formatSaudiCurrency(numericValue, language)}`
+                : `Charge ${formatSaudiCurrency(numericValue, language)}`}
             </span>
           </button>
         </div>

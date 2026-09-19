@@ -5,46 +5,48 @@
 
 export const colors = {
   // Surface & Background Colors
-  bgPage: '#080C14',
-  bgCard: '#111726',
-  bgInset: '#161F30',
-  background: '#080C14',
-  surface: '#111726',
-  surfaceElevated: '#161F30',
-  subSurface: '#161F30',
+  bgPage: '#0B0B0B',
+  bgCard: '#171717',
+  bgInset: '#1E1E1E',
+  background: '#0B0B0B',
+  surface: '#171717',
+  surfaceElevated: '#212121',
+  subSurface: '#1E1E1E',
 
   // Borders
-  border: '#1E293B',
-  borderFocus: '#334155',
-  borderHairline: '#1E293B',
-  borderStrong: '#334155',
+  border: '#262626',
+  borderFocus: '#D4AF37',
+  borderHairline: '#262626',
+  borderStrong: '#333333',
 
-  // Accents
-  accentGreen: '#00FF24',
-  accentGreenBright: '#00FF24',
+  // Accents (Luxury Gold)
+  accentGreen: '#D4AF37',
+  accentGreenBright: '#F1D77A',
+  accentGold: '#D4AF37',
+  accentGoldBright: '#F1D77A',
   accentBlue: '#38BDF8',
   accentPurple: '#A855F7',
-  accentAmber: '#F59E0B',
+  accentAmber: '#D4AF37',
 
   // Primary Theme Aliases
-  primary: '#00FF24',
-  primaryHover: '#00E620',
-  primaryActive: '#00CC1D',
-  primaryLight: 'rgba(0, 255, 36, 0.12)',
-  primaryLightHover: 'rgba(0, 255, 36, 0.20)',
-  primaryBorder: '#00FF24',
-  primaryDark: '#009916',
-  textOnPrimary: '#000000',
+  primary: '#D4AF37',
+  primaryHover: '#F1D77A',
+  primaryActive: '#B8972E',
+  primaryLight: 'rgba(212, 175, 55, 0.12)',
+  primaryLightHover: 'rgba(212, 175, 55, 0.20)',
+  primaryBorder: '#D4AF37',
+  primaryDark: '#B8972E',
+  textOnPrimary: '#0B0B0B',
 
   // Secondary & Dark Accents
   secondary: '#000000',
-  secondaryHover: '#161F30',
-  darkBg: '#080C14',
-  darkSurface: '#111726',
-  darkSurfaceElevated: '#161F30',
-  darkBorder: '#1E293B',
-  darkDisabled: '#1E293B',
-  darkPlaceholder: '#64748B',
+  secondaryHover: '#212121',
+  darkBg: '#0B0B0B',
+  darkSurface: '#171717',
+  darkSurfaceElevated: '#212121',
+  darkBorder: '#262626',
+  darkDisabled: '#262626',
+  darkPlaceholder: '#737373',
 
   // Neutral Light Surfaces
   lightBg: '#FFFFFF',
@@ -54,15 +56,15 @@ export const colors = {
 
   // Typography
   textPrimary: '#FFFFFF',
-  textSecondary: '#94A3B8',
-  textMuted: '#64748B',
-  textDisabled: '#64748B',
+  textSecondary: '#E5E5E5',
+  textMuted: '#A3A3A3',
+  textDisabled: '#737373',
 
   // Semantic Status Colors
-  success: '#00FF24',
-  successBright: '#00FF24',
-  successLight: 'rgba(0, 255, 36, 0.12)',
-  successText: '#00FF24',
+  success: '#D4AF37',
+  successBright: '#F1D77A',
+  successLight: 'rgba(212, 175, 55, 0.12)',
+  successText: '#D4AF37',
 
   info: '#38BDF8',
   infoLight: 'rgba(56, 189, 248, 0.12)',
@@ -80,7 +82,7 @@ export const colors = {
   dangerLight: 'rgba(255, 71, 87, 0.12)',
   dangerText: '#FF6B7A',
 
-  overlay: 'rgba(8, 12, 20, 0.85)',
+  overlay: 'rgba(11, 11, 11, 0.88)',
 } as const;
 
 export const spacing = {
@@ -141,7 +143,7 @@ export const shadows = {
 } as const;
 
 export const focus = {
-  ring: '2.5px solid #00FF24',
+  ring: '2.5px solid #D4AF37',
   offset: '2px',
   outline: 'none',
 } as const;
@@ -170,7 +172,7 @@ export const componentPresets = {
     borderRadius: radii.sm,
     fontWeight: typography.weights.bold,
     border: 'none',
-    boxShadow: 'none',
+    boxShadow: '0 4px 20px rgba(212, 175, 55, 0.35)',
   },
   buttonSecondary: {
     backgroundColor: 'transparent',

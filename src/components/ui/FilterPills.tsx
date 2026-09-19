@@ -83,7 +83,7 @@ export const FilterPills: React.FC<FilterPillsProps> = ({
                     width: '6px',
                     height: '6px',
                     borderRadius: '50%',
-                    backgroundColor: 'var(--accent-green, #00C853)',
+                    backgroundColor: 'var(--accent-green, #D4AF37)',
                     flexShrink: 0,
                   }}
                 />
@@ -156,14 +156,14 @@ export const FilterPills: React.FC<FilterPillsProps> = ({
               cursor: 'pointer',
               whiteSpace: 'nowrap',
               border: isActive
-                ? '1px solid var(--accent-green, #00C853)'
-                : '1px solid var(--border, #1E293B)',
+                ? '1px solid var(--accent-green, #D4AF37)'
+                : '1px solid var(--border, #262626)',
               backgroundColor: isActive
-                ? 'rgba(0, 200, 83, 0.15)'
-                : 'var(--bg-inset, #161F30)',
+                ? 'rgba(212, 175, 55, 0.15)'
+                : 'var(--bg-inset, #1E1E1E)',
               color: isActive
-                ? 'var(--accent-green-bright, #00C853)'
-                : 'var(--text-secondary, #94A3B8)',
+                ? 'var(--accent-green-bright, #D4AF37)'
+                : 'var(--text-secondary, #A3A3A3)',
               transition: 'all 0.15s ease',
               outline: 'none',
               flexShrink: 0,
@@ -174,7 +174,7 @@ export const FilterPills: React.FC<FilterPillsProps> = ({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  color: isActive ? 'var(--accent-green, #00C853)' : 'inherit',
+                  color: isActive ? 'var(--accent-green, #D4AF37)' : 'inherit',
                 }}
               >
                 {tab.icon}

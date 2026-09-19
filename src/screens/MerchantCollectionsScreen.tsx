@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CreditCard,
   Landmark,
@@ -39,10 +39,23 @@ export const MerchantCollectionsScreen: React.FC = () => {
     language,
     isRtl,
     t,
+    screenParams,
   } = useApp();
 
   const isAr = language === 'العربية';
-  const [activeMainTab, setActiveMainTab] = useState<'transactions' | 'settlements'>('transactions');
+  const [activeMainTab, setActiveMainTab] = useState<'transactions' | 'settlements'>(() => {
+    if (screenParams?.tab === 'settlements') return 'settlements';
+    return 'transactions';
+  });
+
+  useEffect(() => {
+    if (screenParams?.tab === 'settlements') {
+      setActiveMainTab('settlements');
+    } else if (screenParams?.tab === 'transactions' || screenParams?.tab === 'collections') {
+      setActiveMainTab('transactions');
+    }
+  }, [screenParams?.tab]);
+
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [selectedTxn, setSelectedTxn] = useState<MerchantCollection | null>(null);
   const [refundPin, setRefundPin] = useState('');
@@ -110,8 +123,8 @@ export const MerchantCollectionsScreen: React.FC = () => {
     } else {
       setRefundError(
         isAr
-          ? 'رمز الأمان الخاص بالتاجر غير صحيح (الرمز الافتراضي: 1234)'
-          : 'Incorrect Merchant Security PIN. (Default demo PIN: 1234)'
+          ? 'رمز التاجر غير صحيح (الافتراضي: 1234)'
+          : 'Incorrect PIN (Default: 1234)'
       );
     }
   };
@@ -147,22 +160,22 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
   const getPaymentMethodBadge = (method: string) => {
     if (method.includes('mada') || method.includes('card') || method.startsWith('softpos')) {
-      return { label: 'mada Card', color: colors.accentGreen, bg: colors.primaryLight };
+      return { label: isAr ? 'بطاقة مدى' : 'mada Card', color: colors.accentGreen, bg: colors.primaryLight };
     }
     if (method.includes('apple')) return { label: 'Apple Pay', color: '#fff', bg: '#1E293B' };
-    if (method === 'zatca_qr') return { label: 'ZATCA QR', color: colors.accentPurple, bg: colors.purpleLight };
+    if (method === 'zatca_qr') return { label: isAr ? 'رمز PAY QR' : 'PAY QR', color: colors.accentPurple, bg: colors.purpleLight };
     if (method === 'cash') return { label: isAr ? 'نقدي' : 'Cash', color: colors.accentGreen, bg: colors.primaryLight };
     return { label: isAr ? 'رابط دفع' : 'Pay Link', color: '#38BDF8', bg: '#0F2942' };
   };
 
   const getTransactionTitle = (c: MerchantCollection) => {
     if (c.paymentMethod.includes('mada') || c.paymentMethod.includes('card') || c.paymentMethod.startsWith('softpos')) {
-      return isAr ? 'بطاقة بنكية لا تلامسية' : 'Debit Card Contactless';
+      return isAr ? 'بطاقة بنكية' : 'Contactless Card';
     }
     if (c.paymentMethod.includes('apple')) return `Apple Pay • ${c.orderRef || 'ORD-9842'}`;
     if (c.paymentMethod === 'zatca_qr') return c.customerMasked || (isAr ? 'طارق العتيبي' : 'Tariq Al-Otaibi');
     if (c.paymentMethod === 'cash') return isAr ? 'بيع نقدي • كاشير ١' : 'Cash Sale • Register 1';
-    return c.customerMasked || c.orderRef || 'Payment Link';
+    return c.customerMasked || c.orderRef || (isAr ? 'رابط دفع' : 'Payment Link');
   };
 
   const getTransactionSubtitle = (c: MerchantCollection) => {
@@ -177,7 +190,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
     { id: 'all', label: isAr ? `الكل (${allCollections.length})` : `All (${allCollections.length})`, icon: <Layers size={13} /> },
     { id: 'card', label: isAr ? 'بطاقات' : 'Cards', icon: <CreditCard size={13} /> },
     { id: 'applepay', label: 'Apple Pay', icon: <Smartphone size={13} /> },
-    { id: 'zatca', label: 'ZATCA QR', icon: <QrCode size={13} /> },
+    { id: 'zatca', label: 'PAY QR', icon: <QrCode size={13} /> },
     { id: 'cash', label: isAr ? 'نقدي' : 'Cash', icon: <Banknote size={13} /> },
     { id: 'link', label: isAr ? 'روابط' : 'Links', icon: <Share2 size={13} /> },
   ];
@@ -193,16 +206,14 @@ export const MerchantCollectionsScreen: React.FC = () => {
       }}
     >
       {/* ── Page Header ─────────────────────────────────────── */}
-      <div style={{ marginBottom: '28px' }}>
+      <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <div>
-            <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: colors.textPrimary }}>
+            <h1 style={{ fontSize: '24px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: colors.textPrimary }}>
               {isAr ? 'التحصيلات والتسويات' : 'Collections & Settlements'}
             </h1>
-            <p style={{ fontSize: '13.5px', color: colors.textSecondary, margin: '6px 0 0 0', fontWeight: 500 }}>
-              {isAr
-                ? 'سجل العمليات الكامل مع تسوية سريع الفورية'
-                : 'Full transaction ledger with Sarie instant settlement'}
+            <p style={{ fontSize: '13px', color: colors.textSecondary, margin: '4px 0 0 0', fontWeight: 500 }}>
+              {isAr ? 'سجل العمليات والتسويات الفورية' : 'Transaction and settlement ledger'}
             </p>
           </div>
 
@@ -212,37 +223,37 @@ export const MerchantCollectionsScreen: React.FC = () => {
               type="button"
               className="interactive-tap"
               style={{
-                display: 'flex', alignItems: 'center', gap: '7px',
+                display: 'flex', alignItems: 'center', gap: '6px',
                 backgroundColor: colors.bgCard,
                 border: `1px solid ${colors.border}`,
                 borderRadius: radii.md,
-                padding: '9px 16px',
+                padding: '8px 14px',
                 color: colors.textSecondary,
-                fontSize: '13px',
+                fontSize: '12.5px',
                 fontWeight: 700,
                 cursor: 'pointer',
               }}
             >
-              <Download size={15} />
-              {isAr ? 'تصدير CSV' : 'Export CSV'}
+              <Download size={14} />
+              {isAr ? 'تصدير' : 'Export'}
             </button>
             <button
               type="button"
               className="interactive-tap"
               style={{
-                display: 'flex', alignItems: 'center', gap: '7px',
+                display: 'flex', alignItems: 'center', gap: '6px',
                 backgroundColor: colors.primaryLight,
                 border: '1px solid rgba(0, 200, 83, 0.3)',
                 borderRadius: radii.md,
-                padding: '9px 16px',
+                padding: '8px 14px',
                 color: colors.accentGreen,
-                fontSize: '13px',
+                fontSize: '12.5px',
                 fontWeight: 700,
                 cursor: 'pointer',
               }}
             >
-              <Receipt size={15} />
-              {isAr ? 'فاتورة ضريبية' : 'Tax Invoice'}
+              <Receipt size={14} />
+              {isAr ? 'فاتورة' : 'Invoice'}
             </button>
           </div>
         </div>
@@ -316,7 +327,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
               {isAr ? 'اليوم، ٢٤ أكتوبر' : 'TODAY, 24 OCT'}
             </span>
             <span className="tabular-nums" style={{ fontSize: '13.5px', fontWeight: 700, color: colors.textPrimary, letterSpacing: '-0.01em' }}>
-              SAR {totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {formatSaudiCurrency(totalSales, language)}
             </span>
           </div>
 
@@ -433,7 +444,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                       textAlign: 'right',
                     }}
                   >
-                    {c.status === 'refunded' ? '-' : '+'}SAR {c.amount.toFixed(2)}
+                    {c.status === 'refunded' ? '-' : '+'}{formatSaudiCurrency(c.amount, language)}
                   </span>
 
                   {/* Col 5: VAT */}
@@ -441,7 +452,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                     className="tabular-nums"
                     style={{ fontSize: '12px', color: colors.textSecondary, textAlign: 'right', fontWeight: 600 }}
                   >
-                    {c.vatAmount.toFixed(2)}
+                    {formatLocalizedNumber(c.vatAmount.toFixed(2), language)}
                   </span>
 
                   {/* Col 6: Status */}
@@ -504,7 +515,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <span style={{ fontSize: '11px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  {isAr ? 'رصيد التحصيلات غير المسوى' : "Today's Unsettled Payout"}
+                  {isAr ? 'الرصيد غير المسوى' : 'Unsettled Balance'}
                 </span>
                 <div className="tabular-nums" style={{ fontSize: '36px', fontWeight: 900, color: colors.textPrimary, marginTop: '4px', letterSpacing: '-0.04em' }}>
                   {formatCurrency(unsettledTotal, language)}
@@ -512,13 +523,13 @@ export const MerchantCollectionsScreen: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', fontSize: '12px', color: colors.textSecondary }}>
                   <Building2 size={14} color={colors.accentGreen} />
                   <span>
-                    {isAr ? 'الحساب البنكي:' : 'IBAN:'}{' '}
-                    <strong style={{ color: colors.textPrimary }}>{merchantInfo.settlementBank}</strong>
+                    {isAr ? 'الحساب:' : 'Bank:'}{' '}
+                    <strong style={{ color: colors.textPrimary }}>{translateText(merchantInfo.settlementBank, language)}</strong>
                   </span>
                   <ShieldCheck size={13} color={colors.accentGreen} />
                   <span style={{ color: colors.accentGreen, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <Clock size={12} />
-                    {t('settlenow.auto_schedule', 'Daily 06:00 AM')}
+                    {isAr ? 'يومياً ٠٦:٠٠ ص' : 'Daily 06:00 AM'}
                   </span>
                 </div>
               </div>
@@ -542,7 +553,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                 }}
               >
                 <Zap size={17} fill="#080C14" />
-                <span>{isSettling ? (isAr ? 'جاري التحويل...' : 'Settling...') : t('settlenow.cta', 'Settle Now')}</span>
+                <span>{isSettling ? (isAr ? 'جاري التحويل...' : 'Settling...') : (isAr ? 'تسوية فورية' : 'Settle Now')}</span>
                 <ArrowUpRight size={16} />
               </button>
             </div>
@@ -553,7 +564,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
               <Landmark size={16} color={colors.accentGreen} />
               <h3 style={{ fontSize: '14px', fontWeight: 800, color: colors.textPrimary, margin: 0 }}>
-                {isAr ? 'سجل التسويات البنكية (سريع)' : 'Sarie Settlement History'}
+                {isAr ? 'سجل التسويات' : 'Settlement History'}
               </h3>
               <span style={{ fontSize: '11px', color: colors.textSecondary, fontWeight: 600 }}>
                 {formatLocalizedNumber(merchantSettlements.length, language)} {isAr ? 'تسويات' : 'Settlements'}
@@ -574,7 +585,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
               >
                 {[
                   isAr ? 'مرجع التسوية' : 'Settlement Ref',
-                  isAr ? 'مرجع سريع UTR' : 'Sarie UTR',
+                  isAr ? 'مرجع سريع' : 'Sarie Ref',
                   isAr ? 'البنك' : 'Bank',
                   isAr ? 'المبلغ' : 'Amount',
                   isAr ? 'النوع' : 'Type',
@@ -620,7 +631,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                   {/* Bank */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: colors.textSecondary }}>
                     <Building2 size={13} color={colors.accentBlue} />
-                    {s.bankName} ({s.ibanMasked.slice(-8)})
+                    {translateText(s.bankName, language)} ({s.ibanMasked.slice(-8)})
                   </div>
 
                   {/* Amount */}
@@ -656,7 +667,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                       }}
                     >
                       <FileText size={12} color={colors.accentGreen} />
-                      {t('settlements.download_invoice', 'Download VAT Invoice')}
+                      {isAr ? 'تحميل الفاتورة' : 'Invoice'}
                     </button>
                   </div>
                 </div>
@@ -695,7 +706,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: spacing.space2 }}>
                 <RotateCcw size={18} color={colors.dangerText} />
                 <span style={{ fontSize: '16px', fontWeight: 800 }}>
-                  {isAr ? 'تفاصيل العملية والاسترداد' : 'Transaction Details & Refund'}
+                  {isAr ? 'استرداد العملية' : 'Refund Transaction'}
                 </span>
               </div>
               <button
@@ -715,12 +726,12 @@ export const MerchantCollectionsScreen: React.FC = () => {
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={48} color={colors.accentGreen} style={{ margin: '0 auto 12px auto' }} />
                 <div style={{ fontSize: '17px', fontWeight: 800, color: colors.textPrimary }}>
-                  {isAr ? 'تم تأكيد الاسترداد بنجاح' : 'Refund Authorized'}
+                  {isAr ? 'تم الاسترداد بنجاح' : 'Refund Successful'}
                 </div>
                 <div style={{ fontSize: '12.5px', color: colors.textSecondary, marginTop: '6px' }}>
                   {isAr
-                    ? `تم إرجاع ${formatSaudiCurrency(selectedTxn.amount, language)} إلى حساب العميل البنكي فورياً.`
-                    : `SAR ${selectedTxn.amount.toFixed(2)} returned to customer bank account.`}
+                    ? `تم إرجاع ${formatSaudiCurrency(selectedTxn.amount, language)} إلى حساب العميل فورياً.`
+                    : `SAR ${selectedTxn.amount.toFixed(2)} refunded to customer.`}
                 </div>
               </div>
             ) : (
@@ -729,7 +740,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                   {[
                     { label: isAr ? 'العملية:' : 'Transaction:', value: getTransactionTitle(selectedTxn) },
                     { label: isAr ? 'المرجع:' : 'Reference:', value: selectedTxn.id, mono: true },
-                    { label: isAr ? 'ضريبة زاتكا ١٥٪:' : '15% ZATCA VAT:', value: `SAR ${selectedTxn.vatAmount.toFixed(2)}`, green: true },
+                    { label: isAr ? 'الضريبة (١٥٪):' : 'VAT (15%):', value: formatSaudiCurrency(selectedTxn.vatAmount, language), green: true },
                   ].map(({ label, value, mono, green }) => (
                     <div key={label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                       <span style={{ color: colors.textSecondary }}>{label}</span>
@@ -740,13 +751,13 @@ export const MerchantCollectionsScreen: React.FC = () => {
                   ))}
                   <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '6px', borderTop: `1px solid ${colors.border}` }}>
                     <span style={{ color: colors.textSecondary }}>{isAr ? 'المبلغ:' : 'Total Amount:'}</span>
-                    <span style={{ fontWeight: 900, color: colors.textPrimary }}>SAR {selectedTxn.amount.toFixed(2)}</span>
+                    <span style={{ fontWeight: 900, color: colors.textPrimary }}>{formatSaudiCurrency(selectedTxn.amount, language)}</span>
                   </div>
                 </Card>
 
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: 500, color: '#94A3B8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-                    {isAr ? 'أدخل الرمز السري للتاجر (٤ أرقام للاسترداد)' : 'Enter 4-Digit Merchant PIN to Refund'}
+                    {isAr ? 'رمز التاجر السري' : 'Merchant PIN'}
                   </label>
                   <div style={{ display: 'flex', alignItems: 'center', backgroundColor: colors.bgInset, border: `1px solid ${colors.border}`, borderRadius: radii.md, padding: '12px 14px' }}>
                     <Lock size={16} color={colors.accentGreen} style={{ marginRight: isRtl ? 0 : '10px', marginLeft: isRtl ? '10px' : 0 }} />
@@ -773,8 +784,8 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
                 <PrimaryButton type="submit" disabled={isRefunding || refundPin.length < 4}>
                   {isRefunding
-                    ? (isAr ? 'جاري معالجة الاسترداد...' : 'Processing Refund...')
-                    : (isAr ? `تأكيد استرداد ${formatSaudiCurrency(selectedTxn.amount, language)}` : `Authorize Refund SAR ${selectedTxn.amount.toFixed(2)}`)}
+                    ? (isAr ? 'جاري الاسترداد...' : 'Processing...')
+                    : (isAr ? `تأكيد استرداد ${formatSaudiCurrency(selectedTxn.amount, language)}` : `Confirm Refund SAR ${selectedTxn.amount.toFixed(2)}`)}
                 </PrimaryButton>
               </form>
             )}

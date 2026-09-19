@@ -26,31 +26,31 @@ export const PermissionsScreen: React.FC = () => {
     {
       key: 'nfc',
       icon: <Wifi size={19} />,
-      name: language === 'العربية' ? 'شريحة الدفع اللاتلامسي (NFC SoftPOS)' : 'NFC SoftPOS & Contactless Reader',
+      name: language === 'العربية' ? 'الدفع باللمس (NFC)' : 'NFC SoftPOS',
       required: true,
     },
     {
       key: 'camera',
       icon: <Camera size={19} />,
-      name: language === 'العربية' ? 'كاميرا مسح فواتير زاتكا (ZATCA QR)' : 'Camera & ZATCA QR Scanner',
+      name: language === 'العربية' ? 'كاميرا مسح الرمز' : 'QR Scanner',
       required: true,
     },
     {
       key: 'location',
       icon: <MapPin size={19} />,
-      name: language === 'العربية' ? 'الموقع الجغرافي لأمان نقاط البيع' : 'Location & POS Geofencing',
+      name: language === 'العربية' ? 'الموقع الجغرافي' : 'Location',
       required: true,
     },
     {
       key: 'bluetooth',
       icon: <Radio size={19} />,
-      name: language === 'العربية' ? 'بلوتوث الربط بمكبر الصوت SoundBox' : 'Bluetooth SoundBox Gateway',
+      name: language === 'العربية' ? 'مكبر الصوت (SoundBox)' : 'SoundBox Bluetooth',
       required: false,
     },
     {
       key: 'notifications',
       icon: <Bell size={19} />,
-      name: language === 'العربية' ? 'إشعارات التحصيل والتسوية اليومية' : 'Daily Settlement Alerts',
+      name: language === 'العربية' ? 'إشعارات التحصيل' : 'Notifications',
       required: false,
     },
   ];
@@ -68,28 +68,24 @@ export const PermissionsScreen: React.FC = () => {
 
     setTimeout(() => {
       setDiscoveryStep(2);
-    }, 900);
-
-    setTimeout(() => {
-      setDiscoveryStep(3);
-    }, 1800);
+    }, 700);
 
     setTimeout(() => {
       navigateTo('MERCHANT_SETUP');
-    }, 2700);
+    }, 1400);
   };
 
   return (
-    <div className="fade-in" style={{ backgroundColor: '#080C14', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '32px', color: '#FFFFFF' }}>
+    <div className="fade-in" style={{ backgroundColor: '#0B0B0B', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '32px', color: '#FFFFFF' }}>
       <div>
-        <AppHeader title={t('auth.permissions_title', 'SoftPOS Permissions')} showBack={true} onBack={goBack} showSettings={false} />
+        <AppHeader title={language === 'العربية' ? 'الصلاحيات' : 'Permissions'} showBack={true} onBack={goBack} showSettings={false} />
 
         <div style={{ padding: '20px' }}>
           {/* Header Card */}
           <div
             style={{
-              backgroundColor: '#111726',
-              border: '1px solid #1E293B',
+              backgroundColor: '#171717',
+              border: '1px solid #262626',
               borderRadius: '16px',
               padding: '16px 18px',
               marginBottom: '18px',
@@ -100,56 +96,40 @@ export const PermissionsScreen: React.FC = () => {
               boxShadow: 'none',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div
                 style={{
-                  width: '44px',
-                  height: '44px',
+                  width: '40px',
+                  height: '40px',
                   borderRadius: '12px',
-                  backgroundColor: 'rgba(0, 255, 36, 0.12)',
-                  color: '#00FF24',
-                  border: '1px solid rgba(0, 255, 36, 0.3)',
+                  backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                  color: '#D4AF37',
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
                 }}
               >
-                <ShieldCheck size={24} />
+                <ShieldCheck size={22} />
               </div>
               <div>
-                <div style={{ fontSize: '14.5px', fontWeight: 800, color: '#FFFFFF' }}>
-                  {language === 'العربية' ? 'معايير أمان نقاط البيع المعتمدة' : 'SoftPOS Terminal Security Standard'}
+                <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF' }}>
+                  {language === 'العربية' ? 'صلاحيات نقطة البيع' : 'Device Permissions'}
                 </div>
-                <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>
-                  {language === 'العربية' ? 'تشفير متقدم لعمليات نقاط البيع والدفع' : 'Encrypted Contactless & QR POS Processing'}
+                <div style={{ fontSize: '11px', color: '#A3A3A3', marginTop: '2px' }}>
+                  {language === 'العربية' ? 'لتفعيل الدفع عبر NFC ومسح الرمز' : 'Enable NFC & QR payments'}
                 </div>
               </div>
             </div>
           </div>
 
-          <div
-            style={{
-              fontSize: '12px',
-              fontWeight: 500,
-              color: '#64748B',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: '10px',
-              paddingInlineStart: '4px',
-            }}
-          >
-            {language === 'العربية'
-              ? `صلاحيات نقطة البيع (تم منح ${Object.values(toggles).filter(Boolean).length}/٥)`
-              : `POS Hardware Access (${Object.values(toggles).filter(Boolean).length}/5 Granted)`}
-          </div>
-
           {/* Grouped Permissions Card */}
           <div
             style={{
-              backgroundColor: '#111726',
+              backgroundColor: '#171717',
               borderRadius: '16px',
-              border: '1px solid #1E293B',
+              border: '1px solid #262626',
               overflow: 'hidden',
               boxShadow: 'none',
             }}
@@ -158,7 +138,7 @@ export const PermissionsScreen: React.FC = () => {
               const isOn = toggles[perm.key];
               return (
                 <React.Fragment key={perm.key}>
-                  {index > 0 && <div style={{ height: '1px', backgroundColor: '#1E293B', margin: '0 16px' }} />}
+                  {index > 0 && <div style={{ height: '1px', backgroundColor: '#262626', margin: '0 16px' }} />}
                   <div
                     style={{
                       display: 'flex',
@@ -171,12 +151,12 @@ export const PermissionsScreen: React.FC = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0 }}>
                       <div
                         style={{
-                          width: '38px',
-                          height: '38px',
+                          width: '36px',
+                          height: '36px',
                           borderRadius: '10px',
-                          backgroundColor: isOn ? 'rgba(0, 255, 36, 0.12)' : '#1A2234',
-                          color: isOn ? '#00FF24' : '#94A3B8',
-                          border: isOn ? '1px solid rgba(0, 255, 36, 0.35)' : '1px solid #1E293B',
+                          backgroundColor: isOn ? 'rgba(212, 175, 55, 0.12)' : '#1F1F1F',
+                          color: isOn ? '#D4AF37' : '#737373',
+                          border: isOn ? '1px solid rgba(212, 175, 55, 0.35)' : '1px solid #262626',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -187,11 +167,11 @@ export const PermissionsScreen: React.FC = () => {
                         {perm.icon}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontWeight: 800, fontSize: '14px', color: '#FFFFFF' }}>
+                        <span style={{ fontWeight: 800, fontSize: '13.5px', color: '#FFFFFF' }}>
                           {perm.name}
                         </span>
                         {perm.required && (
-                          <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: 'rgba(0, 255, 36, 0.12)', color: '#00FF24', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(0, 255, 36, 0.3)' }}>
+                          <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: 'rgba(212, 175, 55, 0.12)', color: '#D4AF37', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(212, 175, 55, 0.3)' }}>
                             {language === 'العربية' ? 'إلزامي' : 'REQUIRED'}
                           </span>
                         )}
@@ -211,11 +191,11 @@ export const PermissionsScreen: React.FC = () => {
                         }
                       }}
                       style={{
-                        width: '46px',
-                        height: '26px',
+                        width: '44px',
+                        height: '24px',
                         borderRadius: '9999px',
-                        backgroundColor: isOn ? '#00FF24' : '#1A2234',
-                        border: isOn ? 'none' : '1px solid #1E293B',
+                        backgroundColor: isOn ? '#D4AF37' : '#1F1F1F',
+                        border: isOn ? 'none' : '1px solid #262626',
                         display: 'flex',
                         alignItems: 'center',
                         padding: '2px',
@@ -227,10 +207,10 @@ export const PermissionsScreen: React.FC = () => {
                     >
                       <div
                         style={{
-                          width: '22px',
-                          height: '22px',
+                          width: '20px',
+                          height: '20px',
                           borderRadius: '50%',
-                          backgroundColor: isOn ? '#080C14' : '#94A3B8',
+                          backgroundColor: isOn ? '#0B0B0B' : '#737373',
                           transform: isOn ? 'translateX(20px)' : 'translateX(0px)',
                           transition: 'transform 0.2s ease',
                           boxShadow: 'none',
@@ -248,11 +228,11 @@ export const PermissionsScreen: React.FC = () => {
       {/* Action Buttons */}
       <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <PrimaryButton onClick={handleGrantPermissions}>
-          {t('auth.allow_continue', 'Allow & Configure Store')}{' '}
+          {language === 'العربية' ? 'تفعيل ومتابعة' : 'Enable & Continue'}{' '}
           <ArrowRight size={18} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
         </PrimaryButton>
         <SecondaryButton onClick={handleGrantPermissions}>
-          {language === 'العربية' ? 'تخطي الآن' : 'Skip for Now'}
+          {language === 'العربية' ? 'تخطي' : 'Skip'}
         </SecondaryButton>
       </div>
 
@@ -262,7 +242,7 @@ export const PermissionsScreen: React.FC = () => {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(5, 8, 15, 0.85)',
+            backgroundColor: 'rgba(0, 0, 0, 0.88)',
             backdropFilter: 'blur(10px)',
             zIndex: 100,
             display: 'flex',
@@ -274,102 +254,41 @@ export const PermissionsScreen: React.FC = () => {
           <div
             className="fade-in"
             style={{
-              backgroundColor: '#111726',
+              backgroundColor: '#171717',
               borderRadius: '20px',
-              border: '1px solid #1E293B',
-              padding: '28px 24px',
+              border: '1px solid rgba(212, 175, 55, 0.35)',
+              padding: '24px 20px',
               width: '100%',
-              maxWidth: '380px',
+              maxWidth: '320px',
               textAlign: 'center',
-              boxShadow: 'none',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)',
               color: '#FFFFFF',
             }}
           >
             <div
               style={{
-                width: '64px',
-                height: '64px',
+                width: '52px',
+                height: '52px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(0, 255, 36, 0.12)',
-                color: '#00FF24',
-                border: '1px solid rgba(0, 255, 36, 0.3)',
+                backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                color: '#D4AF37',
+                border: '1px solid rgba(212, 175, 55, 0.3)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 16px auto',
+                margin: '0 auto 12px auto',
               }}
             >
-              {discoveryStep === 1 && <Loader2 size={32} className="animate-spin" />}
-              {discoveryStep === 2 && <Landmark size={32} />}
-              {discoveryStep === 3 && <CheckCircle2 size={36} color="#00FF24" />}
+              {discoveryStep === 1 ? <Loader2 size={26} className="animate-spin" /> : <CheckCircle2 size={30} color="#D4AF37" />}
             </div>
 
-            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 8px 0' }}>
-              {discoveryStep === 1 && (language === 'العربية' ? 'تهيئة شريحة نقطة البيع SoftPOS...' : 'Initializing SoftPOS Chipset...')}
-              {discoveryStep === 2 && (language === 'العربية' ? 'التحقق من السجل التجاري وزاتكا...' : 'ZATCA & CR Verified')}
-              {discoveryStep === 3 && (language === 'العربية' ? 'منظومة نقاط البيع جاهزة' : 'POS Engine Ready')}
+            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 4px 0' }}>
+              {discoveryStep === 1 ? (language === 'العربية' ? 'تهيئة نقطة البيع...' : 'Setting up POS...') : (language === 'العربية' ? 'جاهز!' : 'Ready!')}
             </h3>
 
-            <p style={{ fontSize: '13px', color: '#94A3B8', margin: '0 0 20px 0', lineHeight: '1.4' }}>
-              {discoveryStep === 1 && (language === 'العربية' ? 'تأمين اتصال NFC المشفر لنقاط البيع' : 'Securing NFC SoftPOS encrypted connection')}
-              {discoveryStep === 2 && (language === 'العربية' ? 'الربط بمنظومة الفوترة الإلكترونية المرحلة الثانية' : 'Enrolled in ZATCA Phase 2 E-Invoicing')}
-              {discoveryStep === 3 && (language === 'العربية' ? 'تم تفعيل منظومة المدفوعات وسريع. جاري إكمال بيانات المتجر...' : 'POS Engine & Sarie enabled. Proceeding to store setup...')}
+            <p style={{ fontSize: '12px', color: '#A3A3A3', margin: 0 }}>
+              {discoveryStep === 1 ? (language === 'العربية' ? 'تأمين الاتصال' : 'Securing NFC connection') : (language === 'العربية' ? 'تم تفعيل الخدمة' : 'POS ready')}
             </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: isRtl ? 'right' : 'left' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '10px 12px',
-                  borderRadius: '10px',
-                  backgroundColor: discoveryStep >= 1 ? 'rgba(0, 255, 36, 0.12)' : '#1A2234',
-                  border: `1px solid ${discoveryStep >= 1 ? 'rgba(0, 255, 36, 0.35)' : '#1E293B'}`,
-                }}
-              >
-                {discoveryStep >= 1 ? <CheckCircle2 size={16} color="#00FF24" /> : <Loader2 size={16} color="#94A3B8" />}
-                <span style={{ fontSize: '12.5px', fontWeight: 700, color: discoveryStep >= 1 ? '#FFFFFF' : '#94A3B8' }}>
-                  {language === 'العربية' ? 'ربط الجهاز وتفويض نقطة البيع SoftPOS' : 'Device Binding & SoftPOS Authorization'}
-                </span>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  padding: '10px 12px',
-                  borderRadius: '10px',
-                  backgroundColor: discoveryStep >= 2 ? 'rgba(0, 255, 36, 0.12)' : '#1A2234',
-                  border: `1px solid ${discoveryStep >= 2 ? 'rgba(0, 255, 36, 0.35)' : '#1E293B'}`,
-                }}
-              >
-                {discoveryStep >= 2 ? <CheckCircle2 size={16} color="#00FF24" /> : <Loader2 size={16} color="#94A3B8" />}
-                <span style={{ fontSize: '12.5px', fontWeight: 700, color: discoveryStep >= 2 ? '#FFFFFF' : '#94A3B8' }}>
-                  {language === 'العربية' ? 'التحقق من منصة فاتورة وهيئة الزكاة' : 'ZATCA Fatoora Platform Verified'}
-                </span>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '10px 12px',
-                  borderRadius: '10px',
-                  backgroundColor: discoveryStep >= 3 ? 'rgba(0, 255, 36, 0.2)' : '#1A2234',
-                  border: `1px solid ${discoveryStep >= 3 ? '#00FF24' : '#1E293B'}`,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  {discoveryStep >= 3 ? <CheckCircle2 size={16} color="#00FF24" /> : <Sparkles size={16} color="#94A3B8" />}
-                  <span style={{ fontSize: '12.5px', fontWeight: 700, color: discoveryStep >= 3 ? '#00FF24' : '#94A3B8' }}>
-                    {language === 'العربية' ? 'جاهزية منظومة نقاط البيع وسريع' : 'POS Engine & Sarie Ready'}
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       )}

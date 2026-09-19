@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Share2,
+  Link2,
   Copy,
   Check,
   QrCode,
@@ -13,6 +13,7 @@ import { Card } from '../components/ui';
 import { QRCodeView } from '../components/QRCodeView';
 import { ZatcaLogo } from '../components/ZatcaLogo';
 import { colors } from '../design-system/tokens';
+import { translateText, formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
 
 export const MerchantQrGeneratorScreen: React.FC = () => {
   const {
@@ -27,12 +28,22 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
   const [qrMode, setQrMode] = useState<'stand' | 'invoice'>('stand');
   const [invoiceAmount, setInvoiceAmount] = useState<string>('150.00');
   const [orderNote, setOrderNote] = useState<string>(isAr ? 'فاتورة رقم #INV-9901' : 'Invoice #INV-9901');
-  const [copied, setCopied] = useState(false);
+  const [copiedPayload, setCopiedPayload] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [isSimulatingScan, setIsSimulatingScan] = useState(false);
 
   const numAmount = qrMode === 'invoice' ? (parseFloat(invoiceAmount) || 0) : 0;
   const vatAmount = numAmount > 0 ? Number((numAmount - numAmount / 1.15).toFixed(2)) : 0;
   const subtotal = (numAmount - vatAmount).toFixed(2);
+
+  const payLinkId = merchantInfo.terminalId
+    ? merchantInfo.terminalId.replace(/\D/g, '').slice(-7) || '8839201'
+    : '8839201';
+
+  const payLinkUrl =
+    qrMode === 'invoice' && numAmount > 0
+      ? `https://qtpay.sa/pay/lnk_${payLinkId}?amt=${numAmount.toFixed(2)}`
+      : `https://qtpay.sa/pay/lnk_${payLinkId}`;
 
   const zatcaPayload =
     qrMode === 'invoice'
@@ -56,19 +67,14 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
 
   const handleCopyPayload = () => {
     navigator.clipboard?.writeText(zatcaPayload);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedPayload(true);
+    setTimeout(() => setCopiedPayload(false), 2000);
   };
 
-  const handleShareWhatsApp = () => {
-    const shareText = isAr
-      ? `ادفع مباشرة لمتجر ${merchantInfo.businessName} عبر الباركود ورابط سريع: ${zatcaPayload}`
-      : `Pay directly to ${merchantInfo.businessName} via QR / Sarie: ${zatcaPayload}`;
-    if (navigator.share) {
-      navigator.share({ title: merchantInfo.businessName, text: shareText }).catch(() => {});
-    } else {
-      navigator.clipboard?.writeText(shareText);
-    }
+  const handleCopyPayLink = () => {
+    navigator.clipboard?.writeText(payLinkUrl);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
   };
 
   return (
@@ -83,14 +89,12 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
       }}
     >
       {/* Page Title */}
-      <div style={{ marginBottom: '20px' }}>
-        <h1 style={{ fontSize: '22px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
-          {isAr ? 'مركز باركود المتجر والفواتير الضريبية (ZATCA Phase 2)' : 'Store QR Hub & ZATCA E-Invoicing'}
+      <div style={{ marginBottom: '16px' }}>
+        <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#FFFFFF', margin: 0 }}>
+          {isAr ? 'رمز PAY QR والفواتير' : 'PAY QR & Invoices'}
         </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', margin: 0 }}>
-          {isAr
-            ? 'إنشاء وطباعة ملصقات الباركود الثابتة للطاولات أو إصدار فواتير ضريبية إلكترونية فورية'
-            : 'Generate static counter stand posters or dynamic 15% VAT QR invoices for instant customer checkout'}
+        <p style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '3px', margin: 0 }}>
+          {isAr ? 'إنشاء باركود المتجر وفواتير الدفع والروابط المباشرة' : 'Generate counter QR stand, invoices & direct pay links'}
         </p>
       </div>
 
@@ -99,116 +103,158 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
         style={{
           display: 'grid',
           gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 1.2fr)',
-          gap: '24px',
+          gap: '20px',
           alignItems: 'start',
         }}
       >
         {/* Left Column: Mode Selector & Configuration */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {/* Mode Selector Tabs */}
-          <Card variant="elevated" style={{ padding: '16px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+          <Card variant="elevated" style={{ padding: '14px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
               <button
                 onClick={() => setQrMode('stand')}
                 className="interactive-tap"
                 style={{
-                  padding: '12px 14px',
+                  padding: '10px 12px',
                   borderRadius: '10px',
-                  backgroundColor: qrMode === 'stand' ? 'rgba(0, 255, 36, 0.15)' : '#111726',
-                  border: qrMode === 'stand' ? '1.5px solid #00FF24' : '1px solid #1E293B',
-                  color: qrMode === 'stand' ? '#00FF24' : '#FFFFFF',
+                  backgroundColor: qrMode === 'stand' ? 'rgba(212, 175, 55, 0.15)' : '#1E1E1E',
+                  border: qrMode === 'stand' ? '1.5px solid #D4AF37' : '1px solid #262626',
+                  color: qrMode === 'stand' ? '#D4AF37' : '#FFFFFF',
                   fontWeight: 800,
-                  fontSize: '13px',
+                  fontSize: '12.5px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '8px',
+                  gap: '6px',
                 }}
               >
-                <QrCode size={16} />
-                <span>{isAr ? 'باركود الملصق (ثابت)' : 'Static Stand QR'}</span>
+                <QrCode size={15} />
+                <span>{isAr ? 'ملصق المتجر' : 'Stand QR'}</span>
               </button>
 
               <button
                 onClick={() => setQrMode('invoice')}
                 className="interactive-tap"
                 style={{
-                  padding: '12px 14px',
+                  padding: '10px 12px',
                   borderRadius: '10px',
-                  backgroundColor: qrMode === 'invoice' ? 'rgba(0, 255, 36, 0.15)' : '#111726',
-                  border: qrMode === 'invoice' ? '1.5px solid #00FF24' : '1px solid #1E293B',
-                  color: qrMode === 'invoice' ? '#00FF24' : '#FFFFFF',
+                  backgroundColor: qrMode === 'invoice' ? 'rgba(212, 175, 55, 0.15)' : '#1E1E1E',
+                  border: qrMode === 'invoice' ? '1.5px solid #D4AF37' : '1px solid #262626',
+                  color: qrMode === 'invoice' ? '#D4AF37' : '#FFFFFF',
                   fontWeight: 800,
-                  fontSize: '13px',
+                  fontSize: '12.5px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '8px',
+                  gap: '6px',
                 }}
               >
-                <FileText size={16} />
-                <span>{isAr ? 'فاتورة ضريبية (محدد)' : 'Dynamic Invoice QR'}</span>
+                <FileText size={15} />
+                <span>{isAr ? 'فاتورة ضريبية' : 'Invoice QR'}</span>
               </button>
             </div>
           </Card>
 
           {/* Configuration Form Card */}
-          <Card variant="elevated" style={{ padding: '22px' }}>
+          <Card variant="elevated" style={{ padding: '18px', background: '#171717', border: '1px solid #262626' }}>
             {qrMode === 'stand' ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF' }}>
                   {isAr ? 'بيانات ملصق الكاونتر والطاولات' : 'Store Stand Details'}
                 </div>
-                <div style={{ fontSize: '12.5px', color: '#94A3B8', lineHeight: 1.5 }}>
+                <div style={{ fontSize: '12.5px', color: '#A3A3A3', lineHeight: 1.5 }}>
                   {isAr
                     ? 'يمكن للعميل مسح هذا الرمز بأي تطبيق بنكي سعودي وإدخال المبلغ المطلوب مباشرة.'
                     : 'Customers scan this code with any Saudi Banking app (Al Rajhi, SNB, Riyad, Urpay) and enter the custom amount.'}
                 </div>
 
-                <div style={{ padding: '14px', backgroundColor: '#080C14', borderRadius: '12px', border: '1px solid #1E293B' }}>
-                  <div style={{ fontSize: '12px', color: '#94A3B8' }}>{isAr ? 'اسم المنشأة' : 'Business Name'}</div>
+                <div style={{ padding: '14px', backgroundColor: '#0B0B0B', borderRadius: '12px', border: '1px solid #262626' }}>
+                  <div style={{ fontSize: '12px', color: '#A3A3A3' }}>{isAr ? 'اسم المنشأة' : 'Business Name'}</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF', marginTop: '2px' }}>
-                    {merchantInfo.businessName}
+                    {translateText(merchantInfo.businessName, language)}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#00FF24', marginTop: '6px', fontWeight: 700 }}>
-                    {isAr ? 'الرقم الضريبي' : 'VAT ID'}: {merchantInfo.vatNumber}
+                  <div style={{ fontSize: '12px', color: '#D4AF37', marginTop: '6px', fontWeight: 700 }}>
+                    {isAr ? 'الرقم الضريبي' : 'VAT ID'}: {formatLocalizedNumber(merchantInfo.vatNumber, language)}
                   </div>
                 </div>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#FFFFFF' }}>
-                  {isAr ? 'إنشاء فاتورة ضريبية محددة القيمة' : 'Set Invoice Amount & Reference'}
+                  {isAr ? 'تخصيص الفاتورة الضريبية' : 'Dynamic Tax Invoice Config'}
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                    {isAr ? 'إجمالي الفاتورة (ر.س)' : 'Invoice Total (SAR)'}
+                  <label style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                    {isAr ? 'المبلغ الإجمالي (شامل الضريبة ١٥٪)' : 'Total Amount (Inc. 15% VAT)'}
                   </label>
-                  <input
-                    type="number"
-                    value={invoiceAmount}
-                    onChange={(e) => setInvoiceAmount(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '12px 14px',
-                      backgroundColor: '#080C14',
-                      border: '1.5px solid #00FF24',
-                      borderRadius: '10px',
-                      color: '#00FF24',
-                      fontSize: '18px',
-                      fontWeight: 800,
-                      outline: 'none',
-                      boxSizing: 'border-box',
-                    }}
-                  />
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <input
+                      type="number"
+                      value={invoiceAmount}
+                      onChange={(e) => setInvoiceAmount(e.target.value)}
+                      placeholder="0.00"
+                      style={{
+                        width: '100%',
+                        padding: '12px 14px',
+                        backgroundColor: '#0B0B0B',
+                        border: '1.5px solid #D4AF37',
+                        borderRadius: '10px',
+                        color: '#D4AF37',
+                        fontSize: '18px',
+                        fontWeight: 800,
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Quick Amount Selector Chips */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
+                  {['50', '100', '250', '500'].map((amt) => (
+                    <button
+                      key={amt}
+                      onClick={() => setInvoiceAmount(amt + '.00')}
+                      className="interactive-tap"
+                      style={{
+                        padding: '6px',
+                        borderRadius: '8px',
+                        backgroundColor: invoiceAmount === amt + '.00' ? '#D4AF37' : '#1E1E1E',
+                        border: '1px solid #262626',
+                        color: invoiceAmount === amt + '.00' ? '#0B0B0B' : '#A3A3A3',
+                        fontSize: '12px',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {amt}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Invoice Breakdown */}
+                <div style={{ padding: '12px 14px', backgroundColor: '#0B0B0B', borderRadius: '10px', border: '1px solid #262626', fontSize: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3', marginBottom: '4px' }}>
+                    <span>{isAr ? 'المبلغ الأساسي' : 'Subtotal'}</span>
+                    <span className="font-mono text-white">SAR {subtotal}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#A3A3A3', marginBottom: '6px' }}>
+                    <span>{isAr ? 'ضريبة القيمة المضافة (١٥٪)' : 'VAT (15%)'}</span>
+                    <span className="font-mono text-white">SAR {vatAmount.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#D4AF37', fontWeight: 800, borderTop: '1px solid #262626', paddingTop: '6px' }}>
+                    <span>{isAr ? 'الإجمالي المستحق' : 'Total Due'}</span>
+                    <span className="font-mono">{formatSaudiCurrency(numAmount, language)}</span>
+                  </div>
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
-                    {isAr ? 'رقم الفاتورة أو مرجع الطلب' : 'Invoice / Order Reference'}
+                  <label style={{ fontSize: '12px', color: '#A3A3A3', fontWeight: 600, display: 'block', marginBottom: '6px' }}>
+                    {isAr ? 'مرجع الفاتورة / الملاحظة' : 'Invoice Ref / Note'}
                   </label>
                   <input
                     type="text"
@@ -216,27 +262,16 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                     onChange={(e) => setOrderNote(e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '10px 14px',
-                      backgroundColor: '#080C14',
-                      border: '1px solid #1E293B',
+                      padding: '10px 12px',
+                      backgroundColor: '#0B0B0B',
+                      border: '1px solid #262626',
                       borderRadius: '10px',
                       color: '#FFFFFF',
-                      fontSize: '13px',
+                      fontSize: '12.5px',
                       outline: 'none',
                       boxSizing: 'border-box',
                     }}
                   />
-                </div>
-
-                <div style={{ padding: '12px', backgroundColor: '#080C14', borderRadius: '10px', fontSize: '12.5px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8' }}>
-                    <span>{isAr ? 'الصافي الخاضع للضريبة' : 'Subtotal'}</span>
-                    <span style={{ color: '#FFFFFF', fontWeight: 700 }}>SAR {subtotal}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94A3B8', marginTop: '4px' }}>
-                    <span>{isAr ? 'ضريبة القيمة المضافة (١٥٪)' : 'VAT (15%)'}</span>
-                    <span style={{ color: '#00FF24', fontWeight: 700 }}>SAR {vatAmount.toFixed(2)}</span>
-                  </div>
                 </div>
               </div>
             )}
@@ -247,13 +282,13 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               disabled={isSimulatingScan}
               className="interactive-tap"
               style={{
-                marginTop: '20px',
+                marginTop: '16px',
                 width: '100%',
                 padding: '12px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(0, 255, 36, 0.12)',
-                border: '1px solid rgba(0, 255, 36, 0.3)',
-                color: '#00FF24',
+                backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                border: '1px solid rgba(212, 175, 55, 0.3)',
+                color: '#D4AF37',
                 fontSize: '13px',
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -276,8 +311,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
             style={{
               padding: '28px',
               textAlign: 'center',
-              backgroundColor: '#0E131F',
-              border: '1px solid rgba(0, 255, 36, 0.25)',
+              backgroundColor: '#171717',
+              border: '1px solid rgba(212, 175, 55, 0.25)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -291,8 +326,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               </span>
             </div>
 
-            <div style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '18px' }}>
-              {isAr ? 'امسح الرمز عبر أي تطبيق بنكي للدفع الفوري' : 'Scan via Any Saudi Bank App to Pay via Sarie'}
+            <div style={{ fontSize: '12px', color: '#A3A3A3', marginBottom: '18px' }}>
+              {isAr ? 'امسح الرمز أو استخدم الرابط للدفع الفوري' : 'Scan via Any Saudi Bank App or Use Direct Pay Link'}
             </div>
 
             {/* High-Resolution QR Display */}
@@ -313,20 +348,20 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
 
             {/* Amount Label (if Dynamic Invoice) */}
             {qrMode === 'invoice' && (
-              <div style={{ fontSize: '20px', fontWeight: 900, color: '#00FF24', marginBottom: '12px' }}>
-                SAR {numAmount.toFixed(2)}
+              <div style={{ fontSize: '20px', fontWeight: 900, color: '#D4AF37', marginBottom: '12px' }}>
+                {formatSaudiCurrency(numAmount, language)}
               </div>
             )}
 
             <div style={{ fontSize: '14px', fontWeight: 800, color: '#FFFFFF' }}>
-              {merchantInfo.businessName}
+              {translateText(merchantInfo.businessName, language)}
             </div>
 
-            <div style={{ fontSize: '11.5px', color: '#64748B', marginTop: '4px' }}>
-              CR: {merchantInfo.crNumber} &bull; VAT: {merchantInfo.vatNumber}
+            <div style={{ fontSize: '11.5px', color: '#737373', marginTop: '4px' }}>
+              {isAr ? 'السجل التجاري' : 'CR'}: {formatLocalizedNumber(merchantInfo.crNumber, language)} &bull; {isAr ? 'الرقم الضريبي' : 'VAT'}: {formatLocalizedNumber(merchantInfo.vatNumber, language)}
             </div>
 
-            {/* Action Bar (Print, Copy, WhatsApp) */}
+            {/* Action Bar (Print, Copy, Pay Link) */}
             <div
               style={{
                 display: 'grid',
@@ -342,8 +377,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '10px',
                   borderRadius: '10px',
-                  backgroundColor: '#151C2C',
-                  border: '1px solid #1E293B',
+                  backgroundColor: '#212121',
+                  border: '1px solid #262626',
                   color: '#FFFFFF',
                   fontSize: '12.5px',
                   fontWeight: 700,
@@ -354,7 +389,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                <Printer size={15} color="#00FF24" />
+                <Printer size={15} color="#D4AF37" />
                 <span>{isAr ? 'طباعة' : 'Print A4'}</span>
               </button>
 
@@ -364,8 +399,8 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                 style={{
                   padding: '10px',
                   borderRadius: '10px',
-                  backgroundColor: '#151C2C',
-                  border: '1px solid #1E293B',
+                  backgroundColor: '#212121',
+                  border: '1px solid #262626',
                   color: '#FFFFFF',
                   fontSize: '12.5px',
                   fontWeight: 700,
@@ -376,19 +411,20 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   gap: '6px',
                 }}
               >
-                {copied ? <Check size={15} color="#00FF24" /> : <Copy size={15} color="#00FF24" />}
-                <span>{copied ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ النص' : 'Copy')}</span>
+                {copiedPayload ? <Check size={15} color="#D4AF37" /> : <Copy size={15} color="#D4AF37" />}
+                <span>{copiedPayload ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ النص' : 'Copy')}</span>
               </button>
 
+              {/* Pay Link Button (Replaced WhatsApp) */}
               <button
-                onClick={handleShareWhatsApp}
+                onClick={handleCopyPayLink}
                 className="interactive-tap"
                 style={{
                   padding: '10px',
                   borderRadius: '10px',
-                  backgroundColor: '#151C2C',
-                  border: '1px solid #1E293B',
-                  color: '#FFFFFF',
+                  backgroundColor: copiedLink ? 'rgba(212, 175, 55, 0.2)' : '#212121',
+                  border: copiedLink ? '1.5px solid #D4AF37' : '1px solid #262626',
+                  color: copiedLink ? '#D4AF37' : '#FFFFFF',
                   fontSize: '12.5px',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -396,10 +432,71 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '6px',
+                  transition: 'all 0.15s ease',
                 }}
               >
-                <Share2 size={15} color="#00FF24" />
-                <span>{isAr ? 'واتساب' : 'WhatsApp'}</span>
+                {copiedLink ? <Check size={15} color="#D4AF37" /> : <Link2 size={15} color="#D4AF37" />}
+                <span>{copiedLink ? (isAr ? 'تم النسخ' : 'Copied Link') : (isAr ? 'رابط الدفع' : 'Pay Link')}</span>
+              </button>
+            </div>
+
+            {/* Direct Pay Link Strip */}
+            <div
+              style={{
+                width: '100%',
+                marginTop: '16px',
+                padding: '10px 14px',
+                backgroundColor: '#0B0B0B',
+                border: '1px solid #262626',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '10px',
+                textAlign: isRtl ? 'right' : 'left',
+              }}
+            >
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  {isAr ? 'رابط الدفع المباشر' : 'Direct Pay Link'}
+                </div>
+                <div
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    color: '#D4AF37',
+                    fontFamily: 'monospace',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    marginTop: '2px',
+                  }}
+                  dir="ltr"
+                >
+                  {payLinkUrl}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleCopyPayLink}
+                className="interactive-tap"
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  backgroundColor: copiedLink ? '#D4AF37' : 'rgba(212, 175, 55, 0.12)',
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  color: copiedLink ? '#0B0B0B' : '#D4AF37',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  flexShrink: 0,
+                }}
+              >
+                {copiedLink ? <Check size={13} /> : <Copy size={13} />}
+                <span>{copiedLink ? (isAr ? 'تم النسخ' : 'Copied') : (isAr ? 'نسخ الرابط' : 'Copy Link')}</span>
               </button>
             </div>
           </Card>

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { Card, MetricTile, StatusBadge, PieChart } from '../components/ui';
+import { formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
 
 export const MerchantInsightsScreen: React.FC = () => {
   const {
@@ -26,10 +27,10 @@ export const MerchantInsightsScreen: React.FC = () => {
   const railStats = [
     {
       name: isAr ? 'مدى والبطاقات البنكية' : 'mada & Contactless Debit',
-      shortName: 'mada / Cards',
+      shortName: isAr ? 'مدى / بطاقات' : 'mada / Cards',
       percent: 58,
       amount: totalVolume * 0.58,
-      color: '#00FF24',
+      color: '#D4AF37',
       icon: CreditCard,
     },
     {
@@ -37,23 +38,23 @@ export const MerchantInsightsScreen: React.FC = () => {
       shortName: 'Apple Pay',
       percent: 24,
       amount: totalVolume * 0.24,
-      color: '#38BDF8',
+      color: '#F1D77A',
       icon: Smartphone,
     },
     {
-      name: isAr ? 'فواتير زاتكا QR' : 'ZATCA Dynamic QR',
-      shortName: 'ZATCA QR',
+      name: isAr ? 'فواتير PAY QR' : 'PAY QR & Invoices',
+      shortName: isAr ? 'رمز PAY QR' : 'PAY QR',
       percent: 14,
       amount: totalVolume * 0.14,
-      color: '#A855F7',
+      color: '#C59B27',
       icon: QrCode,
     },
     {
       name: isAr ? 'سجل المبيعات النقدية' : 'Cash Register',
-      shortName: 'Cash',
+      shortName: isAr ? 'نقدي' : 'Cash',
       percent: 4,
       amount: totalVolume * 0.04,
-      color: '#F59E0B',
+      color: '#8C6D1F',
       icon: Banknote,
     },
   ];
@@ -89,17 +90,15 @@ export const MerchantInsightsScreen: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-black text-white tracking-tight">
-            {isAr ? 'التحليلات ومؤشرات الأداء المالي' : 'Financial Insights & Analytics'}
+            {isAr ? 'التحليلات المالية' : 'Analytics'}
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            {isAr
-              ? 'متابعة مسارات التحصيل، ساعات الذروة، والتحليلات الضريبية لمتجرك'
-              : 'Track payment rail distributions, peak sales velocity, and tax breakdowns'}
+            {isAr ? 'مؤشرات المبيعات وساعات الذروة' : 'Sales performance and peak volume'}
           </p>
         </div>
 
         {/* Period Selector Chips */}
-        <div className="flex items-center gap-1.5 bg-[#0E1526] p-1 rounded-xl border border-slate-800">
+        <div className="flex items-center gap-1.5 bg-[#171717] p-1 rounded-xl border border-[#262626]">
           {periods.map((p) => {
             const isSelected = selectedPeriod === p.id;
             return (
@@ -108,7 +107,7 @@ export const MerchantInsightsScreen: React.FC = () => {
                 onClick={() => setSelectedPeriod(p.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   isSelected
-                    ? 'bg-[#00FF24] text-black shadow-sm shadow-[#00FF24]/20'
+                    ? 'bg-gradient-to-r from-[#D4AF37] to-[#F1D77A] text-black font-extrabold shadow-sm shadow-[#D4AF37]/30'
                     : 'bg-transparent text-slate-400 hover:text-white'
                 }`}
               >
@@ -123,25 +122,25 @@ export const MerchantInsightsScreen: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <MetricTile
           title={isAr ? 'إجمالي المبيعات' : 'TOTAL SALES'}
-          value={`SAR ${totalVolume.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
-          trend={{ value: '+18.4%', isPositive: true }}
+          value={formatSaudiCurrency(totalVolume, language)}
+          trend={{ value: `+18.4%`, isPositive: true }}
           subtitle={isAr ? 'مقارنة بالفترة السابقة' : 'vs prior period'}
           highlightGreen={true}
           icon={<StatusBadge status="success" dot={true} size="sm" label={isAr ? 'مباشر' : 'Live'} />}
         />
 
         <MetricTile
-          title={isAr ? 'متوسط قيمة العملية' : 'AVG TICKET'}
-          value={`SAR ${avgTicket}`}
-          trend={{ value: '+4.2%', isPositive: true }}
-          subtitle={isAr ? `${settledCount} عملية مسجلة` : `${settledCount} collections logged`}
+          title={isAr ? 'متوسط العملية' : 'AVG TICKET'}
+          value={formatSaudiCurrency(parseFloat(avgTicket) || 0, language)}
+          trend={{ value: `+4.2%`, isPositive: true }}
+          subtitle={isAr ? `${formatLocalizedNumber(settledCount, language)} عملية` : `${settledCount} transactions`}
         />
 
         <MetricTile
-          title={isAr ? 'الرصيد المتاح للتسوية' : 'SETTLEMENT'}
-          value={`SAR ${totalVolume.toLocaleString('en-US', { minimumFractionDigits: 2 })}`}
-          subtitle={isAr ? 'جاهز للتحويل الفوري' : 'Ready for Sarie rail'}
-          icon={<StatusBadge status="success" size="sm" label={isAr ? 'سريع ٢٤/٧' : 'Sarie 24/7'} />}
+          title={isAr ? 'الرصيد المتاح' : 'SETTLEMENT'}
+          value={formatSaudiCurrency(totalVolume, language)}
+          subtitle={isAr ? 'جاهز للتحويل' : 'Ready to settle'}
+          icon={<StatusBadge status="success" size="sm" label={isAr ? 'سريع' : 'Sarie'} />}
           highlightGreen={true}
         />
       </div>
@@ -149,12 +148,12 @@ export const MerchantInsightsScreen: React.FC = () => {
       {/* 2-Column Visual Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         {/* Left Column: Donut Pie Chart & Payment Rail Distribution */}
-        <Card className="p-6">
+        <Card className="p-6 bg-[#171717] border border-[#262626]">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-bold text-white">
-              {isAr ? 'توزيع قنوات وطرق الدفع' : 'Payment Rail Distribution'}
+              {isAr ? 'طرق الدفع' : 'Payment Methods'}
             </span>
-            <span className="text-xs text-[#00FF24] font-bold">
+            <span className="text-xs text-[#D4AF37] font-bold">
               {isAr ? '١٠٠٪ رقمي' : '100% Digital'}
             </span>
           </div>
@@ -162,18 +161,18 @@ export const MerchantInsightsScreen: React.FC = () => {
           {/* Interactive Pie Chart */}
           <PieChart
             data={pieData}
-            centerValue={`SAR ${(totalVolume / 1000).toFixed(1)}k`}
-            centerLabel={isAr ? 'إجمالي المبيعات' : 'Total Volume'}
-            valuePrefix="SAR "
+            centerValue={formatSaudiCurrency(totalVolume, language)}
+            centerLabel={isAr ? 'الإجمالي' : 'Total'}
+            valuePrefix=""
             size={170}
           />
         </Card>
 
         {/* Right Column: Hourly Velocity Activity Visualizer */}
-        <Card className="p-6">
+        <Card className="p-6 bg-[#171717] border border-[#262626]">
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-bold text-white">
-              {isAr ? 'ساعات الذروة والنشاط' : 'Hourly Transaction Velocity'}
+              {isAr ? 'النشاط بالساعات' : 'Hourly Activity'}
             </span>
             <span className="text-xs text-slate-400">
               {isAr ? 'الذروة: ١١ ص - ١٢ م' : 'Peak: 11 AM - 12 PM'}
@@ -181,31 +180,31 @@ export const MerchantInsightsScreen: React.FC = () => {
           </div>
 
           {/* Bar Chart Visualization */}
-          <div className="flex items-end justify-between h-44 p-4 bg-[#080C14] rounded-xl border border-slate-800 mb-4">
+          <div className="flex items-end justify-between h-44 p-4 bg-[#0B0B0B] rounded-xl border border-[#262626] mb-4">
             {hourlyData.map((d, idx) => (
               <div key={idx} className="flex flex-col items-center gap-2 flex-1">
                 <div
                   style={{ height: `${Math.max(12, (d.volume / 100) * 110)}px` }}
                   className={`w-4 sm:w-6 rounded-md transition-all duration-300 ${
-                    d.isPeak ? 'bg-[#00FF24] shadow-sm shadow-[#00FF24]/40' : 'bg-slate-800'
+                    d.isPeak ? 'bg-[#D4AF37] shadow-sm shadow-[#D4AF37]/40' : 'bg-[#262626]'
                   }`}
                 />
-                <span className={`text-[11px] font-bold ${d.isPeak ? 'text-[#00FF24]' : 'text-slate-500'}`}>
+                <span className={`text-[11px] font-bold ${d.isPeak ? 'text-[#D4AF37]' : 'text-slate-500'}`}>
                   {isAr ? d.hourAr : d.hour}
                 </span>
               </div>
             ))}
           </div>
 
-          <div className="flex justify-between items-center pt-3 border-t border-slate-800">
+          <div className="flex justify-between items-center pt-3 border-t border-[#262626]">
             <div className="text-xs text-slate-400">
-              {isAr ? 'مستودع التحصيلات المباشر' : 'Full Historical Ledger'}
+              {isAr ? 'سجل العمليات' : 'Transactions'}
             </div>
             <button
               onClick={() => navigateTo('MERCHANT_COLLECTIONS')}
-              className="text-xs font-bold text-[#00FF24] hover:underline cursor-pointer flex items-center gap-1"
+              className="text-xs font-bold text-[#D4AF37] hover:underline cursor-pointer flex items-center gap-1"
             >
-              <span>{isAr ? 'عرض كشف الحساب ←' : 'View Full Ledger →'}</span>
+              <span>{isAr ? '← عرض الكل' : 'View All →'}</span>
             </button>
           </div>
         </Card>

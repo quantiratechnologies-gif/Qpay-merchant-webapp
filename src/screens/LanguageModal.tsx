@@ -38,8 +38,8 @@ export const LanguageModal: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '16px 18px',
-                backgroundColor: isSelected ? 'rgba(0, 255, 36, 0.12)' : '#0B0F19',
-                border: isSelected ? '1.5px solid #00FF24' : '1px solid #1E293B',
+                backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.12)' : '#1E1E1E',
+                border: isSelected ? '1.5px solid #D4AF37' : '1px solid #262626',
                 borderRadius: '16px',
                 marginBottom: '10px',
                 cursor: 'pointer',
@@ -53,8 +53,8 @@ export const LanguageModal: React.FC = () => {
                     width: '40px',
                     height: '40px',
                     borderRadius: '12px',
-                    backgroundColor: isSelected ? '#00FF24' : '#1A2234',
-                    color: isSelected ? '#080C14' : '#00FF24',
+                    backgroundColor: isSelected ? '#D4AF37' : '#262626',
+                    color: isSelected ? '#0B0B0B' : '#A3A3A3',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -73,22 +73,22 @@ export const LanguageModal: React.FC = () => {
                       style={{
                         fontSize: '10.5px',
                         fontWeight: 800,
-                        backgroundColor: 'rgba(0, 255, 36, 0.12)',
-                        color: '#00FF24',
+                        backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                        color: '#D4AF37',
                         padding: '2px 7px',
                         borderRadius: '6px',
-                        border: '1px solid rgba(0, 255, 36, 0.25)',
+                        border: '1px solid rgba(212, 175, 55, 0.25)',
                       }}
                     >
                       {lang.badge}
                     </span>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '3px' }}>
+                  <div style={{ fontSize: '12px', color: '#A3A3A3', marginTop: '3px' }}>
                     {lang.native}
                   </div>
                 </div>
               </div>
-              {isSelected && <Check size={20} color="#00FF24" />}
+              {isSelected && <Check size={20} color="#D4AF37" />}
             </div>
           );
         })}

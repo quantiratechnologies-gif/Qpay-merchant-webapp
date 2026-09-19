@@ -3,9 +3,10 @@ import { Landmark, Check } from 'lucide-react';
 import { BottomSheet } from '../components/BottomSheet';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { useApp } from '../state/AppContext';
+import { translateText } from '../utils/i18n';
 
 export const AddBankModal: React.FC = () => {
-  const { isAddBankModalOpen, setIsAddBankModalOpen, addBankAccount, t, language } = useApp();
+  const { isAddBankModalOpen, setIsAddBankModalOpen, addBankAccount, language } = useApp();
   const [selectedBank, setSelectedBank] = useState<string>('Al Rajhi Bank');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -26,7 +27,7 @@ export const AddBankModal: React.FC = () => {
     setIsAddBankModalOpen(false);
   };
 
-  const displaySelectedBank = t(selectedBank, selectedBank);
+  const displaySelectedBank = translateText(selectedBank, language);
 
   return (
     <BottomSheet
@@ -38,7 +39,7 @@ export const AddBankModal: React.FC = () => {
         <div role="radiogroup" aria-label="Available Banks" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {availableBanks.map((bank) => {
             const isSelected = selectedBank === bank.name;
-            const displayBankName = t(bank.name, bank.name);
+            const displayBankName = translateText(bank.name, language);
             return (
               <div
                 key={bank.name}
@@ -57,8 +58,8 @@ export const AddBankModal: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   padding: '13px 16px',
-                  backgroundColor: isSelected ? '#1A2234' : '#0B0F19',
-                  border: isSelected ? '1.5px solid #00FF24' : '1px solid #1E293B',
+                  backgroundColor: isSelected ? 'rgba(212, 175, 55, 0.12)' : '#1E1E1E',
+                  border: isSelected ? '1.5px solid #D4AF37' : '1px solid #262626',
                   borderRadius: '12px',
                   cursor: 'pointer',
                   boxShadow: 'none',
@@ -71,9 +72,9 @@ export const AddBankModal: React.FC = () => {
                       width: '36px',
                       height: '36px',
                       borderRadius: '10px',
-                      backgroundColor: '#111726',
-                      color: isSelected ? '#00FF24' : '#94A3B8',
-                      border: `1px solid ${isSelected ? 'rgba(0, 255, 36, 0.4)' : '#1E293B'}`,
+                      backgroundColor: '#262626',
+                      color: isSelected ? '#D4AF37' : '#A3A3A3',
+                      border: `1px solid ${isSelected ? 'rgba(212, 175, 55, 0.4)' : '#262626'}`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -87,8 +88,8 @@ export const AddBankModal: React.FC = () => {
                     <div style={{ fontWeight: 700, fontSize: '14px', color: '#FFFFFF' }}>
                       {displayBankName}
                     </div>
-                    <div style={{ fontSize: '11px', color: '#64748B', marginTop: '1px', fontFamily: 'monospace' }} dir="ltr">
-                      Sarie Rail • IBAN {bank.code}
+                    <div style={{ fontSize: '11px', color: '#737373', marginTop: '1px', fontFamily: 'monospace' }}>
+                      {language === 'العربية' ? `شبكة سريع • آيبان ${bank.code}` : `Sarie Rail • IBAN ${bank.code}`}
                     </div>
                   </div>
                 </div>
@@ -98,14 +99,14 @@ export const AddBankModal: React.FC = () => {
                     width: '20px',
                     height: '20px',
                     borderRadius: '50%',
-                    border: isSelected ? 'none' : '1.5px solid #1E293B',
-                    backgroundColor: isSelected ? '#00FF24' : 'transparent',
+                    border: isSelected ? 'none' : '1.5px solid #262626',
+                    backgroundColor: isSelected ? '#D4AF37' : 'transparent',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  {isSelected && <Check size={13} color="#080C14" strokeWidth={3} />}
+                  {isSelected && <Check size={13} color="#0B0B0B" strokeWidth={3} />}
                 </div>
               </div>
             );
@@ -121,7 +122,7 @@ export const AddBankModal: React.FC = () => {
 
       {/* Quantira Technologies Verification Footer */}
       <div style={{ marginTop: '14px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-        <span style={{ fontSize: '10.5px', color: '#64748B', fontWeight: 600 }}>
+        <span style={{ fontSize: '10.5px', color: '#737373', fontWeight: 600 }}>
           {language === 'العربية'
             ? 'ربط بنكي مباشر ومشفر • مدعوم بتقنيات كوانتيرا وسريع'
             : 'Direct Bank Binding • Sarie Authenticated • Quantira Technologies'}

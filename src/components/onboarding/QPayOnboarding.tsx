@@ -94,7 +94,7 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
               width: '300px',
               height: '300px',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(0, 200, 83, 0.28) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(212, 175, 55, 0.28) 0%, transparent 70%)',
               filter: 'blur(35px)',
               pointerEvents: 'none',
             }}
@@ -126,7 +126,7 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
               width: '300px',
               height: '300px',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(0, 200, 83, 0.28) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(212, 175, 55, 0.28) 0%, transparent 70%)',
               filter: 'blur(35px)',
               pointerEvents: 'none',
             }}
@@ -158,7 +158,7 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
               width: '300px',
               height: '300px',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(0, 200, 83, 0.28) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(212, 175, 55, 0.28) 0%, transparent 70%)',
               filter: 'blur(35px)',
               pointerEvents: 'none',
             }}
@@ -191,7 +191,7 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
         position: 'relative',
         minHeight: '100vh',
         width: '100%',
-        backgroundColor: '#080C14',
+        backgroundColor: '#0B0B0B',
         color: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column',
@@ -228,9 +228,9 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
             }}
             className="interactive-tap"
             style={{
-              backgroundColor: '#111726',
-              border: '1px solid #1E293B',
-              color: '#94A3B8',
+              backgroundColor: '#171717',
+              border: '1px solid #262626',
+              color: '#A3A3A3',
               fontSize: '12px',
               fontWeight: 700,
               padding: '5px 14px',
@@ -303,8 +303,8 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
             maxWidth: '320px',
             height: '48px',
             borderRadius: '12px',
-            backgroundColor: '#00C853',
-            color: '#080C14',
+            background: 'linear-gradient(135deg, #D4AF37 0%, #F1D77A 50%, #B8972E 100%)',
+            color: '#0B0B0B',
             border: 'none',
             fontSize: '14px',
             fontWeight: 800,
@@ -314,7 +314,7 @@ export const QPayOnboarding: React.FC<QPayOnboardingProps> = ({ onComplete }) =>
             justifyContent: 'center',
             gap: '6px',
             cursor: 'pointer',
-            boxShadow: 'none',
+            boxShadow: '0 4px 14px rgba(212, 175, 55, 0.25)',
             transition: 'all 0.15s ease',
           }}
         >

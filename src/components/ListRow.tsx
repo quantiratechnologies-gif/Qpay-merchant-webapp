@@ -39,8 +39,8 @@ export const ListRow: React.FC<ListRowProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '14px 16px',
-        backgroundColor: '#2A2A3E',
-        border: '1px solid #4D4D6B',
+        backgroundColor: '#171717',
+        border: '1px solid #262626',
         borderRadius: '12px',
         marginBottom: '10px',
         cursor: onClick ? 'pointer' : 'default',
@@ -55,12 +55,12 @@ export const ListRow: React.FC<ListRowProps> = ({
               width: '38px',
               height: '38px',
               borderRadius: '10px',
-              backgroundColor: danger ? 'rgba(255, 71, 87, 0.12)' : '#3A3A52',
-              color: danger ? '#FF4757' : '#00C853',
+              backgroundColor: danger ? 'rgba(239, 68, 68, 0.12)' : '#212121',
+              color: danger ? '#EF4444' : '#D4AF37',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: `1px solid ${danger ? '#FF4757' : '#4D4D6B'}`,
+              border: `1px solid ${danger ? '#EF4444' : '#262626'}`,
               flexShrink: 0,
             }}
           >
@@ -72,13 +72,13 @@ export const ListRow: React.FC<ListRowProps> = ({
             style={{
               fontSize: '14.5px',
               fontWeight: 700,
-              color: danger ? '#FF6B7A' : '#FFFFFF',
+              color: danger ? '#EF4444' : '#FFFFFF',
             }}
           >
             {displayLabel}
           </div>
           {displaySubLabel && (
-            <div style={{ fontSize: '11.5px', color: '#B3B3C2', marginTop: '2px' }}>
+            <div style={{ fontSize: '11.5px', color: '#A3A3A3', marginTop: '2px' }}>
               {displaySubLabel}
             </div>
           )}
@@ -88,7 +88,7 @@ export const ListRow: React.FC<ListRowProps> = ({
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {rightElement}
         {onClick && !rightElement && (
-          <ChevronRight size={18} color="#808099" style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
+          <ChevronRight size={18} color="#737373" style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
         )}
       </div>
     </div>

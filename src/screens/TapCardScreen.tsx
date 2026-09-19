@@ -50,10 +50,10 @@ export const TapCardScreen: React.FC = () => {
   }, [amount, scheme]);
 
   const stepLabels = {
-    waiting: { title: isAr ? 'مرر البطاقة أو الجوال خلف الجهاز' : 'Hold Card or Phone to Back of Device', sub: isAr ? 'يدعم البطاقات البنكية وأبل باي وفيزا وماستركارد اللاتلامسية' : 'Accepts Contactless Debit Cards, Apple Pay, Visa, and Mastercard', badge: 'info' as const, badgeLabel: isAr ? 'انتظار البطاقة' : 'Awaiting Card' },
-    reading: { title: isAr ? 'جاري قراءة الشريحة اللاتلامسية...' : 'Reading Contactless Chip...', sub: isAr ? 'يرجى إبقاء البطاقة ثابتة حتى انتهاء التفويض' : 'Please keep the card still until authorization finishes', badge: 'warning' as const, badgeLabel: isAr ? 'جاري القراءة' : 'Reading' },
-    authorizing: { title: isAr ? 'جاري التفويض مع الشبكة البنكية...' : 'Authorizing with Banking Network...', sub: isAr ? 'يرجى إبقاء البطاقة ثابتة حتى انتهاء التفويض' : 'Please keep the card still until authorization finishes', badge: 'warning' as const, badgeLabel: isAr ? 'جاري التفويض' : 'Authorizing' },
-    success: { title: isAr ? 'تمت العملية بنجاح!' : 'Payment Approved!', sub: isAr ? 'تمت التسوية الفورية إلى حسابك البنكي عبر سريع' : 'Instantly settled to your bank account via Sarie', badge: 'success' as const, badgeLabel: isAr ? 'مقبولة' : 'Approved' },
+    waiting: { title: isAr ? 'قرّب البطاقة أو الجوال' : 'Tap Card or Phone', sub: isAr ? 'يدعم مدى، أبل باي والبطاقات' : 'mada, Apple Pay, & Contactless Cards', badge: 'info' as const, badgeLabel: isAr ? 'انتظار' : 'Waiting' },
+    reading: { title: isAr ? 'جاري القراءة...' : 'Reading...', sub: isAr ? 'يرجى إبقاء البطاقة ثابتة' : 'Keep card steady', badge: 'warning' as const, badgeLabel: isAr ? 'قراءة' : 'Reading' },
+    authorizing: { title: isAr ? 'جاري التفويض...' : 'Authorizing...', sub: isAr ? 'يرجى الانتظار' : 'Please wait', badge: 'warning' as const, badgeLabel: isAr ? 'تفويض' : 'Authorizing' },
+    success: { title: isAr ? 'تم بنجاح!' : 'Approved!', sub: isAr ? 'تمت التسوية عبر سريع' : 'Settled via Sarie', badge: 'success' as const, badgeLabel: isAr ? 'مكتمل' : 'Done' },
   };
 
   const current = stepLabels[step];
@@ -69,7 +69,7 @@ export const TapCardScreen: React.FC = () => {
       }}
     >
       <style>{`
-        @keyframes nfcPulse {
+        @keyframes nfcPulseGold {
           0% { transform: scale(0.9); opacity: 0.8; }
           50% { transform: scale(1.15); opacity: 0.3; }
           100% { transform: scale(1.35); opacity: 0; }
@@ -77,13 +77,10 @@ export const TapCardScreen: React.FC = () => {
       `}</style>
 
       {/* ── Page Header ─────────────────────────────────────── */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em' }}>
-          {isAr ? `جهاز رقم #${formatLocalizedNumber(merchantInfo.terminalId, language)}` : `Terminal #${merchantInfo.terminalId}`}
+      <div style={{ marginBottom: '20px' }}>
+        <h1 style={{ fontSize: '20px', fontWeight: 900, margin: 0, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
+          {isAr ? `نقطة بيع #${formatLocalizedNumber(merchantInfo.terminalId, language)}` : `Terminal #${merchantInfo.terminalId}`}
         </h1>
-        <p style={{ fontSize: '13.5px', color: colors.textSecondary, margin: '6px 0 0 0', fontWeight: 500 }}>
-          {isAr ? 'نقطة بيع SoftPOS • اللاتلامسية NFC' : 'SoftPOS Terminal • NFC Contactless'}
-        </p>
       </div>
 
       {/* ── 2-Column Layout ──────────────────────────────────── */}
@@ -102,7 +99,8 @@ export const TapCardScreen: React.FC = () => {
             padding: '48px 24px',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             gap: '24px',
-            background: 'radial-gradient(ellipse at center, rgba(0, 200, 83, 0.07) 0%, #111726 70%)',
+            background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, #171717 70%)',
+            border: '1px solid #262626',
             minHeight: '400px',
           }}
         >
@@ -114,16 +112,16 @@ export const TapCardScreen: React.FC = () => {
                   style={{
                     position: 'absolute', width: '220px', height: '220px',
                     borderRadius: '50%',
-                    border: '2px solid rgba(0, 200, 83, 0.2)',
-                    animation: 'nfcPulse 2.4s infinite ease-out',
+                    border: '2px solid rgba(212, 175, 55, 0.25)',
+                    animation: 'nfcPulseGold 2.4s infinite ease-out',
                   }}
                 />
                 <div
                   style={{
                     position: 'absolute', width: '165px', height: '165px',
                     borderRadius: '50%',
-                    border: '2px solid rgba(0, 200, 83, 0.4)',
-                    animation: 'nfcPulse 2.4s infinite ease-out 0.6s',
+                    border: '2px solid rgba(212, 175, 55, 0.45)',
+                    animation: 'nfcPulseGold 2.4s infinite ease-out 0.6s',
                   }}
                 />
               </>
@@ -134,19 +132,19 @@ export const TapCardScreen: React.FC = () => {
               style={{
                 width: '100px', height: '100px',
                 borderRadius: '30px',
-                backgroundColor: '#111726',
-                border: `2px solid ${step === 'success' ? colors.accentGreen : 'rgba(0, 200, 83, 0.6)'}`,
+                backgroundColor: '#1E1E1E',
+                border: `2px solid ${step === 'success' ? '#D4AF37' : 'rgba(212, 175, 55, 0.6)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: colors.accentGreen,
+                color: '#D4AF37',
                 zIndex: 2,
-                boxShadow: `0 0 ${step === 'success' ? '48px' : '24px'} rgba(0, 200, 83, 0.3)`,
+                boxShadow: `0 0 ${step === 'success' ? '48px' : '24px'} rgba(212, 175, 55, 0.35)`,
                 transition: 'all 0.4s ease',
               }}
             >
               {step === 'success' ? (
-                <CheckCircle2 size={52} color={colors.accentGreen} />
+                <CheckCircle2 size={52} color="#D4AF37" />
               ) : (
-                <Wifi size={52} style={{ transform: 'rotate(90deg)' }} />
+                <Wifi size={52} color="#D4AF37" style={{ transform: 'rotate(90deg)' }} />
               )}
             </div>
           </div>
@@ -154,10 +152,10 @@ export const TapCardScreen: React.FC = () => {
           {/* Step Status */}
           <div style={{ textAlign: 'center' }}>
             <StatusBadge status={current.badge} size="sm" label={current.badgeLabel} />
-            <div style={{ fontSize: '18px', fontWeight: 800, color: colors.textPrimary, marginTop: '12px' }}>
+            <div style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', marginTop: '12px' }}>
               {current.title}
             </div>
-            <p style={{ fontSize: '13px', color: colors.textSecondary, margin: '8px 0 0 0', maxWidth: '320px', lineHeight: 1.5 }}>
+            <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '8px 0 0 0', maxWidth: '320px', lineHeight: 1.5 }}>
               {current.sub}
             </p>
           </div>
@@ -170,20 +168,19 @@ export const TapCardScreen: React.FC = () => {
             variant="elevated"
             style={{
               padding: '24px',
-              background: step === 'success'
-                ? 'radial-gradient(ellipse at top, rgba(0, 200, 83, 0.12) 0%, #111726 70%)'
-                : undefined,
+              background: 'linear-gradient(145deg, #171717 0%, #121212 100%)',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: '11px', fontWeight: 700, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '8px' }}>
               {isAr ? 'مبلغ العملية' : 'CHARGE AMOUNT'}
             </div>
             <div
               className="tabular-nums"
               style={{
                 fontSize: '42px', fontWeight: 900,
-                color: step === 'success' ? colors.accentGreen : colors.textPrimary,
+                color: '#D4AF37',
                 letterSpacing: '-0.04em',
                 transition: 'color 0.4s ease',
               }}
@@ -191,15 +188,15 @@ export const TapCardScreen: React.FC = () => {
               {formatCurrency(amount, language)}
             </div>
             {step === 'success' && (
-              <div style={{ marginTop: '8px', fontSize: '12.5px', color: colors.textSecondary }}>
+              <div style={{ marginTop: '8px', fontSize: '12.5px', color: '#A3A3A3' }}>
                 {isAr ? 'تمت التسوية إلى حسابك البنكي' : 'Settled to your bank account'}
               </div>
             )}
           </Card>
 
           {/* Terminal Info */}
-          <Card variant="elevated" style={{ padding: '18px 20px' }}>
-            <div style={{ fontSize: '11px', fontWeight: 800, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '14px' }}>
+          <Card variant="elevated" style={{ padding: '18px 20px', background: '#171717', border: '1px solid #262626' }}>
+            <div style={{ fontSize: '11px', fontWeight: 800, color: '#A3A3A3', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '14px' }}>
               {isAr ? 'معلومات الجهاز' : 'TERMINAL INFO'}
             </div>
 
@@ -209,26 +206,26 @@ export const TapCardScreen: React.FC = () => {
               { icon: <ShieldCheck size={13} />, label: isAr ? 'التشفير' : 'Security', value: 'EMV + 3DS' },
               { icon: <Smartphone size={13} />, label: isAr ? 'الجهاز' : 'Terminal', value: `#${merchantInfo.terminalId}` },
             ].map(({ icon, label, value }) => (
-              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: `1px solid ${colors.border}` }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '7px', color: colors.textSecondary, fontSize: '12.5px' }}>
+              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #262626' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '7px', color: '#A3A3A3', fontSize: '12.5px' }}>
                   {icon}
                   {label}
                 </div>
-                <span style={{ fontSize: '12.5px', fontWeight: 700, color: colors.textPrimary, fontFamily: 'monospace' }}>{value}</span>
+                <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#FFFFFF', fontFamily: 'monospace' }}>{value}</span>
               </div>
             ))}
           </Card>
 
           {/* Accepted Cards */}
-          <Card variant="inset" style={{ padding: '14px 16px' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: colors.textMuted, marginBottom: '10px' }}>
+          <Card variant="inset" style={{ padding: '14px 16px', background: '#121212', border: '1px solid #262626' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#737373', marginBottom: '10px' }}>
               {isAr ? 'طرق الدفع المقبولة' : 'ACCEPTED METHODS'}
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {[
-                { label: '💳 Debit Card', color: colors.accentGreen },
-                { label: ' Apple Pay', color: colors.textPrimary },
-                { label: 'VISA', color: '#5CA3FF' },
+                { label: isAr ? '💳 بطاقة مدى' : '💳 Debit Card', color: '#D4AF37' },
+                { label: isAr ? ' أبل باي' : ' Apple Pay', color: '#FFFFFF' },
+                { label: 'VISA', color: '#F1D77A' },
                 { label: 'Mastercard', color: '#FF7B54' },
               ].map(({ label, color }) => (
                 <span

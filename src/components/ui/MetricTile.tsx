@@ -66,7 +66,7 @@ export const MetricTile: React.FC<MetricTileProps> = ({
         {icon && (
           <div
             style={{
-              color: 'var(--accent-green, #00C853)',
+              color: 'var(--brand-gold, #D4AF37)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -84,7 +84,7 @@ export const MetricTile: React.FC<MetricTileProps> = ({
           fontSize: '16px',
           fontWeight: 800,
           color: highlightGreen
-            ? 'var(--accent-green-bright, #00C853)'
+            ? 'var(--brand-gold, #D4AF37)'
             : 'var(--text-primary, #FFFFFF)',
           lineHeight: '1.2',
           letterSpacing: '-0.02em',
@@ -103,7 +103,7 @@ export const MetricTile: React.FC<MetricTileProps> = ({
             alignItems: 'center',
             gap: '4px',
             fontSize: '11px',
-            color: 'var(--text-muted, #64748B)',
+            color: 'var(--text-muted, #A3A3A3)',
             marginTop: '1px',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
@@ -115,7 +115,7 @@ export const MetricTile: React.FC<MetricTileProps> = ({
               style={{
                 fontWeight: 700,
                 color: trend.isPositive !== false
-                  ? 'var(--accent-green, #00C853)'
+                  ? 'var(--brand-gold, #D4AF37)'
                   : 'var(--accent-amber, #F59E0B)',
               }}
             >

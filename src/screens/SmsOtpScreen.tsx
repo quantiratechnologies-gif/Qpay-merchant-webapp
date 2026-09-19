@@ -123,14 +123,14 @@ export const SmsOtpScreen: React.FC = () => {
     if (!isOtpComplete || isVerifying) return;
     setErrorMsg('');
 
-    const enteredCode = otp.join('');
+    const enteredCode = otp.join('').trim();
     const isValid = verifyOtp(enteredCode);
 
     if (!isValid) {
       setErrorMsg(
         isAr
-          ? 'رمز التحقق غير صحيح، يرجى التأكد من الرسائل النصية والمحاولة مرة أخرى'
-          : 'Invalid verification code. Please check your SMS and try again.'
+          ? `رمز التحقق غير صحيح. يرجى إدخال الرمز الصحيح (${activeOtp}) المستلم في الرسالة.`
+          : `Invalid verification code. Please enter the OTP code (${activeOtp}) sent in the message.`
       );
       setOtp(['', '', '', '', '', '']);
       inputRefs.current[0]?.focus();
@@ -167,23 +167,23 @@ export const SmsOtpScreen: React.FC = () => {
     <div className="w-full text-white flex flex-col select-none" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Top Simulated SMS Notification Banner */}
       {showSmsBanner && (
-        <div className="mb-4 bg-[#182236]/95 border border-[#00FF24]/30 rounded-xl p-3 shadow-lg shadow-black/50 flex items-center justify-between gap-3">
+        <div className="mb-4 bg-[#171717]/95 border border-[#D4AF37]/40 rounded-xl p-3 shadow-xl shadow-black/80 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="text-xl">💬</span>
             <div className={isRtl ? 'text-right' : 'text-left'}>
-              <div className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+              <div className="text-[10px] font-extrabold text-[#A3A3A3] uppercase tracking-wider">
                 {isAr ? 'رسالة نصية • الآن' : 'SMS OTP • Messages'}
               </div>
               <div className="text-xs text-white font-semibold">
                 {isAr ? 'رمز تحقق بوابة التاجر: ' : 'Merchant Portal Code: '}
-                <strong className="text-[#00FF24] text-sm font-mono tracking-wider">{activeOtp}</strong>
+                <strong className="text-[#D4AF37] text-sm font-mono tracking-wider">{activeOtp}</strong>
               </div>
             </div>
           </div>
           <button
             type="button"
             onClick={() => handleQuickFill(activeOtp)}
-            className="bg-[#00FF24] text-[#070D0A] font-extrabold text-xs px-3 py-1.5 rounded-lg hover:bg-[#00FF24]/90 transition-colors whitespace-nowrap cursor-pointer"
+            className="bg-gradient-to-r from-[#D4AF37] to-[#F1D77A] text-[#0B0B0B] font-extrabold text-xs px-3 py-1.5 rounded-lg hover:brightness-105 transition-all whitespace-nowrap cursor-pointer shadow-md shadow-[#D4AF37]/20"
           >
             {isAr ? 'تعبئة تلقائية' : 'Autofill'}
           </button>
@@ -191,24 +191,24 @@ export const SmsOtpScreen: React.FC = () => {
       )}
 
       {/* Back Button */}
-      <div className="mb-4">
+      <div className="mb-3">
         <button
           onClick={goBack}
-          className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs font-semibold text-[#A3A3A3] hover:text-white transition-colors cursor-pointer"
         >
           <ArrowLeft className={`h-3.5 w-3.5 ${isRtl ? 'scale-x-[-1]' : ''}`} />
-          <span>{isAr ? 'رقم الجوال' : 'Mobile Number'}</span>
+          <span>{isAr ? 'السابق' : 'Back'}</span>
         </button>
       </div>
 
       {/* Header */}
-      <div className="mb-6 text-start">
+      <div className="mb-5 text-start">
         <h2 className="text-xl font-extrabold text-white tracking-tight">
-          {isAr ? 'رمز التحقق السريع' : 'Enter Verification Code'}
+          {isAr ? 'رمز التحقق' : 'Verify OTP'}
         </h2>
-        <p className="text-xs text-slate-400 mt-1">
-          {isAr ? 'تم إرسال رمز التحقق إلى الرقم' : 'Sent via SMS OTP to'}{' '}
-          <span className="text-[#00FF24] font-bold" dir="ltr">
+        <p className="text-xs text-[#A3A3A3] mt-1">
+          {isAr ? 'أرسل إلى ' : 'Sent to '}
+          <span className="text-[#D4AF37] font-bold" dir="ltr">
             +966 {mobile}
           </span>
         </p>
@@ -216,7 +216,7 @@ export const SmsOtpScreen: React.FC = () => {
 
       {/* Error Alert */}
       {errorMsg && (
-        <div className="flex items-center gap-2 text-xs text-rose-400 font-semibold mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
+        <div className="flex items-center gap-2 text-xs text-rose-400 font-semibold mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 animate-shake">
           <ShieldAlert size={16} className="shrink-0" />
           <span>{errorMsg}</span>
         </div>
@@ -239,31 +239,33 @@ export const SmsOtpScreen: React.FC = () => {
             onPaste={handlePaste}
             className={`w-full h-12 rounded-xl text-center text-lg font-black outline-none transition-all ${
               digit
-                ? 'bg-[#00FF24]/10 border-2 border-[#00FF24] text-white shadow-sm shadow-[#00FF24]/20'
-                : 'bg-[#10182A] border border-slate-800 text-slate-400 focus:border-[#00FF24]'
+                ? 'bg-[#D4AF37]/10 border-2 border-[#D4AF37] text-white shadow-sm shadow-[#D4AF37]/30'
+                : errorMsg
+                ? 'bg-rose-500/5 border border-rose-500/60 text-[#A3A3A3] focus:border-rose-400'
+                : 'bg-[#1E1E1E] border border-[#262626] text-[#A3A3A3] focus:border-[#D4AF37]'
             }`}
           />
         ))}
       </div>
 
       {/* Demo helper */}
-      <div className="flex items-center justify-between text-xs text-slate-400 mb-6 bg-[#10182A] border border-slate-800/80 rounded-lg px-3 py-2">
+      <div className="flex items-center justify-between text-xs text-[#A3A3A3] mb-5 bg-[#171717] border border-[#262626] rounded-lg px-3 py-2">
         <button
           type="button"
-          onClick={() => handleQuickFill('589204')}
+          onClick={() => handleQuickFill(activeOtp)}
           className="flex items-center gap-1.5 text-[11px] hover:text-white transition-colors cursor-pointer text-left"
         >
-          <CheckCircle2 className="h-3.5 w-3.5 text-[#00FF24]" />
-          <span>{isAr ? 'الرمز التجريبي الافتراضي: 589204' : 'Default Demo OTP: 589204'}</span>
+          <CheckCircle2 className="h-3.5 w-3.5 text-[#D4AF37]" />
+          <span>{isAr ? `الرمز: ${activeOtp}` : `OTP: ${activeOtp}`}</span>
         </button>
         <div>
           {timer > 0 ? (
-            <span className="text-slate-500 font-mono text-[11px]">{timer}s</span>
+            <span className="text-[#737373] font-mono text-[11px]">{timer}s</span>
           ) : (
             <button
               type="button"
               onClick={handleResend}
-              className="text-[#00FF24] font-bold text-[11px] flex items-center gap-1 hover:underline cursor-pointer"
+              className="text-[#D4AF37] font-bold text-[11px] flex items-center gap-1 hover:underline cursor-pointer"
             >
               <RefreshCw className="h-3 w-3" />
               <span>{isAr ? 'إعادة الإرسال' : 'Resend'}</span>
@@ -273,8 +275,8 @@ export const SmsOtpScreen: React.FC = () => {
       </div>
 
       {isResent && (
-        <div className="text-center text-xs text-[#00FF24] mb-3 font-semibold animate-pulse">
-          {isAr ? 'تم إرسال رمز جديد بنجاح' : 'New code dispatched successfully!'}
+        <div className="text-center text-xs text-[#D4AF37] mb-3 font-semibold animate-pulse">
+          {isAr ? 'تم إرسال رمز جديد' : 'New code sent!'}
         </div>
       )}
 
@@ -283,12 +285,12 @@ export const SmsOtpScreen: React.FC = () => {
         type="button"
         onClick={handleVerify}
         disabled={!isOtpComplete || isVerifying}
-        className="w-full h-11 rounded-xl bg-[#00FF24] text-black font-extrabold text-sm flex items-center justify-center gap-2 hover:bg-[#00FF24]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#00FF24]/20 cursor-pointer"
+        className="w-full h-11 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F1D77A] to-[#B8972E] text-[#0B0B0B] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#D4AF37]/25 cursor-pointer"
       >
         <span>
           {isVerifying
-            ? (isAr ? 'جاري التحقق...' : 'Authenticating...')
-            : (isAr ? 'تأكيد ودخول البوابة' : 'Verify & Enter Dashboard')}
+            ? (isAr ? 'جاري التحقق...' : 'Verifying...')
+            : (isAr ? 'تأكيد' : 'Verify')}
         </span>
         <ArrowRight className={`h-4 w-4 ${isRtl ? 'rotate-180' : ''}`} />
       </button>

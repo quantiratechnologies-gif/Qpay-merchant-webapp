@@ -1,16 +1,7 @@
-import { toArabicNumerals } from './i18n';
+import { formatSaudiCurrency, formatLocalizedDate, formatLocalizedNumber, toArabicNumerals } from './i18n';
 
 export const formatCurrency = (amount: number, language: string = 'English'): string => {
-  const isAr = language === 'العربية';
-  const formatted = new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
-
-  if (isAr) {
-    return `${toArabicNumerals(formatted)} ر.س`;
-  }
-  return `SAR ${formatted}`;
+  return formatSaudiCurrency(amount, language);
 };
 
 export const generateUTR = (): string => {
@@ -22,23 +13,7 @@ export const generateTxnId = (): string => {
 };
 
 export const formatDate = (date: Date, language: string = 'English'): string => {
-  const isAr = language === 'العربية';
-  if (isAr) {
-    return new Intl.DateTimeFormat('ar-SA', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    }).format(date);
-  }
-  return new Intl.DateTimeFormat('en-US', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  }).format(date);
+  return formatLocalizedDate(date, language);
 };
+
+export { toArabicNumerals, formatLocalizedNumber, formatSaudiCurrency, formatLocalizedDate };

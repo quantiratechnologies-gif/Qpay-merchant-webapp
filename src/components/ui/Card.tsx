@@ -9,18 +9,18 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = "default", ...props }, ref) => {
     const variantStyles =
       variant === "elevated"
-        ? "bg-[#0E1526] border-slate-800/80 shadow-lg shadow-black/30"
+        ? "bg-[#171717] border-[#262626] shadow-lg shadow-black/50"
         : variant === "inset"
-        ? "bg-[#10182A] border-slate-800/60"
+        ? "bg-[#141414] border-[#262626]/80"
         : variant === "outline"
-        ? "bg-transparent border-slate-800/80"
-        : "bg-[#0E1526] border-slate-800/80";
+        ? "bg-transparent border-[#262626]"
+        : "bg-[#171717] border-[#262626]";
 
     return (
       <div
         ref={ref}
         className={cn(
-          "rounded-xl border text-slate-100 shadow-sm p-4 transition-colors",
+          "rounded-xl border text-neutral-100 shadow-sm p-4 transition-colors",
           variantStyles,
           className
         )}

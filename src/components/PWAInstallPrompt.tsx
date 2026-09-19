@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Download, X } from 'lucide-react';
+import { useApp } from '../state/AppContext';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -7,6 +8,8 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export const PWAInstallPrompt: React.FC = () => {
+  const { language, isRtl } = useApp();
+  const isAr = language === 'العربية';
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
@@ -56,14 +59,15 @@ export const PWAInstallPrompt: React.FC = () => {
     <div
       style={{
         margin: '10px 20px 0 20px',
-        backgroundColor: '#2A2A3E',
-        border: '1px solid #4D4D6B',
+        backgroundColor: '#171717',
+        border: '1px solid #262626',
         borderRadius: '10px',
         padding: '10px 14px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: '12px',
+        direction: isRtl ? 'rtl' : 'ltr',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -72,28 +76,33 @@ export const PWAInstallPrompt: React.FC = () => {
             width: '34px',
             height: '34px',
             borderRadius: '8px',
-            backgroundColor: '#3A3A52',
-            border: '1px solid #4D4D6B',
+            backgroundColor: '#212121',
+            border: '1px solid rgba(212, 175, 55, 0.25)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#00FF24',
+            color: '#D4AF37',
+            flexShrink: 0,
           }}
         >
           <Download size={18} />
         </div>
         <div>
-          <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF' }}>Install QTPay</div>
-          <div style={{ fontSize: '11px', color: '#B3B3C2' }}>Fast launch & instant access</div>
+          <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF' }}>
+            {isAr ? 'تثبيت تطبيق QTPay' : 'Install QTPay'}
+          </div>
+          <div style={{ fontSize: '11px', color: '#A3A3A3' }}>
+            {isAr ? 'تشغيل فوري ووصول مباشر لنقاط البيع' : 'Fast launch & instant access'}
+          </div>
         </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <button
           onClick={handleInstallClick}
+          className="interactive-tap gold-gradient-btn"
           style={{
-            backgroundColor: '#00FF24',
-            color: '#000000',
+            color: '#0B0B0B',
             border: 'none',
             borderRadius: '6px',
             padding: '6px 12px',
@@ -102,15 +111,15 @@ export const PWAInstallPrompt: React.FC = () => {
             cursor: 'pointer',
           }}
         >
-          Install
+          {isAr ? 'تثبيت' : 'Install'}
         </button>
         <button
           onClick={handleDismiss}
-          aria-label="Dismiss install prompt"
+          aria-label={isAr ? 'إغلاق إشعار التثبيت' : 'Dismiss install prompt'}
           style={{
             background: 'none',
             border: 'none',
-            color: '#808099',
+            color: '#737373',
             cursor: 'pointer',
             padding: '4px',
             display: 'flex',

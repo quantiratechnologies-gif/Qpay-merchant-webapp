@@ -154,53 +154,42 @@ export const MerchantPinSetupScreen: React.FC = () => {
         /* ======================================================== */
         /* STEP 3: CREATED SUCCESSFULLY MESSAGE SCREEN */
         /* ======================================================== */
-        <div className="space-y-5 text-center py-4">
+        <div className="space-y-4 text-center py-4">
           {/* Animated Success Icon */}
-          <div className="w-16 h-16 rounded-full bg-[#00FF24]/10 border border-[#00FF24]/30 flex items-center justify-center text-[#00FF24] mx-auto shadow-xl shadow-[#00FF24]/20">
-            <CheckCircle2 className="h-9 w-9" />
+          <div className="w-14 h-14 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] mx-auto shadow-lg shadow-[#D4AF37]/20">
+            <CheckCircle2 className="h-8 w-8" />
           </div>
 
           {/* Success Heading & Subtitle */}
           <div>
             <h2 className="text-xl font-black text-white tracking-tight">
-              {isAr ? 'تم إنشاء الرمز السري بنجاح!' : 'PIN Created Successfully!'}
+              {isAr ? 'تم تفعيل الرمز السري!' : 'PIN Set Successfully!'}
             </h2>
-            <p className="text-xs text-slate-400 mt-1.5 leading-relaxed max-w-xs mx-auto">
+            <p className="text-xs text-[#A3A3A3] mt-1">
               {isAr
-                ? 'تم تعيين رمز الأمان المكون من ٤ أرقام وتفعيله لعمليات نقاط البيع والتسويات.'
-                : 'Your 4-digit Manager Security PIN is now active for SoftPOS transactions, settlements & manager overrides.'}
+                ? 'تم حفظ رمز الأمان لنقاط البيع والتسويات'
+                : 'Your 4-digit PIN is active for SoftPOS & settlements'}
             </p>
           </div>
 
-          {/* PIN Confirmation Badge */}
-          <div className="p-3 bg-[#10182A] border border-slate-800 rounded-xl flex items-center justify-between max-w-xs mx-auto text-xs">
-            <span className="text-slate-400">{isAr ? 'حالة الرمز السري' : 'Security PIN Status'}</span>
-            <span className="font-bold text-[#00FF24] flex items-center gap-1">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              <span>{isAr ? 'مفعل ومشفر' : 'Active & Encrypted'}</span>
-            </span>
-          </div>
-
-          {/* Two Action Buttons: OK and Reset PIN */}
-          <div className="space-y-2.5 pt-2 max-w-xs mx-auto w-full">
-            {/* 1. OK Button -> Opens Dashboard */}
+          {/* Action Buttons: OK and Reset PIN */}
+          <div className="space-y-2 pt-2 max-w-xs mx-auto w-full">
             <button
               type="button"
               onClick={handleOkProceed}
-              className="w-full h-12 rounded-xl bg-[#00FF24] text-black font-extrabold text-sm flex items-center justify-center gap-2 hover:bg-[#00FF24]/90 transition-all shadow-lg shadow-[#00FF24]/20 cursor-pointer"
+              className="w-full h-11 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#F1D77A] to-[#B8972E] text-[#0B0B0B] font-extrabold text-sm flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-lg shadow-[#D4AF37]/25 cursor-pointer"
             >
-              <span>{isAr ? 'موافق — الدخول للوحة التحكم' : 'OK — Go to Dashboard'}</span>
+              <span>{isAr ? 'لوحة التحكم' : 'Dashboard'}</span>
               <ArrowRight className={`h-4 w-4 ${isRtl ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* 2. Reset PIN Button -> Opens PIN Reset Flow */}
             <button
               type="button"
               onClick={handleResetPin}
-              className="w-full h-11 rounded-xl bg-[#10182A] border border-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center gap-2 hover:text-white hover:border-[#00FF24]/50 transition-colors cursor-pointer"
+              className="w-full h-10 rounded-xl bg-[#1E1E1E] border border-[#333333] text-neutral-300 font-bold text-xs flex items-center justify-center gap-1.5 hover:text-white hover:border-[#D4AF37]/50 transition-colors cursor-pointer"
             >
-              <RotateCcw className="h-3.5 w-3.5 text-[#00FF24]" />
-              <span>{isAr ? 'إعادة تعيين الرمز السري' : 'Reset PIN'}</span>
+              <RotateCcw className="h-3.5 w-3.5 text-[#D4AF37]" />
+              <span>{isAr ? 'إعادة التعيين' : 'Reset PIN'}</span>
             </button>
           </div>
         </div>
@@ -210,7 +199,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
         /* ======================================================== */
         <div className="space-y-4 text-center">
           {/* Top Icon */}
-          <div className="w-12 h-12 rounded-2xl bg-[#10182A] border border-slate-800 flex items-center justify-center mx-auto text-[#00FF24]">
+          <div className="w-12 h-12 rounded-2xl bg-[#171717] border border-[#262626] flex items-center justify-center mx-auto text-[#D4AF37]">
             <Lock className="h-6 w-6" />
           </div>
 
@@ -219,20 +208,20 @@ export const MerchantPinSetupScreen: React.FC = () => {
             <h2 className="text-xl font-extrabold text-white tracking-tight">
               {step === 'create'
                 ? isAr
-                  ? 'تعيين الرمز السري للتاجر'
-                  : 'Create Merchant PIN'
+                  ? 'تعيين الرمز السري'
+                  : 'Set 4-Digit PIN'
                 : isAr
-                ? 'تأكيد الرمز السري للتاجر'
-                : 'Confirm Merchant PIN'}
+                ? 'تأكيد الرمز السري'
+                : 'Confirm PIN'}
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-[#A3A3A3] mt-1">
               {step === 'create'
                 ? isAr
-                  ? 'عيّن رمزاً سرياً مكوناً من ٤ أرقام لعمليات نقاط البيع والتسويات'
-                  : 'Set a 4-digit security PIN for SoftPOS terminal and settlements'
+                  ? 'لعمليات نقاط البيع والتسويات'
+                  : 'For SoftPOS and settlements'
                 : isAr
-                ? 'أعد إدخال الرمز المكون من ٤ أرقام للتأكيد'
-                : 'Re-enter your 4-digit security PIN to confirm'}
+                ? 'أعد إدخال الرمز للتأكيد'
+                : 'Re-enter your 4-digit PIN'}
             </p>
           </div>
 
@@ -246,8 +235,8 @@ export const MerchantPinSetupScreen: React.FC = () => {
                     key={idx}
                     className={`w-4 h-4 rounded-full transition-all duration-150 ${
                       isFilled
-                        ? 'bg-[#00FF24] border-2 border-[#00FF24] scale-125 shadow-md shadow-[#00FF24]/40'
-                        : 'bg-[#10182A] border-2 border-slate-700'
+                        ? 'bg-[#D4AF37] border-2 border-[#D4AF37] scale-125 shadow-md shadow-[#D4AF37]/40'
+                        : 'bg-[#1E1E1E] border-2 border-[#333333]'
                     }`}
                   />
                 );
@@ -269,7 +258,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
                   key={d}
                   type="button"
                   onClick={() => handleKeyPress(d)}
-                  className="h-12 rounded-xl bg-[#10182A] border border-slate-800 text-white font-extrabold text-lg hover:bg-slate-800 hover:border-[#00FF24]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                  className="h-12 rounded-xl bg-[#1E1E1E] border border-[#262626] text-white font-extrabold text-lg hover:bg-white/10 hover:border-[#D4AF37]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
                 >
                   {isAr ? toArabicNumerals(d) : d}
                 </button>
@@ -281,7 +270,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleKeyPress('0')}
-                className="h-12 rounded-xl bg-[#10182A] border border-slate-800 text-white font-extrabold text-lg hover:bg-slate-800 hover:border-[#00FF24]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                className="h-12 rounded-xl bg-[#1E1E1E] border border-[#262626] text-white font-extrabold text-lg hover:bg-white/10 hover:border-[#D4AF37]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
               >
                 {isAr ? '٠' : '0'}
               </button>
@@ -290,7 +279,7 @@ export const MerchantPinSetupScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={handleDelete}
-                className="h-12 rounded-xl bg-[#10182A] border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 hover:border-[#00FF24]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                className="h-12 rounded-xl bg-[#1E1E1E] border border-[#262626] text-[#A3A3A3] hover:text-white hover:bg-white/10 hover:border-[#D4AF37]/40 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
               >
                 <Delete className={`h-5 w-5 ${isRtl ? 'scale-x-[-1]' : ''}`} />
               </button>

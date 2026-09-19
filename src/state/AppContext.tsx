@@ -389,7 +389,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const verifyOtp = (enteredOtp: string): boolean => {
     const clean = enteredOtp.trim();
-    return clean === activeOtp || clean === '589204' || clean === '123456';
+    return clean === activeOtp;
   };
 
   const verifyMerchantPin = (pin: string): boolean => {
@@ -544,11 +544,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const newBank = await bankService.addBankAccount(bankName);
     setBankAccounts((prev) => [...prev, newBank]);
 
+    const isAr = language === 'العربية';
     const newNotif: AppNotification = {
       id: `notif-${Date.now()}`,
-      title: 'Bank linked',
-      description: `${bankName} was linked successfully.`,
-      timestamp: 'Just now',
+      title: isAr ? 'تم ربط الحساب البنكي' : 'Bank linked',
+      description: isAr
+        ? `تم ربط ${translateText(bankName, 'ar')} بنجاح وتوثيقه لدى سريع.`
+        : `${bankName} was linked successfully.`,
+      timestamp: isAr ? 'الآن' : 'Just now',
       read: false,
       type: 'info',
     };
@@ -583,6 +586,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     category?: string;
     bankId?: string;
   }) => {
+    const isAr = language === 'العربية';
     const newTxn: Transaction = {
       id: 'QT' + Math.floor(10000000000 + Math.random() * 90000000000).toString(),
       title: params.title,
@@ -610,12 +614,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTransactions((prev) => [newTxn, ...prev]);
     setLastTransaction(newTxn);
 
-    const formattedAmt = `SAR ${params.amount.toFixed(2)}`;
+    const formattedAmt = formatSaudiCurrency(params.amount, language as SupportedLanguage);
     const newNotif: AppNotification = {
       id: `notif-${Date.now()}`,
-      title: 'Payment successful',
-      description: `${formattedAmt} paid to ${params.title}`,
-      timestamp: 'Just now',
+      title: isAr ? 'تم التحويل بنجاح' : 'Payment successful',
+      description: isAr
+        ? `تم دفع ${formattedAmt} إلى ${params.title}`
+        : `${formattedAmt} paid to ${params.title}`,
+      timestamp: isAr ? 'الآن' : 'Just now',
       read: false,
       type: 'success',
     };
@@ -679,6 +685,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // 15% ZATCA Standard VAT calculation: VAT = Gross - (Gross / 1.15)
     const netAmount = Number((grossAmount / 1.15).toFixed(2));
     const vatAmount = Number((grossAmount - netAmount).toFixed(2));
+    const isAr = language === 'العربية';
 
     const newCollection: MerchantCollection = {
       id: 'POS-' + Math.floor(1000000 + Math.random() * 9000000).toString(),
@@ -702,11 +709,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // Trigger SoundBox Voice Alert
     speakSoundBox(grossAmount);
 
+    const formattedAmt = formatSaudiCurrency(grossAmount, language as SupportedLanguage);
     const newNotif: AppNotification = {
       id: `notif-${Date.now()}`,
-      title: 'Merchant Payment Received',
-      description: `SAR ${grossAmount.toFixed(2)} collected via ${params.paymentMethod.replace('_', ' ').toUpperCase()}`,
-      timestamp: 'Just now',
+      title: isAr ? 'تم استلام دفعة جديدة' : 'Merchant Payment Received',
+      description: isAr
+        ? `تم تحصيل ${formattedAmt} بنجاح`
+        : `${formattedAmt} collected via ${params.paymentMethod.replace('_', ' ').toUpperCase()}`,
+      timestamp: isAr ? 'الآن' : 'Just now',
       read: false,
       type: 'success',
     };
@@ -756,6 +766,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const settleAmount = totalCollections > 0 ? totalCollections : 1862.50;
     const netAmount = Number((settleAmount / 1.15).toFixed(2));
     const vatAmount = Number((settleAmount - netAmount).toFixed(2));
+    const isAr = language === 'العربية';
 
     const newSettlement: MerchantSettlement = {
       id: 'STL-' + Math.floor(100000 + Math.random() * 900000).toString(),
@@ -777,11 +788,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     setMerchantSettlements((prev) => [newSettlement, ...prev]);
 
+    const formattedAmt = formatSaudiCurrency(settleAmount, language as SupportedLanguage);
+    const bankNameDisplay = isAr ? translateText(newSettlement.bankName, 'ar') : newSettlement.bankName;
     const newNotif: AppNotification = {
       id: `notif-${Date.now()}`,
-      title: 'Instant Sarie Payout Dispatched',
-      description: `SAR ${settleAmount.toFixed(2)} credited instantly to ${newSettlement.bankName}. UTR: ${newSettlement.utr}`,
-      timestamp: 'Just now',
+      title: isAr ? 'تم إيداع التسوية الفورية عبر سريع' : 'Instant Sarie Payout Dispatched',
+      description: isAr
+        ? `تم إيداع ${formattedAmt} مباشرة في ${bankNameDisplay}. مرجع سريع: ${newSettlement.utr}`
+        : `${formattedAmt} credited instantly to ${newSettlement.bankName}. UTR: ${newSettlement.utr}`,
+      timestamp: isAr ? 'الآن' : 'Just now',
       read: false,
       type: 'success',
     };

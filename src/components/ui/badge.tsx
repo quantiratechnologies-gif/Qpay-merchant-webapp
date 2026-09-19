@@ -10,10 +10,10 @@ export function Badge({
   variant = "default",
   ...props
 }: BadgeProps) {
-  let variantStyles = "bg-[#7FE87F]/15 text-[#7FE87F] border border-[#7FE87F]/30";
+  let variantStyles = "bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/35";
 
   if (variant === "secondary") {
-    variantStyles = "bg-slate-800/60 text-slate-300 border border-slate-700/60";
+    variantStyles = "bg-[#212121] text-neutral-300 border border-[#333333]";
   } else if (variant === "destructive") {
     variantStyles = "bg-red-500/15 text-red-400 border border-red-500/30";
   } else if (variant === "warning") {
@@ -21,7 +21,7 @@ export function Badge({
   } else if (variant === "success") {
     variantStyles = "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
   } else if (variant === "outline") {
-    variantStyles = "bg-transparent text-slate-300 border border-slate-700";
+    variantStyles = "bg-transparent text-neutral-300 border border-[#333333]";
   }
 
   return (

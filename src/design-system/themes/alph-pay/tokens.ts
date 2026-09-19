@@ -9,74 +9,74 @@
  */
 
 export const colors = {
-  // 1. Primary Color — Vibrant Lime Green & Tiers
-  primary: '#00C853',
-  primaryHover: '#5FBF5F',
-  primaryActive: '#3F963F',
-  primaryLight: '#EFFDEF',
-  primaryLightHover: '#DFFADF',
-  primaryBorder: '#9FEE9F',
-  primaryDark: '#1F6D1F',
-  textOnPrimary: '#000000', // Black text on Lime Green for maximum readability
+  // 1. Primary Color — Regal Gold & Tiers
+  primary: '#D4AF37',
+  primaryHover: '#E5C453',
+  primaryActive: '#B8972E',
+  primaryLight: 'rgba(212, 175, 55, 0.15)',
+  primaryLightHover: 'rgba(212, 175, 55, 0.25)',
+  primaryBorder: 'rgba(212, 175, 55, 0.4)',
+  primaryDark: '#8C7320',
+  textOnPrimary: '#0B0B0B', // Black text on Gold for maximum luxury readability
 
-  // 2. Secondary Color — Pure Black & Grays
-  secondary: '#000000',
-  secondaryHover: '#404040',
-  gray25: '#404040',
-  gray50: '#808080',
-  gray75: '#BFBFBF',
-  gray90: '#E6E6E6',
+  // 2. Secondary Color — Champagne Gold & Grays
+  secondary: '#F1D77A',
+  secondaryHover: '#E5C453',
+  gray25: '#212121',
+  gray50: '#525252',
+  gray75: '#A3A3A3',
+  gray90: '#E5E5E5',
 
-  // 3. Accent Dark — Deep Navy Charcoal UI Surfaces
-  darkBg: '#1A1A2E',
-  darkSurface: '#2A2A3E',
-  darkSurfaceElevated: '#3A3A52',
-  darkBorder: '#4D4D6B',
-  darkDisabled: '#4D4D6B',
-  darkPlaceholder: '#B3B3C2',
+  // 3. Accent Dark — Obsidian UI Surfaces
+  darkBg: '#0B0B0B',
+  darkSurface: '#171717',
+  darkSurfaceElevated: '#212121',
+  darkBorder: '#262626',
+  darkDisabled: '#333333',
+  darkPlaceholder: '#A3A3A3',
 
   // 4. Neutral — Pure White & Light Surfaces
-  lightBg: '#FFFFFF',
-  lightSurface: '#F5F5F7',
-  lightSurfaceElevated: '#FFFFFF',
-  lightBorder: '#E6E6E6',
+  lightBg: '#0B0B0B',
+  lightSurface: '#171717',
+  lightSurfaceElevated: '#212121',
+  lightBorder: '#262626',
 
-  // Active App Surfaces (alph pay Signature Dark Experience)
-  surface: '#2A2A3E',
-  surfaceElevated: '#3A3A52',
-  background: '#1A1A2E',
-  subSurface: '#33334D',
-  surfaceHover: '#33334D',
-  inputFill: '#1A1A2E',
-  overlay: 'rgba(15, 15, 26, 0.75)',
+  // Active App Surfaces (Black + Gold Signature Luxury Experience)
+  surface: '#171717',
+  surfaceElevated: '#212121',
+  background: '#0B0B0B',
+  subSurface: '#1E1E1E',
+  surfaceHover: '#212121',
+  inputFill: '#171717',
+  overlay: 'rgba(0, 0, 0, 0.8)',
 
   // Typography Tiers
   textPrimary: '#FFFFFF',
-  textSecondary: '#B3B3C2',
-  textMuted: '#808099',
-  textDisabled: '#808099',
+  textSecondary: '#A3A3A3',
+  textMuted: '#737373',
+  textDisabled: '#525252',
 
   // Borders & Dividers
-  borderHairline: '#4D4D6B',
-  borderStrong: '#808099',
-  borderFocus: '#00C853',
+  borderHairline: '#262626',
+  borderStrong: '#404040',
+  borderFocus: '#D4AF37',
 
   // Semantic & Feedback Colors
-  success: '#00C853',
-  successLight: '#EFFDEF',
-  successText: '#0C440C',
+  success: '#22C55E',
+  successLight: 'rgba(34, 197, 94, 0.15)',
+  successText: '#4ADE80',
 
   warning: '#F59E0B',
-  warningLight: '#FEF3C7',
-  warningText: '#92400E',
+  warningLight: 'rgba(245, 158, 11, 0.15)',
+  warningText: '#FBBF24',
 
-  danger: '#FF4757',
-  dangerLight: '#FFE8EA',
-  dangerText: '#FF6B7A',
+  danger: '#EF4444',
+  dangerLight: 'rgba(239, 68, 68, 0.15)',
+  dangerText: '#F87171',
 
-  info: '#00C853',
-  infoLight: '#EFFDEF',
-  infoText: '#000000',
+  info: '#D4AF37',
+  infoLight: 'rgba(212, 175, 55, 0.15)',
+  infoText: '#D4AF37',
 } as const;
 
 export const typography = {

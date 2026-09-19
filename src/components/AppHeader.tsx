@@ -52,14 +52,14 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 'calc(14px + env(safe-area-inset-top, 0px)) 16px 12px 16px',
-        backgroundColor: 'rgba(11, 11, 20, 0.96)',
+        backgroundColor: 'rgba(11, 11, 11, 0.96)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         position: 'sticky',
         top: 0,
         zIndex: 100,
         borderBottom: `1px solid ${designSystem.colors.borderHairline}`,
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.35)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.65)',
         minHeight: 'calc(62px + env(safe-area-inset-top, 0px))',
         boxSizing: 'border-box',
         width: '100%',
@@ -81,7 +81,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             aria-label={t('btn.back', 'Go back')}
             className="interactive-tap"
             style={{
-              backgroundColor: '#151524',
+              backgroundColor: '#171717',
               border: `1px solid ${designSystem.colors.borderHairline}`,
               color: '#FFFFFF',
               width: '38px',
@@ -106,9 +106,9 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               width: '38px',
               height: '38px',
               borderRadius: '12px',
-              backgroundColor: 'rgba(0, 255, 36, 0.12)',
-              border: '1px solid rgba(0, 255, 36, 0.25)',
-              color: '#00FF24',
+              backgroundColor: 'rgba(212, 175, 55, 0.12)',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              color: '#D4AF37',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -118,7 +118,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               flexShrink: 0,
             }}
           >
-            <Store size={18} color="#00FF24" />
+            <Store size={18} color="#D4AF37" />
           </button>
         )}
       </div>
@@ -186,7 +186,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             aria-label="Search"
             className="interactive-tap"
             style={{
-              backgroundColor: '#151524',
+              backgroundColor: '#171717',
               border: `1px solid ${designSystem.colors.borderHairline}`,
               color: '#FFFFFF',
               width: '38px',
@@ -212,7 +212,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             aria-label="Settings"
             className="interactive-tap"
             style={{
-              backgroundColor: '#151524',
+              backgroundColor: '#171717',
               border: `1px solid ${designSystem.colors.borderHairline}`,
               color: '#FFFFFF',
               width: '38px',

@@ -42,10 +42,17 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         brand: {
-          50: "#f0fdf4",
-          400: "#7FE87F",
-          500: "#00FF24",
-          600: "#00C853",
+          50: "#fffbeb",
+          400: "#F1D77A",
+          500: "#D4AF37",
+          600: "#B8972E",
+          700: "#96781D",
+          gold: "#D4AF37",
+          champagne: "#F1D77A",
+          dark: "#0B0B0B",
+          surface: "#171717",
+          elevated: "#212121",
+          muted: "#A3A3A3",
         }
       },
       borderRadius: {

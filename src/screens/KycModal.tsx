@@ -65,12 +65,12 @@ export const KycModal: React.FC = () => {
         style={{
           width: '100%',
           maxWidth: '420px',
-          backgroundColor: '#111726',
-          border: '1px solid #1E293B',
+          backgroundColor: '#171717',
+          border: '1px solid #262626',
           borderRadius: '24px',
           padding: '26px 22px',
           boxSizing: 'border-box',
-          boxShadow: 'none',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
           color: '#FFFFFF',
         }}
         onClick={(e) => e.stopPropagation()}
@@ -83,20 +83,20 @@ export const KycModal: React.FC = () => {
                 width: '36px',
                 height: '36px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(0, 255, 36, 0.12)',
-                border: '1px solid rgba(0, 255, 36, 0.3)',
+                backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                border: '1px solid rgba(212, 175, 55, 0.3)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <ShieldCheck size={20} color="#00FF24" />
+              <ShieldCheck size={20} color="#D4AF37" />
             </div>
             <div>
               <h3 style={{ fontSize: '16px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
                 {t('sec.absher_kyc', 'Absher & ZATCA e-KYC')}
               </h3>
-              <span style={{ fontSize: '11px', color: '#00FF24', fontWeight: 700 }}>
+              <span style={{ fontSize: '11px', color: '#D4AF37', fontWeight: 700 }}>
                 {language === 'العربية' ? 'التحقق التجاري عبر أبشر' : 'Absher Business Validation'}
               </span>
             </div>
@@ -106,8 +106,8 @@ export const KycModal: React.FC = () => {
             onClick={() => !isVerifying && setIsKycModalOpen(false)}
             aria-label={t('btn.close', 'Close')}
             style={{
-              background: '#1A2234',
-              border: '1px solid #1E293B',
+              background: '#212121',
+              border: '1px solid #262626',
               borderRadius: '50%',
               width: '32px',
               height: '32px',
@@ -115,7 +115,7 @@ export const KycModal: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              color: '#94A3B8',
+              color: '#A3A3A3',
             }}
           >
             <X size={16} />
@@ -129,20 +129,21 @@ export const KycModal: React.FC = () => {
                 width: '64px',
                 height: '64px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(0, 255, 36, 0.12)',
-                border: '1.5px solid #00FF24',
+                backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                border: '1.5px solid #D4AF37',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px auto',
+                boxShadow: '0 0 24px rgba(212, 175, 55, 0.25)',
               }}
             >
-              <CheckCircle2 size={36} color="#00FF24" />
+              <CheckCircle2 size={36} color="#D4AF37" />
             </div>
             <h4 style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 6px 0' }}>
               {language === 'العربية' ? 'تم التحقق من الهوية عبر منصة أبشر' : 'Identity Verified via Absher'}
             </h4>
-            <p style={{ fontSize: '13px', color: '#94A3B8', margin: 0 }}>
+            <p style={{ fontSize: '13px', color: '#A3A3A3', margin: 0 }}>
               {language === 'العربية'
                 ? 'تم استيفاء متطلبات التحقق وهيئة الزكاة. جاري الانتقال للملف التجاري...'
                 : 'Regulatory verification requirements fulfilled. Directing to Merchant Business Profile...'}
@@ -154,7 +155,7 @@ export const KycModal: React.FC = () => {
             <div>
               <label
                 style={{
-                  fontSize: '12px', fontWeight: 500, color: '#94A3B8',
+                  fontSize: '12px', fontWeight: 500, color: '#A3A3A3',
                   textTransform: 'uppercase',
                   display: 'block',
                   marginBottom: '6px',
@@ -166,14 +167,14 @@ export const KycModal: React.FC = () => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  backgroundColor: '#161F30',
-                  border: '1px solid #2A364F',
+                  backgroundColor: '#1E1E1E',
+                  border: '1px solid #262626',
                   borderRadius: '12px',
                   padding: '10px 14px',
                   gap: '10px',
                 }}
               >
-                <UserCheck size={18} color="#00FF24" />
+                <UserCheck size={18} color="#D4AF37" />
                 <input
                   type="tel"
                   maxLength={10}
@@ -197,7 +198,7 @@ export const KycModal: React.FC = () => {
             <div>
               <label
                 style={{
-                  fontSize: '12px', fontWeight: 500, color: '#94A3B8',
+                  fontSize: '12px', fontWeight: 500, color: '#A3A3A3',
                   textTransform: 'uppercase',
                   display: 'block',
                   marginBottom: '6px',
@@ -209,14 +210,14 @@ export const KycModal: React.FC = () => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  backgroundColor: '#161F30',
-                  border: '1px solid #2A364F',
+                  backgroundColor: '#1E1E1E',
+                  border: '1px solid #262626',
                   borderRadius: '12px',
                   padding: '10px 14px',
                   gap: '10px',
                 }}
               >
-                <FileText size={18} color="#00FF24" />
+                <FileText size={18} color="#D4AF37" />
                 <input
                   type="text"
                   value={crNumber}
@@ -236,7 +237,7 @@ export const KycModal: React.FC = () => {
             </div>
 
             {errorMsg && (
-              <div style={{ fontSize: '12px', color: '#FF6B6B', fontWeight: 700 }}>
+              <div style={{ fontSize: '12px', color: '#EF4444', fontWeight: 700 }}>
                 {errorMsg}
               </div>
             )}
@@ -247,8 +248,8 @@ export const KycModal: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor: 'rgba(0, 255, 36, 0.06)',
-                border: '1px solid rgba(0, 200, 83, 0.2)',
+                backgroundColor: 'rgba(212, 175, 55, 0.06)',
+                border: '1px solid rgba(212, 175, 55, 0.2)',
                 borderRadius: '12px',
                 padding: '10px 14px',
                 marginTop: '4px',
@@ -256,7 +257,7 @@ export const KycModal: React.FC = () => {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <ZatcaLogo variant="icon" size={18} />
-                <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 600 }}>
+                <span style={{ fontSize: '11px', color: '#A3A3A3', fontWeight: 600 }}>
                   {language === 'العربية' ? 'معتمد من هيئة الزكاة والضريبة والجمارك (ZATCA)' : 'ZATCA Tax Compliant'}
                 </span>
               </div>

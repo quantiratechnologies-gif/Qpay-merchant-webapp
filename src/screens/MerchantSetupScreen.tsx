@@ -65,7 +65,7 @@ export const MerchantSetupScreen: React.FC = () => {
       className="fade-in"
       style={{
         minHeight: '100%',
-        backgroundColor: '#080C14',
+        backgroundColor: '#0B0B0B',
         color: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column',
@@ -78,7 +78,7 @@ export const MerchantSetupScreen: React.FC = () => {
     >
       {/* Top Section */}
       <div style={{ width: '100%', maxWidth: '400px', margin: '0 auto' }}>
-        {/* Top Navigation Row (Back button at exact top-left) */}
+        {/* Top Navigation Row */}
         <div
           style={{
             display: 'flex',
@@ -96,8 +96,8 @@ export const MerchantSetupScreen: React.FC = () => {
               width: '40px',
               height: '40px',
               borderRadius: '12px',
-              backgroundColor: '#111726',
-              border: '1px solid #1E293B',
+              backgroundColor: '#171717',
+              border: '1px solid #262626',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -109,30 +109,27 @@ export const MerchantSetupScreen: React.FC = () => {
           </button>
         </div>
 
-        {/* Title Block (Exact same vertical Y-position & font hierarchy) */}
-        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        {/* Title Block */}
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <h1
             style={{
-              fontSize: '26px',
+              fontSize: '24px',
               fontWeight: 800,
               color: '#FFFFFF',
-              margin: '0 0 8px 0',
+              margin: '0 0 6px 0',
               letterSpacing: '-0.02em',
             }}
           >
-            {isAr ? 'ملف المنشأة التجارية' : 'Business Profile'}
+            {isAr ? 'ملف المنشأة' : 'Business Profile'}
           </h1>
           <p
             style={{
-              fontSize: '13.5px',
-              color: '#94A3B8',
+              fontSize: '13px',
+              color: '#A3A3A3',
               margin: 0,
-              lineHeight: 1.5,
             }}
           >
-            {isAr
-              ? 'إعداد هوية المتجر والبيانات الضريبية لنظام الفوترة'
-              : 'Configure store identity & ZATCA tax credentials'}
+            {isAr ? 'بيانات المتجر والضريبة' : 'Store & tax details'}
           </p>
         </div>
 
@@ -141,8 +138,8 @@ export const MerchantSetupScreen: React.FC = () => {
           {/* 1. Storefront & Brand Logo Inset Card */}
           <div
             style={{
-              backgroundColor: '#111726',
-              border: '1px solid #1E293B',
+              backgroundColor: '#171717',
+              border: '1px solid #262626',
               borderRadius: '14px',
               padding: '12px 14px',
               display: 'flex',
@@ -156,39 +153,32 @@ export const MerchantSetupScreen: React.FC = () => {
                 onClick={() => setHasLogo(!hasLogo)}
                 className="interactive-tap"
                 style={{
-                  width: '44px',
-                  height: '44px',
+                  width: '40px',
+                  height: '40px',
                   borderRadius: '10px',
-                  border: '1.5px dashed rgba(0, 200, 83, 0.6)',
-                  backgroundColor: 'rgba(0, 200, 83, 0.08)',
+                  border: '1.5px dashed rgba(212, 175, 55, 0.6)',
+                  backgroundColor: 'rgba(212, 175, 55, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '2px',
                   cursor: 'pointer',
-                  color: '#00FF24',
+                  color: '#D4AF37',
                   flexShrink: 0,
                 }}
               >
-                <Camera size={18} strokeWidth={2} />
-                <span style={{ fontSize: '7.5px', fontWeight: 800, letterSpacing: '0.04em' }}>
-                  {isAr ? 'رفع' : 'UPLOAD'}
-                </span>
+                <Camera size={16} strokeWidth={2} />
               </div>
 
               <div>
                 <div style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
-                  {isAr ? 'شعار وهوية المتجر' : 'Storefront & Brand Logo'}
+                  {isAr ? 'شعار المتجر' : 'Store Logo'}
                 </div>
-                <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>
+                <div style={{ fontSize: '11px', color: '#A3A3A3', marginTop: '2px' }}>
                   {hasLogo
-                    ? isAr
-                      ? '✓ تم تحميل الشعار بنجاح'
-                      : '✓ Logo uploaded & active'
-                    : isAr
-                    ? 'PNG أو JPG بحد أقصى ٥ ميجابايت'
-                    : 'PNG, JPG up to 5MB'}
+                    ? (isAr ? '✓ تم التحميل' : '✓ Uploaded')
+                    : (isAr ? 'PNG أو JPG' : 'PNG, JPG')}
                 </div>
               </div>
             </div>
@@ -201,12 +191,12 @@ export const MerchantSetupScreen: React.FC = () => {
                 width: '32px',
                 height: '32px',
                 borderRadius: '8px',
-                backgroundColor: '#161F30',
-                border: '1px solid #1E293B',
+                backgroundColor: '#212121',
+                border: '1px solid #262626',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#94A3B8',
+                color: '#A3A3A3',
                 cursor: 'pointer',
                 flexShrink: 0,
               }}
@@ -221,39 +211,39 @@ export const MerchantSetupScreen: React.FC = () => {
               style={{
                 fontSize: '12px',
                 fontWeight: 700,
-                color: '#CBD5E1',
+                color: '#A3A3A3',
                 marginBottom: '6px',
                 display: 'block',
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'اسم المنشأة المسجل' : 'Registered Business Name'} <span style={{ color: '#00FF24' }}>*</span>
+              {isAr ? 'اسم المنشأة' : 'Business Name'} <span style={{ color: '#D4AF37' }}>*</span>
             </label>
             <div
               style={{
-                backgroundColor: '#111726',
-                border: '1px solid #1E293B',
+                backgroundColor: '#171717',
+                border: '1px solid #262626',
                 borderRadius: '14px',
                 padding: '0 16px',
-                height: '52px',
+                height: '50px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
                 boxSizing: 'border-box',
               }}
             >
-              <Building2 size={17} color="#00FF24" style={{ flexShrink: 0 }} />
+              <Building2 size={17} color="#D4AF37" style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
-                placeholder={isAr ? 'أدخل اسم المنشأة' : 'Enter registered business name'}
+                placeholder={isAr ? 'أدخل اسم المنشأة' : 'Enter business name'}
                 required
                 style={{
                   background: 'none',
                   border: 'none',
                   outline: 'none',
-                  fontSize: '14.5px',
+                  fontSize: '14px',
                   fontWeight: 600,
                   color: '#FFFFFF',
                   width: '100%',
@@ -269,29 +259,29 @@ export const MerchantSetupScreen: React.FC = () => {
               style={{
                 fontSize: '12px',
                 fontWeight: 700,
-                color: '#CBD5E1',
+                color: '#A3A3A3',
                 marginBottom: '6px',
                 display: 'block',
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'تصنيف النشاط التجاري' : 'Business Category'} <span style={{ color: '#00FF24' }}>*</span>
+              {isAr ? 'النشاط التجاري' : 'Category'} <span style={{ color: '#D4AF37' }}>*</span>
             </label>
             <div
               style={{
                 position: 'relative',
-                backgroundColor: '#111726',
-                border: '1px solid #1E293B',
+                backgroundColor: '#171717',
+                border: '1px solid #262626',
                 borderRadius: '14px',
                 padding: '0 16px',
-                height: '52px',
+                height: '50px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
                 boxSizing: 'border-box',
               }}
             >
-              <Tag size={17} color="#00FF24" style={{ flexShrink: 0 }} />
+              <Tag size={17} color="#D4AF37" style={{ flexShrink: 0 }} />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -299,7 +289,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   background: 'none',
                   border: 'none',
                   outline: 'none',
-                  fontSize: '14px',
+                  fontSize: '13.5px',
                   fontWeight: 600,
                   color: '#FFFFFF',
                   width: '100%',
@@ -311,14 +301,14 @@ export const MerchantSetupScreen: React.FC = () => {
                 }}
               >
                 {CATEGORIES.map((cat) => (
-                  <option key={cat.en} value={cat.en} style={{ backgroundColor: '#111726', color: '#FFFFFF' }}>
+                  <option key={cat.en} value={cat.en} style={{ backgroundColor: '#171717', color: '#FFFFFF' }}>
                     {isAr ? cat.ar : cat.en}
                   </option>
                 ))}
               </select>
               <ChevronDown
                 size={16}
-                color="#94A3B8"
+                color="#A3A3A3"
                 style={{
                   position: 'absolute',
                   right: isRtl ? 'auto' : '16px',
@@ -335,29 +325,29 @@ export const MerchantSetupScreen: React.FC = () => {
               style={{
                 fontSize: '12px',
                 fontWeight: 700,
-                color: '#CBD5E1',
+                color: '#A3A3A3',
                 marginBottom: '6px',
                 display: 'block',
                 textAlign: isRtl ? 'right' : 'left',
               }}
             >
-              {isAr ? 'الرقم الضريبي زاتكا' : 'ZATCA VAT ID'} <span style={{ color: '#00FF24' }}>*</span>
+              {isAr ? 'الرقم الضريبي' : 'VAT ID'} <span style={{ color: '#D4AF37' }}>*</span>
             </label>
 
             <div
               style={{
-                backgroundColor: '#111726',
-                border: '1px solid #1E293B',
+                backgroundColor: '#171717',
+                border: '1px solid #262626',
                 borderRadius: '14px',
                 padding: '0 16px',
-                height: '52px',
+                height: '50px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
                 boxSizing: 'border-box',
               }}
             >
-              <Hash size={17} color="#00FF24" style={{ flexShrink: 0 }} />
+              <Hash size={17} color="#D4AF37" style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={vatNumber}
@@ -367,7 +357,7 @@ export const MerchantSetupScreen: React.FC = () => {
                   background: 'none',
                   border: 'none',
                   outline: 'none',
-                  fontSize: '14.5px',
+                  fontSize: '14px',
                   fontWeight: 700,
                   color: '#FFFFFF',
                   fontFamily: 'monospace',
@@ -387,29 +377,29 @@ export const MerchantSetupScreen: React.FC = () => {
                 style={{
                   fontSize: '12px',
                   fontWeight: 700,
-                  color: '#CBD5E1',
+                  color: '#A3A3A3',
                   marginBottom: '6px',
                   display: 'block',
                   textAlign: isRtl ? 'right' : 'left',
                 }}
               >
-                {isAr ? 'المدينة' : 'City'} <span style={{ color: '#00FF24' }}>*</span>
+                {isAr ? 'المدينة' : 'City'} <span style={{ color: '#D4AF37' }}>*</span>
               </label>
               <div
                 style={{
                   position: 'relative',
-                  backgroundColor: '#111726',
-                  border: '1px solid #1E293B',
+                  backgroundColor: '#171717',
+                  border: '1px solid #262626',
                   borderRadius: '14px',
                   padding: '0 12px',
-                  height: '52px',
+                  height: '50px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
                   boxSizing: 'border-box',
                 }}
               >
-                <MapPin size={15} color="#00FF24" style={{ flexShrink: 0 }} />
+                <MapPin size={15} color="#D4AF37" style={{ flexShrink: 0 }} />
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
@@ -417,7 +407,7 @@ export const MerchantSetupScreen: React.FC = () => {
                     background: 'none',
                     border: 'none',
                     outline: 'none',
-                    fontSize: '13.5px',
+                    fontSize: '13px',
                     fontWeight: 600,
                     color: '#FFFFFF',
                     width: '100%',
@@ -429,14 +419,14 @@ export const MerchantSetupScreen: React.FC = () => {
                   }}
                 >
                   {CITIES.map((c) => (
-                    <option key={c.en} value={c.en} style={{ backgroundColor: '#111726', color: '#FFFFFF' }}>
+                    <option key={c.en} value={c.en} style={{ backgroundColor: '#171717', color: '#FFFFFF' }}>
                       {isAr ? c.ar : c.en}
                     </option>
                   ))}
                 </select>
                 <ChevronDown
                   size={14}
-                  color="#94A3B8"
+                  color="#A3A3A3"
                   style={{
                     position: 'absolute',
                     right: isRtl ? 'auto' : '10px',
@@ -453,28 +443,28 @@ export const MerchantSetupScreen: React.FC = () => {
                 style={{
                   fontSize: '12px',
                   fontWeight: 700,
-                  color: '#CBD5E1',
+                  color: '#A3A3A3',
                   marginBottom: '6px',
                   display: 'block',
                   textAlign: isRtl ? 'right' : 'left',
                 }}
               >
-                {isAr ? 'الرمز البريدي' : 'Postal Code'} <span style={{ color: '#00FF24' }}>*</span>
+                {isAr ? 'الرمز البريدي' : 'Postal Code'} <span style={{ color: '#D4AF37' }}>*</span>
               </label>
               <div
                 style={{
-                  backgroundColor: '#111726',
-                  border: '1px solid #1E293B',
+                  backgroundColor: '#171717',
+                  border: '1px solid #262626',
                   borderRadius: '14px',
                   padding: '0 12px',
-                  height: '52px',
+                  height: '50px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
                   boxSizing: 'border-box',
                 }}
               >
-                <Mail size={15} color="#00FF24" style={{ flexShrink: 0 }} />
+                <Mail size={15} color="#D4AF37" style={{ flexShrink: 0 }} />
                 <input
                   type="text"
                   maxLength={5}
@@ -486,7 +476,7 @@ export const MerchantSetupScreen: React.FC = () => {
                     background: 'none',
                     border: 'none',
                     outline: 'none',
-                    fontSize: '14px',
+                    fontSize: '13.5px',
                     fontWeight: 700,
                     color: '#FFFFFF',
                     fontVariantNumeric: 'tabular-nums',
@@ -502,22 +492,20 @@ export const MerchantSetupScreen: React.FC = () => {
           {/* Primary Action Button */}
           <button
             type="submit"
-            className="interactive-tap"
+            className="interactive-tap gold-gradient-btn"
             style={{
-              marginTop: '8px',
-              height: '52px',
-              backgroundColor: '#00FF24',
-              color: '#080C14',
+              marginTop: '6px',
+              height: '50px',
               border: 'none',
               borderRadius: '14px',
-              fontSize: '15.5px',
+              fontSize: '15px',
               fontWeight: 800,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              boxShadow: '0 4px 20px rgba(0, 200, 83, 0.35)',
+              boxShadow: '0 4px 20px rgba(212, 175, 55, 0.25)',
               transition: 'all 0.2s ease',
             }}
           >
@@ -529,4 +517,3 @@ export const MerchantSetupScreen: React.FC = () => {
     </div>
   );
 };
-

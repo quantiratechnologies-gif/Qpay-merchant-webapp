@@ -46,7 +46,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         {icon && (
           <div
             style={{
-              color: 'var(--accent-green, #00C853)',
+              color: 'var(--brand-gold, #D4AF37)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -104,7 +104,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
               style={{
                 background: 'transparent',
                 border: 'none',
-                color: 'var(--accent-green-bright, #00C853)',
+                color: 'var(--brand-gold, #D4AF37)',
                 fontSize: '13px',
                 fontWeight: 600,
                 cursor: 'pointer',

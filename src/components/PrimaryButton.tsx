@@ -19,8 +19,8 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       className={`interactive-tap ${className}`}
       style={{
         width: fullWidth ? '100%' : 'auto',
-        backgroundColor: disabled ? '#1E293B' : '#00FF24',
-        color: disabled ? '#64748B' : '#080C14',
+        background: disabled ? '#262626' : 'linear-gradient(135deg, #D4AF37 0%, #F1D77A 50%, #B8972E 100%)',
+        color: disabled ? '#737373' : '#0B0B0B',
         border: 'none',
         borderRadius: '14px',
         padding: '14px 20px',
@@ -28,7 +28,7 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
         fontWeight: 800,
         letterSpacing: '-0.01em',
         cursor: disabled ? 'not-allowed' : 'pointer',
-        boxShadow: disabled ? 'none' : '0 4px 20px rgba(0, 255, 36, 0.35)',
+        boxShadow: disabled ? 'none' : '0 4px 20px rgba(212, 175, 55, 0.35)',
         transition: 'all 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
         display: 'flex',
         alignItems: 'center',
