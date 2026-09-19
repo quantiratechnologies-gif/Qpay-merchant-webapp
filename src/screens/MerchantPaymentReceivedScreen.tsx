@@ -8,6 +8,7 @@ import {
   Building2,
   ArrowRight,
   Receipt,
+  Printer,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { formatCurrency } from '../utils/formatters';
@@ -126,7 +127,11 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                 +{formatCurrency(collection.amount, language)}
               </div>
               <p style={{ fontSize: '12.5px', color: '#A3A3A3', margin: '4px 0 0 0' }}>
-                {isAr
+                {collection.paymentMethod === 'cash'
+                  ? isAr
+                    ? 'تم استلام الدفعة نقداً وتوثيق الفاتورة في السجل'
+                    : 'Cash received & logged in sales ledger'
+                  : isAr
                   ? `تسوية مباشرة إلى ${translateText(merchantInfo.settlementBank, language)}`
                   : `Direct settlement to ${merchantInfo.settlementBank}`}
               </p>
@@ -145,9 +150,15 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
               }}
             >
               <Building2 size={13} color="#D4AF37" />
-              <span>{translateText(merchantInfo.settlementBank, language)}</span>
+              <span>
+                {collection.paymentMethod === 'cash'
+                  ? isAr
+                    ? 'صندوق النقد المباشر'
+                    : 'Cash Register Drawer'
+                  : translateText(merchantInfo.settlementBank, language)}
+              </span>
               <span style={{ color: '#D4AF37', fontWeight: 700, fontSize: '11px' }}>
-                ✓ {isAr ? 'تسوية سريعة' : 'Sarie Settled'}
+                ✓ {collection.paymentMethod === 'cash' ? (isAr ? 'توثيق فوري' : 'Instant Log') : (isAr ? 'تسوية سريعة' : 'Sarie Settled')}
               </span>
             </div>
           </Card>
@@ -229,7 +240,7 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
             </div>
 
             {/* Receipt Actions */}
-            <div style={{ display: 'flex', gap: '10px', marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #262626' }}>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #262626' }}>
               <button
                 onClick={() => speakSoundBox(collection.amount)}
                 className="interactive-tap"
@@ -239,15 +250,35 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                   border: '1px solid #262626',
                   color: '#D4AF37',
                   borderRadius: '10px',
-                  padding: '9px 12px',
-                  fontSize: '12px',
+                  padding: '9px 8px',
+                  fontSize: '11.5px',
                   fontWeight: 700,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px',
                   cursor: 'pointer',
                 }}
               >
-                <Volume2 size={14} />
-                {isAr ? 'صندوق الصوت' : 'SoundBox'}
+                <Volume2 size={13} />
+                {isAr ? 'صوت' : 'Sound'}
+              </button>
+
+              <button
+                onClick={() => window.print()}
+                className="interactive-tap"
+                style={{
+                  flex: 1,
+                  backgroundColor: '#212121',
+                  border: '1px solid #262626',
+                  color: '#FFFFFF',
+                  borderRadius: '10px',
+                  padding: '9px 8px',
+                  fontSize: '11.5px',
+                  fontWeight: 700,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px',
+                  cursor: 'pointer',
+                }}
+              >
+                <Printer size={13} color="#D4AF37" />
+                {isAr ? 'طباعة' : 'Print'}
               </button>
 
               <button
@@ -259,15 +290,15 @@ export const MerchantPaymentReceivedScreen: React.FC = () => {
                   border: '1px solid #262626',
                   color: '#FFFFFF',
                   borderRadius: '10px',
-                  padding: '9px 12px',
-                  fontSize: '12px',
+                  padding: '9px 8px',
+                  fontSize: '11.5px',
                   fontWeight: 700,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px',
                   cursor: 'pointer',
                 }}
               >
-                {copied ? <Check size={14} color="#D4AF37" /> : <Share2 size={14} color="#D4AF37" />}
-                {copied ? (isAr ? 'تم النسخ' : 'Copied!') : (isAr ? 'نسخ الإيصال' : 'Copy')}
+                {copied ? <Check size={13} color="#22C55E" /> : <Share2 size={13} color="#D4AF37" />}
+                {copied ? (isAr ? 'تم النسخ' : 'Copied!') : (isAr ? 'نسخ' : 'Copy')}
               </button>
             </div>
           </Card>
