@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -39,6 +39,7 @@ export const MerchantSetupScreen: React.FC = () => {
   const { merchantInfo, updateMerchantInfo, navigateTo, goBack, language, isRtl } = useApp();
   const isAr = language === 'العربية';
 
+  const logoInputRef = useRef<HTMLInputElement>(null);
   const [businessName, setBusinessName] = useState(
     merchantInfo.businessName || (isAr ? 'تموينات القمة للتجارة' : 'GreenLeaf Markets LLC')
   );
@@ -46,7 +47,25 @@ export const MerchantSetupScreen: React.FC = () => {
   const [city, setCity] = useState(merchantInfo.city || 'Riyadh');
   const [postalCode, setPostalCode] = useState(merchantInfo.postalCode || '12211');
   const [vatNumber] = useState(merchantInfo.vatNumber || '310948201900003');
-  const [hasLogo, setHasLogo] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string | null>(merchantInfo.logoUrl || null);
+  const [logoFileName, setLogoFileName] = useState<string>('');
+
+  const handleLogoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setLogoFileName(file.name);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        setLogoUrl(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerLogoUpload = () => {
+    logoInputRef.current?.click();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +75,7 @@ export const MerchantSetupScreen: React.FC = () => {
       city,
       postalCode,
       vatNumber,
+      logoUrl: logoUrl || undefined,
     });
     navigateTo('MERCHANT_BANK_LINK');
   };
@@ -135,57 +155,87 @@ export const MerchantSetupScreen: React.FC = () => {
 
         {/* Form Container */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {/* Hidden File Input */}
+          <input
+            ref={logoInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+            onChange={handleLogoSelect}
+            style={{ display: 'none' }}
+          />
+
           {/* 1. Storefront & Brand Logo Inset Card */}
           <div
+            onClick={triggerLogoUpload}
+            className="interactive-tap"
             style={{
               backgroundColor: '#111726',
-              border: '1px solid #2C2C44',
+              border: logoUrl ? '1.5px solid rgba(127, 232, 127, 0.5)' : '1px solid #2C2C44',
               borderRadius: '14px',
               padding: '12px 14px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              cursor: 'pointer',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              {/* Dotted Upload Tile */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0, flex: 1 }}>
+              {/* Upload Tile / Image Preview */}
               <div
-                onClick={() => setHasLogo(!hasLogo)}
-                className="interactive-tap"
                 style={{
-                  width: '40px',
-                  height: '40px',
+                  width: '42px',
+                  height: '42px',
                   borderRadius: '10px',
-                  border: '1.5px dashed rgba(127, 232, 127, 0.6)',
+                  border: logoUrl ? '1.5px solid #7FE87F' : '1.5px dashed rgba(127, 232, 127, 0.6)',
                   backgroundColor: 'rgba(127, 232, 127, 0.08)',
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '2px',
-                  cursor: 'pointer',
+                  overflow: 'hidden',
                   color: '#7FE87F',
                   flexShrink: 0,
+                  boxShadow: logoUrl ? '0 0 12px rgba(127, 232, 127, 0.25)' : 'none',
                 }}
               >
-                <Camera size={16} strokeWidth={2} />
+                {logoUrl ? (
+                  <img
+                    src={logoUrl}
+                    alt="Store Logo"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <Camera size={18} strokeWidth={2} />
+                )}
               </div>
 
-              <div>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
                   {isAr ? 'شعار المتجر' : 'Store Logo'}
                 </div>
-                <div style={{ fontSize: '11px', color: '#A2A2BA', marginTop: '2px' }}>
-                  {hasLogo
-                    ? (isAr ? '✓ تم التحميل' : '✓ Uploaded')
-                    : (isAr ? 'PNG أو JPG' : 'PNG, JPG')}
+                <div
+                  style={{
+                    fontSize: '11px',
+                    color: logoUrl ? '#7FE87F' : '#A2A2BA',
+                    marginTop: '2px',
+                    fontWeight: logoUrl ? 700 : 500,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {logoUrl
+                    ? (logoFileName ? `✓ ${logoFileName}` : (isAr ? '✓ تم إرفاق الشعار' : '✓ Logo Uploaded'))
+                    : (isAr ? 'اضغط لرفع صورة (PNG أو JPG)' : 'Click to upload (PNG, JPG)')}
                 </div>
               </div>
             </div>
 
             <button
               type="button"
-              onClick={() => setHasLogo(!hasLogo)}
+              onClick={(e) => {
+                e.stopPropagation();
+                triggerLogoUpload();
+              }}
               className="interactive-tap"
               style={{
                 width: '32px',
@@ -196,7 +246,7 @@ export const MerchantSetupScreen: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#A2A2BA',
+                color: logoUrl ? '#7FE87F' : '#A2A2BA',
                 cursor: 'pointer',
                 flexShrink: 0,
               }}

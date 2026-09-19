@@ -75,6 +75,7 @@ export interface MerchantInfo {
   merchantPin: string;
   terminalId: string;
   storePhone: string;
+  logoUrl?: string;
 }
 
 export type PaymentAcceptanceMethod =
