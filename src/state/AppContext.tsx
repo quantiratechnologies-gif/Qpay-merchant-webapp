@@ -342,7 +342,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [softPosAmount, setSoftPosAmount] = useState<number>(67.0);
   const [softPosCardScheme, setSoftPosCardScheme] = useState<string>('mada');
   const [isKycModalOpen, setIsKycModalOpen] = useState<boolean>(false);
-  const [soundBoxLanguage, setSoundBoxLanguage] = useState<'ar' | 'en'>('ar');
+  const [soundBoxLanguage, setSoundBoxLanguageState] = useState<'ar' | 'en'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('qpay_soundbox_lang') as 'ar' | 'en' | null;
+      if (saved === 'ar' || saved === 'en') return saved;
+    }
+    return 'ar';
+  });
+
+  const setSoundBoxLanguage = (lang: 'ar' | 'en') => {
+    setSoundBoxLanguageState(lang);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('qpay_soundbox_lang', lang);
+      } catch {
+        // ignore
+      }
+    }
+  };
+
   const [soundBoxVolume, setSoundBoxVolume] = useState<number>(1.0);
 
   const [user, setUser] = useState<User>({
@@ -636,54 +654,108 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // SoundBox Audio Chime & Speech Synthesizer
   const speakSoundBox = (amount: number, forceLang?: 'ar' | 'en') => {
+    const targetLang = forceLang || soundBoxLanguage || 'ar';
+    const isArabic = targetLang === 'ar';
+
+    // 1. Play SoftPOS audio notification chime
     try {
-      if (typeof window !== 'undefined' && ((window as any).AudioContext || (window as any).webkitAudioContext)) {
+      if (typeof window !== 'undefined') {
         const AudioCtx = (window as any).AudioContext || (window as any).webkitAudioContext;
-        const ctx = new AudioCtx();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
-        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.3, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.35);
+        if (AudioCtx) {
+          const ctx = new AudioCtx();
+          if (ctx.state === 'suspended') {
+            ctx.resume();
+          }
+          const now = ctx.currentTime;
+          [587.33, 783.99, 987.77].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + i * 0.08);
+            gain.gain.setValueAtTime(0.25 * (soundBoxVolume || 1.0), now + i * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.25);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.08);
+            osc.stop(now + i * 0.08 + 0.28);
+          });
+        }
       }
-    } catch {
-      // AudioContext fallback ignored
+    } catch (e) {
+      console.warn('SoundBox audio chime notice:', e);
     }
 
+    // 2. Play Web Speech Synthesis Voice Announcement
     try {
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const currentLang = forceLang || soundBoxLanguage || 'ar';
-        const isArabic = currentLang === 'ar';
-        const text = isArabic
-          ? `تم استلام ${amount} ريال سعودي بنجاح`
-          : `Received ${amount} Saudi Riyals successfully`;
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = isArabic ? 'ar-SA' : 'en-US';
-        utterance.rate = 0.95;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
-
-        const voices = window.speechSynthesis.getVoices();
-        if (voices && voices.length > 0) {
-          const targetVoice = isArabic
-            ? voices.find((v) => v.lang.toLowerCase().startsWith('ar'))
-            : voices.find((v) => v.lang.toLowerCase().startsWith('en'));
-          if (targetVoice) {
-            utterance.voice = targetVoice;
-          }
+        if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
         }
 
-        window.speechSynthesis.speak(utterance);
+        const executeSpeech = () => {
+          const text = isArabic
+            ? `تم استلام ${amount} ريال سعودي بنجاح`
+            : `Received ${amount} Saudi Riyals successfully`;
+
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = isArabic ? 'ar-SA' : 'en-US';
+          utterance.rate = 0.92;
+          utterance.pitch = 1.0;
+          utterance.volume = soundBoxVolume !== undefined ? soundBoxVolume : 1.0;
+
+          const voices = window.speechSynthesis.getVoices();
+          if (voices && voices.length > 0) {
+            let matchedVoice;
+            if (isArabic) {
+              matchedVoice = voices.find(
+                (v) =>
+                  v.lang.toLowerCase().startsWith('ar') ||
+                  v.lang.toLowerCase().includes('ar-sa') ||
+                  v.lang.toLowerCase().includes('ar-ae') ||
+                  v.lang.toLowerCase().includes('ar-eg') ||
+                  v.name.toLowerCase().includes('arabic') ||
+                  v.name.toLowerCase().includes('hoda') ||
+                  v.name.toLowerCase().includes('naayf') ||
+                  v.name.toLowerCase().includes('salma') ||
+                  v.name.toLowerCase().includes('tarik') ||
+                  v.name.toLowerCase().includes('maged') ||
+                  v.name.toLowerCase().includes('layla')
+              );
+            } else {
+              matchedVoice = voices.find(
+                (v) =>
+                  v.lang.toLowerCase().startsWith('en') ||
+                  v.name.toLowerCase().includes('english') ||
+                  v.name.toLowerCase().includes('natural') ||
+                  v.name.toLowerCase().includes('samantha') ||
+                  v.name.toLowerCase().includes('david') ||
+                  v.name.toLowerCase().includes('george') ||
+                  v.name.toLowerCase().includes('zira')
+              );
+            }
+
+            if (matchedVoice) {
+              utterance.voice = matchedVoice;
+            }
+          }
+
+          window.speechSynthesis.speak(utterance);
+        };
+
+        const currentVoices = window.speechSynthesis.getVoices();
+        if (currentVoices.length === 0) {
+          window.speechSynthesis.onvoiceschanged = () => {
+            executeSpeech();
+            window.speechSynthesis.onvoiceschanged = null;
+          };
+          setTimeout(executeSpeech, 80);
+        } else {
+          setTimeout(executeSpeech, 150);
+        }
       }
-    } catch {
-      // Speech synthesis fallback ignored
+    } catch (e) {
+      console.warn('SoundBox speech synthesis notice:', e);
     }
   };
 
