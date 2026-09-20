@@ -280,6 +280,13 @@ export const MerchantRegistrationScreen: React.FC = () => {
       storePhone: formattedMobile,
     });
 
+    try {
+      localStorage.removeItem('qpay_merchant_explicit_logout');
+      localStorage.setItem('qpay_merchant_authenticated', 'true');
+      sessionStorage.setItem('qpay_merchant_authenticated', 'true');
+    } catch {
+      // ignore
+    }
     setIsAuthenticated(true);
     navigateTo('MERCHANT_HOME');
   };

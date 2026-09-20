@@ -19,7 +19,7 @@ import { bankService } from '../services/bankService';
 import { transactionService } from '../services/transactionService';
 import { notificationService } from '../services/notificationService';
 
-import { translateText, type SupportedLanguage } from '../utils/i18n';
+import { translateText, formatSaudiCurrency, type SupportedLanguage } from '../utils/i18n';
 import { syncCollectionToSupabase, subscribeToMerchantCollections } from '../services/supabaseClient';
 
 interface AppContextType {
@@ -116,7 +116,7 @@ interface AppContextType {
   setSoundBoxLanguage: (lang: 'ar' | 'en') => void;
   soundBoxVolume: number;
   setSoundBoxVolume: (vol: number) => void;
-  speakSoundBox: (amount: number, currency?: string) => void;
+  speakSoundBox: (amount: number, forceLang?: 'ar' | 'en') => void;
 
   terminateSession: (sessionId: string) => void;
 
@@ -183,7 +183,7 @@ const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = [
     customerMasked: '+966 55 ••• 8765',
     date: 'Today, 10:15 AM',
     timestamp: new Date(Date.now() - 3600000),
-    status: 'settled',
+    status: 'refunded',
     zatcaQrCode: 'AQ1TdGFybWFydCBNYXJrZXQCBzMxMDk0ODIBDDIwMjYtMDktMTU=',
   },
   {
@@ -209,7 +209,7 @@ const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = [
     customerMasked: 'Sara Al-Mansoor',
     date: 'Yesterday, 04:15 PM',
     timestamp: new Date(Date.now() - 86400000),
-    status: 'settled',
+    status: 'refunded',
     zatcaQrCode: 'AQ1TdGFybWFydCBNYXJrZXQCBzMxMDk0ODIBDDIwMjYtMDktMTU=',
   },
   {

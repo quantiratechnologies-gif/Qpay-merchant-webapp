@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Wifi, Camera, MapPin, Radio, Bell, ShieldCheck, ArrowRight, Landmark, CheckCircle2, Loader2, Sparkles } from 'lucide-react';
+import { Wifi, Camera, MapPin, Radio, Bell, ShieldCheck, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { AppHeader } from '../components/AppHeader';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { SecondaryButton } from '../components/SecondaryButton';
 import { useApp } from '../state/AppContext';
 
 export const PermissionsScreen: React.FC = () => {
-  const { navigateTo, goBack, t, isRtl, language } = useApp();
+  const { navigateTo, goBack, isRtl, language } = useApp();
 
   const [toggles, setToggles] = useState<Record<string, boolean>>({
     nfc: true,

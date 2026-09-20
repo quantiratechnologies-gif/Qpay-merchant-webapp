@@ -38,11 +38,9 @@ export const MerchantCollectionsScreen: React.FC = () => {
     triggerSettleNow,
     merchantInfo,
     processMerchantRefund,
-    openManagerPinModal,
     navigateTo,
     language,
     isRtl,
-    t,
     screenParams,
   } = useApp();
 
@@ -69,6 +67,19 @@ export const MerchantCollectionsScreen: React.FC = () => {
   const [refundError, setRefundError] = useState('');
   const [refundSuccess, setRefundSuccess] = useState(false);
   const [isSettling, setIsSettling] = useState(false);
+  const [settlementSuccessToast, setSettlementSuccessToast] = useState<{ utr: string; amount: number } | null>(null);
+
+  const handleSettleNow = async () => {
+    if (isSettling) return;
+    setIsSettling(true);
+    try {
+      const res = await triggerSettleNow();
+      setSettlementSuccessToast({ utr: res.utr, amount: res.amount });
+      setTimeout(() => setSettlementSuccessToast(null), 6000);
+    } finally {
+      setIsSettling(false);
+    }
+  };
 
   // Extended mock items if state has only base items
   const allCollections: MerchantCollection[] = merchantCollections.length >= 4
@@ -96,6 +107,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
     if (activeFilter === 'zatca') return c.paymentMethod === 'zatca_qr';
     if (activeFilter === 'cash') return c.paymentMethod === 'cash';
     if (activeFilter === 'link') return c.paymentMethod === 'payment_link';
+    if (activeFilter === 'refunded') return c.status === 'refunded';
     return true;
   });
 
@@ -135,9 +147,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
     }
   };
 
-  const handleSettleNow = () => {
-    setActiveMainTab('transactions');
-  };
+
 
   const handleDownloadTaxInvoice = (settlementRef: string) => {
     const s = merchantSettlements.find((item) => item.settlementRef === settlementRef);
@@ -227,6 +237,13 @@ export const MerchantCollectionsScreen: React.FC = () => {
     { id: 'zatca', label: 'PAY QR', icon: <QrCode size={13} /> },
     { id: 'cash', label: isAr ? 'نقدي' : 'Cash', icon: <Banknote size={13} /> },
     { id: 'link', label: isAr ? 'روابط' : 'Links', icon: <Share2 size={13} /> },
+    {
+      id: 'refunded',
+      label: isAr
+        ? `المستردات (${allCollections.filter((c) => c.status === 'refunded').length})`
+        : `Refunds (${allCollections.filter((c) => c.status === 'refunded').length})`,
+      icon: <RotateCcw size={13} />,
+    },
   ];
 
   return (
@@ -540,6 +557,43 @@ export const MerchantCollectionsScreen: React.FC = () => {
       ═══════════════════════════════════════════════════════ */}
       {activeMainTab === 'settlements' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Settlement Success Toast Alert */}
+          {settlementSuccessToast && (
+            <div
+              className="fade-in"
+              style={{
+                backgroundColor: 'rgba(0, 200, 83, 0.12)',
+                border: '1px solid rgba(0, 200, 83, 0.4)',
+                borderRadius: radii.md,
+                padding: '14px 18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                color: '#FFFFFF',
+                fontSize: '13px',
+                fontWeight: 700,
+                boxShadow: '0 4px 20px rgba(0, 200, 83, 0.2)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <CheckCircle2 size={20} color={colors.accentGreen} />
+                <div>
+                  <div style={{ color: '#FFFFFF', fontWeight: 800 }}>
+                    {isAr
+                      ? `تم تحويل مبلغ التسوية ${formatSaudiCurrency(settlementSuccessToast.amount, language)} بنجاح!`
+                      : `Settlement payout of ${formatSaudiCurrency(settlementSuccessToast.amount, language)} dispatched successfully!`}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>
+                    {isAr ? 'تم الإيداع الفوري في الحساب البنكي عبر شبكة سريع' : 'Credited instantly to settlement IBAN via Sarie IPS rail'}
+                  </div>
+                </div>
+              </div>
+              <span style={{ fontSize: '11.5px', fontFamily: 'monospace', color: colors.accentGreen, fontWeight: 700 }}>
+                UTR: {settlementSuccessToast.utr}
+              </span>
+            </div>
+          )}
+
           {/* Settle Now Hero Card */}
           <Card
             variant="elevated"
@@ -595,12 +649,158 @@ export const MerchantCollectionsScreen: React.FC = () => {
             </div>
           </Card>
 
-          {/* Settlements History Ledger — table */}
+          {/* 1. Transactions to be Settled (Merchant Settle Cheyyalsina Transactions) */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CreditCard size={16} color={colors.accentGreen} />
+                <h3 style={{ fontSize: '14px', fontWeight: 800, color: colors.textPrimary, margin: 0 }}>
+                  {isAr ? 'العمليات المشمولة في التسوية (جاهزة للإيداع)' : 'Transactions to Settle (Ready for Payout)'}
+                </h3>
+                <span
+                  style={{
+                    backgroundColor: colors.primaryLight,
+                    border: '1px solid rgba(0, 200, 83, 0.3)',
+                    color: colors.accentGreen,
+                    borderRadius: radii.full,
+                    padding: '2px 8px',
+                    fontSize: '11px',
+                    fontWeight: 800,
+                  }}
+                >
+                  {formatLocalizedNumber(allCollections.filter((c) => c.status === 'settled').length, language)} {isAr ? 'عمليات' : 'Transactions'}
+                </span>
+              </div>
+
+              <span style={{ fontSize: '12px', fontWeight: 700, color: colors.textSecondary }}>
+                {isAr ? 'إجمالي المبالغ:' : 'Total Payable:'}{' '}
+                <strong style={{ color: colors.accentGreen, fontSize: '13px' }}>{formatCurrency(unsettledTotal, language)}</strong>
+              </span>
+            </div>
+
+            <Card variant="elevated" style={{ padding: 0, overflow: 'hidden' }}>
+              {/* Table Header */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '2fr 1fr 1.3fr 110px 90px 100px',
+                  padding: '11px 20px',
+                  backgroundColor: colors.bgInset,
+                  borderBottom: `1px solid ${colors.border}`,
+                  gap: '12px',
+                }}
+              >
+                {[
+                  isAr ? 'العميل / القناة' : 'Customer / Channel',
+                  isAr ? 'رقم المرجع' : 'Order Ref',
+                  isAr ? 'التاريخ والوقت' : 'Timestamp',
+                  isAr ? 'المبلغ الإجمالي' : 'Gross Amount',
+                  isAr ? 'ضريبة ١٥٪' : 'VAT (15%)',
+                  isAr ? 'حالة العملية' : 'Status',
+                ].map((col, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      fontSize: '10.5px',
+                      fontWeight: 700,
+                      color: colors.textMuted,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.07em',
+                      textAlign: i >= 3 ? 'right' : 'left',
+                    }}
+                  >
+                    {col}
+                  </span>
+                ))}
+              </div>
+
+              {/* Transactions List */}
+              {allCollections.filter((c) => c.status === 'settled').length === 0 ? (
+                <div style={{ padding: '30px 20px', textAlign: 'center', color: colors.textSecondary, fontSize: '13px' }}>
+                  {isAr ? 'تمت تسوية جميع العمليات بنجاح' : 'All transactions have been settled successfully'}
+                </div>
+              ) : (
+                allCollections
+                  .filter((c) => c.status === 'settled')
+                  .map((c, idx, arr) => {
+                    const badge = getPaymentMethodBadge(c.paymentMethod);
+                    return (
+                      <div
+                        key={c.id}
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: '2fr 1fr 1.3fr 110px 90px 100px',
+                          padding: '13px 20px',
+                          borderBottom: idx < arr.length - 1 ? `1px solid ${colors.border}` : 'none',
+                          gap: '12px',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {/* Customer & Method */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <div
+                            style={{
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: radii.md,
+                              backgroundColor: badge.bg,
+                              border: `1px solid ${badge.color}33`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: badge.color,
+                              flexShrink: 0,
+                            }}
+                          >
+                            {getPaymentMethodIcon(c.paymentMethod)}
+                          </div>
+                          <div style={{ minWidth: 0 }}>
+                            <div style={{ fontSize: '13px', fontWeight: 700, color: colors.textPrimary, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {getTransactionTitle(c)}
+                            </div>
+                            <div style={{ fontSize: '10.5px', color: badge.color, fontWeight: 700 }}>
+                              {badge.label}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Order Ref */}
+                        <span style={{ fontSize: '11.5px', fontFamily: 'monospace', color: colors.textSecondary, fontWeight: 600 }}>
+                          {c.orderRef || c.id}
+                        </span>
+
+                        {/* Time */}
+                        <span style={{ fontSize: '11.5px', color: colors.textSecondary }}>
+                          {getTransactionSubtitle(c)}
+                        </span>
+
+                        {/* Gross Amount */}
+                        <span className="tabular-nums" style={{ fontSize: '13.5px', fontWeight: 900, color: colors.accentGreen, textAlign: 'right' }}>
+                          {formatSaudiCurrency(c.amount, language)}
+                        </span>
+
+                        {/* VAT */}
+                        <span className="tabular-nums" style={{ fontSize: '11.5px', color: colors.textSecondary, textAlign: 'right', fontWeight: 600 }}>
+                          {formatLocalizedNumber(c.vatAmount.toFixed(2), language)}
+                        </span>
+
+                        {/* Status Badge */}
+                        <div style={{ textAlign: 'right' }}>
+                          <StatusBadge status="warning" size="sm" label={isAr ? 'جاهزة للتسوية' : 'To Settle'} />
+                        </div>
+                      </div>
+                    );
+                  })
+              )}
+            </Card>
+          </div>
+
+          {/* 2. Settlements History Ledger — table */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
               <Landmark size={16} color={colors.accentGreen} />
               <h3 style={{ fontSize: '14px', fontWeight: 800, color: colors.textPrimary, margin: 0 }}>
-                {isAr ? 'سجل التسويات' : 'Settlement History'}
+                {isAr ? 'سجل التسويات السابقة' : 'Past Settlements History'}
               </h3>
               <span style={{ fontSize: '11px', color: colors.textSecondary, fontWeight: 600 }}>
                 {formatLocalizedNumber(merchantSettlements.length, language)} {isAr ? 'تسويات' : 'Settlements'}

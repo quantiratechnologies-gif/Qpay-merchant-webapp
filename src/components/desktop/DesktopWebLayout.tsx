@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   LayoutDashboard,
   SmartphoneNfc,
-  Link2,
   QrCode,
   ReceiptText,
   TrendingUp,

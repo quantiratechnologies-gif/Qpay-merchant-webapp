@@ -108,6 +108,7 @@ export interface MerchantSettlement {
   utr: string;
   amount: number;
   vatAmount: number;
+  netAmount?: number;
   date: string;
   timestamp: Date;
   status: 'settled' | 'in_progress' | 'failed';

@@ -11,7 +11,6 @@ export const SmsOtpScreen: React.FC = () => {
     navigateTo,
     screenParams,
     goBack,
-    t,
     isRtl,
     language,
     updateUser,
@@ -19,6 +18,7 @@ export const SmsOtpScreen: React.FC = () => {
     activeOtp,
     setActiveOtp,
     verifyOtp,
+    setIsAuthenticated,
   } = useApp();
 
   const mobile = screenParams?.mobile || '501234567';
@@ -137,14 +137,17 @@ export const SmsOtpScreen: React.FC = () => {
       setIsVerifying(false);
     }
 
-    sessionStorage.setItem('qpay_merchant_authenticated', 'true');
-
-    const hasPin = typeof window !== 'undefined' ? localStorage.getItem('qpay_merchant_pin') : null;
-    if (!hasPin) {
-      navigateTo('MERCHANT_PIN_SETUP');
-    } else {
-      navigateTo('MERCHANT_HOME');
+    try {
+      localStorage.removeItem('qpay_merchant_explicit_logout');
+      localStorage.setItem('qpay_merchant_authenticated', 'true');
+      sessionStorage.setItem('qpay_merchant_authenticated', 'true');
+    } catch {
+      // ignore storage errors
     }
+    setIsAuthenticated(true);
+
+    // Navigate to 4-digit Security PIN Setup screen
+    navigateTo('MERCHANT_PIN_SETUP');
   };
 
   const handleVerify = async () => {
