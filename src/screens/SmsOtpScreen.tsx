@@ -118,8 +118,8 @@ export const SmsOtpScreen: React.FC = () => {
     if (!isValid) {
       setErrorMsg(
         isAr
-          ? `رمز التحقق غير صحيح. يرجى إدخال الرمز الصحيح (${activeOtp}) المستلم في الرسالة.`
-          : `Invalid verification code. Please enter the OTP code (${activeOtp}) sent in the message.`
+          ? 'رمز التحقق غير صحيح. يرجى إدخال الرمز الصحيح المستلم في الرسالة.'
+          : 'Invalid verification code. Please enter the correct OTP sent to your phone.'
       );
       setOtp(['', '', '', '', '', '']);
       inputRefs[0]?.current?.focus();
@@ -160,19 +160,8 @@ export const SmsOtpScreen: React.FC = () => {
     setActiveOtp(newCode);
     setTimer(30);
     setIsResent(true);
-    setShowSmsBanner(true);
+    setShowSmsBanner(false);
     setTimeout(() => setIsResent(false), 3000);
-  };
-
-  const handleQuickFill = (codeToFill?: string) => {
-    const targetCode = codeToFill || activeOtp || '589204';
-    const digits = targetCode.slice(0, 6).split('');
-    setOtp(digits);
-    setErrorMsg('');
-    inputRefs[5]?.current?.focus();
-    setTimeout(() => {
-      triggerVerifyWithCode(targetCode);
-    }, 120);
   };
 
   return (
@@ -191,56 +180,6 @@ export const SmsOtpScreen: React.FC = () => {
         direction: isRtl ? 'rtl' : 'ltr',
       }}
     >
-      {/* Top Simulated SMS Notification Banner */}
-      {showSmsBanner && (
-        <div
-          style={{
-            backgroundColor: '#111726',
-            border: '1px solid rgba(0, 200, 83, 0.35)',
-            borderRadius: '16px',
-            padding: '12px 16px',
-            marginBottom: '20px',
-            width: '100%',
-            maxWidth: '400px',
-            margin: '0 auto 20px auto',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '12px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '20px' }}>💬</span>
-            <div style={{ textAlign: isRtl ? 'right' : 'left' }}>
-              <div style={{ fontSize: '10.5px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                {isAr ? 'رسالة نصية • الآن' : 'SMS OTP • Messages'}
-              </div>
-              <div style={{ fontSize: '12px', color: '#FFFFFF', fontWeight: 600 }}>
-                {isAr ? 'رمز تحقق بوابة التاجر: ' : 'Merchant Code: '}
-                <strong style={{ color: '#00C853', fontSize: '14px', letterSpacing: '1px' }}>{activeOtp || '589204'}</strong>
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => handleQuickFill(activeOtp)}
-            style={{
-              backgroundColor: '#00C853',
-              color: '#080C14',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '6px 12px',
-              fontSize: '11px',
-              fontWeight: 800,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {isAr ? 'تعبئة تلقائية' : 'Autofill'}
-          </button>
-        </div>
-      )}
 
       {/* Top Center: App Brand Logo */}
       <div
