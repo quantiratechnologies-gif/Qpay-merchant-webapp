@@ -299,8 +299,6 @@ export const ManagerPinModal: React.FC = () => {
             <Delete size={18} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
           </button>
         </div>
-
-        {/* PIN pad */}
       </div>
     </div>
   );

@@ -39,11 +39,66 @@ import { AddBankModal } from './screens/AddBankModal';
 import { EditProfileModal } from './screens/EditProfileModal';
 import { KycModal } from './screens/KycModal';
 import { ManagerPinModal } from './components/ManagerPinModal';
-
 import { DesktopWebLayout } from './components/desktop/DesktopWebLayout';
+
+const hasEnvConfig = Boolean(
+  import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
+);
+
+export const MissingEnvScreen: React.FC = () => (
+  <div
+    style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#080C14',
+      color: '#FFFFFF',
+      padding: '24px',
+      textAlign: 'center',
+      fontFamily: "'IBM Plex Sans Arabic', 'Inter', sans-serif",
+    }}
+  >
+    <div
+      style={{
+        maxWidth: '480px',
+        backgroundColor: '#111726',
+        border: '1px solid rgba(239, 68, 68, 0.6)',
+        borderRadius: '16px',
+        padding: '32px 24px',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+      }}
+    >
+      <div style={{ fontSize: '36px', marginBottom: '16px' }}>⚠️</div>
+      <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#EF4444', margin: '0 0 12px 0' }}>
+        Configuration Error / خطأ في الإعداد
+      </h2>
+      <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', margin: '0 0 16px 0' }}>
+        Missing required Supabase environment variables. Please configure <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> in your environment or Vercel project settings.
+      </p>
+      <div
+        style={{
+          fontSize: '11px',
+          color: '#94A3B8',
+          backgroundColor: '#0A0E1A',
+          padding: '10px',
+          borderRadius: '8px',
+          fontFamily: 'monospace',
+        }}
+      >
+        VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY REQUIRED
+      </div>
+    </div>
+  </div>
+);
 
 const AppContent: React.FC = () => {
   const { currentScreen, isAuthenticated } = useApp();
+
+  if (!hasEnvConfig) {
+    return <MissingEnvScreen />;
+  }
 
   const renderScreen = () => {
     // Auth guard: Unauthenticated sessions are restricted to login / OTP / Registration / PIN Setup

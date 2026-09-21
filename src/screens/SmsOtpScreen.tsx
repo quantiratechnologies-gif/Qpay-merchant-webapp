@@ -129,23 +129,30 @@ export const SmsOtpScreen: React.FC = () => {
       const { user: authedUser, merchantInfo: authedInfo } = await authenticateMerchantWithAnyOtp(mobile, enteredCode);
       updateUser(authedUser);
       if (authedInfo) updateMerchantInfo(authedInfo);
-    } catch (e) {
-      console.warn('Merchant auth notice:', e);
+
+      try {
+        localStorage.removeItem('qpay_merchant_explicit_logout');
+        localStorage.setItem('qpay_merchant_authenticated', 'true');
+        sessionStorage.setItem('qpay_merchant_authenticated', 'true');
+      } catch {
+        // ignore storage errors
+      }
+      setIsAuthenticated(true);
+
+      // Navigate to 4-digit Security PIN Setup screen
+      navigateTo('MERCHANT_PIN_SETUP');
+    } catch (e: any) {
+      console.error('Merchant auth failure:', e);
+      setErrorMsg(
+        isAr
+          ? 'تعذر تسجيل الدخول. لم يتم العثور على حساب تاجر مسجل بهذا الرقم. يرجى إنشاء حساب جديد.'
+          : (e?.message || 'Sign in failed. No merchant profile found for this mobile number. Please sign up.')
+      );
+      setOtp(['', '', '', '', '', '']);
+      inputRefs[0]?.current?.focus();
     } finally {
       setIsVerifying(false);
     }
-
-    try {
-      localStorage.removeItem('qpay_merchant_explicit_logout');
-      localStorage.setItem('qpay_merchant_authenticated', 'true');
-      sessionStorage.setItem('qpay_merchant_authenticated', 'true');
-    } catch {
-      // ignore storage errors
-    }
-    setIsAuthenticated(true);
-
-    // Navigate to 4-digit Security PIN Setup screen
-    navigateTo('MERCHANT_PIN_SETUP');
   };
 
   const handleVerify = async () => {
