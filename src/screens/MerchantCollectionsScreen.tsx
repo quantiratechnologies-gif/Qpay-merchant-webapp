@@ -22,7 +22,7 @@ import {
   Printer,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
-import { formatCurrency } from '../utils/formatters';
+import { formatCurrency, getRiyadhDateStr } from '../utils/formatters';
 import type { MerchantCollection, MerchantSettlement } from '../types';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ZatcaLogo } from '../components/ZatcaLogo';
@@ -84,19 +84,6 @@ export const MerchantCollectionsScreen: React.FC = () => {
   const [refundSuccess, setRefundSuccess] = useState(false);
   const [isSettling, setIsSettling] = useState(false);
   const [settlementSuccessToast, setSettlementSuccessToast] = useState<{ utr: string; amount: number } | null>(null);
-
-  const getRiyadhDateStr = (date: Date = new Date()): string => {
-    try {
-      return new Intl.DateTimeFormat('en-CA', {
-        timeZone: 'Asia/Riyadh',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      }).format(date);
-    } catch {
-      return date.toISOString().slice(0, 10);
-    }
-  };
 
   const todayRiyadhStr = getRiyadhDateStr(new Date());
 

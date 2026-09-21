@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { formatLocalizedNumber } from '../utils/i18n';
+import { getRiyadhDateStr } from '../utils/formatters';
 import { Card, StatusBadge, SectionHeader } from '../components/ui';
 import { colors } from '../design-system/tokens';
 
@@ -27,25 +28,11 @@ export const MerchantHomeScreen: React.FC = () => {
 
   const isAr = language === 'العربية';
 
-  const getRiyadhDateStr = (date: Date = new Date()): string => {
-    try {
-      const formatter = new Intl.DateTimeFormat('en-CA', {
-        timeZone: 'Asia/Riyadh',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      });
-      return formatter.format(date);
-    } catch {
-      return date.toISOString().slice(0, 10);
-    }
-  };
-
   const todayRiyadhStr = getRiyadhDateStr(new Date());
   const todayCollections = merchantCollections.filter((c) => {
     if (c.status === 'refunded') return false;
     const colDateStr = c.timestamp ? getRiyadhDateStr(new Date(c.timestamp)) : '';
-    return colDateStr === todayRiyadhStr || c.date === 'TODAY';
+    return colDateStr === todayRiyadhStr;
   });
 
   const displayTotal = todayCollections.reduce((acc, c) => acc + c.amount, 0);
