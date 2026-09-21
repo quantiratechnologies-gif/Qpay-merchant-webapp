@@ -41,14 +41,12 @@ export const MerchantSetupScreen: React.FC = () => {
   const isAr = language === 'العربية';
 
   const logoInputRef = useRef<HTMLInputElement>(null);
-  const [businessName, setBusinessName] = useState(
-    merchantInfo.businessName || (isAr ? 'تموينات القمة للتجارة' : 'GreenLeaf Markets LLC')
-  );
+  const [businessName, setBusinessName] = useState(merchantInfo.businessName || '');
   const [businessNameError, setBusinessNameError] = useState<string>('');
   const [category, setCategory] = useState(merchantInfo.category || 'Grocery & Daily Essentials');
   const [city, setCity] = useState(merchantInfo.city || 'Riyadh');
   const [postalCode, setPostalCode] = useState(merchantInfo.postalCode || '12211');
-  const [vatNumber, setVatNumber] = useState(merchantInfo.vatNumber || '310948201900003');
+  const [vatNumber, setVatNumber] = useState(merchantInfo.vatNumber || '');
   const [vatError, setVatError] = useState<string>('');
   const [showSuccessToast, setShowSuccessToast] = useState<boolean>(false);
   const [logoUrl, setLogoUrl] = useState<string | null>(merchantInfo.logoUrl || null);
@@ -75,9 +73,9 @@ export const MerchantSetupScreen: React.FC = () => {
     e.preventDefault();
     let hasError = false;
 
-    if (businessName.trim().length < 2) {
+    if (!businessName.trim() || businessName.trim().length < 2) {
       setBusinessNameError(
-        isAr ? 'يرجى إدخال اسم منشأة صحيح (حرفين على الأقل)' : 'Please enter a valid business name (at least 2 characters)'
+        isAr ? 'يرجى إدخال اسم المنشأة' : 'Please enter business name'
       );
       hasError = true;
     } else {
@@ -419,31 +417,6 @@ export const MerchantSetupScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Success Toast */}
-          {showSuccessToast && (
-            <div
-              className="fade-in"
-              style={{
-                backgroundColor: 'rgba(0, 200, 83, 0.15)',
-                border: '1px solid rgba(0, 200, 83, 0.4)',
-                borderRadius: '12px',
-                padding: '12px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                color: '#FFFFFF',
-                fontSize: '13px',
-                fontWeight: 700,
-                boxShadow: '0 4px 16px rgba(0, 200, 83, 0.25)',
-              }}
-            >
-              <CheckCircle2 size={18} color="#7FE87F" />
-              <span>
-                {isAr ? 'تم حفظ بيانات المنشأة بنجاح' : 'Business details saved successfully'}
-              </span>
-            </div>
-          )}
-
           {/* 4. ZATCA VAT ID */}
           <div>
             <label
@@ -631,6 +604,31 @@ export const MerchantSetupScreen: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Success Toast */}
+          {showSuccessToast && (
+            <div
+              className="fade-in"
+              style={{
+                backgroundColor: 'rgba(0, 200, 83, 0.15)',
+                border: '1px solid rgba(0, 200, 83, 0.4)',
+                borderRadius: '12px',
+                padding: '12px 16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                color: '#FFFFFF',
+                fontSize: '13px',
+                fontWeight: 700,
+                boxShadow: '0 4px 16px rgba(0, 200, 83, 0.25)',
+              }}
+            >
+              <CheckCircle2 size={18} color="#7FE87F" />
+              <span>
+                {isAr ? 'تم حفظ بيانات المنشأة بنجاح' : 'Business details saved successfully'}
+              </span>
+            </div>
+          )}
 
           {/* Primary Action Button */}
           <button
