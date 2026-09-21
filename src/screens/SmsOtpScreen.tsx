@@ -143,11 +143,28 @@ export const SmsOtpScreen: React.FC = () => {
       navigateTo('MERCHANT_PIN_SETUP');
     } catch (e: any) {
       console.error('Merchant auth failure:', e);
-      setErrorMsg(
-        isAr
-          ? 'تعذر تسجيل الدخول. لم يتم العثور على حساب تاجر مسجل بهذا الرقم. يرجى إنشاء حساب جديد.'
-          : (e?.message || 'Sign in failed. No merchant profile found for this mobile number. Please sign up.')
-      );
+      const isConfigErr = e?.message?.includes('Supabase service is unavailable') || e?.message?.includes('environment configuration');
+      const isNotFoundErr = e?.message?.includes('profile not found');
+
+      if (isConfigErr) {
+        setErrorMsg(
+          isAr
+            ? 'خدمة النظام غير متوفرة حالياً. يرجى التحقق من إعدادات الاتصال.'
+            : 'Service temporarily unavailable. Please verify backend environment configuration.'
+        );
+      } else if (isNotFoundErr) {
+        setErrorMsg(
+          isAr
+            ? 'لم يتم العثور على حساب تاجر مسجل بهذا الرقم. يرجى إنشاء حساب جديد.'
+            : 'No merchant profile found for this mobile number. Please sign up first.'
+        );
+      } else {
+        setErrorMsg(
+          isAr
+            ? 'فشل التحقق من الحساب. يرجى المحاولة مرة أخرى.'
+            : 'Authentication failed. Please verify your details and try again.'
+        );
+      }
       setOtp(['', '', '', '', '', '']);
       inputRefs[0]?.current?.focus();
     } finally {
