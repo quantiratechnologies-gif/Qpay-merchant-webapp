@@ -498,6 +498,14 @@ export const TRANSLATIONS: Record<string, { en: string; ar: string }> = {
   'Active Now': { en: 'Active Now', ar: 'نشط الآن' },
   '2 days ago': { en: '2 days ago', ar: 'منذ يومين' },
   '3 days ago': { en: '3 days ago', ar: 'منذ ٣ أيام' },
+
+  // Transaction & Settlement Status
+  'status.pending_settlement': { en: 'Pending Settlement', ar: 'جاهزة للتسوية' },
+  'status.settled': { en: 'Settled', ar: 'تمت التسوية' },
+  'status.refunded': { en: 'Refunded', ar: 'مستردة' },
+  'pending_settlement': { en: 'Pending Settlement', ar: 'جاهزة للتسوية' },
+  'settled': { en: 'Settled', ar: 'تمت التسوية' },
+  'refunded': { en: 'Refunded', ar: 'مستردة' },
 };
 
 export const translateText = (
@@ -630,4 +638,21 @@ export const getLocalizedPaymentMethod = (
     return isAr ? 'رابط دفع رقمي' : 'Digital Pay Link';
   }
   return translateText(method, language);
+};
+
+export const getStatusDisplayLabel = (
+  status: string,
+  language: SupportedLanguage = 'English'
+): string => {
+  const isAr = language === 'العربية' || language === 'ar';
+  switch (status) {
+    case 'pending_settlement':
+      return isAr ? 'جاهزة للتسوية' : 'Pending Settlement';
+    case 'settled':
+      return isAr ? 'تمت التسوية' : 'Settled';
+    case 'refunded':
+      return isAr ? 'مستردة' : 'Refunded';
+    default:
+      return translateText(status, language);
+  }
 };

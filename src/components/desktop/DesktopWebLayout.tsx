@@ -79,7 +79,7 @@ export const DesktopWebLayout: React.FC<DesktopWebLayoutProps> = ({ children }) 
     currentScreen === 'MERCHANT_COLLECTIONS' ||
     currentScreen === 'MERCHANT_INSIGHTS';
 
-  const [statementsOpen, setStatementsOpen] = useState(false);
+  const [statementsOpen, setStatementsOpen] = useState(() => isStatementsScreen);
 
   // Auto-expand Statements when navigating to its screens
   useEffect(() => {

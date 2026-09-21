@@ -28,7 +28,7 @@ import type { MerchantCollection, MerchantSettlement } from '../types';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { ZatcaLogo } from '../components/ZatcaLogo';
 import { QRCodeView } from '../components/QRCodeView';
-import { translateText, formatSaudiCurrency, formatLocalizedNumber } from '../utils/i18n';
+import { translateText, formatSaudiCurrency, formatLocalizedNumber, getStatusDisplayLabel, type SupportedLanguage } from '../utils/i18n';
 import { Card, StatusBadge, FilterPills } from '../components/ui';
 import { colors, spacing, radii } from '../design-system/tokens';
 
@@ -536,13 +536,11 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
                   {/* Col 6: Status */}
                   <div style={{ textAlign: 'right' }}>
-                    {c.status === 'refunded' ? (
-                      <StatusBadge status="warning" size="sm" label={isAr ? 'مستردة' : 'Refunded'} />
-                    ) : c.status === 'pending_settlement' ? (
-                      <StatusBadge status="neutral" size="sm" label={isAr ? 'معلقة للتسوية' : 'Pending'} />
-                    ) : (
-                      <StatusBadge status="success" size="sm" label={isAr ? 'تمت التسوية' : 'Settled'} />
-                    )}
+                    <StatusBadge
+                      status={c.status === 'settled' ? 'success' : c.status === 'refunded' ? 'warning' : 'neutral'}
+                      size="sm"
+                      label={getStatusDisplayLabel(c.status, language as SupportedLanguage)}
+                    />
                   </div>
 
                   {/* Col 7: Action */}
@@ -836,7 +834,11 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
                         {/* Status Badge */}
                         <div style={{ textAlign: 'right' }}>
-                          <StatusBadge status="neutral" size="sm" label={isAr ? 'جاهزة للتسوية' : 'To Settle'} />
+                          <StatusBadge
+                            status="neutral"
+                            size="sm"
+                            label={getStatusDisplayLabel(c.status, language as SupportedLanguage)}
+                          />
                         </div>
                       </div>
                     );

@@ -10,7 +10,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
-import { formatLocalizedNumber } from '../utils/i18n';
+import { formatLocalizedNumber, getStatusDisplayLabel, type SupportedLanguage } from '../utils/i18n';
 import { getRiyadhDateStr } from '../utils/formatters';
 import { Card, StatusBadge, SectionHeader } from '../components/ui';
 import { colors } from '../design-system/tokens';
@@ -397,7 +397,7 @@ export const MerchantHomeScreen: React.FC = () => {
                       <StatusBadge
                         status={col.status === 'settled' ? 'success' : col.status === 'refunded' ? 'warning' : 'neutral'}
                         size="sm"
-                        label={col.status === 'settled' ? (isAr ? 'مكتمل' : 'Settled') : (isAr ? 'مستردة' : col.status)}
+                        label={getStatusDisplayLabel(col.status, language as SupportedLanguage)}
                       />
                     </td>
                     <td style={{ padding: '12px', textAlign: isRtl ? 'left' : 'right', fontWeight: 900, color: '#7FE87F' }}>
