@@ -43,6 +43,7 @@ export const MerchantSetupScreen: React.FC = () => {
   const [businessName, setBusinessName] = useState(
     merchantInfo.businessName || (isAr ? 'تموينات القمة للتجارة' : 'GreenLeaf Markets LLC')
   );
+  const [businessNameError, setBusinessNameError] = useState<string>('');
   const [category, setCategory] = useState(merchantInfo.category || 'Grocery & Daily Essentials');
   const [city, setCity] = useState(merchantInfo.city || 'Riyadh');
   const [postalCode, setPostalCode] = useState(merchantInfo.postalCode || '12211');
@@ -69,8 +70,15 @@ export const MerchantSetupScreen: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (businessName.trim().length < 2) {
+      setBusinessNameError(
+        isAr ? 'يرجى إدخال اسم منشأة صحيح (حرفين على الأقل)' : 'Please enter a valid business name (at least 2 characters)'
+      );
+      return;
+    }
+    setBusinessNameError('');
     updateMerchantInfo({
-      businessName,
+      businessName: businessName.trim(),
       category,
       city,
       postalCode,
@@ -154,7 +162,7 @@ export const MerchantSetupScreen: React.FC = () => {
         </div>
 
         {/* Form Container */}
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <form noValidate onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {/* Hidden File Input */}
           <input
             ref={logoInputRef}
@@ -272,7 +280,7 @@ export const MerchantSetupScreen: React.FC = () => {
             <div
               style={{
                 backgroundColor: '#111726',
-                border: '1px solid #2C2C44',
+                border: businessNameError ? '1.5px solid #EF4444' : '1px solid #2C2C44',
                 borderRadius: '14px',
                 padding: '0 16px',
                 height: '50px',
@@ -280,15 +288,18 @@ export const MerchantSetupScreen: React.FC = () => {
                 alignItems: 'center',
                 gap: '12px',
                 boxSizing: 'border-box',
+                transition: 'border-color 0.2s ease',
               }}
             >
-              <Building2 size={17} color="#7FE87F" style={{ flexShrink: 0 }} />
+              <Building2 size={17} color={businessNameError ? '#EF4444' : '#7FE87F'} style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={businessName}
-                onChange={(e) => setBusinessName(e.target.value)}
+                onChange={(e) => {
+                  setBusinessName(e.target.value);
+                  if (businessNameError) setBusinessNameError('');
+                }}
                 placeholder={isAr ? 'أدخل اسم المنشأة' : 'Enter business name'}
-                required
                 style={{
                   background: 'none',
                   border: 'none',
@@ -301,6 +312,19 @@ export const MerchantSetupScreen: React.FC = () => {
                 }}
               />
             </div>
+            {businessNameError && (
+              <div
+                style={{
+                  fontSize: '11.5px',
+                  color: '#EF4444',
+                  marginTop: '5px',
+                  fontWeight: 600,
+                  textAlign: isRtl ? 'right' : 'left',
+                }}
+              >
+                {businessNameError}
+              </div>
+            )}
           </div>
 
           {/* 3. Business Category Selector */}
