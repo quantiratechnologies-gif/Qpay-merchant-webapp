@@ -52,6 +52,11 @@ export const MerchantCollectionsScreen: React.FC = () => {
     return 'transactions';
   });
 
+  const handleTabChange = (tabId: 'transactions' | 'settlements') => {
+    setActiveMainTab(tabId);
+    navigateTo('MERCHANT_COLLECTIONS', { tab: tabId });
+  };
+
   useEffect(() => {
     if (screenParams?.tab === 'settlements') {
       setActiveMainTab('settlements');
@@ -374,7 +379,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
           <button
             key={tab.id}
             type="button"
-            onClick={() => setActiveMainTab(tab.id as 'transactions' | 'settlements')}
+            onClick={() => handleTabChange(tab.id as 'transactions' | 'settlements')}
             className="interactive-tap"
             style={{
               backgroundColor: activeMainTab === tab.id ? colors.accentGreen : 'transparent',
