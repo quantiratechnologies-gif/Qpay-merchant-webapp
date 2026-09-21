@@ -10,6 +10,7 @@ import {
   Hash,
   MapPin,
   Mail,
+  CheckCircle2,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 
@@ -47,7 +48,9 @@ export const MerchantSetupScreen: React.FC = () => {
   const [category, setCategory] = useState(merchantInfo.category || 'Grocery & Daily Essentials');
   const [city, setCity] = useState(merchantInfo.city || 'Riyadh');
   const [postalCode, setPostalCode] = useState(merchantInfo.postalCode || '12211');
-  const [vatNumber] = useState(merchantInfo.vatNumber || '310948201900003');
+  const [vatNumber, setVatNumber] = useState(merchantInfo.vatNumber || '310948201900003');
+  const [vatError, setVatError] = useState<string>('');
+  const [showSuccessToast, setShowSuccessToast] = useState<boolean>(false);
   const [logoUrl, setLogoUrl] = useState<string | null>(merchantInfo.logoUrl || null);
   const [logoFileName, setLogoFileName] = useState<string>('');
 
@@ -70,22 +73,45 @@ export const MerchantSetupScreen: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    let hasError = false;
+
     if (businessName.trim().length < 2) {
       setBusinessNameError(
         isAr ? 'يرجى إدخال اسم منشأة صحيح (حرفين على الأقل)' : 'Please enter a valid business name (at least 2 characters)'
       );
-      return;
+      hasError = true;
+    } else {
+      setBusinessNameError('');
     }
-    setBusinessNameError('');
+
+    const cleanVat = vatNumber.replace(/\D/g, '');
+    if (!/^3\d{13}3$/.test(cleanVat)) {
+      setVatError(
+        isAr
+          ? 'الرقم الضريبي يجب أن يتكون من ١٥ رقماً يبدأ وينتهي بالرقم ٣'
+          : 'VAT ID must be exactly 15 digits starting and ending with 3'
+      );
+      hasError = true;
+    } else {
+      setVatError('');
+    }
+
+    if (hasError) return;
+
     updateMerchantInfo({
       businessName: businessName.trim(),
       category,
       city,
       postalCode,
-      vatNumber,
+      vatNumber: cleanVat,
       logoUrl: logoUrl || undefined,
     });
-    navigateTo('MERCHANT_BANK_LINK');
+
+    setShowSuccessToast(true);
+    setTimeout(() => {
+      setShowSuccessToast(false);
+      navigateTo('MERCHANT_BANK_LINK');
+    }, 900);
   };
 
   return (
@@ -393,6 +419,31 @@ export const MerchantSetupScreen: React.FC = () => {
             </div>
           </div>
 
+          {/* Success Toast */}
+          {showSuccessToast && (
+            <div
+              className="fade-in"
+              style={{
+                backgroundColor: 'rgba(0, 200, 83, 0.15)',
+                border: '1px solid rgba(0, 200, 83, 0.4)',
+                borderRadius: '12px',
+                padding: '12px 16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                color: '#FFFFFF',
+                fontSize: '13px',
+                fontWeight: 700,
+                boxShadow: '0 4px 16px rgba(0, 200, 83, 0.25)',
+              }}
+            >
+              <CheckCircle2 size={18} color="#7FE87F" />
+              <span>
+                {isAr ? 'تم حفظ بيانات المنشأة بنجاح' : 'Business details saved successfully'}
+              </span>
+            </div>
+          )}
+
           {/* 4. ZATCA VAT ID */}
           <div>
             <label
@@ -411,7 +462,7 @@ export const MerchantSetupScreen: React.FC = () => {
             <div
               style={{
                 backgroundColor: '#111726',
-                border: '1px solid #2C2C44',
+                border: vatError ? '1.5px solid #EF4444' : '1px solid #2C2C44',
                 borderRadius: '14px',
                 padding: '0 16px',
                 height: '50px',
@@ -419,14 +470,19 @@ export const MerchantSetupScreen: React.FC = () => {
                 alignItems: 'center',
                 gap: '12px',
                 boxSizing: 'border-box',
+                transition: 'border-color 0.2s ease',
               }}
             >
-              <Hash size={17} color="#7FE87F" style={{ flexShrink: 0 }} />
+              <Hash size={17} color={vatError ? '#EF4444' : '#7FE87F'} style={{ flexShrink: 0 }} />
               <input
                 type="text"
                 value={vatNumber}
-                readOnly
-                disabled
+                maxLength={15}
+                onChange={(e) => {
+                  setVatNumber(e.target.value.replace(/\D/g, '').slice(0, 15));
+                  if (vatError) setVatError('');
+                }}
+                placeholder="310948201900003"
                 style={{
                   background: 'none',
                   border: 'none',
@@ -441,6 +497,19 @@ export const MerchantSetupScreen: React.FC = () => {
                 }}
               />
             </div>
+            {vatError && (
+              <div
+                style={{
+                  fontSize: '11.5px',
+                  color: '#EF4444',
+                  marginTop: '5px',
+                  fontWeight: 600,
+                  textAlign: isRtl ? 'right' : 'left',
+                }}
+              >
+                {vatError}
+              </div>
+            )}
           </div>
 
           {/* 5. 2-Column Row: City & Postal Code */}
