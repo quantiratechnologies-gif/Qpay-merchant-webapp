@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type BadgeStatus = 'success' | 'info' | 'purple' | 'warning' | 'neutral';
+export type BadgeStatus = 'success' | 'info' | 'purple' | 'warning' | 'neutral' | 'danger';
 
 export interface StatusBadgeProps {
   status: BadgeStatus;
@@ -31,6 +31,13 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
           color: 'var(--accent-green, #00C853)',
           border: 'rgba(0, 200, 83, 0.25)',
           dotColor: 'var(--accent-green, #00C853)',
+        };
+      case 'danger':
+        return {
+          bg: 'rgba(239, 68, 68, 0.12)',
+          color: 'var(--accent-red, #EF4444)',
+          border: 'rgba(239, 68, 68, 0.25)',
+          dotColor: 'var(--accent-red, #EF4444)',
         };
       case 'info':
         return {

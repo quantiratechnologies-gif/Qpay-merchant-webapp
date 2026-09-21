@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Wifi, CheckCircle2, CreditCard, Smartphone, ShieldCheck } from 'lucide-react';
+import { Wifi, CheckCircle2, CreditCard, Smartphone, ShieldCheck, XCircle } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { formatCurrency } from '../utils/formatters';
 import { formatLocalizedNumber } from '../utils/i18n';
@@ -23,7 +23,8 @@ export const TapCardScreen: React.FC = () => {
   const amount = Number(screenParams?.amount) || softPosAmount || 0;
   const scheme = screenParams?.cardScheme || softPosCardScheme || 'mada';
 
-  const [step, setStep] = useState<'waiting' | 'reading' | 'authorizing' | 'success'>('waiting');
+  const [step, setStep] = useState<'waiting' | 'reading' | 'authorizing' | 'success' | 'failed'>('waiting');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     if (amount <= 0) {
@@ -31,27 +32,50 @@ export const TapCardScreen: React.FC = () => {
       return;
     }
 
-    const t1 = setTimeout(() => { setStep('reading'); }, 1200);
-    const t2 = setTimeout(() => { setStep('authorizing'); }, 2000);
-    const t3 = setTimeout(async () => {
-      setStep('success');
-      let paymentMethod: PaymentAcceptanceMethod = 'softpos_mada';
-      if (scheme === 'applepay') paymentMethod = 'softpos_applepay';
-      else if (scheme === 'visa') paymentMethod = 'softpos_visa';
-      else if (scheme === 'mastercard') paymentMethod = 'softpos_mastercard';
+    let isMounted = true;
+    let navTimer: ReturnType<typeof setTimeout> | null = null;
 
-      await processMerchantCollection({
-        amount,
-        paymentMethod,
-        cardLast4: Math.floor(1000 + Math.random() * 9000).toString(),
-        orderRef: 'ORD-' + Math.floor(1000 + Math.random() * 9000).toString(),
-        customerMasked: '+966 5' + Math.floor(10 + Math.random() * 90) + ' ••• ' + Math.floor(1000 + Math.random() * 9000),
-      });
+    const runPaymentFlow = async () => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        if (!isMounted) return;
+        setStep('reading');
 
-      setTimeout(() => { navigateTo('MERCHANT_PAYMENT_SUCCESS'); }, 800);
-    }, 2800);
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        if (!isMounted) return;
+        setStep('authorizing');
 
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+        let paymentMethod: PaymentAcceptanceMethod = 'softpos_mada';
+        if (scheme === 'applepay') paymentMethod = 'softpos_applepay';
+        else if (scheme === 'visa') paymentMethod = 'softpos_visa';
+        else if (scheme === 'mastercard') paymentMethod = 'softpos_mastercard';
+
+        await processMerchantCollection({
+          amount,
+          paymentMethod,
+          cardLast4: Math.floor(1000 + Math.random() * 9000).toString(),
+          orderRef: 'ORD-' + Math.floor(1000 + Math.random() * 9000).toString(),
+          customerMasked: '+966 5' + Math.floor(10 + Math.random() * 90) + ' ••• ' + Math.floor(1000 + Math.random() * 9000),
+        });
+
+        if (!isMounted) return;
+        setStep('success');
+        navTimer = setTimeout(() => {
+          if (isMounted) navigateTo('MERCHANT_PAYMENT_SUCCESS');
+        }, 800);
+      } catch (err: any) {
+        if (!isMounted) return;
+        setStep('failed');
+        setErrorMessage(err?.message || (isAr ? 'فشلت عملية التفويض' : 'Authorization failed'));
+      }
+    };
+
+    runPaymentFlow();
+
+    return () => {
+      isMounted = false;
+      if (navTimer) clearTimeout(navTimer);
+    };
   }, [amount, scheme]);
 
   const stepLabels = {
@@ -59,6 +83,7 @@ export const TapCardScreen: React.FC = () => {
     reading: { title: isAr ? 'جاري القراءة...' : 'Reading...', sub: isAr ? 'يرجى إبقاء البطاقة ثابتة' : 'Keep card steady', badge: 'warning' as const, badgeLabel: isAr ? 'قراءة' : 'Reading' },
     authorizing: { title: isAr ? 'جاري التفويض...' : 'Authorizing...', sub: isAr ? 'يرجى الانتظار' : 'Please wait', badge: 'warning' as const, badgeLabel: isAr ? 'تفويض' : 'Authorizing' },
     success: { title: isAr ? 'تم بنجاح!' : 'Approved!', sub: isAr ? 'تمت التسوية عبر سريع' : 'Settled via Sarie', badge: 'success' as const, badgeLabel: isAr ? 'مكتمل' : 'Done' },
+    failed: { title: isAr ? 'فشلت العملية' : 'Transaction Failed', sub: errorMessage || (isAr ? 'تعذر إتمام عملية الدفع. يرجى المحاولة مرة أخرى.' : 'Could not complete transaction. Please try again.'), badge: 'danger' as const, badgeLabel: isAr ? 'فشل' : 'Failed' },
   };
 
   const current = stepLabels[step];
@@ -111,7 +136,7 @@ export const TapCardScreen: React.FC = () => {
         >
           {/* Pulsating NFC Circles */}
           <div style={{ position: 'relative', width: '240px', height: '240px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {step !== 'success' && (
+            {step !== 'success' && step !== 'failed' && (
               <>
                 <div
                   style={{
@@ -132,22 +157,24 @@ export const TapCardScreen: React.FC = () => {
               </>
             )}
 
-            {/* Central NFC Icon */}
+            {/* Central NFC / Result Icon */}
             <div
               style={{
                 width: '100px', height: '100px',
                 borderRadius: '30px',
                 backgroundColor: '#151524',
-                border: `2px solid ${step === 'success' ? '#7FE87F' : 'rgba(127, 232, 127, 0.6)'}`,
+                border: `2px solid ${step === 'success' ? '#7FE87F' : step === 'failed' ? '#EF4444' : 'rgba(127, 232, 127, 0.6)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#7FE87F',
+                color: step === 'success' ? '#7FE87F' : step === 'failed' ? '#EF4444' : '#7FE87F',
                 zIndex: 2,
-                boxShadow: `0 0 ${step === 'success' ? '48px' : '24px'} rgba(127, 232, 127, 0.35)`,
+                boxShadow: `0 0 ${step === 'success' ? '48px rgba(127, 232, 127, 0.35)' : step === 'failed' ? '48px rgba(239, 68, 68, 0.35)' : '24px rgba(127, 232, 127, 0.35)'}`,
                 transition: 'all 0.4s ease',
               }}
             >
               {step === 'success' ? (
                 <CheckCircle2 size={52} color="#7FE87F" />
+              ) : step === 'failed' ? (
+                <XCircle size={52} color="#EF4444" />
               ) : (
                 <Wifi size={52} color="#7FE87F" style={{ transform: 'rotate(90deg)' }} />
               )}
@@ -163,6 +190,25 @@ export const TapCardScreen: React.FC = () => {
             <p style={{ fontSize: '13px', color: '#A2A2BA', margin: '8px 0 0 0', maxWidth: '320px', lineHeight: 1.5 }}>
               {current.sub}
             </p>
+            {step === 'failed' && (
+              <button
+                type="button"
+                onClick={() => navigateTo('SOFTPOS_TERMINAL')}
+                style={{
+                  marginTop: '16px',
+                  padding: '10px 24px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                  border: '1px solid #EF4444',
+                  borderRadius: '10px',
+                  color: '#EF4444',
+                  fontWeight: 800,
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                }}
+              >
+                {isAr ? 'العودة لنقطة البيع' : 'Return to Terminal'}
+              </button>
+            )}
           </div>
         </Card>
 
