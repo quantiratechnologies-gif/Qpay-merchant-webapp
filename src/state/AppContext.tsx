@@ -838,10 +838,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const triggerSettleNow = async (): Promise<MerchantSettlement> => {
-    const totalCollections = merchantCollections
-      .filter((c) => c.status === 'settled')
-      .reduce((sum, c) => sum + c.amount, 0);
-    const settleAmount = totalCollections > 0 ? totalCollections : 1862.50;
+    // Exclude cash transactions from bank settlement by default
+    const settleable = merchantCollections.filter(
+      (c) => c.status !== 'refunded' && c.paymentMethod !== 'cash'
+    );
+    const settleAmount = settleable.reduce((sum, c) => sum + c.amount, 0);
     const netAmount = Number((settleAmount / 1.15).toFixed(2));
     const vatAmount = Number((settleAmount - netAmount).toFixed(2));
     const isAr = language === 'العربية';
@@ -856,6 +857,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       utr: 'SARIE' + Math.floor(10000000000 + Math.random() * 90000000000).toString(),
       amount: settleAmount,
       vatAmount,
+      netAmount,
       date: 'Today, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       timestamp: new Date(),
       status: 'settled',

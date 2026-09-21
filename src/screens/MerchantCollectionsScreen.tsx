@@ -42,6 +42,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
     language,
     isRtl,
     screenParams,
+    openManagerPinModal,
   } = useApp();
 
   const isAr = language === 'العربية';
@@ -94,16 +95,28 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
   const todayRiyadhStr = getRiyadhDateStr(new Date());
 
-  const handleSettleNow = async () => {
+  const handleSettleNow = () => {
     if (isSettling) return;
-    setIsSettling(true);
-    try {
-      const res = await triggerSettleNow();
-      setSettlementSuccessToast({ utr: res.utr, amount: res.amount });
-      setTimeout(() => setSettlementSuccessToast(null), 6000);
-    } finally {
-      setIsSettling(false);
-    }
+    if (unsettledTotal <= 0) return;
+
+    openManagerPinModal({
+      title: isAr ? 'تأكيد التسوية الفورية' : 'Confirm Instant Settlement',
+      subtitle: isAr
+        ? `أدخل رمز PIN لتسوية ${formatSaudiCurrency(unsettledTotal, language)} إلى حسابك البنكي`
+        : `Enter Security PIN to settle ${formatSaudiCurrency(unsettledTotal, language)} to your bank account`,
+      onSuccess: async () => {
+        setIsSettling(true);
+        try {
+          const res = await triggerSettleNow();
+          setSettlementSuccessToast({ utr: res.utr, amount: res.amount });
+          setTimeout(() => setSettlementSuccessToast(null), 6000);
+        } catch (err) {
+          console.error('Settlement error:', err);
+        } finally {
+          setIsSettling(false);
+        }
+      },
+    });
   };
 
   // Extended mock items if state has only base items
@@ -142,7 +155,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
   const totalSales = filtered.reduce((acc, c) => acc + (c.status === 'settled' ? c.amount : 0), 0);
   const unsettledTotal = merchantCollections
-    .filter((c) => c.status === 'settled')
+    .filter((c) => c.status !== 'refunded' && c.paymentMethod !== 'cash')
     .reduce((sum, c) => sum + c.amount, 0);
 
   const handleOpenRefundModal = (txn: MerchantCollection) => {

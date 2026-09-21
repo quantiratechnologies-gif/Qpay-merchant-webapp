@@ -86,9 +86,9 @@ export const MerchantSettlementBankScreen: React.FC = () => {
 
       if (nextPin.length === 4) {
         // Validate strictly against the starting PIN created by user
-        const targetPin = (merchantInfo.merchantPin || localStorage.getItem('qpay_merchant_pin') || '1234').trim();
+        const targetPin = (merchantInfo.merchantPin || localStorage.getItem('qpay_merchant_pin') || '').trim();
 
-        if (nextPin === targetPin) {
+        if (targetPin && nextPin === targetPin) {
           setPinSuccess(true);
           updateMerchantInfo({
             settlementBank: selectedBank,
