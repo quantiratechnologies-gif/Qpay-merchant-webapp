@@ -339,7 +339,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [merchantSettlements, setMerchantSettlements] = useState<MerchantSettlement[]>(INITIAL_MERCHANT_SETTLEMENTS);
   const [lastMerchantCollection, setLastMerchantCollection] = useState<MerchantCollection | null>(null);
   const [cashiers, setCashiers] = useState<CashierInfo[]>(INITIAL_CASHIERS);
-  const [softPosAmount, setSoftPosAmount] = useState<number>(67.0);
+  const [softPosAmount, setSoftPosAmount] = useState<number>(0);
   const [softPosCardScheme, setSoftPosCardScheme] = useState<string>('mada');
   const [isKycModalOpen, setIsKycModalOpen] = useState<boolean>(false);
   const [soundBoxLanguage, setSoundBoxLanguageState] = useState<'ar' | 'en'>(() => {

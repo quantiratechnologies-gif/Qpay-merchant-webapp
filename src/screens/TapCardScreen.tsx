@@ -20,12 +20,17 @@ export const TapCardScreen: React.FC = () => {
   } = useApp();
 
   const isAr = language === 'العربية';
-  const amount = screenParams.amount || softPosAmount || 67.0;
-  const scheme = screenParams.cardScheme || softPosCardScheme || 'mada';
+  const amount = Number(screenParams?.amount) || softPosAmount || 0;
+  const scheme = screenParams?.cardScheme || softPosCardScheme || 'mada';
 
   const [step, setStep] = useState<'waiting' | 'reading' | 'authorizing' | 'success'>('waiting');
 
   useEffect(() => {
+    if (amount <= 0) {
+      navigateTo('SOFTPOS_TERMINAL');
+      return;
+    }
+
     const t1 = setTimeout(() => { setStep('reading'); }, 1200);
     const t2 = setTimeout(() => { setStep('authorizing'); }, 2000);
     const t3 = setTimeout(async () => {

@@ -117,7 +117,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
 
   // Amount Builder State
   const [rawAmountStr, setRawAmountStr] = useState<string>(
-    softPosAmount > 0 ? (softPosAmount * 100).toString() : '6700'
+    softPosAmount > 0 ? (softPosAmount * 100).toString() : '0'
   );
   const [customerNote, setCustomerNote] = useState<string>('');
 
@@ -164,23 +164,22 @@ export const SoftPOSTerminalScreen: React.FC = () => {
 
   // 1. Card Checkout Action
   const handleCardCharge = () => {
-    if (numericValue > 0) {
-      setSoftPosAmount(numericValue);
-      navigateTo('SOFTPOS_TAP', {
-        amount: numericValue,
-        cardScheme: softPosCardScheme,
-        note: customerNote,
-      });
-    }
+    if (numericValue <= 0) return;
+    setSoftPosAmount(numericValue);
+    navigateTo('SOFTPOS_TAP', {
+      amount: numericValue,
+      cardScheme: softPosCardScheme,
+      note: customerNote,
+    });
   };
 
   // 2. Cash Checkout Action -> Directly Issues Receipt
   const handleCashCharge = async () => {
-    const chargeAmt = numericValue > 0 ? numericValue : 67.0;
+    if (numericValue <= 0) return;
     setIsProcessingCash(true);
     try {
       await processMerchantCollection({
-        amount: chargeAmt,
+        amount: numericValue,
         paymentMethod: 'cash',
         orderRef: customerNote || 'CASH-ORD-' + Math.floor(1000 + Math.random() * 9000).toString(),
         customerMasked: isAr ? 'دفع نقدي مباشر • كاشير ١' : 'Cash Register #1',
@@ -203,10 +202,10 @@ export const SoftPOSTerminalScreen: React.FC = () => {
   };
 
   const handleOnlineCharge = async () => {
-    const chargeAmt = numericValue > 0 ? numericValue : 67.0;
+    if (numericValue <= 0) return;
     try {
       await processMerchantCollection({
-        amount: chargeAmt,
+        amount: numericValue,
         paymentMethod: 'zatca_qr',
         orderRef: customerNote || 'QR-POS-' + Math.floor(1000 + Math.random() * 9000).toString(),
         customerMasked: isAr ? 'دفع إلكتروني فوري' : 'Online Pay QR Customer',
@@ -218,6 +217,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
   };
 
   const handleSimulateQrPayment = () => {
+    if (numericValue <= 0) return;
     setIsSimulatingQr(true);
     setTimeout(async () => {
       setIsSimulatingQr(false);
