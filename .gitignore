@@ -5,3 +5,4 @@ dist
 .vercel
 test-results/
 .env*
+e2e/.auth/
