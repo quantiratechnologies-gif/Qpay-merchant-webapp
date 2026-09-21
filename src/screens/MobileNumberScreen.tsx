@@ -44,7 +44,13 @@ export const MobileNumberScreen: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const cleanDigits = mobileNumber.replace(/\D/g, '');
-  const isFormValid = cleanDigits.length >= 7 && fullName.trim().length >= 2;
+  const normalizedDigits = selectedCountry.code === '+966' && cleanDigits.startsWith('0')
+    ? cleanDigits.slice(1)
+    : cleanDigits;
+
+  const isSaudiPhoneValid = /^5\d{8}$/.test(normalizedDigits);
+  const isPhoneValid = selectedCountry.code === '+966' ? isSaudiPhoneValid : cleanDigits.length >= 7;
+  const isFormValid = isPhoneValid && fullName.trim().length >= 2;
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -65,10 +71,10 @@ export const MobileNumberScreen: React.FC = () => {
     if (e) e.preventDefault();
     if (isFormValid) {
       setUserRole('merchant');
-      const formattedPhone = `${selectedCountry.code} ${cleanDigits}`;
+      const formattedPhone = `${selectedCountry.code} ${normalizedDigits}`;
       updateUser({ name: fullName.trim(), mobile: formattedPhone });
       navigateTo('SMS_OTP', {
-        mobile: cleanDigits,
+        mobile: normalizedDigits,
         countryCode: selectedCountry.code,
         fullMobile: formattedPhone,
         name: fullName.trim(),
@@ -226,7 +232,7 @@ export const MobileNumberScreen: React.FC = () => {
               value={mobileNumber}
               onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
               placeholder={selectedCountry.placeholder}
-              maxLength={selectedCountry.maxDigits}
+              maxLength={selectedCountry.code === '+966' ? 10 : selectedCountry.maxDigits}
               required
               className="w-full bg-transparent border-none outline-none text-sm font-bold text-white px-2 tracking-wider placeholder-[#6E6E85]"
               dir="ltr"
