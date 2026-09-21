@@ -34,6 +34,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isSimulatingScan, setIsSimulatingScan] = useState(false);
+  const [scanError, setScanError] = useState<string | null>(null);
 
   const numAmount = qrMode === 'invoice' ? (parseFloat(invoiceAmount) || 0) : 0;
   const vatAmount = numAmount > 0 ? Number((numAmount - numAmount / 1.15).toFixed(2)) : 0;
@@ -57,6 +58,7 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
     if (isSimulatingScan) return;
     const payAmount = qrMode === 'invoice' ? (numAmount > 0 ? numAmount : 150.0) : 85.0;
     setIsSimulatingScan(true);
+    setScanError(null);
     try {
       await processMerchantCollection({
         amount: payAmount,
@@ -64,13 +66,16 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
         orderRef: qrMode === 'invoice' ? (orderNote || 'QR-INVOICE') : 'COUNTER-QR',
         customerMasked: '+966 54 ••• 8821',
       });
-    } catch (err) {
-      console.error('Error processing simulation collection:', err);
-    } finally {
       setTimeout(() => {
         setIsSimulatingScan(false);
         navigateTo('MERCHANT_PAYMENT_SUCCESS');
       }, 500);
+    } catch (err) {
+      console.error('Error processing simulation collection:', err);
+      setIsSimulatingScan(false);
+      setScanError(
+        isAr ? 'فشلت معالجة عملية الدفع برمز QR. يرجى المحاولة مرة أخرى.' : 'QR payment processing failed. Please try again.'
+      );
     }
   };
 
@@ -391,6 +396,25 @@ export const MerchantQrGeneratorScreen: React.FC = () => {
               <Sparkles size={16} />
               <span>{isSimulatingScan ? (isAr ? 'جاري المحاكاة...' : 'Processing...') : (isAr ? 'تجربة مسح العميل والدفع' : 'Simulate Customer Scan & Pay')}</span>
             </button>
+
+            {scanError && (
+              <div
+                className="fade-in"
+                style={{
+                  marginTop: '12px',
+                  padding: '10px 14px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                  border: '1px solid rgba(239, 68, 68, 0.35)',
+                  borderRadius: '10px',
+                  color: '#EF4444',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                }}
+              >
+                {scanError}
+              </div>
+            )}
           </Card>
         </div>
 

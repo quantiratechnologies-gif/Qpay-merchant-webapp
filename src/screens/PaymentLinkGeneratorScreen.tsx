@@ -21,6 +21,7 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
   const [generatedLink, setGeneratedLink] = useState('https://qtpay.sa/pay/lnk_8839201');
   const [copied, setCopied] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
+  const [simulateError, setSimulateError] = useState<string | null>(null);
 
   const numAmount = parseFloat(amount) || 0;
   const vatAmount = numAmount > 0 ? (numAmount - numAmount / 1.15).toFixed(2) : '0.00';
@@ -49,16 +50,25 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
   const handleSimulateRemotePayment = async () => {
     if (numAmount <= 0) return;
     setIsSimulating(true);
-    await processMerchantCollection({
-      amount: numAmount,
-      paymentMethod: 'payment_link',
-      orderRef,
-      customerMasked: customerName,
-    });
-    setTimeout(() => {
+    setSimulateError(null);
+    try {
+      await processMerchantCollection({
+        amount: numAmount,
+        paymentMethod: 'payment_link',
+        orderRef,
+        customerMasked: customerName,
+      });
+      setTimeout(() => {
+        setIsSimulating(false);
+        navigateTo('MERCHANT_PAYMENT_SUCCESS');
+      }, 600);
+    } catch (err) {
+      console.error('Remote payment simulation failed:', err);
       setIsSimulating(false);
-      navigateTo('MERCHANT_PAYMENT_SUCCESS');
-    }, 600);
+      setSimulateError(
+        isAr ? 'فشلت معالجة عملية الدفع عبر الرابط' : 'Payment link simulation failed'
+      );
+    }
   };
 
   return (
@@ -321,6 +331,25 @@ export const PaymentLinkGeneratorScreen: React.FC = () => {
               <Sparkles size={14} color="#7FE87F" />
               <span>{isSimulating ? (isAr ? 'جاري التحويل...' : 'Simulating...') : (isAr ? 'محاكاة الدفع' : 'Simulate Payment')}</span>
             </button>
+
+            {simulateError && (
+              <div
+                className="fade-in"
+                style={{
+                  marginTop: '12px',
+                  padding: '10px 14px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                  border: '1px solid rgba(239, 68, 68, 0.35)',
+                  borderRadius: '10px',
+                  color: '#EF4444',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                }}
+              >
+                {simulateError}
+              </div>
+            )}
           </Card>
         </div>
       </div>
