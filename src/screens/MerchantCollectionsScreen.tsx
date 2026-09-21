@@ -59,7 +59,17 @@ export const MerchantCollectionsScreen: React.FC = () => {
     }
   }, [screenParams?.tab]);
 
-  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [activeFilter, setActiveFilter] = useState<string>(() => {
+    if (screenParams?.filter) return screenParams.filter;
+    return 'all';
+  });
+
+  useEffect(() => {
+    if (screenParams?.filter) {
+      setActiveFilter(screenParams.filter);
+    }
+  }, [screenParams?.filter]);
+
   const [selectedTxn, setSelectedTxn] = useState<MerchantCollection | null>(null);
   const [selectedSettlementInvoice, setSelectedSettlementInvoice] = useState<MerchantSettlement | null>(null);
   const [refundPin, setRefundPin] = useState('');
@@ -68,6 +78,21 @@ export const MerchantCollectionsScreen: React.FC = () => {
   const [refundSuccess, setRefundSuccess] = useState(false);
   const [isSettling, setIsSettling] = useState(false);
   const [settlementSuccessToast, setSettlementSuccessToast] = useState<{ utr: string; amount: number } | null>(null);
+
+  const getRiyadhDateStr = (date: Date = new Date()): string => {
+    try {
+      return new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Riyadh',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }).format(date);
+    } catch {
+      return date.toISOString().slice(0, 10);
+    }
+  };
+
+  const todayRiyadhStr = getRiyadhDateStr(new Date());
 
   const handleSettleNow = async () => {
     if (isSettling) return;
@@ -102,6 +127,10 @@ export const MerchantCollectionsScreen: React.FC = () => {
       ];
 
   const filtered = allCollections.filter((c) => {
+    if (activeFilter === 'today') {
+      const colDateStr = c.timestamp ? getRiyadhDateStr(new Date(c.timestamp)) : '';
+      return colDateStr === todayRiyadhStr || c.date === 'TODAY' || (typeof c.date === 'string' && c.date.toLowerCase().includes('today'));
+    }
     if (activeFilter === 'card') return c.paymentMethod === 'softpos_mada' || c.paymentMethod.includes('card') || c.paymentMethod.includes('mada');
     if (activeFilter === 'applepay') return c.paymentMethod === 'softpos_applepay' || c.paymentMethod.includes('apple');
     if (activeFilter === 'zatca') return c.paymentMethod === 'zatca_qr';
@@ -232,6 +261,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
   const collectionFilterTabs = [
     { id: 'all', label: isAr ? `الكل (${allCollections.length})` : `All (${allCollections.length})`, icon: <Layers size={13} /> },
+    { id: 'today', label: isAr ? 'اليوم' : 'Today', icon: <Clock size={13} /> },
     { id: 'card', label: isAr ? 'بطاقات' : 'Cards', icon: <CreditCard size={13} /> },
     { id: 'applepay', label: 'Apple Pay', icon: <Smartphone size={13} /> },
     { id: 'zatca', label: 'PAY QR', icon: <QrCode size={13} /> },

@@ -26,13 +26,31 @@ export const MerchantHomeScreen: React.FC = () => {
   const [showBalance, setShowBalance] = useState(true);
 
   const isAr = language === 'العربية';
-  const totalToday = merchantCollections.reduce(
-    (acc, c) => acc + (c.status === 'settled' ? c.amount : 0),
-    0
-  );
-  const displayTotal = totalToday > 0 ? totalToday : 14850.5;
-  const paymentCount = 142;
-  const avgTicket = (displayTotal / paymentCount).toFixed(2);
+
+  const getRiyadhDateStr = (date: Date = new Date()): string => {
+    try {
+      const formatter = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Riyadh',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      });
+      return formatter.format(date);
+    } catch {
+      return date.toISOString().slice(0, 10);
+    }
+  };
+
+  const todayRiyadhStr = getRiyadhDateStr(new Date());
+  const todayCollections = merchantCollections.filter((c) => {
+    if (c.status === 'refunded') return false;
+    const colDateStr = c.timestamp ? getRiyadhDateStr(new Date(c.timestamp)) : '';
+    return colDateStr === todayRiyadhStr || c.date === 'TODAY';
+  });
+
+  const displayTotal = todayCollections.reduce((acc, c) => acc + c.amount, 0);
+  const paymentCount = todayCollections.length;
+  const avgTicket = paymentCount > 0 ? (displayTotal / paymentCount).toFixed(2) : '0.00';
 
   const handleToggleBalance = () => {
     if (showBalance) {
@@ -73,7 +91,16 @@ export const MerchantHomeScreen: React.FC = () => {
         }}
       >
         {/* Metric 1: Today's Total Amount */}
-        <Card variant="elevated" style={{ padding: '18px 20px', background: 'linear-gradient(145deg, #111726 0%, #121212 100%)', border: '1px solid rgba(127, 232, 127, 0.25)' }}>
+        <Card
+          variant="interactive"
+          onClick={() => navigateTo('MERCHANT_COLLECTIONS', { filter: 'today' })}
+          style={{
+            padding: '18px 20px',
+            background: 'linear-gradient(145deg, #111726 0%, #121212 100%)',
+            border: '1px solid rgba(127, 232, 127, 0.25)',
+            cursor: 'pointer',
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '12.5px', color: '#A2A2BA', fontWeight: 600 }}>
               {isAr ? 'إجمالي اليوم' : "Today's Total"}
@@ -81,7 +108,10 @@ export const MerchantHomeScreen: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button
                 type="button"
-                onClick={handleToggleBalance}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleToggleBalance();
+                }}
                 title={
                   showBalance
                     ? isAr
@@ -118,7 +148,16 @@ export const MerchantHomeScreen: React.FC = () => {
         </Card>
 
         {/* Metric 2: Total Transactions Count */}
-        <Card variant="elevated" style={{ padding: '18px 20px', background: '#111726', border: '1px solid #2C2C44' }}>
+        <Card
+          variant="interactive"
+          onClick={() => navigateTo('MERCHANT_COLLECTIONS', { filter: 'today' })}
+          style={{
+            padding: '18px 20px',
+            background: '#111726',
+            border: '1px solid #2C2C44',
+            cursor: 'pointer',
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '12.5px', color: '#A2A2BA', fontWeight: 600 }}>
               {isAr ? 'العمليات' : 'Transactions'}
@@ -130,13 +169,22 @@ export const MerchantHomeScreen: React.FC = () => {
               {formatLocalizedNumber(paymentCount, language)}
             </span>
             <span style={{ fontSize: '11px', color: '#7FE87F', fontWeight: 700 }}>
-              {isAr ? '+١٨٪' : '+18.4%'}
+              {isAr ? 'اليوم' : 'Today'}
             </span>
           </div>
         </Card>
 
         {/* Metric 3: Average Ticket Size */}
-        <Card variant="elevated" style={{ padding: '18px 20px', background: '#111726', border: '1px solid #2C2C44' }}>
+        <Card
+          variant="interactive"
+          onClick={() => navigateTo('MERCHANT_COLLECTIONS', { filter: 'today' })}
+          style={{
+            padding: '18px 20px',
+            background: '#111726',
+            border: '1px solid #2C2C44',
+            cursor: 'pointer',
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '12.5px', color: '#A2A2BA', fontWeight: 600 }}>
               {isAr ? 'متوسط العملية' : 'Average Ticket'}
