@@ -62,28 +62,28 @@ export async function authenticateMerchantWithAnyOtp(
 
     if (existingProfile && !fetchErr) {
       const user: User = {
-        name: existingProfile.full_name || defaultUser.name,
-        avatarInitials: existingProfile.avatar_initials || defaultUser.avatarInitials,
-        upiId: existingProfile.upi_id || defaultUser.upiId,
+        name: existingProfile.full_name || 'Merchant User',
+        avatarInitials: existingProfile.avatar_initials || 'MU',
+        upiId: existingProfile.upi_id || `${cleanMobile.slice(-4)}@sarie`,
         mobile: existingProfile.mobile,
         email: 'merchant@quantira.sa',
       };
       const merchantInfo: Partial<MerchantInfo> = {
-        businessName: existingProfile.business_name || defaultMerchantInfo.businessName,
-        crNumber: existingProfile.cr_number || defaultMerchantInfo.crNumber,
-        vatNumber: existingProfile.vat_number || defaultMerchantInfo.vatNumber,
-        nationalId: existingProfile.national_id || defaultMerchantInfo.nationalId,
-        settlementBank: existingProfile.settlement_bank || defaultMerchantInfo.settlementBank,
-        settlementIban: existingProfile.settlement_iban || defaultMerchantInfo.settlementIban,
-        isKycVerified: true,
+        businessName: existingProfile.business_name || businessName,
+        crNumber: existingProfile.cr_number || '',
+        vatNumber: existingProfile.vat_number || '',
+        nationalId: existingProfile.national_id || '',
+        settlementBank: existingProfile.settlement_bank || 'Al Rajhi Bank',
+        settlementIban: existingProfile.settlement_iban || '',
+        isKycVerified: Boolean(existingProfile.is_kyc_verified),
       };
       return { user, merchantInfo };
     }
   } catch (e) {
-    console.warn('[Supabase] Webapp auth fallback to local session:', e);
+    console.warn('[Supabase] Webapp auth fetch notice:', e);
   }
 
-  return { user: defaultUser, merchantInfo: defaultMerchantInfo };
+  throw new Error('Merchant profile not found. Please complete registration.');
 }
 
 // Sync Collection to Supabase

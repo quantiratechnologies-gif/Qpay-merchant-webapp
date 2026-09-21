@@ -15,7 +15,6 @@ export const SmsOtpScreen: React.FC = () => {
     language,
     updateUser,
     updateMerchantInfo,
-    activeOtp,
     setActiveOtp,
     verifyOtp,
     setIsAuthenticated,
@@ -29,7 +28,6 @@ export const SmsOtpScreen: React.FC = () => {
   const [isResent, setIsResent] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
-  const [showSmsBanner, setShowSmsBanner] = useState<boolean>(true);
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -160,7 +158,6 @@ export const SmsOtpScreen: React.FC = () => {
     setActiveOtp(newCode);
     setTimer(30);
     setIsResent(true);
-    setShowSmsBanner(false);
     setTimeout(() => setIsResent(false), 3000);
   };
 
@@ -329,25 +326,6 @@ export const SmsOtpScreen: React.FC = () => {
         <PrimaryButton onClick={handleVerify} disabled={!isComplete || isVerifying}>
           {isVerifying ? (isAr ? 'جاري التحقق...' : 'Verifying...') : (isAr ? 'تأكيد ودخول البوابة' : 'Verify & Enter Dashboard')} <ArrowRight size={18} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
         </PrimaryButton>
-
-        {/* Default Demo Helper */}
-        <div style={{ textAlign: 'center', marginTop: '16px' }}>
-          <button
-            type="button"
-            onClick={() => handleQuickFill('589204')}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#64748B',
-              fontSize: '11.5px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              textDecoration: 'none',
-            }}
-          >
-            {isAr ? 'رمز تجريبي سريع: 589204' : 'Default Demo OTP: 589204'}
-          </button>
-        </div>
       </div>
 
       <div style={{ height: '20px' }} />
