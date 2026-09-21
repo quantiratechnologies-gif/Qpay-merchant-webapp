@@ -74,7 +74,7 @@ export async function authenticateMerchantWithAnyOtp(
       .maybeSingle();
 
     const timeoutPromise = new Promise<{ data: null; error: null }>((resolve) =>
-      setTimeout(() => resolve({ data: null, error: null }), 120)
+      setTimeout(() => resolve({ data: null, error: null }), 8000)
     );
 
     const { data: existingProfile, error: fetchErr } = (await Promise.race([

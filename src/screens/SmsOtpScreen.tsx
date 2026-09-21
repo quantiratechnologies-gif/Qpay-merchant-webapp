@@ -15,6 +15,7 @@ export const SmsOtpScreen: React.FC = () => {
     language,
     updateUser,
     updateMerchantInfo,
+    activeOtp,
     setActiveOtp,
     verifyOtp,
     setIsAuthenticated,
@@ -107,11 +108,14 @@ export const SmsOtpScreen: React.FC = () => {
 
   const isComplete = otp.every((digit) => digit.length > 0);
 
+  const isMockMode = import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true';
+
   const triggerVerifyWithCode = async (enteredCode: string) => {
     if (isVerifying) return;
     setErrorMsg('');
 
-    const isValid = verifyOtp(enteredCode);
+    // In mock mode, accept any 6-digit code; in production, verify against the real OTP
+    const isValid = isMockMode ? enteredCode.length === 6 : verifyOtp(enteredCode);
 
     if (!isValid) {
       setErrorMsg(
@@ -258,6 +262,40 @@ export const SmsOtpScreen: React.FC = () => {
             <span>{isAr ? 'تغيير رقم الجوال' : 'Change Mobile Number'}</span>
           </button>
         </div>
+
+        {/* DEV MODE: OTP Hint Banner */}
+        {isMockMode && (
+          <div
+            style={{
+              backgroundColor: 'rgba(127, 232, 127, 0.08)',
+              border: '1px solid rgba(127, 232, 127, 0.3)',
+              borderRadius: '12px',
+              padding: '10px 14px',
+              marginBottom: '16px',
+              textAlign: 'center',
+            }}
+          >
+            <span style={{ fontSize: '11px', color: '#7FE87F', fontWeight: 800 }}>
+              🧪 MOCK MODE — Enter any 6-digit code
+            </span>
+          </div>
+        )}
+        {import.meta.env.DEV && !isMockMode && (
+          <div
+            style={{
+              backgroundColor: 'rgba(251, 191, 36, 0.08)',
+              border: '1px solid rgba(251, 191, 36, 0.3)',
+              borderRadius: '12px',
+              padding: '10px 14px',
+              marginBottom: '16px',
+              textAlign: 'center',
+            }}
+          >
+            <span style={{ fontSize: '11px', color: '#FBBF24', fontWeight: 800 }}>
+              🔑 DEV OTP: {activeOtp}
+            </span>
+          </div>
+        )}
 
         {/* Error Alert if incorrect OTP */}
         {errorMsg && (

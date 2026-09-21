@@ -40,6 +40,7 @@ import { EditProfileModal } from './screens/EditProfileModal';
 import { KycModal } from './screens/KycModal';
 import { ManagerPinModal } from './components/ManagerPinModal';
 import { DesktopWebLayout } from './components/desktop/DesktopWebLayout';
+import { DesktopAuthLayout } from './components/desktop/DesktopAuthLayout';
 
 const hasEnvConfig = Boolean(
   import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -100,21 +101,25 @@ const AppContent: React.FC = () => {
     return <MissingEnvScreen />;
   }
 
-  const renderScreen = () => {
-    // Auth guard: Unauthenticated sessions are restricted to login / OTP / Registration / PIN Setup
-    if (!isAuthenticated) {
-      if (currentScreen === 'SMS_OTP') {
-        return <SmsOtpScreen />;
-      }
-      if (currentScreen === 'MERCHANT_REGISTER') {
-        return <MerchantRegistrationScreen />;
-      }
-      if (currentScreen === 'MERCHANT_PIN_SETUP') {
-        return <MerchantPinSetupScreen />;
-      }
+  // Unauthenticated screens use the clean merchant auth layout (branding + form card)
+  if (!isAuthenticated) {
+    const renderAuthScreen = () => {
+      if (currentScreen === 'SMS_OTP') return <SmsOtpScreen />;
+      if (currentScreen === 'MERCHANT_REGISTER') return <MerchantRegistrationScreen />;
+      if (currentScreen === 'MERCHANT_PIN_SETUP') return <MerchantPinSetupScreen />;
       return <MobileNumberScreen />;
-    }
+    };
 
+    return (
+      <DesktopAuthLayout>
+        {renderAuthScreen()}
+        <LanguageModal />
+      </DesktopAuthLayout>
+    );
+  }
+
+  // Authenticated screens use the full dashboard layout (sidebar + admin panel)
+  const renderScreen = () => {
     switch (currentScreen) {
       // Auth / Onboarding
       case 'SPLASH':

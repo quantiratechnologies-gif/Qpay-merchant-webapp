@@ -64,7 +64,6 @@ export const MerchantRegistrationScreen: React.FC = () => {
     updateMerchantInfo,
     updateUser,
     setUserRole,
-    setIsAuthenticated,
     isRtl,
     language,
   } = useApp();
@@ -280,15 +279,15 @@ export const MerchantRegistrationScreen: React.FC = () => {
       storePhone: formattedMobile,
     });
 
-    try {
-      localStorage.removeItem('qpay_merchant_explicit_logout');
-      localStorage.setItem('qpay_merchant_authenticated', 'true');
-      sessionStorage.setItem('qpay_merchant_authenticated', 'true');
-    } catch {
-      // ignore
-    }
-    setIsAuthenticated(true);
-    navigateTo('MERCHANT_HOME');
+    // Navigate to OTP verification first (not directly to dashboard)
+    // Authentication will be set after OTP verification → PIN setup → Dashboard
+    navigateTo('SMS_OTP', {
+      mobile: cleanPhone,
+      countryCode: selectedCountry.code,
+      fullMobile: formattedMobile,
+      name: ownerName.trim(),
+      fromRegistration: true,
+    });
   };
 
   return (

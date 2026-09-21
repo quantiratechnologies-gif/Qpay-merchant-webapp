@@ -291,18 +291,22 @@ const INITIAL_CASHIERS: CashierInfo[] = [
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
+      // URL params override: force unauthenticated for login/register screens
       const urlParams = new URLSearchParams(window.location.search);
       const paramScreen = urlParams.get('screen') as ScreenId | null;
       if (paramScreen && (paramScreen === 'MOBILE_NUMBER' || paramScreen === 'SMS_OTP' || paramScreen === 'MERCHANT_REGISTER')) {
         return false;
       }
+      // Explicit logout flag takes priority
       const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
       if (explicitlyLoggedOut) {
         return false;
       }
-      return true;
+      // Only authenticated if a previous session exists in storage
+      const hasSession = localStorage.getItem('qpay_merchant_authenticated') === 'true';
+      return hasSession;
     }
-    return true;
+    return false;
   });
 
   const [currentScreen, setCurrentScreen] = useState<ScreenId>(() => {
@@ -314,9 +318,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
       if (explicitlyLoggedOut) return 'MOBILE_NUMBER';
 
-      return 'MERCHANT_HOME';
+      // Only go to home if authenticated, otherwise show login
+      const hasSession = localStorage.getItem('qpay_merchant_authenticated') === 'true';
+      return hasSession ? 'MERCHANT_HOME' : 'MOBILE_NUMBER';
     }
-    return 'MERCHANT_HOME';
+    return 'MOBILE_NUMBER';
   });
 
   const [screenStack, setScreenStack] = useState<{ screen: ScreenId; params?: Record<string, any> }[]>(() => {
@@ -327,8 +333,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       const explicitlyLoggedOut = localStorage.getItem('qpay_merchant_explicit_logout') === 'true';
       if (explicitlyLoggedOut) return [{ screen: 'MOBILE_NUMBER' }];
+
+      const hasSession = localStorage.getItem('qpay_merchant_authenticated') === 'true';
+      return [{ screen: hasSession ? 'MERCHANT_HOME' : 'MOBILE_NUMBER' }];
     }
-    return [{ screen: 'MERCHANT_HOME' }];
+    return [{ screen: 'MOBILE_NUMBER' }];
   });
   const [screenParams, setScreenParams] = useState<Record<string, any>>({});
   const [activeTab, setActiveTabState] = useState<BottomTab>('home');
