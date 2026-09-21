@@ -1,32 +1,34 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { MerchantCollection, MerchantInfo, User } from '../types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://sb-qpay-saudi.supabase.co';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_fiRLd5ddXPUH_onp8AH86w_JQoVgAmH';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 let supabaseInstance: SupabaseClient | null = null;
 
 export function getSupabase(): SupabaseClient | null {
   if (supabaseInstance) return supabaseInstance;
-  try {
-    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-      supabaseInstance = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-        },
-        realtime: {
-          params: {
-            eventsPerSecond: 10,
-          },
-        },
-      });
-      return supabaseInstance;
-    }
-  } catch (err) {
-    console.warn('[Supabase] Webapp init notice:', err);
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    console.error('[Supabase Error] Missing required VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY environment variables.');
+    return null;
   }
-  return null;
+  try {
+    supabaseInstance = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+      },
+      realtime: {
+        params: {
+          eventsPerSecond: 10,
+        },
+      },
+    });
+    return supabaseInstance;
+  } catch (err) {
+    console.error('[Supabase] Webapp client initialization failed:', err);
+    return null;
+  }
 }
 
 // Universal Auth & Merchant Auto-Provisioning for Web Portal
@@ -38,31 +40,8 @@ export async function authenticateMerchantWithAnyOtp(
   const cleanMobile = mobile.replace(/\s+/g, '');
   const supabase = getSupabase();
 
-  const defaultUser: User = {
-    name: 'Fahad Al-Otaibi',
-    avatarInitials: 'FO',
-    upiId: `${cleanMobile.slice(-4)}@sarie`,
-    mobile: cleanMobile.startsWith('+966') ? cleanMobile : `+966 ${cleanMobile}`,
-    email: 'merchant@quantira.sa',
-  };
-
-  const defaultMerchantInfo: Partial<MerchantInfo> = {
-    businessName,
-    category: 'Food & Beverage',
-    city: 'Riyadh',
-    crNumber: '1010789234',
-    vatNumber: '310984729100003',
-    nationalId: '1089234812',
-    isKycVerified: true,
-    settlementBank: 'Al Rajhi Bank',
-    settlementIban: 'SA44 8000 0456 6080 1012 3456',
-    terminalId: 'TRM-984210',
-    storePhone: cleanMobile,
-  };
-
   if (!supabase) {
-    localStorage.setItem('qpay_merchant_session', JSON.stringify({ user: defaultUser, merchantInfo: defaultMerchantInfo }));
-    return { user: defaultUser, merchantInfo: defaultMerchantInfo };
+    throw new Error('Supabase service is unavailable. Please verify backend environment configuration.');
   }
 
   try {
