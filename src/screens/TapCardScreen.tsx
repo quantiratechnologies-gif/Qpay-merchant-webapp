@@ -66,7 +66,7 @@ export const TapCardScreen: React.FC = () => {
       } catch (err: any) {
         if (!isMounted) return;
         setStep('failed');
-        setErrorMessage(err?.message || (isAr ? 'فشلت عملية التفويض' : 'Authorization failed'));
+        setErrorMessage(isAr ? 'تعذر إتمام عملية الدفع. يرجى المحاولة مرة أخرى.' : 'Payment authorization failed. Please try again.');
       }
     };
 

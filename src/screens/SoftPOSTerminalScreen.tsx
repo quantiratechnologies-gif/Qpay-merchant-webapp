@@ -12,6 +12,7 @@ import {
   Store,
   Receipt,
   Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { Card } from '../components/ui';
@@ -129,6 +130,9 @@ export const SoftPOSTerminalScreen: React.FC = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isSimulatingQr, setIsSimulatingQr] = useState<boolean>(false);
 
+  // Charge Error State
+  const [chargeError, setChargeError] = useState<string | null>(null);
+
   // Calculations
   const numericValue = parseInt(rawAmountStr || '0', 10) / 100 || 0;
   const vatAmount = numericValue > 0 ? (numericValue - numericValue / 1.15).toFixed(2) : '0.00';
@@ -142,6 +146,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
 
   // Keypad Handlers
   const handleKeyPress = (digit: string) => {
+    if (chargeError) setChargeError(null);
     if (rawAmountStr.length < 8) {
       if (rawAmountStr === '0') setRawAmountStr(digit);
       else setRawAmountStr((prev) => prev + digit);
@@ -149,22 +154,26 @@ export const SoftPOSTerminalScreen: React.FC = () => {
   };
 
   const handleDelete = () => {
+    if (chargeError) setChargeError(null);
     setRawAmountStr((prev) => (prev.length > 1 ? prev.slice(0, -1) : '0'));
   };
 
   const handleQuickAdd = (addSar: number) => {
+    if (chargeError) setChargeError(null);
     const current = parseInt(rawAmountStr || '0', 10) / 100 || 0;
     const updated = current + addSar;
     setRawAmountStr(Math.round(updated * 100).toString());
   };
 
   const handleClear = () => {
+    if (chargeError) setChargeError(null);
     setRawAmountStr('0');
   };
 
   // 1. Card Checkout Action
   const handleCardCharge = () => {
     if (numericValue <= 0) return;
+    if (chargeError) setChargeError(null);
     setSoftPosAmount(numericValue);
     navigateTo('SOFTPOS_TAP', {
       amount: numericValue,
@@ -176,6 +185,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
   // 2. Cash Checkout Action -> Directly Issues Receipt
   const handleCashCharge = async () => {
     if (numericValue <= 0) return;
+    setChargeError(null);
     setIsProcessingCash(true);
     try {
       await processMerchantCollection({
@@ -184,11 +194,14 @@ export const SoftPOSTerminalScreen: React.FC = () => {
         orderRef: customerNote || 'CASH-ORD-' + Math.floor(1000 + Math.random() * 9000).toString(),
         customerMasked: isAr ? 'دفع نقدي مباشر • كاشير ١' : 'Cash Register #1',
       });
+      navigateTo('MERCHANT_PAYMENT_SUCCESS');
     } catch (err) {
       console.warn('Collection processing:', err);
+      setChargeError(
+        isAr ? 'فشلت عملية التحصيل النقدي. يرجى المحاولة مرة أخرى.' : 'Cash collection failed. Please try again.'
+      );
     } finally {
       setIsProcessingCash(false);
-      navigateTo('MERCHANT_PAYMENT_SUCCESS');
     }
   };
 
@@ -203,6 +216,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
 
   const handleOnlineCharge = async () => {
     if (numericValue <= 0) return;
+    setChargeError(null);
     try {
       await processMerchantCollection({
         amount: numericValue,
@@ -210,14 +224,18 @@ export const SoftPOSTerminalScreen: React.FC = () => {
         orderRef: customerNote || 'QR-POS-' + Math.floor(1000 + Math.random() * 9000).toString(),
         customerMasked: isAr ? 'دفع إلكتروني فوري' : 'Online Pay QR Customer',
       });
+      navigateTo('MERCHANT_PAYMENT_SUCCESS');
     } catch (err) {
       console.warn('Collection processing:', err);
+      setChargeError(
+        isAr ? 'فشلت عملية الدفع الإلكتروني. يرجى المحاولة مرة أخرى.' : 'Online payment processing failed. Please try again.'
+      );
     }
-    navigateTo('MERCHANT_PAYMENT_SUCCESS');
   };
 
   const handleSimulateQrPayment = () => {
     if (numericValue <= 0) return;
+    setChargeError(null);
     setIsSimulatingQr(true);
     setTimeout(async () => {
       setIsSimulatingQr(false);
@@ -448,7 +466,10 @@ export const SoftPOSTerminalScreen: React.FC = () => {
           >
             <button
               type="button"
-              onClick={() => setCheckoutMode('card')}
+              onClick={() => {
+                setCheckoutMode('card');
+                if (chargeError) setChargeError(null);
+              }}
               className="interactive-tap"
               style={{
                 display: 'flex',
@@ -474,6 +495,7 @@ export const SoftPOSTerminalScreen: React.FC = () => {
               type="button"
               onClick={() => {
                 setCheckoutMode('cash');
+                if (chargeError) setChargeError(null);
                 if (!cashTenderedStr) setCashTenderedStr(numericValue > 0 ? numericValue.toString() : '');
               }}
               className="interactive-tap"
@@ -499,7 +521,10 @@ export const SoftPOSTerminalScreen: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => setCheckoutMode('online')}
+              onClick={() => {
+                setCheckoutMode('online');
+                if (chargeError) setChargeError(null);
+              }}
               className="interactive-tap"
               style={{
                 display: 'flex',
@@ -819,6 +844,28 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                 </div>
               </Card>
 
+              {/* Error Alert */}
+              {chargeError && (
+                <div
+                  className="fade-in"
+                  style={{
+                    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                    border: '1px solid rgba(239, 68, 68, 0.35)',
+                    borderRadius: '10px',
+                    padding: '10px 14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: '#EF4444',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                  }}
+                >
+                  <AlertCircle size={16} color="#EF4444" style={{ flexShrink: 0 }} />
+                  <span>{chargeError}</span>
+                </div>
+              )}
+
               {/* Cash CTA Button -> Guaranteed Issue Receipt */}
               <button
                 type="button"
@@ -948,6 +995,28 @@ export const SoftPOSTerminalScreen: React.FC = () => {
                   </button>
                 </div>
               </Card>
+
+              {/* Error Alert */}
+              {chargeError && (
+                <div
+                  className="fade-in"
+                  style={{
+                    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                    border: '1px solid rgba(239, 68, 68, 0.35)',
+                    borderRadius: '10px',
+                    padding: '10px 14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: '#EF4444',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                  }}
+                >
+                  <AlertCircle size={16} color="#EF4444" style={{ flexShrink: 0 }} />
+                  <span>{chargeError}</span>
+                </div>
+              )}
 
               {/* Online Pay Action Buttons */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

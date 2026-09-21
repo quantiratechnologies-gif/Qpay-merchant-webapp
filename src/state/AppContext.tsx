@@ -761,6 +761,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     orderRef?: string;
     customerMasked?: string;
   }): Promise<MerchantCollection> => {
+    if (!params.amount || params.amount <= 0 || isNaN(params.amount)) {
+      throw new Error('INVALID_TRANSACTION_AMOUNT');
+    }
+
     const grossAmount = params.amount;
     // 15% ZATCA Standard VAT calculation: VAT = Gross - (Gross / 1.15)
     const netAmount = Number((grossAmount / 1.15).toFixed(2));
