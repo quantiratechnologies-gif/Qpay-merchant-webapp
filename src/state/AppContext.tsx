@@ -169,7 +169,7 @@ const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = [
     customerMasked: '+966 50 ••• 1234',
     date: 'Today, 11:42 AM',
     timestamp: new Date(),
-    status: 'settled',
+    status: 'pending_settlement',
     zatcaQrCode: 'AQ1TdGFybWFydCBNYXJrZXQCBzMxMDk0ODIBDDIwMjYtMDktMTU=',
   },
   {
@@ -196,7 +196,7 @@ const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = [
     customerMasked: 'Tariq Al-Otaibi',
     date: 'Today, 09:30 AM',
     timestamp: new Date(Date.now() - 7200000),
-    status: 'settled',
+    status: 'pending_settlement',
     zatcaQrCode: 'AQ1TdGFybWFydCBNYXJrZXQCBzMxMDk0ODIBDDIwMjYtMDktMTU=',
   },
   {
@@ -778,7 +778,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       customerMasked: params.customerMasked || '+966 50 ••• ' + Math.floor(1000 + Math.random() * 9000).toString(),
       date: 'Today, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       timestamp: new Date(),
-      status: 'settled',
+      status: 'pending_settlement',
       zatcaQrCode: btoa(`${merchantInfo.businessName}|${merchantInfo.vatNumber}|${new Date().toISOString()}|${grossAmount}|${vatAmount}`),
     };
 
@@ -840,11 +840,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const triggerSettleNow = async (): Promise<MerchantSettlement> => {
-    // Exclude cash transactions from bank settlement by default
+    // Only settle collections that are pending settlement (excluding cash and refunded)
     const settleable = merchantCollections.filter(
-      (c) => c.status !== 'refunded' && c.paymentMethod !== 'cash'
+      (c) => c.status === 'pending_settlement' && c.paymentMethod !== 'cash'
     );
     const settleAmount = settleable.reduce((sum, c) => sum + c.amount, 0);
+
+    if (settleAmount <= 0) {
+      throw new Error('NO_UNSETTLED_FUNDS');
+    }
+
     const netAmount = Number((settleAmount / 1.15).toFixed(2));
     const vatAmount = Number((settleAmount - netAmount).toFixed(2));
     const isAr = language === 'العربية';
@@ -867,6 +872,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ibanMasked: merchantInfo.settlementIban || 'SA03 8000 •••• 5005',
       method: 'instant_settlenow',
     };
+
+    // Mark settled collections as status 'settled'
+    const settleableIds = new Set(settleable.map((c) => c.id));
+    setMerchantCollections((prev) =>
+      prev.map((c) => (settleableIds.has(c.id) ? { ...c, status: 'settled' as const } : c))
+    );
 
     setMerchantSettlements((prev) => [newSettlement, ...prev]);
 

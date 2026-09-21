@@ -98,7 +98,7 @@ export interface MerchantCollection {
   customerMasked?: string;
   date: string;
   timestamp: Date;
-  status: 'settled' | 'refunded';
+  status: 'pending_settlement' | 'settled' | 'refunded';
   zatcaQrCode?: string;
 }
 

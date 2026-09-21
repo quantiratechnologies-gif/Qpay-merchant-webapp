@@ -16,6 +16,7 @@ import {
   Smartphone,
   Layers,
   ShieldCheck,
+  ShieldAlert,
   Clock,
   FileText,
   Download,
@@ -84,6 +85,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
   const [refundSuccess, setRefundSuccess] = useState(false);
   const [isSettling, setIsSettling] = useState(false);
   const [settlementSuccessToast, setSettlementSuccessToast] = useState<{ utr: string; amount: number } | null>(null);
+  const [settlementError, setSettlementError] = useState<string>('');
 
   const todayRiyadhStr = getRiyadhDateStr(new Date());
 
@@ -98,12 +100,19 @@ export const MerchantCollectionsScreen: React.FC = () => {
         : `Enter Security PIN to settle ${formatSaudiCurrency(unsettledTotal, language)} to your bank account`,
       onSuccess: async () => {
         setIsSettling(true);
+        setSettlementError('');
         try {
           const res = await triggerSettleNow();
           setSettlementSuccessToast({ utr: res.utr, amount: res.amount });
           setTimeout(() => setSettlementSuccessToast(null), 6000);
-        } catch (err) {
+        } catch (err: any) {
           console.error('Settlement error:', err);
+          setSettlementError(
+            isAr
+              ? 'فشلت عملية التسوية. لا يوجد رصيد معلق قابل للتسوية.'
+              : 'Settlement failed. No pending unsettled balance found.'
+          );
+          setTimeout(() => setSettlementError(''), 5000);
         } finally {
           setIsSettling(false);
         }
@@ -111,30 +120,12 @@ export const MerchantCollectionsScreen: React.FC = () => {
     });
   };
 
-  // Extended mock items if state has only base items
-  const allCollections: MerchantCollection[] = merchantCollections.length >= 4
-    ? merchantCollections
-    : [
-        ...merchantCollections,
-        {
-          id: 'CSH-1049',
-          orderRef: 'REG-01',
-          amount: 80.0,
-          vatAmount: 10.43,
-          netAmount: 69.57,
-          paymentMethod: 'cash',
-          customerMasked: isAr ? 'بيع نقدي • كاشير ١' : 'Cash Sale • Register 1',
-          date: 'Yesterday, 08:30 PM',
-          timestamp: new Date(Date.now() - 86400000),
-          status: 'settled',
-          zatcaQrCode: 'AQ1TdGFybWFydCBNYXJrZXQCBzMxMDk0ODIBDDIwMjYtMDktMTU=',
-        },
-      ];
+  const allCollections: MerchantCollection[] = merchantCollections;
 
   const filtered = allCollections.filter((c) => {
     if (activeFilter === 'today') {
       const colDateStr = c.timestamp ? getRiyadhDateStr(new Date(c.timestamp)) : '';
-      return colDateStr === todayRiyadhStr || c.date === 'TODAY' || (typeof c.date === 'string' && c.date.toLowerCase().includes('today'));
+      return colDateStr === todayRiyadhStr;
     }
     if (activeFilter === 'card') return c.paymentMethod === 'softpos_mada' || c.paymentMethod.includes('card') || c.paymentMethod.includes('mada');
     if (activeFilter === 'applepay') return c.paymentMethod === 'softpos_applepay' || c.paymentMethod.includes('apple');
@@ -145,9 +136,9 @@ export const MerchantCollectionsScreen: React.FC = () => {
     return true;
   });
 
-  const totalSales = filtered.reduce((acc, c) => acc + (c.status === 'settled' ? c.amount : 0), 0);
+  const totalSales = filtered.reduce((acc, c) => acc + (c.status !== 'refunded' ? c.amount : 0), 0);
   const unsettledTotal = merchantCollections
-    .filter((c) => c.status !== 'refunded' && c.paymentMethod !== 'cash')
+    .filter((c) => c.status === 'pending_settlement' && c.paymentMethod !== 'cash')
     .reduce((sum, c) => sum + c.amount, 0);
 
   const handleOpenRefundModal = (txn: MerchantCollection) => {
@@ -547,8 +538,10 @@ export const MerchantCollectionsScreen: React.FC = () => {
                   <div style={{ textAlign: 'right' }}>
                     {c.status === 'refunded' ? (
                       <StatusBadge status="warning" size="sm" label={isAr ? 'مستردة' : 'Refunded'} />
+                    ) : c.status === 'pending_settlement' ? (
+                      <StatusBadge status="neutral" size="sm" label={isAr ? 'معلقة للتسوية' : 'Pending'} />
                     ) : (
-                      <StatusBadge status="success" size="sm" label={isAr ? 'مكتملة' : 'Settled'} />
+                      <StatusBadge status="success" size="sm" label={isAr ? 'تمت التسوية' : 'Settled'} />
                     )}
                   </div>
 
@@ -592,6 +585,28 @@ export const MerchantCollectionsScreen: React.FC = () => {
       ═══════════════════════════════════════════════════════ */}
       {activeMainTab === 'settlements' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Settlement Error Alert */}
+          {settlementError && (
+            <div
+              className="fade-in"
+              style={{
+                backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                borderRadius: radii.md,
+                padding: '14px 18px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                color: '#EF4444',
+                fontSize: '13px',
+                fontWeight: 700,
+              }}
+            >
+              <ShieldAlert size={18} color="#EF4444" />
+              <span>{settlementError}</span>
+            </div>
+          )}
+
           {/* Settlement Success Toast Alert */}
           {settlementSuccessToast && (
             <div
@@ -661,23 +676,25 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
               <button
                 onClick={handleSettleNow}
-                disabled={isSettling}
+                disabled={isSettling || unsettledTotal <= 0}
                 className="interactive-tap"
                 style={{
-                  backgroundColor: colors.accentGreen,
-                  color: '#080C14',
+                  backgroundColor: unsettledTotal > 0 ? colors.accentGreen : '#2C2C44',
+                  color: unsettledTotal > 0 ? '#080C14' : '#6E6E85',
                   border: 'none',
                   borderRadius: radii.lg,
                   padding: '14px 24px',
                   fontSize: '14px',
                   fontWeight: 900,
-                  cursor: 'pointer',
+                  cursor: unsettledTotal > 0 && !isSettling ? 'pointer' : 'not-allowed',
+                  opacity: unsettledTotal > 0 && !isSettling ? 1 : 0.6,
                   display: 'flex', alignItems: 'center', gap: '8px',
-                  boxShadow: '0 6px 24px rgba(0, 200, 83, 0.4)',
+                  boxShadow: unsettledTotal > 0 ? '0 6px 24px rgba(0, 200, 83, 0.4)' : 'none',
                   flexShrink: 0,
+                  transition: 'all 0.15s ease',
                 }}
               >
-                <Zap size={17} fill="#080C14" />
+                <Zap size={17} fill={unsettledTotal > 0 ? '#080C14' : '#6E6E85'} />
                 <span>{isSettling ? (isAr ? 'جاري التحويل...' : 'Settling...') : (isAr ? 'تسوية فورية' : 'Settle Now')}</span>
                 <ArrowUpRight size={16} />
               </button>
@@ -703,7 +720,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                     fontWeight: 800,
                   }}
                 >
-                  {formatLocalizedNumber(allCollections.filter((c) => c.status === 'settled').length, language)} {isAr ? 'عمليات' : 'Transactions'}
+                  {formatLocalizedNumber(allCollections.filter((c) => c.status === 'pending_settlement' && c.paymentMethod !== 'cash').length, language)} {isAr ? 'عمليات' : 'Transactions'}
                 </span>
               </div>
 
@@ -750,13 +767,13 @@ export const MerchantCollectionsScreen: React.FC = () => {
               </div>
 
               {/* Transactions List */}
-              {allCollections.filter((c) => c.status === 'settled').length === 0 ? (
+              {allCollections.filter((c) => c.status === 'pending_settlement' && c.paymentMethod !== 'cash').length === 0 ? (
                 <div style={{ padding: '30px 20px', textAlign: 'center', color: colors.textSecondary, fontSize: '13px' }}>
-                  {isAr ? 'تمت تسوية جميع العمليات بنجاح' : 'All transactions have been settled successfully'}
+                  {isAr ? 'تمت تسوية جميع العمليات بنجاح. لا توجد عمليات معلقة.' : 'All transactions have been settled successfully. No pending collections.'}
                 </div>
               ) : (
                 allCollections
-                  .filter((c) => c.status === 'settled')
+                  .filter((c) => c.status === 'pending_settlement' && c.paymentMethod !== 'cash')
                   .map((c, idx, arr) => {
                     const badge = getPaymentMethodBadge(c.paymentMethod);
                     return (
@@ -780,9 +797,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
                               borderRadius: radii.md,
                               backgroundColor: badge.bg,
                               border: `1px solid ${badge.color}33`,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
                               color: badge.color,
                               flexShrink: 0,
                             }}
@@ -821,7 +836,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
 
                         {/* Status Badge */}
                         <div style={{ textAlign: 'right' }}>
-                          <StatusBadge status="warning" size="sm" label={isAr ? 'جاهزة للتسوية' : 'To Settle'} />
+                          <StatusBadge status="neutral" size="sm" label={isAr ? 'جاهزة للتسوية' : 'To Settle'} />
                         </div>
                       </div>
                     );
@@ -829,7 +844,6 @@ export const MerchantCollectionsScreen: React.FC = () => {
               )}
             </Card>
           </div>
-
           {/* 2. Settlements History Ledger — table */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
