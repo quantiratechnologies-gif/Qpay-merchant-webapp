@@ -39,7 +39,7 @@ export async function authenticateMerchantWithAnyOtp(
 ): Promise<{ user: User; merchantInfo: Partial<MerchantInfo> }> {
   const cleanMobile = mobile.replace(/\s+/g, '');
 
-  if (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') {
+  if (import.meta.env.VITE_DEMO_MODE === 'true') {
     return {
       user: {
         name: 'Fahad Al-Harbi',

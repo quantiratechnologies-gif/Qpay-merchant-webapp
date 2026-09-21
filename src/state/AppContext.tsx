@@ -157,7 +157,7 @@ const INITIAL_MERCHANT_INFO: MerchantInfo = {
   storePhone: '+966 11 482 9900',
 };
 
-const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') ? [
+const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = (import.meta.env.VITE_DEMO_MODE === 'true') ? [
   {
     id: 'POS-8839201',
     orderRef: 'ORD-9841',
@@ -227,7 +227,7 @@ const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = (import.meta.env.DEV 
   },
 ] : [];
 
-const INITIAL_MERCHANT_SETTLEMENTS: MerchantSettlement[] = (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') ? [
+const INITIAL_MERCHANT_SETTLEMENTS: MerchantSettlement[] = (import.meta.env.VITE_DEMO_MODE === 'true') ? [
   {
     id: 'STL-908124',
     settlementRef: 'SETTLE-2026-0916-01',

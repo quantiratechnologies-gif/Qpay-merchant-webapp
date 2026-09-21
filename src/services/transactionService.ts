@@ -1,6 +1,6 @@
 import type { Transaction } from '../types';
 
-const INITIAL_TRANSACTIONS: Transaction[] = (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') ? [
+const INITIAL_TRANSACTIONS: Transaction[] = (import.meta.env.VITE_DEMO_MODE === 'true') ? [
   {
     id: 'tx-1',
     title: 'Saudi Electricity Company (SEC)',

@@ -177,18 +177,50 @@ const AppContent: React.FC = () => {
     }
   };
 
-  return (
-    <DesktopWebLayout>
-      {renderScreen()}
+  const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
 
-      {/* Bottom Sheet Modals */}
-      <LanguageModal />
-      <LogoutModal />
-      <AddBankModal />
-      <EditProfileModal />
-      <KycModal />
-      <ManagerPinModal />
-    </DesktopWebLayout>
+  return (
+    <>
+      {isDemoMode && (
+        <div
+          id="qa-demo-build-banner"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '28px',
+            backgroundColor: '#DC2626',
+            color: '#FFFFFF',
+            fontSize: '12px',
+            fontWeight: 800,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            letterSpacing: '0.06em',
+            zIndex: 999999,
+            boxShadow: '0 2px 8px rgba(220, 38, 38, 0.4)',
+            textTransform: 'uppercase',
+            userSelect: 'none',
+          }}
+        >
+          DEMO BUILD - not for production
+        </div>
+      )}
+      <div style={{ paddingTop: isDemoMode ? '28px' : 0, minHeight: '100vh' }}>
+        <DesktopWebLayout>
+          {renderScreen()}
+
+          {/* Bottom Sheet Modals */}
+          <LanguageModal />
+          <LogoutModal />
+          <AddBankModal />
+          <EditProfileModal />
+          <KycModal />
+          <ManagerPinModal />
+        </DesktopWebLayout>
+      </div>
+    </>
   );
 };
 

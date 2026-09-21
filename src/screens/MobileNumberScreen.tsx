@@ -240,8 +240,8 @@ export const MobileNumberScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* 1-Click Fast Demo Fill Buttons (DEV & Mock Auth only) */}
-        {import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true' && (
+        {/* 1-Click Fast Demo Fill Buttons (Demo Mode only) */}
+        {import.meta.env.VITE_DEMO_MODE === 'true' && (
           <div className="space-y-1.5 pt-1">
             <div className="grid grid-cols-2 gap-2">
               <button
