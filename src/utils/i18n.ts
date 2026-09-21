@@ -482,7 +482,6 @@ export const TRANSLATIONS: Record<string, { en: string; ar: string }> = {
   'Quantira Gourmet Cafe': { en: 'Quantira Gourmet Cafe', ar: 'مقهى كوانتيرا' },
   'Fahad Al-Harbi': { en: 'Fahad Al-Harbi', ar: 'فهد الحربي' },
   'Sara Al-Mansoor': { en: 'Sara Al-Mansoor', ar: 'سارة المنصور' },
-  'Tariq Al-Otaibi': { en: 'Tariq Al-Otaibi', ar: 'طارق العتيبي' },
   'Mohammed Al-Ghamdi': { en: 'Mohammed Al-Ghamdi', ar: 'محمد الغامدي' },
   'Abdullah Al-Shehri': { en: 'Abdullah Al-Shehri', ar: 'عبدالله الشهري' },
   'Sara Al-Ghamdi': { en: 'Sara Al-Ghamdi', ar: 'سارة الغامدي' },

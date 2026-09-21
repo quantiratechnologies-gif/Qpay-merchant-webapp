@@ -204,7 +204,7 @@ export const MerchantCollectionsScreen: React.FC = () => {
       return isAr ? 'بطاقة بنكية' : 'Contactless Card';
     }
     if (c.paymentMethod.includes('apple')) return `Apple Pay • ${c.orderRef || 'ORD-9842'}`;
-    if (c.paymentMethod === 'zatca_qr') return c.customerMasked || (isAr ? 'طارق العتيبي' : 'Tariq Al-Otaibi');
+    if (c.paymentMethod === 'zatca_qr') return c.customerMasked || (isAr ? 'عميل كيو باي' : 'QPay Customer');
     if (c.paymentMethod === 'cash') return isAr ? 'بيع نقدي • كاشير ١' : 'Cash Sale • Register 1';
     return c.customerMasked || c.orderRef || (isAr ? 'رابط دفع' : 'Payment Link');
   };

@@ -99,7 +99,7 @@ export const HubIllustration: React.FC = () => {
 
             <line x1="12" y1="46" x2="108" y2="46" stroke="rgba(0,200,83,0.2)" strokeWidth="1" />
 
-            <text x="12" y="60" fill="#A2A2BA" fontSize="7.5" fontWeight="600">To: Tariq Al-Otaibi</text>
+            <text x="12" y="60" fill="#A2A2BA" fontSize="7.5" fontWeight="600">To: Customer</text>
             <text x="12" y="72" fill="#6E6E85" fontSize="7" fontWeight="600">Al Rajhi • SA03••••4821</text>
           </g>
 

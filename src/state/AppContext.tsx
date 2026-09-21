@@ -157,7 +157,7 @@ const INITIAL_MERCHANT_INFO: MerchantInfo = {
   storePhone: '+966 11 482 9900',
 };
 
-const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = [
+const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') ? [
   {
     id: 'POS-8839201',
     orderRef: 'ORD-9841',
@@ -225,9 +225,9 @@ const INITIAL_MERCHANT_COLLECTIONS: MerchantCollection[] = [
     status: 'settled',
     zatcaQrCode: 'AQ1TdGFybWFydCBNYXJrZXQCBzMxMDk0ODIBDDIwMjYtMDktMTU=',
   },
-];
+] : [];
 
-const INITIAL_MERCHANT_SETTLEMENTS: MerchantSettlement[] = [
+const INITIAL_MERCHANT_SETTLEMENTS: MerchantSettlement[] = (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') ? [
   {
     id: 'STL-908124',
     settlementRef: 'SETTLE-2026-0916-01',
@@ -280,7 +280,7 @@ const INITIAL_MERCHANT_SETTLEMENTS: MerchantSettlement[] = [
     ibanMasked: 'SA03 8000 •••• 5005',
     method: 'auto_settle',
   },
-];
+] : [];
 
 const INITIAL_CASHIERS: CashierInfo[] = [
   { id: 'csh-1', name: 'Khalid Mansour', role: 'Supervisor', pin: '1122', active: true, terminal: 'Terminal 01 (Main POS)' },

@@ -1,6 +1,6 @@
 import type { Transaction } from '../types';
 
-const INITIAL_TRANSACTIONS: Transaction[] = [
+const INITIAL_TRANSACTIONS: Transaction[] = (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') ? [
   {
     id: 'tx-1',
     title: 'Saudi Electricity Company (SEC)',
@@ -67,7 +67,7 @@ const INITIAL_TRANSACTIONS: Transaction[] = [
     utr: 'SARIE998491029481',
     avatarInitials: 'MG',
   },
-];
+] : [];
 
 export const transactionService = {
   async getInitialTransactions(): Promise<Transaction[]> {
