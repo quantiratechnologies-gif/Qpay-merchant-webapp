@@ -275,7 +275,7 @@ export const MerchantRegistrationScreen: React.FC = () => {
       isKycVerified: true,
       settlementBank: bankName,
       settlementIban: iban,
-      merchantPin: '1234',
+      merchantPin: '',
       terminalId: 'TID-SAMA-77412',
       storePhone: formattedMobile,
     });

@@ -38,6 +38,28 @@ export async function authenticateMerchantWithAnyOtp(
   businessName: string = 'Quantira Gourmet Cafe'
 ): Promise<{ user: User; merchantInfo: Partial<MerchantInfo> }> {
   const cleanMobile = mobile.replace(/\s+/g, '');
+
+  if (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true') {
+    return {
+      user: {
+        name: 'Fahad Al-Harbi',
+        avatarInitials: 'FA',
+        upiId: `${cleanMobile.slice(-4)}@sarie`,
+        mobile: cleanMobile,
+        email: 'fahad.alharbi@email.sa',
+      },
+      merchantInfo: {
+        businessName: businessName || 'Starmart Supermarket',
+        crNumber: 'CR-1010849201',
+        vatNumber: '310948201900003',
+        nationalId: '1098472910',
+        settlementBank: 'Al Rajhi Bank',
+        settlementIban: 'SA03 8000 0000 6271 5005',
+        isKycVerified: true,
+      },
+    };
+  }
+
   const supabase = getSupabase();
 
   if (!supabase) {

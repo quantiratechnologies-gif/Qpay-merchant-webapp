@@ -152,7 +152,7 @@ const INITIAL_MERCHANT_INFO: MerchantInfo = {
   isKycVerified: true,
   settlementBank: 'Al Rajhi Bank',
   settlementIban: 'SA03 8000 0000 6271 5005',
-  merchantPin: '1234',
+  merchantPin: '',
   terminalId: 'POS-RUH-8841',
   storePhone: '+966 11 482 9900',
 };
@@ -415,7 +415,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const verifyMerchantPin = (pin: string): boolean => {
-    return pin === merchantInfo.merchantPin;
+    const currentPin = (merchantInfo.merchantPin || localStorage.getItem('qpay_merchant_pin') || '').trim();
+    if (!currentPin) return false;
+    return pin.trim() === currentPin;
   };
 
   const [isManagerPinModalOpen, setIsManagerPinModalOpen] = useState<boolean>(false);

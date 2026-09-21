@@ -9,6 +9,8 @@ export const ManagerPinModal: React.FC = () => {
     managerPinModalData,
     closeManagerPinModal,
     verifyMerchantPin,
+    merchantInfo,
+    navigateTo,
     language,
     isRtl,
   } = useApp();
@@ -18,6 +20,7 @@ export const ManagerPinModal: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const isAr = language === 'العربية';
+  const hasPin = Boolean((merchantInfo.merchantPin || localStorage.getItem('qpay_merchant_pin') || '').trim());
 
   const handleClose = () => {
     setPin('');
@@ -27,7 +30,7 @@ export const ManagerPinModal: React.FC = () => {
   };
 
   const handleKeyPress = (digit: string) => {
-    if (isSuccess) return;
+    if (isSuccess || !hasPin) return;
     setErrorMsg('');
 
     if (pin.length < 4) {
@@ -58,14 +61,14 @@ export const ManagerPinModal: React.FC = () => {
   };
 
   const handleDelete = () => {
-    if (isSuccess) return;
+    if (isSuccess || !hasPin) return;
     setErrorMsg('');
     setPin((prev) => prev.slice(0, -1));
   };
 
   // Physical keyboard support for desktop web
   useEffect(() => {
-    if (!isManagerPinModalOpen || !managerPinModalData) return;
+    if (!isManagerPinModalOpen || !managerPinModalData || !hasPin) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -79,7 +82,7 @@ export const ManagerPinModal: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isManagerPinModalOpen, managerPinModalData, pin, isSuccess]);
+  }, [isManagerPinModalOpen, managerPinModalData, pin, isSuccess, hasPin]);
 
   if (!isManagerPinModalOpen || !managerPinModalData) return null;
 
@@ -172,133 +175,190 @@ export const ManagerPinModal: React.FC = () => {
               : 'Enter 4-digit Manager Security PIN to authorize')}
         </p>
 
-        {/* 4-digit Pin Dots */}
-        <div style={{ display: 'flex', gap: '14px', marginBottom: '18px' }} dir="ltr">
-          {[0, 1, 2, 3].map((idx) => {
-            const isFilled = pin.length > idx;
-            return (
-              <div
-                key={idx}
-                style={{
-                  width: '16px',
-                  height: '16px',
-                  borderRadius: '50%',
-                  backgroundColor: isFilled ? '#7FE87F' : 'transparent',
-                  border: isFilled ? '2px solid #7FE87F' : '2px solid rgba(255, 255, 255, 0.25)',
-                  boxShadow: isFilled ? '0 0 12px rgba(127, 232, 127, 0.6)' : 'none',
-                  transform: isFilled ? 'scale(1.2)' : 'scale(1)',
-                  transition: 'all 0.15s ease',
-                }}
-              />
-            );
-          })}
-        </div>
-
-        {/* Error Message */}
-        {errorMsg && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '11.5px',
-              color: '#FB7185',
-              fontWeight: 700,
-              marginBottom: '12px',
-              padding: '6px 12px',
-              borderRadius: '8px',
-              backgroundColor: 'rgba(244, 63, 94, 0.12)',
-              border: '1px solid rgba(244, 63, 94, 0.25)',
-            }}
-          >
-            <ShieldAlert size={14} />
-            <span>{errorMsg}</span>
-          </div>
-        )}
-
-        {/* Keypad */}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '260px',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '10px',
-            marginTop: '8px',
-          }}
-        >
-          {digits.map((d) => (
-            <button
-              key={d}
-              type="button"
-              disabled={isSuccess}
-              onClick={() => handleKeyPress(d)}
+        {!hasPin ? (
+          /* When no PIN is set, prompt user to set MPIN first */
+          <div style={{ width: '100%', textAlign: 'center', marginTop: '4px' }}>
+            <div
               style={{
-                height: '48px',
+                backgroundColor: 'rgba(234, 179, 8, 0.12)',
+                border: '1px solid rgba(234, 179, 8, 0.3)',
                 borderRadius: '12px',
-                fontSize: '18px',
+                padding: '12px 14px',
+                marginBottom: '16px',
+                color: '#FACC15',
+                fontSize: '12.5px',
+                fontWeight: 700,
+                lineHeight: 1.4,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '4px' }}>
+                <ShieldAlert size={16} />
+                <span>{isAr ? 'يرجى تعيين رمز التاجر السري أولاً' : 'Please set your MPIN first'}</span>
+              </div>
+              <div style={{ fontSize: '11px', color: '#E2E8F0', fontWeight: 500 }}>
+                {isAr
+                  ? 'لم يتم تعيين رمز أمان للمتجر بعد. يرجى إنشاء الرمز للمتابعة.'
+                  : 'No manager PIN is configured yet. Please create your 4-digit PIN to authorize actions.'}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                handleClose();
+                navigateTo('MERCHANT_PIN_SETUP', { fromSettings: true });
+              }}
+              style={{
+                width: '100%',
+                height: '46px',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #7FE87F 0%, #00C853 100%)',
+                color: '#080C14',
+                fontSize: '14px',
                 fontWeight: 800,
-                color: '#FFFFFF',
-                backgroundColor: '#151524',
-                border: '1px solid #3A3A52',
+                border: 'none',
+                cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                cursor: 'pointer',
-                userSelect: 'none',
+                gap: '8px',
+                boxShadow: '0 4px 16px rgba(127, 232, 127, 0.3)',
               }}
             >
-              {isAr ? toArabicNumerals(d) : d}
+              <span>{isAr ? 'تعيين الرمز السري' : 'Set MPIN Now'}</span>
             </button>
-          ))}
+          </div>
+        ) : (
+          <>
+            {/* 4-digit Pin Dots */}
+            <div style={{ display: 'flex', gap: '14px', marginBottom: '18px' }} dir="ltr">
+              {[0, 1, 2, 3].map((idx) => {
+                const isFilled = pin.length > idx;
+                return (
+                  <div
+                    key={idx}
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      backgroundColor: isFilled ? '#7FE87F' : 'transparent',
+                      border: isFilled ? '2px solid #7FE87F' : '2px solid rgba(255, 255, 255, 0.25)',
+                      boxShadow: isFilled ? '0 0 12px rgba(127, 232, 127, 0.6)' : 'none',
+                      transform: isFilled ? 'scale(1.2)' : 'scale(1)',
+                      transition: 'all 0.15s ease',
+                    }}
+                  />
+                );
+              })}
+            </div>
 
-          {/* Empty slot */}
-          <div />
+            {/* Error Message */}
+            {errorMsg && (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '11.5px',
+                  color: '#FB7185',
+                  fontWeight: 700,
+                  marginBottom: '12px',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  backgroundColor: 'rgba(244, 63, 94, 0.12)',
+                  border: '1px solid rgba(244, 63, 94, 0.25)',
+                }}
+              >
+                <ShieldAlert size={14} />
+                <span>{errorMsg}</span>
+              </div>
+            )}
 
-          {/* Zero */}
-          <button
-            type="button"
-            disabled={isSuccess}
-            onClick={() => handleKeyPress('0')}
-            style={{
-              height: '48px',
-              borderRadius: '12px',
-              fontSize: '18px',
-              fontWeight: 800,
-              color: '#FFFFFF',
-              backgroundColor: '#151524',
-              border: '1px solid #3A3A52',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              userSelect: 'none',
-            }}
-          >
-            {isAr ? toArabicNumerals('0') : '0'}
-          </button>
+            {/* Keypad */}
+            <div
+              style={{
+                width: '100%',
+                maxWidth: '260px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '10px',
+                marginTop: '8px',
+              }}
+            >
+              {digits.map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  disabled={isSuccess}
+                  onClick={() => handleKeyPress(d)}
+                  style={{
+                    height: '48px',
+                    borderRadius: '12px',
+                    fontSize: '18px',
+                    fontWeight: 800,
+                    color: '#FFFFFF',
+                    backgroundColor: '#151524',
+                    border: '1px solid #3A3A52',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                  }}
+                >
+                  {isAr ? toArabicNumerals(d) : d}
+                </button>
+              ))}
 
-          {/* Delete */}
-          <button
-            type="button"
-            disabled={isSuccess}
-            onClick={handleDelete}
-            style={{
-              height: '48px',
-              borderRadius: '12px',
-              color: '#A2A2BA',
-              backgroundColor: '#151524',
-              border: '1px solid #3A3A52',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              userSelect: 'none',
-            }}
-          >
-            <Delete size={18} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
-          </button>
-        </div>
+              {/* Empty slot */}
+              <div />
+
+              {/* Zero */}
+              <button
+                type="button"
+                disabled={isSuccess}
+                onClick={() => handleKeyPress('0')}
+                style={{
+                  height: '48px',
+                  borderRadius: '12px',
+                  fontSize: '18px',
+                  fontWeight: 800,
+                  color: '#FFFFFF',
+                  backgroundColor: '#151524',
+                  border: '1px solid #3A3A52',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                }}
+              >
+                {isAr ? toArabicNumerals('0') : '0'}
+              </button>
+
+              {/* Delete */}
+              <button
+                type="button"
+                disabled={isSuccess}
+                onClick={handleDelete}
+                style={{
+                  height: '48px',
+                  borderRadius: '12px',
+                  color: '#A2A2BA',
+                  backgroundColor: '#151524',
+                  border: '1px solid #3A3A52',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                }}
+              >
+                <Delete size={18} style={{ transform: isRtl ? 'scaleX(-1)' : 'none' }} />
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
