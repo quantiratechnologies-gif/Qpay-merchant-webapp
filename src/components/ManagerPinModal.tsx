@@ -300,10 +300,7 @@ export const ManagerPinModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Helper Footer */}
-        <div style={{ marginTop: '16px', fontSize: '11px', color: '#6E6E85', fontWeight: 600 }}>
-          {isAr ? 'الرمز الافتراضي للتجربة: 1234' : 'Default Demo PIN: 1234'}
-        </div>
+        {/* PIN pad */}
       </div>
     </div>
   );

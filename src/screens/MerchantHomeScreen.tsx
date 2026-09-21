@@ -43,8 +43,8 @@ export const MerchantHomeScreen: React.FC = () => {
       openManagerPinModal({
         title: isAr ? 'رمز أمان الرصيد' : 'Balance Security PIN',
         subtitle: isAr
-          ? 'أدخل رمز PIN السري (1234) لعرض رصيد إجمالي اليوم'
-          : "Enter 4-digit Security PIN (1234) to reveal Today's Total",
+          ? 'أدخل رمز PIN السري لعرض رصيد إجمالي اليوم'
+          : "Enter 4-digit Security PIN to reveal Today's Total",
         onSuccess: () => {
           setShowBalance(true);
         },

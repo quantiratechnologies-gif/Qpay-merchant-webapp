@@ -141,8 +141,8 @@ export const MerchantCollectionsScreen: React.FC = () => {
     } else {
       setRefundError(
         isAr
-          ? 'رمز التاجر غير صحيح (الافتراضي: 1234)'
-          : 'Incorrect PIN (Default: 1234)'
+          ? 'رمز التاجر غير صحيح'
+          : 'Incorrect PIN'
       );
     }
   };
