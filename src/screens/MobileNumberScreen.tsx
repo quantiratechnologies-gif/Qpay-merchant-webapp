@@ -234,27 +234,29 @@ export const MobileNumberScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* 1-Click Fast Demo Fill Buttons */}
-        <div className="space-y-1.5 pt-1">
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => handleDemoFill('fahad')}
-              className="px-2.5 py-2 rounded-lg bg-[#151524] border border-[#2C2C44] text-neutral-300 hover:text-white hover:border-[#7FE87F]/40 transition-colors text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <Sparkles className="h-3 w-3 text-[#7FE87F]" />
-              <span>{isAr ? 'متجر المدينة' : 'Store 1'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoFill('sara')}
-              className="px-2.5 py-2 rounded-lg bg-[#151524] border border-[#2C2C44] text-neutral-300 hover:text-white hover:border-[#7FE87F]/40 transition-colors text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <Sparkles className="h-3 w-3 text-[#7FE87F]" />
-              <span>{isAr ? 'مقهى الرياض' : 'Store 2'}</span>
-            </button>
+        {/* 1-Click Fast Demo Fill Buttons (DEV & Mock Auth only) */}
+        {import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_AUTH === 'true' && (
+          <div className="space-y-1.5 pt-1">
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => handleDemoFill('fahad')}
+                className="px-2.5 py-2 rounded-lg bg-[#151524] border border-[#2C2C44] text-neutral-300 hover:text-white hover:border-[#7FE87F]/40 transition-colors text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <Sparkles className="h-3 w-3 text-[#7FE87F]" />
+                <span>{isAr ? 'متجر المدينة' : 'Store 1'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoFill('sara')}
+                className="px-2.5 py-2 rounded-lg bg-[#151524] border border-[#2C2C44] text-neutral-300 hover:text-white hover:border-[#7FE87F]/40 transition-colors text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <Sparkles className="h-3 w-3 text-[#7FE87F]" />
+                <span>{isAr ? 'مقهى الرياض' : 'Store 2'}</span>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Continue Button */}
         <button
